@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="utf-8" />
+		<title>创业基地</title>
+		<link   th:href="@{/css/youcediv.css}"  href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<link  th:href="@{/css/bootstrap.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<script   th:src="@{/js/jquery.js}"  type="text/javascript" src="/static/js/jquery.js"></script>
+		<script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
+	</head>
+
+	<body>
+
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+					<a class="navbar-brand" href="/user/index">理想之行</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li >
+							<a href="/user/forum">交流区</a>
+						</li>
+						<li>
+							<a href="#">付费咨询区<span class="badge">New</span></a>
+						</li>
+
+					</ul>
+					<form class="navbar-form navbar-left">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#">收藏夹</a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人管理 <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">信息修改</a>
+								</li>
+								<li>
+									<a href="#">Another action</a>
+								</li>
+								<li>
+									<a href="#">Something else here</a>
+								</li>
+								<li role="separator" class="divider"></li>
+								<li>
+									<a href="#">系统设置</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="jumbotron">
+			<div class="container">
+				<div class="jumbotron">
+					<h1>创业基地，分享成功与汲取失败！</h1>
+					<p>欢迎来到创业基地，在这里我们将结合大数据对创业因素进行模块化</p>
+					<p>
+						<a class="btn btn-primary btn-lg btn" href="#" role="button">Learn More</a>
+					</p>
+				</div>
+			</div>
+		</div><a name="cyLbMd"></a>
+		<div align="center" class="container">
+			<div class="row " style="margin-top: 30px;" align="center">
+				<div class="col-xs-6 col-md-3" style="width: 25%;">
+					<a href="#cyLbMd" class="thumbnail" onclick="ccylabel1()">
+						<img  th:src="@{/images/cystep1.JPG}" alt="步骤1">
+					</a>
+				</div>
+				<div class="col-xs-6 col-md-3" style="width: 25%;">
+					<a href="#cyLbMd" class="thumbnail" onclick="ccylabel2()">
+						<img th:src="@{/images/cystep2.JPG}" alt="步骤2">
+					</a>
+				</div>
+
+				<div class="col-xs-6 col-md-3" style="width: 25%;">
+					<a href="#cyLbMd" class="thumbnail" onclick="ccylabel3()">
+						<img th:src="@{/images/cystep3.JPG}" alt="步骤3">
+					</a>
+				</div>
+
+				<div class="col-xs-6 col-md-3" style="width: 25%;">
+					<a href="#cyLbMd" class="thumbnail" onclick="ccylabel4()">
+						<img th:src="@{/images/cystep4.JPG}" alt="步骤4">
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="page-header container" style="margin-top: 10px;">
+			<h1>创业流程初知 <small>Subtext for header</small></h1>
+		</div>
+		<div align="center" class="container">
+			<label class="container bg-primary" id="cyLabel" style="padding: 10px 0px 10px 0px; width: 100%;">Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec ullamcorper nulla non metus auctor fringilla. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec id elit non mi porta gravida at eget metus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</label>
+		</div>
+		<div class="page-header container" style="margin-top: 10px;">
+			<h1>创业因素分析系统 <small>Subtext for header</small></h1>
+		</div>
+		<div class="container">
+			<table class="table table-hover">
+				<tr>
+					<th>外在因素 </th>
+					<th>内在因素 </th>
+					<th>显性因素 </th>
+					<th>隐性因素 </th>
+				</tr>
+				<tr class="info">
+					<td>因素1</td>
+					<td>因素2</td>
+					<td>因素3</td>
+					<td>因素4</td>
+				</tr>
+				<tr>
+					<td>因素1</td>
+					<td>因素2</td>
+					<td>因素3</td>
+					<td>因素4</td>
+				</tr>
+				<tr class="info">
+					<td>因素1</td>
+					<td>因素2</td>
+					<td>因素3</td>
+					<td>因素4</td>
+				</tr>
+			</table>
+		</div>
+		<div class="side-bar">
+			<a href="" class="icon-qq">QQ在线咨S询
+				<div class="qq-tips"><i></i><img style="width:138px;height:138px;" th:src="@{/images/code.jpg}"  alt="QQ订阅号"></div>
+			</a>
+			<a href="" class="icon-chat">微信
+				<div class="chat-tips"><i></i><img style="width:138px;height:138px;"   th:src="@{/images/code.jpg}"  alt="微信订阅号"></div>
+			</a>
+			<a target="_blank" href="https://weibo.com/" class="icon-blog">微博</a>
+			<a href="mailto:2500233233@qq.com" class="icon-mail">mail</a>
+		</div>
+	
+<nav class="navbar navbar-default navbar-fixed-bottom" id="footer">
+	<div class="container">
+		<div class="navbar-header" >
+			<a style="font-size: 10px;" class="navbar-brand" target="_blank"
+				href="#"> Here is footer ,made by G.S.T lalalalalallalall  Copy Right @ 2018 </a>
+		</div>
+	</div>
+</nav>
+
+	
+	</body>
+
+</html>
+<script>
+	var cylabel = document.getElementById("cyLabel");
+
+	function ccylabel1() {
+		cylabel.innerHTML = "创业第一步";
+		document.getElementById("cyLabel").className = "bg-success";
+	}
+
+	function ccylabel2() {
+		cylabel.innerHTML = "创业第二步";
+		document.getElementById("cyLabel").className = "bg-info";
+	}
+
+	function ccylabel3() {
+		cylabel.innerHTML = "创业第三步";
+		document.getElementById("cyLabel").className = "bg-warning";
+	}
+
+	function ccylabel4() {
+		cylabel.innerHTML = "创业第四步";
+		document.getElementById("cyLabel").className = "bg-danger";
+	}
+	
+	$(document).ready(function() {
+	autoFooterHeight();
+});
+// 解决底部自动导航的问题
+function autoFooterHeight() {
+	// 获取内容的高度
+	var bodyHeight = $("body").height();
+	// 获取底部导航的高度
+	var navHeight = $(".navbar").height();
+	// 获取显示屏的高度
+	var iHeight = document.documentElement.clientHeight || document.body.clientHeight;
+	// 如果内容的高度大于（窗口的高度 - 导航的高度）,移除属性样式
+	if (bodyHeight > (iHeight - navHeight)) {
+		$("#footer").removeClass("navbar-fixed-bottom");
+	}
+}
+/*$(function () {
+	$.ajax({
+		url:"http://api.map.baidu.com/location/ip?ak=tSWk6skIcPOGMV7wEcgsG5oMjIWsxnwk&coor=bd09ll",
+        type:"get",
+		success:function (data) {
+			alert(JSON.stringify(data));
+        }
+	})
+});*/
+</script>
