@@ -28,10 +28,6 @@ public class CommentController {
     public ModelAndView goForum(){
         return commentService.goForum(1);
     }
-    @GetMapping(value = "/user/forumVip")
-    public ModelAndView goForumVip(){
-        return commentService.goForumVip(1);
-    }
     @GetMapping(value = "/user/forumDeatils/{cid}")
     public ModelAndView goForumDeatils(@PathVariable Integer cid){
         ModelAndView mav=new ModelAndView();
