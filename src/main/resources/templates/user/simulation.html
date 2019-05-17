@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <title>创业基地</title>
+  <link    th:href="@{/css/Fyoucediv.css}"   href="/static/css/Fyoucediv.css" rel="stylesheet" type="text/css" media="all" />
+  <link  th:href="@{/css/forum.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+  <link   th:href="@{/css/bootstrap.css}"  href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+  <script   th:src="@{/js/jquery.js}"  type="text/javascript" src="/static/js/jquery.js"></script>
+  <script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+</head>
+<body >
+<table width="1550" border="0" cellspacing="0" cellpadding="0" >
+  <tr height="80px;" bgcolor=#4383EF>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0" >
+      <tbody>
+      <tr style="color: white;" align="center">
+        <td width=450px;><img src="/images/img/logo.PNG" width="337" height="57" /></td>
+        <td valign="bottom"><font size=+2><a href="/user/cyxt">创业学堂</a></font></td>
+        <td valign="bottom"><font size=+2><a href="/user/forum">论坛交流</a></font></td>
+        <td valign="bottom"><font size=+2><a href="/user/probability">概率分析</a></font></td>
+        <td valign="bottom"><font size=+2><a href="/user/simulation">实训基地</a></font></td>
+        <td valign="bottom"><font size=+2><a href="/user/zsjm">招商加盟</a></font></td>
+      </tr>
+      </tbody>
+    </table></td>
+  </tr>
+</table>
+<!--市场交易头部-->
+<div style="left:600px;top:120px;position: absolute">
+  <table width=300px border="0" >
+    <tr align="center">
+      <td colspan="2" ><font size="5">市场交易区</font></td>
+    </tr>
+    <tr align="center">
+    </tr>
+  </table>
+</div>
+<!--市场交易正文-->
+<div id="goumai"  style="font-size: 13px;position: absolute;left: 600px;top:170px;width:300px;">
+  <table border="0"  align="center">
+    <tr align="center" th:each="value:${product}" th:onclick=@{'gofun('+${value.pid}+','+${value.price}+',\''+${value.pname}+'\')'}>
+      <td ><font size="5" th:text="${value.pname}">励志成功经典口才心理学书籍大全集8册</font></td>
+      <td ><font size="5" th:text="@{'￥'+${value.price}}">￥58.70</font></td>
+    </tr>
+  </table>
+
+
+
+<!--
+  <div th:each="value:${product}">
+    <div th:onclick=@{'gofun('+${value.pid}+','+${value.price}+',\''+${value.pname}+'\')'} >
+      <div style="float:left" th:text="${value.pname}" >励志成功经典口才心理学书籍大全集8册</div>
+      <div  th:text="@{'|||￥'+${value.price}}">￥58.70</div>
+    </div>
+  </div>-->
+
+  <div>
+    <div style="float:left;padding: 10px 0px 0px 60px;" onclick="gosell()"><font style="color: darkred" size="+1">点击销售商品并进入下一轮</font></div>
+    <div style="float:left;padding: 10px 0px 0px 60px;"><font style="color: darkred" size="+1" th:text="@{'当前创业余额:'+${balance}}">当前创业余额</font></div>
+    <div style="float:left;padding: 10px 0px 0px 60px;"><font style="color: darkred" size="+1" th:text="@{'当前轮次:第'+${lunci}+'轮'}">当前创业余额</font></div>
+    <input type="hidden" id="lunci" th:value="${lunci}">
+    <p></p><br/><button onclick="goPro()" >终止测试</button>
+  </div>
+</div>
+<!--商品库存头部-->
+<div style="left:150px;top:120px;position: absolute">
+  <table width=400px border="0" >
+    <tr align="center">
+      <td colspan="3"><font size="5">商品库存</font></td>
+    </tr>
+    <tr align="center">
+      <td width=250px><font size="4">商品名</font></td>
+      <td width=70px><font size="4">购价</font></td>
+      <td width=80px><font size="4">库存</font></td>
+    </tr>
+  </table>
+</div>
+<!--商品库存正文-->
+<div id="kucun"  style="font-size: 13px;position: absolute;left: 150px;top:170px;width:380px;">
+  <table border="0" th:each="value:${warehouse}">
+    <tr>
+      <td width=250px align="center" ><font size="5" th:text="${value.product.pname}"></font></td>
+      <td width=70px align="center"><font size="5" th:text="${value.wprice}">￥38.70</font></td>
+      <td width=80px align="center"><font size="5" th:text="${value.wnum}">4</font></td>
+    </tr>
+  </table>
+ <!-- <div >
+    <div id="kucun1">
+      <div style="float:left" th:text="${value.product.pname}" >一看就停不下来的中国史(京东定制版) </div>
+      <div style="float:left;" th:text="@{'|||'+${value.wprice}}">￥30.80</div><div style="padding: 0px 15px 0px 35px" th:text="@{'|||'+${value.wnum}}">5本</div>
+    </div>
+  </div>-->
+  <!--<div id="kucun2" >
+    <div style="float:left">励志成功经典口才心理学书籍大全集8册</div>
+    <div style="float:right">￥58.60<div style="float:right;padding: 0px 15px 0px 35px">1本</div></div>
+  </div>
+  <div id="kucun3" >
+    <div style="float:left">全8册 处世哲学书 鬼谷子 墨菲定律 人性 </div>
+    <div style="float:right">￥48.80<div style="float:right;padding: 0px 15px 0px 35px">7本</div></div>
+  </div>-->
+</div>
+<!--行情变化头部-->
+<div style="left:950px;top:120px;position: absolute">
+  <table width=400px border="0" >
+    <tr align="center">
+      <td colspan="3"><font size="5">小道消息</font></td>
+    </tr>
+  </table>
+</div>
+<!--行情变化正文-->
+<div id="hangqing"  style="font-size: 13px;position: absolute;left: 1030px;top:170px;width:380px;">
+  <table border="0" >
+    <tr th:each="value:${infos}" align="center" >
+      <td><font size="5" align="center" th:text="${value.icontent}">处世权谋书7册 鬼谷子 墨菲定律 羊皮卷</font></td>
+    </tr>
+  </table>
+  <!--<div id="hangqing1" th:each="value:${infos}" >
+    <div th:text="${value.icontent}" >一看就停不下来的中国史(京东定制版) </div>
+    <div  >一看就停不下来的中国史(京东定制版) </div>
+  </div>-->
+</div>
+<div style="left:980px;top:500px;position: absolute">
+  <table width=400px border="0" >
+    <tr align="center"><td colspan="3"><font style="font-size:20px;" color="red"; >突发事件</font></td></tr>
+    <tr align="center"><td colspan="3" height =30px; th:text="${mrand.rcontent}">随机事件问题</td></tr>
+    <tr align="center"><td><button th:onclick="@{'goRandom(1,'+${mrand.rid}+')'}" th:text="${mrand.ran1}">答案1</button></td><td><button th:onclick="@{'goRandom(2,'+${mrand.rid}+')'}" th:text="${mrand.ran2}">答案2</button></td><td><button th:onclick="@{'goRandom(3,'+${mrand.rid}+')'}"  th:text="${mrand.ran3}">答案3</button></td></tr>
+  </table>
+</div>
+
+<!--!!添加新内容!! 日志-->
+<div style="left:60px;top:450px;position: absolute">
+  <table width="auto" border="0" >
+    <tr align="center"  ><td colspan="3"><font style="font-size:20px;" color="red";>事件日志</font></td></tr>
+    <tr align="center" th:each="value:${mlogs}"><td width="100" th:text="${#dates.format(value.ltime,'yyyy-MM-dd HH:mm:ss')}">2019-04-24</td><td width="80px" th:text="${value.loper}">随机事件</td><td width="300px" th:text="${value.lcontent}">日志内容日志内容日志内容日志内容日志内容</td></tr>
+  </table>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">支付</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input type="hidden"  id="pid" readonly="readonly">
+          <label>您选择的是：</label><label id="pname"></label><label>&nbsp;&nbsp;单价为：</label><label id="price"></label><br/>
+          <label for="priceGo">您需要的数量为：</label>
+          <input type="text"  class="form-control" id="priceGo">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+        <button type="button" id="add_submit"  onclick="pay()" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>确认购买</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" >销售</h4>
+      </div>
+      <div class="modal-body">
+        <table id="selltable" width=400px border="0" >
+          <tr align="center">
+            <td colspan="5">商品库存</td>
+          </tr>
+          <tr align="center">
+            <td width=250>书名</td>
+            <td width=70>购价</td>
+            <td width=80>库存</td>
+            <td width=80>现价</td>
+            <td width=80>销售数量</td>
+          </tr>
+          <tr th:each="value:${warehouse}">
+                <input type="hidden" th:value="${value.pid}">
+                <td  th:text="${value.product.pname}" >一看就停不下来的中国史(京东定制版) </td>
+                <td  th:text="${value.wprice}">￥30.80</td>
+                <td  th:text="${value.wnum}">5本</td>
+                <td  th:text="${value.product.price}" >一看就停不下来的中国史(京东定制版) </td>
+                <td ><input type="text" value="0"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+        <button type="button" id="add_submit1"  onclick="sell()" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>确认销售</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel2">结束测试</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label >模拟次数不足是否退出！</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+        <button type="button" id="add_submit2"  onclick="goPro2()" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<style>
+  a:link {
+    text-decoration: none;
+    color: gray
+  }
+  a:active {
+    text-decoration: blink
+  }
+  a:hover {
+    text-decoration: none;
+    color: red
+  }
+  a:visited {
+    text-decoration: none;
+    color: white
+  }
+</style>
+<script>
+  function gosell() {
+      $('#myModal1').modal();
+  }
+function sell() {
+        var sellNum="";
+        var sellPrice="";
+        var sellName="";
+        $('#selltable tr').each(function(i){
+            if (i >=2)
+                sellName+= $(this).children('input').val()+',';// 遍历 tr
+            $(this).children('td').each(function(j){  // 遍历 tr 的各个 td
+                if (i >=2   && j == 4){
+                  //alert("第"+(i+1)+"行，第"+(j+1)+"个td的值："+$(this).children('input').val()+"。");
+                   sellNum+= $(this).children('input').val()+',';
+                 }else if (i >=2 && j==3)
+                    sellPrice +=$(this).text()+',';
+                //alert("第"+(i+1)+"行，第"+(j+1)+"个td的值："+$(this).text()+"。");
+            });
+        });
+    $.ajax({
+        url:"/user/sellProduct",
+        data:{"sellNum":sellNum,"sellPrice":sellPrice,"sellName":sellName},
+        type:"post",
+        dataType:"json",
+        success:function(data) {
+            alert(data.msg);
+            //alert(JSON.stringify(data));
+            var c= $('#lunci').val();
+            if (data.status==3){
+                window.location.replace("/user/probability");
+            }
+            window.location.reload();
+        }
+
+    })
+}
+
+function gofun(pid,price,pname) {
+    $('#price').text(price);
+    $('#pname').text(pname);
+    $('#pid').val(pid);
+    $('#myModal').modal();
+}
+function goPro() {
+      var c= $('#lunci').val();
+      if (c<=15){
+          $('#myModal2').modal();
+      }else {
+          window.location.replace("/user/probability");
+      }
+}
+function goPro2() {
+    window.location.replace("/user/probability");
+}
+function pay() {
+    $.ajax({
+        url:"/user/payProduct",
+        data:{"wprice":$('#price').text(),"pid":$('#pid').val(),"wnum":$('#priceGo').val()},
+        type:"post",
+        dataType:"json",
+        success:function(data) {
+            alert(data.msg);
+            window.location.reload();
+        }
+
+    })
+}
+function goRandom(rann,rid) {
+      if (rid!=null){
+        $.ajax({
+            url:"/user/goRandom",
+            data:{"rann":rann,"rid":rid},
+            type:"post",
+            dataType:"json",
+            success:function(data) {
+                alert(data.msg);
+                window.location.reload();
+            }
+        })
+      }
+}
+
+
+</script>
+</html>

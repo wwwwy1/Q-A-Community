@@ -1,6 +1,5 @@
 package cn.Ideal.demo.dao;
 
-import cn.Ideal.demo.entity.Comment;
 import cn.Ideal.demo.entity.Commentvip;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
@@ -82,10 +81,10 @@ public interface CommentvipMapper {
 
     @Select({
             "select",
-            "Cid, cimg, title, content, tips, Ctime, count, uid",
+            "Cid, cimg, title, content, tips, Ctime, count,price, uid,#{uvip,jdbcType=INTEGER} as uvip",
             "from commentVip",
-            "where title like CONCAT('%',#{keyWords,jdbcType=VARCHAR},'%') or content like CONCAT('%',#{keyWords,jdbcType=VARCHAR},'%')",
-            " or tips like CONCAT('%',#{keyWords,jdbcType=VARCHAR},'%')"
+            "where title like CONCAT('%',#{keywords,jdbcType=VARCHAR},'%') or content like CONCAT('%',#{keywords,jdbcType=VARCHAR},'%')",
+            " or tips like CONCAT('%',#{keywords,jdbcType=VARCHAR},'%')"
     })
     @Results({
             @Result(column="Cid", property="cid", jdbcType=JdbcType.INTEGER),
@@ -95,9 +94,11 @@ public interface CommentvipMapper {
             @Result(column="tips", property="tips", jdbcType=JdbcType.VARCHAR),
             @Result(column="Ctime", property="ctime", jdbcType=JdbcType.TIMESTAMP),
             @Result(column="count", property="count", jdbcType=JdbcType.INTEGER),
-            @Result(column="uid", property="uid", jdbcType=JdbcType.INTEGER)
+            @Result(column="price", property="price", jdbcType=JdbcType.DECIMAL),
+            @Result(column="uid", property="uid", jdbcType=JdbcType.INTEGER),
+            @Result(column ="{uvip=uvip,Cid=Cid}",property = "uservipKey",one = @One(select = "cn.Ideal.demo.dao.UservipMapper.selectUserVip")),
     })
-    List<Commentvip> selectKeywords(String keywords);
+    List<Commentvip> selectKeywords(@Param("keywords") String keywords,@Param("uvip")Integer uvip);
 
 
     @Select({
@@ -118,4 +119,12 @@ public interface CommentvipMapper {
             @Result(column ="uid",property = "user",one = @One(select = "cn.Ideal.demo.dao.UserMapper.selectByPrimaryKey"))
     })
     Commentvip selectByPrimaryKey(Integer cid);
+
+    @Update({
+            "update commentVip",
+            "set count = count+1",
+            "where Cid = #{cid,jdbcType=INTEGER}"
+    })
+    int updateCount(@Param("cid")Integer cid);
+
 }

@@ -31,7 +31,8 @@ public class CommentService {
      */
     public ResponseEntity createForum(Comment comment, MultipartFile imgGo, HttpServletRequest request){
         ResponseEntity re=new ResponseEntity();
-        re.setMsg("更改失败");
+        re.setStatus(0);
+        re.setMsg("创建成功");
         if (imgGo!=null){
             System.out.println("------------有图片---------");
             String profilesPath="F:\\eimg\\forum\\";
@@ -65,6 +66,12 @@ public class CommentService {
                     e.printStackTrace();
                 }
             }
+        }else {
+            comment.setCount(0);
+            comment.setCimg("forum/timg.jpg");
+            comment.setCtime(new Date());
+            comment.setUid((Integer) request.getSession().getAttribute("userid"));
+            commentMapper.insert(comment);
         }
         return re;
     }

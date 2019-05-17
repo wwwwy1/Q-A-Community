@@ -30,11 +30,11 @@
 				</div>
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li class="active">
+						<li>
 							<a href="/user/forum">交流区</a>
 						</li>
-						<li>
-							<a href="#">付费咨询区<span class="badge">New</span></a>
+						<li class="active">
+							<a href="/user/forumVip">付费咨询区<span class="badge">New</span></a>
 						</li>
 					</ul>
 					<form class="navbar-form navbar-left">
@@ -83,10 +83,10 @@
 			</div>
 		</div>
 		<div class="container">
-			<div class="row">??????????
+			<div class="row">
 				<div>
 					<article class=" type-post format-title  hentry ">
-						??????????<h1 class="post-title" th:text="${data.comment.title}">标题字段111</h1>
+						<h1 class="post-title" th:text="${data.comment.title}">标题字段111</h1>
 						<div class="post-meta">
 							<span class="date" th:text="${#dates.format(data.comment.ctime,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
 							<span class="category" ><a href="#" th:text="${data.comment.tips}">标签字段333</a></span>

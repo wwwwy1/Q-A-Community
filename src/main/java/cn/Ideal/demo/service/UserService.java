@@ -1,11 +1,13 @@
 package cn.Ideal.demo.service;
 
 import cn.Ideal.demo.dao.UserMapper;
+import cn.Ideal.demo.dao.UservipMapper;
 import cn.Ideal.demo.entity.User;
 import cn.Ideal.demo.util.MD5;
 import cn.Ideal.demo.util.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,8 @@ import java.util.UUID;
 public class UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UservipMapper uservipMapper;
     public ResponseEntity userLogin(User user, HttpServletRequest request){
         ResponseEntity re=new ResponseEntity();
         User checkUser= userMapper.selectByUsername(user.getUname());
@@ -76,6 +80,25 @@ public class UserService {
             re.setStatus(userMapper.insert(user));
         }
         re.setMsg("新增成功");
+        return re;
+    }
+    @Transactional
+    public ResponseEntity payVipComment(Integer price,Integer cid,HttpServletRequest request){
+        Integer res=0;
+        ResponseEntity re=new ResponseEntity();
+        Integer uid=(Integer)request.getSession().getAttribute("userid");
+        User user=userMapper.selectByPrimaryKey(uid);
+        BigDecimal big2 = new BigDecimal(price.toString());
+        if (user.getUbalance().compareTo(big2)==-1){
+            re.setMsg("余额不足");
+            return re;
+        }
+        res+=userMapper.updatePayVipComment(price,uid);
+        res+=uservipMapper.insert(uid,cid);
+
+        re.setStatus(res);
+        if (res==2) re.setMsg("付款成功");
+        else re.setMsg("付款失败");
         return re;
     }
 }

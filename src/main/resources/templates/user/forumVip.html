@@ -26,11 +26,11 @@
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active">
+				<li>
 					<a href="/user/forum">交流区</a>
 				</li>
-				<li>
-					<a href="#">付费咨询区<span class="badge">New</span></a>
+				<li class="active">
+					<a href="/user/forumVip">付费咨询区<span class="badge">New</span></a>
 				</li>
 			</ul>
 			<div class="navbar-form navbar-left">
@@ -96,6 +96,30 @@
 		<a href="#FsearchMd" class="icon-cz">查找</a>
 		<a href="#FtopMd" class="icon-top">返回顶部</a>
 	</div></div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">支付</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label for="ubalance">您的账户余额为</label>
+					<label id="ubalance" readonly="readonly" th:text="${user}"></label>
+					<input type="hidden"  id="cidGo" readonly="readonly">
+					<label for="priceGo">,此贴价格为</label>
+					<input type="text"  class="form-control" id="priceGo" readonly="readonly">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+				<button type="button" id="add_submit"  onclick="pay()" class="btn btn-primary" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>确认评论</button>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 <script type="text/javascript" >
     $(function () {
@@ -110,7 +134,9 @@
             success:function(data){
                 var tr='';
                 $.each(data.data,function(key,val){
-                    tr+= '<h3 class="post-title"><a href="forumVipDeatils/'+val.cid+'" >[付费内容]'+val.title+'</a></h3>\n' +
+                    tc='<a onclick="goPay('+val.price+','+val.cid+')" >[付费内容]'+val.title+'</a>';
+                    if (val.uservipKey==1) tc='<a href="forumVipDeatils/'+val.cid+'" >[已付费]'+val.title+'</a>';
+                    tr+= '<h3 class="post-title">'+tc+'</h3>\n' +
                         '\t\t\t\t\t\t\t<div class="post-meta">\n' +
                         '\t\t\t\t\t\t\t\t<span class="date" >'+val.c+'</span>\n' +
                         '\t\t\t\t\t\t\t\t<span class="category" ><a href="#" >'+val.tips+'</a></span>\n' +
@@ -144,6 +170,25 @@
                     '        </div>');
             }
         });
+    }
+    function goPay(cc,cid) {
+        $('#priceGo').val(cc);
+        $('#cidGo').val(cid);
+        $('#myModal').modal();
+    }
+    function pay() {
+       var price=$('#priceGo').val();
+       var cid=$('#cidGo').val();
+        $.ajax({
+            url:"/user/goPay",
+            type:"post",
+            data:{"price":price,"cid":cid},
+            dataType:"json",
+            success:function(data) {
+                alert(data.msg);
+                window.location.reload();
+            }
+		});
     }
     function search(kw) {
         location.replace("/user/forumVip?keywords="+kw);

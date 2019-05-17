@@ -1,5 +1,6 @@
 package cn.Ideal.demo.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Commentvip {
@@ -12,6 +13,42 @@ public class Commentvip {
     private Integer cid;
     private User user;
     private String c;
+    private BigDecimal price;
+
+    @Override
+    public String toString() {
+        return "Commentvip{" +
+                "cid=" + cid +
+                ", user=" + user +
+                ", c='" + c + '\'' +
+                ", price=" + price +
+                ", uservipKey=" + uservipKey +
+                ", cimg='" + cimg + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", tips='" + tips + '\'' +
+                ", ctime=" + ctime +
+                ", count=" + count +
+                ", uid=" + uid +
+                '}';
+    }
+
+    public Integer getUservipKey() {
+        return uservipKey;
+    }
+
+    public void setUservipKey(Integer uservipKey) {
+        this.uservipKey = uservipKey;
+    }
+
+    public Integer uservipKey;
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
     public String getC() {
         return c;

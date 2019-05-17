@@ -55,7 +55,7 @@ public interface UserMapper {
      */
     @Select({
         "select",
-        "uId, uName, uPwd, uHy, uProj, province, city, uTel,uimg",
+        "uId, uName, uPwd, uHy, uProj, province, city, uTel,uimg,ubalance",
         "from user",
         "where uId = #{uid,jdbcType=INTEGER}"
     })
@@ -68,7 +68,8 @@ public interface UserMapper {
         @Result(column="province", property="province", jdbcType=JdbcType.VARCHAR),
         @Result(column="city", property="city", jdbcType=JdbcType.VARCHAR),
         @Result(column="uTel", property="utel", jdbcType=JdbcType.VARCHAR),
-            @Result(column="uimg", property="uimg", jdbcType=JdbcType.VARCHAR)
+        @Result(column="uimg", property="uimg", jdbcType=JdbcType.VARCHAR),
+        @Result(column="ubalance", property="ubalance", jdbcType=JdbcType.DECIMAL)
     })
     User selectByPrimaryKey(Integer uid);
 
@@ -117,4 +118,10 @@ public interface UserMapper {
             @Result(column="uTel", property="utel", jdbcType=JdbcType.VARCHAR)
     })
     User selectByUsername(String uName);
+    @Update({
+            "update user",
+            "set ubalance =ubalance-#{price,jdbcType=INTEGER}",
+            "where uId = #{uid,jdbcType=INTEGER}"
+    })
+    int updatePayVipComment(@Param("price")Integer price,@Param("uid")Integer uid);
 }

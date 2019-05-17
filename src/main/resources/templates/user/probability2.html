@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="utf-8" />
+
+<link th:href="@{/css/bootstrap.css}"    rel="stylesheet" type="text/css" media="all" />
+  <link th:href="@{/css/bootstrap.min.css}"    rel="stylesheet" type="text/css" media="all" />
+<title>创业基地</title>
+<body >
+<table width="1550" border="0" cellspacing="0" cellpadding="0">
+  <tr height="80px;" bgcolor=#4383EF>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0" >
+      <tr style="color: white;" align="center">
+        <td width=450px;><img src="/images/img/logo.PNG" width="337" height="57" /></td>
+        <td valign="bottom"><font size=+2><a href="/user/cyxt">创业学堂</a></font></td>
+        <td valign="bottom"><font size=+2><a href="/user/forum">论坛交流</a></font></td>
+        <td valign="bottom"><font size=+2><a href="/user/probability">概率分析</a></font></td>
+        <td valign="bottom"><font size=+2><a href="/user/simulation">实训基地</a></font></td>
+        <td valign="bottom"><font size=+2><a href="/user/zsjm">招商加盟</a></font></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+<div id="chartContainer1" style="left: 250px;top:100px; position: absolute;"></div>
+<div id="c1" style="left: 850px;top:150px; position: absolute;"><b style="font-size:24px;">能力指数解析：</b></br><div style="padding-top:10px; width:400px ;" >眼光长远，不会局限于眼前的苟且，会偶尔画大饼，但那是为了把饼吃到肠道里，对于未来我敢哔哔就敢撸袖子实现梦想。在日常是创意小能手，不会局限于老一套。情感丰富，但不至于玛丽苏附体，叶黄了花谢了就眼泪鼻涕齐下这种事情还是算了，爱心偶尔泛滥但分寸还没有阵亡。在日常中是个不会让人尴尬的治愈系神队友，被人点赞会很开森，也经常会被人花式点赞就是。
+</div></div>
+<div id="chartContainer2" style="left: 250px;top:550px; position: absolute;"></div>
+<div id="c2" style="left: 850px;top:600px; position: absolute;"><b style="font-size:24px;">知识指数解析：</b></br><div style="padding-top:10px; width:400px ;" >视野与时俱进，踩得上时代的步伐，逮的住时尚的尾巴。知识面涉及各个领域，大脑内存兼容天文地理和鸡毛蒜皮。眼界开阔，具备宽容的稀缺品质，很少生气，生气了也不至于要把得罪了自己的人送去见上帝。在日常中珍爱和平，诱发战争的不会是你，但被人砸了场子也会，上手撕逼。</div></div>
+<div id="chartContainer3" style="left: 250px;top:1050px; position: absolute;"></div>
+<div id="c3" style="left: 850px;top:1100px; position: absolute;"><b style="font-size:24px;">素质指数解析：</b></br><div style="padding-top:10px; width:400px ;" >你富有激情，遇到事情从容不迫，自信的你永远万丈光芒。但是毅力却没有在此体现，也许是15次繁琐而又枯燥的实训令你觉得无聊。但是创业的过程本就是一场耐力的较量。
+  冒险精神是你所崇尚的，亲和力却体现不足。积极乐观是你的“代名词”，我有理由相信你会在创业的道路上越走越远。
+
+</div></div>
+
+<div style="left: 703.5px;top:136px; position: absolute; background: #fff; width:36px; height:337px;"  ></div>
+<div style="left: 700px;top:586px; position: absolute; background: #fff; width:40px; height:355px;"  ></div>
+<div style="left: 697px;top:985px; position: absolute; background: #fff; width:44px; height:465px;"  ></div>
+</body>
+<style>
+  #chartContainer1 {
+    width: 500px;
+    height: 400px;
+  }
+  #chartContainer2 {
+    width: 500px;
+    height: 400px;
+  }
+  #chartContainer3 {
+    width: 500px;
+    height: 400px;
+  }a:link {
+     text-decoration: none;
+     color: gray
+   }
+  a:active {
+    text-decoration: blink
+  }
+  a:hover {
+    text-decoration: none;
+    color: red
+  }
+  a:visited {
+    text-decoration: none;
+    color: white
+  }
+</style>
+<script  th:src="@{/js/canvas.js}"   type="text/javascript" src="/static/js/canvas.js"></script>
+
+<script type="text/javascript">
+
+    var a1=Math.random()*30+0;
+    var a2=Math.random()*30+0;
+    var a3=Math.random()*30+0;
+    var a4=Math.random()*30+0;
+    var a5=Math.random()*30+0;
+    var a6=Math.random()*30+0;
+    var a7=Math.random()*30+0;
+    var a8=Math.random()*30+0;
+    var a9=Math.random()*30+0;
+    var a10=Math.random()*30+0;
+    var a11=Math.random()*30+0;
+    new CanvasJS.Chart('chartContainer1',{
+        theme:'light7',//主题
+        animationEnabled: true,
+        title: {
+            text: "能力指数"
+        },
+        data: [
+            {
+                // 数据
+                type: "column",
+                dataPoints: [
+                    { label: "风控能力", y: a1 },
+                    { label: "网络营销能力", y: a2 },
+                    { label: "网络运营能力", y: a3 },
+                    { label: "选品能力", y: a4 },
+                    { label: "谈判能力", y: a5 },
+                    { label: "洞察能力", y: a6 },
+                    { label: "创新能力", y: a7 },
+                    { label: "协作能力", y: a8 },
+                    { label: "组织管理能力", y: a9 },
+                    { label: "整合能力", y: a10 },
+                    { label: "学习能力", y: a11 },
+                    { label: "诚信", y: 99 }
+                ]
+            }
+        ]
+    }).render();
+
+    new CanvasJS.Chart('chartContainer2',{
+        theme:'light11',//主题
+        animationEnabled: true,
+        title: {
+            text: "知识指数"
+        },
+        data: [
+            {
+                // 数据
+                type: "column",
+                dataPoints: [
+                    { label: "国际商法知识", y: a11 },
+                    { label: "管理知识", y: a10 },
+                    { label: "产品知识", y: a9 },
+                    { label: "财务知识", y: a8 },
+                    { label: "电子商务知识", y: a6 },
+                    { label: "国际贸易知识", y: a7 },
+                    { label: "经济学知识", y: a4 },
+                    { label: "外语知识", y: a5 },
+                    { label: "网络营销知识", y: a7 },
+                    { label: "国际金融知识", y: a1 },
+                    { label: "诚信", y: 99 }
+                ]
+            }
+        ]
+    }).render();
+
+    new CanvasJS.Chart('chartContainer3',{
+        theme:'light11',//主题
+        animationEnabled: true,
+        title: {
+            text: "素质指数"
+        },
+        data: [
+            {
+                // 数据
+                type: "column",
+                dataPoints: [
+                    { label: "自信度", y: a2 },
+                    { label: "毅力度", y: a7 },
+                    { label: "激情", y: a5 },
+                    { label: "冒险精神", y: a3 },
+                    { label: "吃苦耐劳", y: a1 },
+                    { label: "积极乐观", y: a2 },
+                    { label: "眼光敏锐", y: a6 },
+                    { label: "亲和力", y: a2 },
+                    { label: "诚信", y: a3 },
+                    { label: "诚信", y: 99 }
+                ]
+            }
+        ]
+    }).render();
+</script>
