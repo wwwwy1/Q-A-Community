@@ -134,4 +134,10 @@ public interface ProductMapper {
             "price = pid*10+30"
     })
     int productInit();
+    @Update({
+            "update product",
+            "set ",
+            "pchange = 0"
+    })
+    int productPchangeInit();
 }

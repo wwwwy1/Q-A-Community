@@ -31,6 +31,12 @@ public class SimulationService {
 	private MlogMapper mlogMapper;
 	@Autowired
 	private MrandomMapper mrandomMapper;
+	@Autowired
+	private AbilityMapper abilityMapper;
+	@Autowired
+	private QualityMapper qualityMapper;
+	@Autowired
+	private KnowledgeMapper knowledgeMapper;
 	public ModelAndView goSimulation(HttpServletRequest request){
 		ModelAndView mav=new ModelAndView();
 		Integer userid=(Integer)request.getSession().getAttribute("userid");
@@ -39,6 +45,10 @@ public class SimulationService {
 		mav.getModel().put("warehouse",warehouses);
 		List<Product> products= productMapper.selectAll();
 		mav.getModel().put("product",products);
+
+
+		//随机消息
+
 		mav.getModel().put("infos",infos);
 		Teaminfo teaminfo= teaminfoMapper.selectUid(userid);
 		mav.getModel().put("balance",teaminfo.getTprice());
@@ -175,14 +185,10 @@ public class SimulationService {
 			infos.add(infoMapper.selectByPrimaryKey(iid));
 		}
 		Collections.shuffle(infos);
-
-
-
 		System.out.println(lunci);
 		if (lunci>=14){
 			re.setMsg("测试结束");
 			re.setStatus(3);
-
 		}else {
 			re.setMsg("销售成功");
 		}
@@ -194,12 +200,85 @@ public class SimulationService {
 	public void initProdutcAndwarehouse(HttpServletRequest request){
 		productMapper.productInit();
 		warehouseMapper.initWarehouse();
+		productMapper.productPchangeInit();
 		mlogMapper.mlogInit();
 		String ss= (String)request.getSession().getAttribute("username");
 		Mlog mlog=new Mlog();
 		mlog.setLoper("登录");
 		mlog.setLtime(new Date());
 		mlog.setLcontent("用户:"+ss+" 进入模拟实训");
+		//随机信息
+		long now = System.currentTimeMillis();
+		System.out.println(now);
+		Random random=new Random(now);
+		Integer pchange= random.nextInt(8)+2;
+		Integer zf=random.nextInt(2);
+		if (zf==0){
+			pchange=-pchange;
+		}
+		Integer pid=random.nextInt(5)+1;
+		productMapper.updatePchange(pid,pchange);
+
+		infos=new ArrayList<>();
+		if (pchange>=0){
+			infos.add(infoMapper.selectInfo(pid,1));
+		}else {
+			infos.add(infoMapper.selectInfo(pid,-1));
+		}
+
+		pchange= random.nextInt(20)+1;
+		zf=random.nextInt(2);
+		if (zf==0){
+			pchange=-pchange;
+		}
+		Integer pid2=random.nextInt(5)+1;
+		while (pid.equals(pid2)){
+			pid2=random.nextInt(5)+1;
+		}
+		productMapper.updatePchange(pid2,pchange);
+		if (pchange>=0){
+			infos.add(infoMapper.selectInfo(pid2,1));
+		}else {
+			infos.add(infoMapper.selectInfo(pid2,-1));
+		}
+
+		System.out.println(infos);
+		//随机无用信息
+		Set<Integer> set=new HashSet<>();
+		while (set.size()<3){
+			set.add(random.nextInt(10)+11);
+		}
+		for (Integer iid: set) {
+			infos.add(infoMapper.selectByPrimaryKey(iid));
+		}
+		Collections.shuffle(infos);
+		Integer uid=(Integer) request.getSession().getAttribute("userid");
+		//初始化用户基础能力分
+		Ability ability=new Ability(10);
+		ability.setUid(uid);
+		if (abilityMapper.selectByUid(uid)!=null){
+			abilityMapper.initHaveAbility(uid);
+		}else {
+			abilityMapper.initNotHaveAbility(ability);
+		}
+		//初始化用户基础知识分
+		Knowledge knowledge=new Knowledge(10);
+		knowledge.setUid(uid);
+		if (knowledgeMapper.selectByUid(uid)!=null){
+			knowledgeMapper.initHaveKnowledge(uid);
+		}else {
+			knowledgeMapper.initNotHaveKnowledge(knowledge);
+		}
+		//初始化用户基础素质分
+		Quality quality =new Quality(10);
+		quality.setUid(uid);
+		if (qualityMapper.selectByUid(uid)!=null){
+			qualityMapper.initHaveQuality(uid);
+		}else {
+			qualityMapper.initNotHaveQuality(quality);
+		}
+
+
 		mlogMapper.insert(mlog);
 	}
 	public ModelAndView goProbability(){
