@@ -1,12 +1,30 @@
 package cn.Ideal.demo;
 
+import cn.Ideal.demo.util.MxGraphModel;
+import cn.Ideal.demo.util.TestXmlClass;
+import com.sun.xml.internal.bind.v2.runtime.reflect.ListTransducedAccessorImpl;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.shiro.crypto.hash.Hash;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Repository;
 import org.springframework.test.context.junit4.SpringRunner;
+import sun.reflect.generics.tree.Tree;
 
+import javax.annotation.Resource;
+import javax.annotation.Resources;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -353,24 +371,6 @@ public class DemoApplicationTests {
 		return stones[stones.length-1];
 	}
 
-	public static int lengthOfLIS(int[] nums) {
-		int length=nums.length;
-		int[] dp=new int[length];
-		for (int i = 0; i < length; i++) {
-			dp[i]=1;
-			for (int j = 0; j < i; j++) {
-				if (nums[i]>nums[j]){
-					dp[i]=Math.max(dp[i],dp[j]+1);
-				}
-			}
-		}
-		int max=dp[0];
-		for (int i = 1; i < length; i++) {
-			max=Math.max(max,dp[i]);
-		}
-		return max;
-	}
-
 	public boolean isSon(String a,String b){
 		if (a.length()-b.length()!=1)return false;
 		for (int i = 0; i < b.length(); i++) {
@@ -413,7 +413,7 @@ public class DemoApplicationTests {
 		}
 		return max;
 	}
-	public int[] plusOne(int[] digits) {
+	public static int[] plusOne(int[] digits) {
 		double sum=0;
 		List<Integer> list=new ArrayList();
 		for (int i = 0; i <digits.length; i++) {
@@ -429,11 +429,1941 @@ public class DemoApplicationTests {
 		}
 		return  a;
 	}
-	public static void main(String[] args) {
-		int[] a={9,8,7,6,5,4,3,2,1,0};
-		String[] s=new String[]{"wnyxmflkf","xefx","usqhb","ttmdvv","hagmmn","tmvv","pttmdvv","nmzlhlpr","ymfk","uhpaglmmnn","zckgh","hgmmn","isqxrk","isqrk","nmzlhpr","uysyqhxb","haglmmn","xfx","mm","wymfkf","tmdvv","uhaglmmn","mf","uhaglmmnn","mfk","wnymfkf","powttkmdvv","kwnyxmflkf","xx","rnqbhxsj","uysqhb","pttkmdvv","hmmn","iq","m","ymfkf","zckgdh","zckh","hmm","xuefx","mv","iqrk","tmv","iqk","wnyxmfkf","uysyqhb","v","m","pwttkmdvv","rnqbhsj"};
-		String S="";
-		DemoApplicationTests d=new DemoApplicationTests();
-        System.out.println(d.plusOne(a));
+	public static int numEquivDominoPairs(int[][] dominoes) {
+		if (dominoes.length<2)return 0;
+		int[][] ans=new int[10][10];
+		int[][] ob=new int[10][10];
+		int dd=0;
+		for (int i = 0; i < dominoes.length; i++) {
+			if (dominoes[i][0]<=dominoes[i][1]){
+				if (ob[dominoes[i][0]][dominoes[i][1]]!=0){
+					ans[dominoes[i][0]][dominoes[i][1]]++;
+				}else {
+					ob[dominoes[i][0]][dominoes[i][1]]=dominoes[i][1];
+				}
+			}else {
+				if (ob[dominoes[i][1]][dominoes[i][0]]!=0){
+					ans[dominoes[i][1]][dominoes[i][0]]++;
+				}else {
+					ob[dominoes[i][1]][dominoes[i][0]]=dominoes[i][0];
+				}
+			}
+		}
+		for (int i = 0; i <ans.length ; i++) {
+			for (int j = 0; j < ans.length; j++) {
+				if (ans[i][j]>=2){
+					long a=1,b=1;
+					for (int k = ans[i][j]+1-2; k <=ans[i][j]+1; k++) {
+						a*=k;
+					}
+					dd+=a/2;
+				}else if (ans[i][j]==1)dd++;
+			}
+		}
+		return dd;
 	}
+	public static int[] shortestAlternatingPaths(int n, int[][] red_edges, int[][] blue_edges) {
+		int[] ans=new int[n];
+		ans[0]=0;
+		if (red_edges.length<1) return ans;
+		if (blue_edges.length<1)return ans;
+		int flag=0,flag2=1;
+		while(flag2<n){
+			int c=flag2;
+			if (flag2%2==1)
+			for (int j=0;j<red_edges.length;j++){
+				if (red_edges[j].length==2 &&red_edges[j][0]==flag){
+					ans[flag2++]=red_edges[j][1];
+					flag=red_edges[j][1];
+					break;
+				}
+			}
+			if (c==flag2)ans[flag2++]=-1;
+			c=flag2;
+			if (flag2<n &&flag2%2==0)
+			for (int j = 0; j < blue_edges.length; j++) {
+				if (blue_edges[j].length==2 && blue_edges[j][0]==flag){
+					ans[flag2++]=blue_edges[j][1];
+					flag=blue_edges[j][1];
+					break;
+				}
+			}
+			if (c==flag2)ans[flag2++]=-1;
+		}
+		System.out.println(Arrays.toString(ans));
+		return ans;
+	}
+	public int tribonacci(int n) {
+		int ans=0;
+		if (n==0)return 0;
+		if (n==1 ||n==2 )return 1;
+		int t1=0,t2=1,t3=1;
+		for (int i = 3; i <=n; i++) {
+			ans=t1+t2+t3;
+			t1=t2;t2=t3;t3=ans;
+		}
+		return ans;
+	}
+	public static String alphabetBoardPath(String target) {
+		char[][] dis={{'a','b','c','d','e'}, {'f','g','h','i','j'}, {'k','l','m','n','o'}, {'p','q','r','s','t'}, {'u','v','w','x','y'}};
+		int nowR=0,nowL=0;
+		StringBuilder ans=new StringBuilder();
+		for (int k = 0; k < target.length(); k++) {
+			if (target.charAt(k)=='z'){
+				for (int i = 0; i <nowL-0 ; i++) {
+					ans.append('L');
+				}
+				for (int i = 0; i <5-nowR ; i++) {
+					ans.append('D');
+
+				}
+				/*ans.append((nowL-0)*'L');
+				ans.append((5-nowR)*'D');*/
+				ans.append('!');
+				nowL=0;
+				nowR=5;
+				continue;
+			}
+			for (int i = 0; i < dis.length; i++) {
+				for (int j = 0; j < dis[i].length; j++) {
+					if (target.charAt(k)==dis[i][j]){
+						if (nowL==j && nowR==i){
+							ans.append('!');
+							break;
+						}
+						if (nowR-i>0){
+							for (int l = 0; l <nowR-i ; l++) {
+								ans.append('U');
+							}
+							//ans.append((nowR-i)*'U');
+						}else if (nowR-i<0){
+							for (int l = 0; l <i-nowR ; l++) {
+								ans.append('D');
+							}
+							//ans.append((i-nowR)*'D');
+						}
+						if (nowL-j>0){
+							for (int l = 0; l <nowL-j ; l++) {
+								ans.append('L');
+							}
+							//ans.append((nowL-j)*'L');
+						}else if (nowL-j<0) {
+							for (int l = 0; l <j - nowL ; l++) {
+								ans.append('R');
+							}
+							//ans.append((j - nowL) * 'R');
+						}
+						ans.append('!');
+						nowL=j;
+						nowR=i;
+					}
+				}
+			}
+		}
+		return ans.toString();
+	}
+	public static int largest1BorderedSquare(int[][] grid) {
+		int L=grid.length,H=grid[0].length;
+		int bc=0;
+		int mc=Math.min(L,H);
+		for (int x = 0; x < L; x++) {
+			for (int y = 0; y < H; y++) {
+				if (grid[x][y]==0)continue;
+				for (int i = 0; i <mc ; i++) {
+					if (x+i>=L || y+i>=H)break;
+					if (grid[x+i][y]==0 || grid[x][y+i]==0) break;
+					boolean flag=true;
+					int x1=x+i,y1=y+i;
+					for (int j = 0; j <=i; j++) {
+						if (flag && (grid[x1-j][y1]==0 || grid[x1][y1-j]==0)) flag=false;
+					}
+					if (flag)bc=Math.max(bc,i+1);
+				}
+			}
+		}
+		return bc*bc;
+	}
+
+	public boolean[] visited;
+	public boolean hasPath(char[] matrix, int rows, int cols, char[] str)
+	{
+		if(matrix == null || rows==0 || cols==0 || str==null ||str.length==0)
+			return false;
+		visited=new boolean[rows*cols];
+		for(int i=0;i<rows;i++){
+			for(int j=0;j<cols;j++){
+				if(has(matrix,i,j,str,0,rows,cols)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public boolean has(char[] matrix, int row, int col, char[] str, int length, int rows, int cols){
+		boolean now=false;
+		if(length>=str.length)return false;
+		if(row>=0 && row<rows && col>=0 && col<cols && matrix[row*cols+col]==str[length] && !visited[row*cols+col]){
+			System.out.println(str[length]);
+
+			length++;
+			visited[row*cols+col]=true;
+			now=has(matrix,row,col-1,str,length,rows,cols) ||
+					has(matrix,row-1,col,str,length,rows,cols) ||
+					has(matrix,row,col+1,str,length,rows,cols) ||
+					has(matrix,row+1,col,str,length,rows,cols);
+			if(!now){
+				--length;
+				visited[row*cols+col]=false;
+			}
+		}
+		return now;
+	}
+	public List<Integer> partitionLabels(String S) {
+		int[] dist=new int[26];
+		for(int i=0;i<S.length();i++){
+			dist[S.charAt(i)-'a']=i;
+		}
+		List<Integer> ans =new ArrayList<>();
+		int flag=0;
+		int max=0;
+		while (flag<S.length()){
+			max=Math.max(dist[S.charAt(flag)-'a'],max);
+			if (max==flag){
+				if (ans.size()==0){
+					ans.add(max+1);
+				}else {
+					ans.add(max-ans.get(ans.size()-1)+1);
+				}
+			}
+			flag++;
+		}
+		return ans;
+	}
+	public int lengthOfLIS(int[] nums) {
+		if(nums.length==0)return 0;
+		int length=nums.length;
+		int[] dp=new int[length];
+		for (int i = 0; i < length; i++) {
+			dp[i]=1;
+			for (int j = 0; j < i; j++) {
+				if (nums[i]>nums[j]){
+					dp[i]=Math.max(dp[i],dp[j]+1);
+				}
+			}
+		}
+		int max=dp[0];
+		for (int i = 1; i < length; i++) {
+			max=Math.max(max,dp[i]);
+		}
+		return max;
+	}
+	// 丑数
+	public int nthUglyNumber(int n) {
+		int[] nums=new int[n];
+		int begin=1;
+		int index2=0,index3=0,index5=0;
+		nums[0]=1;
+		while (begin<n){
+			nums[begin]= Math.min(nums[index2]*2,Math.min(nums[index3]*3,nums[index5]*5));
+			if (nums[begin]==nums[index2]*2)index2++;
+			if (nums[begin]==nums[index3]*3)index3++;
+			if (nums[begin]==nums[index5]*5)index5++;
+			begin++;
+		}
+		return nums[--begin];
+	}
+	// 最长回文子串
+	public String longestPalindrome(String s) {
+		if (s==null) return s;
+
+		if (s=="")return s;
+		if (s.length()<2)return s;
+		int length=s.length();
+		int max=0,low=0,hig=0;
+		boolean[][] a=new boolean[length+2][length+2];
+		for (int i=0;i<length;i++){
+			a[i][i]=true;
+			for (int j=i-1;j>=0;j--){
+				a[i][j]=(i-j==1||a[i-1][j+1])&&s.charAt(i)==s.charAt(j);
+				if (a[i][j]==true && i-j>max){
+					low=j;hig=i;max=i-j;
+				}
+			}
+		}
+		return s.substring(low,hig+1);
+	}
+	public static int binarySearch(Integer[] srcArray, int des) {
+		//定义初始最小、最大索引
+		int start = 0;
+		int end = srcArray.length - 1;
+		//确保不会出现重复查找，越界
+		while (start <= end) {
+			//计算出中间索引值
+			int middle = (end + start)>>>1 ;//防止溢出
+			if (des == srcArray[middle]) {
+				return middle;
+				//判断下限
+			} else if (des < srcArray[middle]) {
+				end = middle - 1;
+				//判断上限
+			} else {
+				start = middle + 1;
+			}
+		}
+		//若没有，则返回-1
+		return -1;
+	}
+	public static int movesToMakeZigzag(int[] nums) {
+		int m1=0,m2=0;
+		int nums2[] =new  int[nums.length];
+		int flag=-1;
+		for (int i = 0; i < nums.length; i++) {
+			nums2[i]=nums[i];
+		}
+		for (int i = 1; i < nums.length; i++) {
+			if (flag==1){
+				if (nums[i]>=nums[i-1]){
+					m1+=nums[i]-nums[i-1]+1;
+					nums[i]-=nums[i]-nums[i-1]+1;
+				}
+				if (nums2[i]<=nums2[i-1]){
+					m2+=nums2[i-1]-nums2[i]+1;
+					nums2[i]+=nums2[i-1]-nums2[i]+1;
+				}
+			}else {
+				if (nums2[i]>=nums2[i-1]){
+					m2+=nums2[i]-nums2[i-1]+1;
+					nums2[i]-=nums2[i]-nums2[i-1]+1;
+				}
+				if (nums[i]<=nums[i-1]){
+					m1+=nums[i-1]-nums[i]+1;
+					nums[i]+=nums[i-1]-nums[i]+1;
+				}
+			}
+			flag=flag*-1;
+		}
+		System.out.println(Arrays.toString(nums));
+		System.out.println(Arrays.toString(nums2));
+		return Math.min(m1,m2);
+	}
+
+
+	public static int movesToMakeZigzag2(int[] nums) {
+		int m1=0,m2=0;
+		int nums2[] =new  int[nums.length];
+		for (int i = 0; i < nums.length; i++) {
+			nums2[i]=nums[i];
+		}
+		return Math.min(solve(nums,0),solve(nums2,1));
+	}
+	 public  static int solve(int nums[],int flag){
+		int ans=0;
+		for(int i=0;i<nums.length;i++){
+			if(i%2==flag){
+				while(i>0 && nums[i]<=nums[i-1]){
+					ans++;
+					nums[i-1]--;
+				}
+				while(i+1<nums.length && nums[i]<=nums[i+1]){
+					ans++;
+					nums[i+1]--;
+				}
+			}
+		}
+		return ans;
+	}
+	public int ordinalOfDate(String date) {
+		String a[]=date.split("-");
+		int year=Integer.parseInt(a[0]);
+		int mouth=Integer.parseInt(a[1]);
+		int day=Integer.parseInt(a[2]);
+		int days[]={31,28,31,30,31,30,31,31,30,31,30,31};
+		if((year % 4 == 0 && year % 100 != 0) || (year%400==0 && year % 3200 != 0) || year % 172800 == 0){
+			days[1]++;
+		}
+		int ans=day;
+		for (int i = 0; i < mouth - 2; i++) {
+			ans+=days[i];
+		}
+		return ans;
+	}
+	public int numRollsToTarget(int d, int f, int target) {
+		if (d==1 && target<=f) return 1;
+		if (d==1 && target>f)return 0;
+		if (d>target)return 0;
+		return 0;
+	}
+
+	static int g_maxValue = 6;
+	//基于循环求骰子点数
+	public static int PrintProbability_1(int d, int f, int target){
+		if (d>target)return 0;
+		if (d==1 && target>f)return 0;
+		if (d*f<target)return 0;
+		if(d<1){
+			return 0;
+		}
+		long[][] pProbabilities = new long[2][f*d +1];
+		for(int i=0;i<f;i++){//初始化数组
+			pProbabilities[0][i] = 0;
+			pProbabilities[1][i] = 0;
+		}
+		int flag = 0;
+		for(int i=1;i<=f;i++){//当第一次抛掷骰子时，有6种可能，每种可能出现一次
+			pProbabilities[flag][i] = 1;
+		}
+		//从第二次开始掷骰子，假设第一个数组中的第n个数字表示骰子和为n出现的次数，
+		//在下一循环中，我们加上一个新骰子，此时和为n的骰子出现次数应该等于上一次循环中骰子点数和为n-1,n-2,n-3,n-4,n-5，
+		//n-6的次数总和，所以我们把另一个数组的第n个数字设为前一个数组对应的n-1,n-2,n-3,n-4,n-5，n-6之和
+		for(int k =2;k<=d;k++){
+			for(int i=0;i<k;i++){//第k次掷骰子，和最小为k，小于k的情况是不可能发生的！所以另不可能发生的次数设置为0！
+				pProbabilities[1-flag][i] = 0;
+			}
+			for(int i=k;i<=f*k;i++){//第k次掷骰子，和最小为k，最大为g_maxValue*k
+				pProbabilities[1-flag][i] = 0;//初始化，因为这个数组要重复使用，上一次的值要清0
+				for(int j=1;j<=i&&j<=f;j++){
+					pProbabilities[1-flag][i] += pProbabilities[flag][i-j];
+					pProbabilities[1-flag][i] = (long)(pProbabilities[1-flag][i] % (Math.pow(10, 9)+7));
+				}
+			}
+			flag = 1-flag;
+		}
+		// double total = Math.pow(f, d);
+		return (int)pProbabilities[flag][target];
+	}
+
+	public static int maxRepOpt1(String text) {
+		int ans=0;
+		int i=0,j=0;
+		int[] dist=new int[26];
+		for ( i = 0; i < text.length(); i++) {
+			int flag=0;
+			int temp=0;
+			for ( j = i; j < text.length(); j++) {
+				if (flag<=1){
+					if (text.charAt(i)==text.charAt(j)){
+						temp++;
+					}else {
+						temp--;
+						flag++;
+					}
+				}else break;
+			}
+			if (flag==2){
+				int ff=0;
+				for (int k = j; k < text.length(); k++) {
+					if (text.charAt(i)==text.charAt(k)){
+						temp+=3;
+						ff=1;
+						break;
+					}
+				}
+				if (ff==0){
+					for (int k = 0; k < i; k++) {
+						if (text.charAt(i)==text.charAt(k)){
+							temp+=3;
+							ff=1;
+							break;
+						}
+					}
+				}
+			}else if (flag==1){
+				temp++;
+				int ff=0;
+				for (int k = 0; k < i; k++) {
+					if (text.charAt(i)==text.charAt(k)){
+						temp++;
+						ff=1;
+						break;
+					}
+				}
+				if (ff==0)
+				for (int k = j; k < text.length(); k++) {
+					if (text.charAt(i)==text.charAt(k)){
+						temp++;
+						break;
+					}
+				}
+			}
+			dist[text.charAt(i)-'a']=Math.max(temp,dist[text.charAt(i)-'a']);
+		}
+		ans=dist[0];
+		for (i = 1; i <26 ; i++) {
+			ans=Math.max(dist[i],ans);
+		}
+		return ans;
+	}
+	public static int[] twoSum(int[] numbers, int target) {
+		for(int i=0;i<numbers.length;i++){
+			int ac=target-numbers[i];
+			int low=i+1,high=numbers.length-1;
+			int mid=(low+high)/2;
+			while(low<=high){
+				if(numbers[mid]>ac){
+					high=mid-1;
+				}else if(numbers[mid]<ac){
+					low=mid+1;
+				}else {
+					int ans[]={i+1,mid+1};
+					System.out.println(Arrays.toString(ans));
+					return ans;
+				}
+				mid=(low+high)/2;
+			}
+
+		}
+		return null;
+	}
+	public static void merge(int[] nums1, int m, int[] nums2, int n) {
+		int flag1=0,flag2=0,flag3=nums1.length-1;
+		for (int i = flag3; i >=0 ; i--) {
+			if ( n>0)
+			if ( m<=0 || nums1[m-1]<=nums2[n-1]){
+				nums1[i]=nums2[n-1];
+				n--;
+			}else {
+				nums1[i]=nums1[m-1];
+				m--;
+			}
+		}
+		System.out.println(Arrays.toString(nums1));
+	}
+	public static String minWindow(String s, String t) {
+		Map<Character,Integer> dist=new HashMap<>();
+		for (int i = 0; i <s.length(); i++) {
+			dist.put(s.charAt(i),0);
+		}
+		for (int i = 0; i < t.length(); i++) {
+			if (dist.containsKey(t.charAt(i))){
+				dist.put(t.charAt(i),dist.get(t.charAt(i))+1);
+			}else
+				return "";
+		}
+		String ans="";
+		int min_dist=Integer.MAX_VALUE;
+		int cont=t.length();
+		int min=0,max=0;
+		while (max<s.length()){
+			if (dist.get(s.charAt(max))>0)cont--;
+			dist.put(s.charAt(max),dist.get(s.charAt(max))-1);
+			max++;
+			while (cont==0){
+				if (min_dist > max - min) {
+					min_dist = max - min;
+					ans = s.substring(min, max);
+				}
+				if (dist.get(s.charAt(min))==0)cont++;
+				dist.put(s.charAt(min),dist.get(s.charAt(min))+1);
+				min++;
+			}
+		}
+		return ans;
+	}
+	public static int lengthOfLongestSubstring(String s) {
+		Map<Character,Integer> dist =new HashMap<>();
+		for (int i = 0; i < s.length(); i++) {
+			dist.put(s.charAt(i),0);
+		}
+		int start=0,end=0;
+		int ans=0;
+		while (end<s.length()){
+			if (dist.get(s.charAt(end))==0){
+				dist.put(s.charAt(end),dist.get(s.charAt(end))+1);
+				end++;
+				ans=Math.max(ans,end-start);
+			}else {
+					//ans=Math.max(ans,end-start);
+					dist.put(s.charAt(start),dist.get(s.charAt(start))-1);
+					start++;
+			}
+		}
+		return ans;
+	}
+	public static int minSubArrayLen(int s, int[] nums) {
+		int ans=Integer.MAX_VALUE,temp=0;
+		int start=0,end=-1;
+		while (end<nums.length){
+			if (temp<s){
+				end++;
+				if (nums.length==end) break;
+				temp+=nums[end];
+			}else {
+				ans=Math.min(ans,end-start+1);
+				temp-=nums[start];
+				start++;
+			}
+		}
+		return ans;
+	}
+	public int[] maxSlidingWindow(int[] nums, int k) {
+
+		if(nums == null || nums.length < 2) return nums;
+		int result[]=new  int[nums.length+1-k];
+		Deque<Integer> deque=new LinkedList<>();
+		int L=0,R=0;
+		for(int i = 0;i < nums.length;i++){
+			// 保证从大到小 如果前面数小则需要依次弹出，直至满足要求
+			while(!deque.isEmpty() && nums[deque.peekLast()] <= nums[i]){
+				deque.pollLast();
+			}
+			// 添加当前值对应的数组下标
+			deque.addLast(i);
+			// 判断当前队列中队首的值是否有效 //弹出队列首
+			if(deque.peek() <= i-k){
+				deque.poll();
+			}
+			// 当窗口长度为k时 保存当前窗口中最大值
+			if(i+1 >= k){
+				result[i+1-k] = nums[deque.peek()];
+			}
+		}
+		return result;
+	}
+
+	public static boolean checkInclusion(String s1, String s2) {
+		Map<Character,Integer> map=new HashMap<>();
+		for (int i = 0; i < s2.length(); i++) {
+			map.put(s2.charAt(i),0);
+		}
+		for (int i = 0; i < s1.length(); i++) {
+			if (map.containsKey(s1.charAt(i)))
+				map.put(s1.charAt(i),map.get(s1.charAt(i))+1);
+			else return false;
+		}
+		int k=s1.length();
+		int ans=Integer.MAX_VALUE;
+		int L=0,R=0;
+		while (R<s2.length()){
+			if (map.containsKey(s2.charAt(R)) && map.get(s2.charAt(R))>0){
+				k--;
+			}
+			map.put(s2.charAt(R),map.get(s2.charAt(R))-1);
+			R++;
+			while (k==0){
+				ans=Math.min(ans,R-L);
+				System.out.println(ans);
+				if (map.get(s2.charAt(L))==0){
+					k++;
+				}
+				map.put(s2.charAt(L),map.get(s2.charAt(L))+1);
+
+				L++;
+			}
+		}
+
+		return ans==s1.length()?true:false;
+	}
+	public static int countCharacters(String[] words, String chars) {
+		int ans=0;
+		int a[]=new int[26];
+		int b[]=new int[26];
+		for (int i = 0; i < chars.length(); i++) {
+			a[chars.charAt(i)-'0']++;
+		}
+		for (int i = 0; i < 26; i++) {
+			b[i]=a[i];
+		}
+		for (int i = 0; i < words.length; i++) {
+			int flag=1;
+			for (int j = 0; j < words[i].length(); j++) {
+				if (b[words[i].charAt(j)-'0']>0){
+					b[words[i].charAt(j)-'0']--;
+				}else {
+					flag=0;
+					break;
+				}
+			}
+			if (flag==1){
+				ans+=words[i].length();
+			}
+			for (int x = 0; x < 26; x++) {
+				b[x]=a[x];
+			}
+		}
+		return ans;
+	}
+	public static int longestValidParentheses(String s) {
+		List<Integer> list=new ArrayList<>();
+		Stack<Integer> stack=new Stack<>();
+		for (int i = 0; i < s.length(); i++) {
+			if (stack.empty()){
+				stack.push(i);
+			}else if (s.charAt(stack.peek())=='(' && s.charAt(i)==')'){
+				list.add(stack.pop());
+				list.add(i);
+			}else {
+				stack.push(i);
+			}
+		}
+		Collections.sort(list);
+		int m=Integer.MAX_VALUE;
+		for (int i = 0; i < list.size(); i++) {
+			if (m>list.get(i))m=list.get(i);
+		}
+		int L=0,R=0;
+		int ans=0;
+		for (int i = 0; i < list.size()-1; i++) {
+			if (list.get(i+1)-list.get(i)==1){
+				R=i+1;
+			}else {
+				ans=Math.max(R-L+1,ans);
+				L=i+1;
+			}
+		}
+		ans=Math.max(R-L+1,ans);
+		return ans;
+	}
+	public static int trap(int[] height) {
+		Stack<Integer> stack =new Stack<>();
+		int ans=0;
+		for (int i = 0; i < height.length; i++) {
+			while(!stack.empty() && height[i]>height[stack.peek()]){
+				int top=stack.pop();
+				if (stack.empty())break;
+				int distance=i-stack.peek()-1;
+				int bounded_height=Math.min(height[i],height[stack.peek()])-height[top];
+				ans+=distance*bounded_height;
+			}
+			stack.push(i);
+		}
+		return ans;
+	}
+	public static int largestRectangleArea(int[] heights) {
+
+		int max=0;
+		Stack<Integer> stack =new Stack<>();
+		stack.push(-1);
+		int t=0;
+		for (int i = 0; i < heights.length; i++) {
+			while(stack.peek()!=-1 && heights[stack.peek()]>heights[i]){
+				max=Math.max(max,heights[stack.pop()]*(i-stack.peek()-1));
+			}
+			stack.push(i);
+		}
+		while (stack.peek()!=-1)
+			max=Math.max(max,heights[stack.pop()]*(heights.length-stack.peek()-1));
+		return max;
+
+	}
+	public static int longestValidParentheses1(String s) {
+		int res=0;
+		int count=0;
+		int start=0;
+		for(int i=0;i<s.length();i++){
+			if(s.charAt(i)=='('){
+				count++;
+			}else {
+				count--;
+				if(count<0){
+					start=i+1;
+					count=0;
+				}else if(count==0){
+					res=Math.max(i-start+1,res);
+				}
+			}
+		}
+		return res;
+	}
+
+	public static int largestRectangleArea1(int[] heights) {
+		Stack<Integer> stack=new Stack<>();
+		int a[]=new int[heights.length];
+		int b[]=new int[heights.length];
+		for (int i = 0; i < heights.length; i++) {
+			while (!stack.empty() && heights[stack.peek()]>=heights[i])stack.pop();
+			if (stack.empty())a[i]=-1;
+			else a[i]=stack.peek();
+			stack.push(i);
+		}
+		while (!stack.empty())stack.pop();
+		for (int i = heights.length-1; i >=0; i--) {
+			while (!stack.empty() && heights[stack.peek()]>=heights[i])stack.pop();
+			if (stack.empty())b[i]=heights.length;
+			else b[i]=stack.peek();
+			stack.push(i);
+		}
+		int res=0;
+		for (int i = 0; i < heights.length; i++) {
+			res=Math.max(res,heights[i]*(b[i]-a[i]-1));
+		}
+		return res;
+	}
+	public static int trap1(int[] height) {
+		Stack<Integer> stack =new Stack<>();
+		int res=0;
+		for (int i = 0; i < height.length; i++) {
+			int last=0;
+			while (!stack.empty() && height[stack.peek()]<height[i]){
+				int top=stack.pop();
+				res+=(height[top]-last)*(i-stack.peek()-1);
+				last=height[top];
+			}
+			if (!stack.empty())	res+=(height[i]-last)*(i-stack.peek()-1);
+			stack.push(i);
+		}
+		return res;
+	}
+	public static int[] maxSlidingWindow1(int[] nums, int k) {
+		List<Integer>list=new ArrayList<>();
+		Deque<Integer> deque=new ArrayDeque<>();
+		for (int i = 0; i < nums.length; i++) {
+			if (!deque.isEmpty()&& deque.size()>k)deque.pop();
+			while (!deque.isEmpty()&& nums[deque.getLast()]<nums[i])deque.pollLast();
+			deque.offerLast(i);
+			if (i>k-1)list.add(i);
+		}
+		int ans[]=new int[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			ans[i]=nums[list.get(i)];
+		}
+		return ans;
+	}
+	public static int maxSubarraySumCircular(int[] A) {
+		int res=Integer.MIN_VALUE;
+		List<Integer>list=new ArrayList<>();
+		for (int i = 0; i < A.length*2; i++) {
+			list.add(A[i%A.length]);
+		}
+		int sum[]=new int[A.length*2+1];
+		for (int i = 1; i <sum.length-1; i++) {
+			sum[i]=sum[i-1]+list.get(i-1);
+		}
+		Deque<Integer> deque =new ArrayDeque<>();
+		deque.offerLast(0);
+		for (int i = 1; i <sum.length-1 ; i++) {
+			if (!deque.isEmpty() && i - A.length > deque.getFirst()) deque.pollFirst();
+			if (!deque.isEmpty()) res = Math.max(res, sum[i] - sum[deque.getFirst()]);
+			while (!deque.isEmpty() && sum[deque.getLast()] >= sum[i]) deque.pollLast();
+			deque.offerLast(i);
+		}
+		return res;
+	}
+	public static int mySqrt(int x) {
+		long l=0,r=x;
+		while(l<=r){
+			long mid=(r+l)/2;
+			if (mid*1.0*mid>x){
+				r=mid-1;
+			}else if (mid*1.0*mid<x){
+				l=mid+1;
+			}else return (int)mid;
+		}
+		return (int)r;
+	}
+	public static int searchInsert(int[] nums, int target) {
+		int L=0,R=nums.length-1;
+		int mid=(L+R)/2;
+		while (L<=R){
+			if (nums[mid]>target){
+				R=mid-1;
+			}else {
+				L=mid+1;
+			}
+			mid=(L+R)/2;
+
+		}
+		if(nums[mid]>=target)return mid;
+		else return mid+1;
+	}
+	public static int[] searchRange(int[] nums, int target) {
+		int fas[]={-1,-1};
+		if (nums.length==0)return fas;
+		int L=0,R=nums.length-1;
+		int mid=(L+R)>>>1;
+		int flag=0;
+		while (L<=R){
+			mid=(L+R)>>>1;
+			if (nums[mid]<=target){
+				L=mid+1;
+			}else {
+				R=mid-1;
+			}
+		}
+		int ans[]=new int[2];
+		if (nums[R]!=target){
+			ans[0]=-1;
+			ans[1]=-1;
+			return ans;
+		}else {
+			ans[0]=L;
+		}
+		L=0;
+		R=nums.length-1;
+		while (L<=R){
+			mid=(L+R)>>>1;
+			if (nums[mid]>=target){
+				R=mid-1;
+			}else {
+				L=mid+1;
+			}
+		}
+		ans[1]=R;
+		return ans;
+	}
+	public static boolean searchMatrix(int[][] matrix, int target) {
+		if(matrix.length==0)return false;
+		int n=0,m=matrix[0].length-1;
+		while (n<matrix.length && m>=0){
+			if (matrix[n][m]>target){
+				m--;
+			}else if (matrix[n][m]<target){
+				n++;
+			}else return true;
+		}
+		return false;
+	}
+	public static int findMin(int[] nums) {
+		int L=0,R=nums.length-1;
+		int mid=(L+R)>>>1;
+		while (L<=R){
+			mid=(L+R)>>>1;
+			if (mid<nums.length-1 && nums[mid]>nums[mid+1]){
+				return mid+1;
+			}else if (nums[mid]>nums[nums.length-1]){
+				L=mid+1;
+			}else {
+				R=mid-1;
+			}
+		}
+		return L;
+	}
+	// 绿色二分模板
+	public int hIndex1(int[] citations) {
+
+		int L=0,R=citations.length;
+		int mid=(L+R)>>>1;
+		while(L<R){
+			mid=(L+R+1)>>>1;
+			if(citations[citations.length-mid]>=mid)L=mid;
+			else R=mid-1;
+		}
+		return R;
+	}
+	// 红色二分模板
+	public int hIndex2(int[] citations) {
+
+		int L=0,R=citations.length;
+		int mid=(L+R)>>>1;
+		while(L<R){
+			mid=(L+R)>>>1;
+			if(citations[citations.length-mid]>=mid)L=mid+1;
+			else R=mid;
+		}
+		return R;
+	}
+	public static int search(int[] nums, int target) {
+		int bet=findMin(nums);
+		int L=0,R=bet-1;
+		int mid=(L+R)>>>1;
+		while (L<=R){
+			mid=(L+R)>>>1;
+			if (nums[mid]==target)return mid;
+			else if (nums[mid]>target){
+				R=mid-1;
+			}else L=mid+1;
+		}
+		L=bet;
+		R=nums.length-1;
+		mid=(L+R)>>>1;
+		while (L<=R){
+			mid=(L+R)>>>1;
+			if (nums[mid]==target)return mid;
+			else if (nums[mid]>target){
+				R=mid-1;
+			}else L=mid+1;
+		}
+		return -1;
+	}
+	public static ListNode swapPairs(ListNode head) {
+		ListNode helper=new ListNode(-1);
+		ListNode ans=head.next;
+		helper.next=head;
+		ListNode p=head.next;
+		while(helper.next != null && helper.next.next!=null){
+			head.next=head.next.next;
+			p.next=head;
+			helper.next=p;
+			helper=helper.next;
+			helper=helper.next;
+			if(p.next != null && p.next.next!=null && p.next.next.next!=null)
+				p=p.next.next.next;
+			head=head.next;
+		}
+		return ans;
+	}
+	public static ListNode reverseList(ListNode head) {
+		ListNode ans =new ListNode(-1);
+		ListNode now;
+		ListNode next=head;
+		while (next.next!=null){
+			now=next;
+			next=next.next;
+			now.next=ans.next;
+			ans.next=now;
+
+			//now.next=null;
+		}
+		return ans.next;
+	}
+	public static ListNode reverseBetween(ListNode head, int m, int n) {
+		if (head==null|| head.next==null) return head;
+		ListNode ans=new ListNode(-1);
+		ans.next=head;
+		ListNode pre=ans;
+		ListNode last=ans;
+		for (int i = 0; i < m - 1; i++) {
+			pre=pre.next;
+		}
+		for (int i = 0; i <=n; i++) {
+			last=last.next;
+		}
+		ListNode now;//2
+		ListNode prc1=new ListNode(-1);
+		ListNode ne=pre.next;//3
+		for (int i = m; i <=n; i++) {
+			now=ne;
+			ne=ne.next;
+			now.next=prc1.next;
+			prc1.next=now;
+		}
+		pre.next=prc1.next;
+		while (pre.next!=null){
+			pre=pre.next;
+		}
+		pre.next=last;
+		return ans.next;
+	}
+	public List<String> invalidTransactions(String[] transactions) {
+		Set<String> set=new HashSet<>();
+		for (int i = 0; i < transactions.length; i++) {
+			String[] split = transactions[i].split(",");
+			if (Integer.parseInt(split[2])>1000){
+				set.add(transactions[i]);
+			}
+			for (int j = i+1; j < transactions.length; j++) {
+				String[] last = transactions[j].split(",");
+				if (split[0].equals(last[0]) && !split[3].equals(last[3]) && Math.abs(Integer.parseInt(split[1])-Integer.parseInt(last[1]))<=60){
+					set.add(transactions[i]);
+					set.add(transactions[j]);
+				}
+
+			}
+		}
+		List<String> list=new ArrayList<>(set);
+		return list;
+	}
+	public static int[] numSmallerByFrequency(String[] queries, String[] words) {
+		int wordNum[]=new int[words.length];
+		for (int i = 0; i < words.length; i++) {
+			char[] chars = words[i].toCharArray();
+			Arrays.sort(chars);
+			int count=1;
+			for (int j = 0; j <chars.length-1; j++) {
+				if (chars[j]==chars[j+1]){
+					count++;
+				}else break;
+			}
+			wordNum[i]=count;
+		}
+		Arrays.sort(wordNum);
+		int queryNum[]=new int[queries.length];
+		for (int i = 0; i < queries.length; i++) {
+			char[] chars = queries[i].toCharArray();
+			Arrays.sort(chars);
+			int count=1;
+			for (int j = 0; j <chars.length-1; j++) {
+				if (chars[j]==chars[j+1]){
+					count++;
+				}else break;
+			}
+			queryNum[i]=count;
+		}
+		int ans[]=new int[queries.length];
+		for (int i = 0; i < queries.length; i++) {
+			int temp=0;
+			for (int j = wordNum.length-1; j >=0 ; j--) {
+				if (wordNum[j]>queryNum[i]){
+					temp++;
+				}else break;
+			}
+			ans[i]=temp;
+		}
+		return ans;
+	}
+	//快速排序
+	void quick_sort(int s[], int l, int r) {
+		if (l < r)
+		{
+			//Swap(s[l], s[(l + r) / 2]); //将中间的这个数和第一个数交换 参见注1
+			int i = l, j = r, x = s[l];
+			while (i < j)
+			{
+				while(i < j && s[j] >= x) // 从右向左找第一个小于x的数
+					j--;
+				if(i < j)
+					s[i++] = s[j];
+
+				while(i < j && s[i] < x) // 从左向右找第一个大于等于x的数
+					i++;
+				if(i < j)
+					s[j--] = s[i];
+			}
+			s[i] = x;
+			quick_sort(s, l, i - 1); // 递归调用
+			quick_sort(s, i + 1, r);
+		}
+	}
+
+
+	public List<List<String>> groupAnagrams(String[] strs) {
+		List<List<String>> ans = new ArrayList<>();
+		List<String> dist=new ArrayList<>();
+		for (int i = 0; i < strs.length; i++) {
+			char[] chars = strs[i].toCharArray();
+			Arrays.sort(chars);
+			StringBuilder sb=new StringBuilder();
+			for (int j = 0; j < chars.length; j++) {
+				sb.append(chars[i]);
+			}
+			dist.add(sb.toString());
+		}
+		for (int i = 0; i < strs.length; i++) {
+			List<String> temp=new ArrayList<>();
+			if (!strs[i].equals("-1")){
+				temp.add(strs[i]);
+			}else continue;
+			for (int j = i+1; j <strs.length; j++) {
+				if (dist.get(i).equals(dist.get(j))){
+					temp.add(strs[j]);
+					strs[j]="-1";
+				}
+			}
+			ans.add(temp);
+		}
+		return ans;
+	}
+	public static String reverseWords(String s) {
+		String[] ans = s.trim().split(" ");
+		StringBuilder res=new StringBuilder();
+		List<String> list=new ArrayList<>();
+		for (int i = ans.length-1; i >=0 ; i--) {
+			if (!ans[i].equals(" ")&&!ans[i].equals("")){
+				list.add(ans[i]);
+			}
+		}
+		for (int i = 0; i < list.size(); i++) {
+			res.append(list.get(i));
+			if (i!=list.size()-1)res.append(" ");
+		}
+		return res.toString();
+	}
+	public int compareVersion(String version1, String version2) {
+		String[] chars1 = version1.split("[.]");
+		String[] chars2 = version2.split("[.]");
+		if (chars1.length<=chars2.length){
+			int i=0;
+			for (; i < chars1.length; i++) {
+				if (Integer.parseInt(chars1[i])>Integer.parseInt(chars2[i]))return 1;
+				if (Integer.parseInt(chars1[i])<Integer.parseInt(chars2[i]))return -1;
+			}
+			if (i<chars2.length){
+				for (; i <chars2.length ; i++) {
+					if (Integer.parseInt(chars2[i])>0)return -1;
+				}
+			}
+		}else {
+			int i=0;
+			for (; i < chars2.length; i++) {
+				if (Integer.parseInt(chars1[i])>Integer.parseInt(chars2[i]))return 1;
+				if (Integer.parseInt(chars1[i])<Integer.parseInt(chars2[i]))return -1;
+			}
+			if (i<chars1.length){
+				for (; i <chars1.length ; i++) {
+					if (Integer.parseInt(chars1[i])>0)return 1;
+				}
+			}
+		}
+		return 0;
+	}
+	public static int numUniqueEmails(String[] emails) {
+		Set<String> set=new HashSet<>();
+		for (int i = 0; i < emails.length; i++) {
+			String[] email = emails[i].split("@");
+			StringBuilder sb = new StringBuilder();
+			String[] local = email[0].split("\\+");
+			for (int j = 0; j < local[0].length(); j++) {
+				if (local[0].charAt(j)!='.'){
+					sb.append(local[0].charAt(j));
+				}
+			}
+			sb.append('@');
+			sb.append(email[1]);
+			set.add(sb.toString());
+		}
+		return set.size();
+	}
+	public ListNode removeZeroSumSublists(ListNode head) {
+		int ans[]=new int[2000];
+		int n=0;
+		while (head!=null){
+			ans[n++]=head.val;
+			head=head.next;
+		}
+		for (int i = 0; i < n; i++) {
+			int sum=0;int flag=0;
+			for (int j = i; j <n ; j++) {
+				if (ans[j]==2000)continue;
+				if (ans[j]!=2000){
+					sum+=ans[j];
+				}
+				if (sum==0){
+					for (int k = i; k <=j ; k++) {
+						ans[k]=2000;
+					}
+					break;
+				}
+			}
+		}
+		head=new ListNode(-1);
+		ListNode now=head;
+
+		for (int i = 0; i < n; i++) {
+			if (ans[i]!=2000){
+				ListNode p=new ListNode(ans[i]);
+				now.next=p;
+				now=p;
+			}
+		}
+		return head.next;
+	}
+	public String countAndSay(int n) {
+		String a="1";
+		for (int i = 0; i < n; i++) {
+			StringBuilder sb=new StringBuilder();
+			for (int j = 0; j < a.length(); j++) {
+				int k=j;
+				while (k<a.length() && a.charAt(k)==a.charAt(j))k++;
+				sb.append(k-j+""+a.charAt(j));
+				j=k-1;
+			}
+			a=sb.toString();
+		}
+		return a;
+	}
+	public String convert(String s, int numRows) {
+		if (numRows ==1)return s;
+		StringBuilder sb=new StringBuilder();
+		for (int i = 0; i < numRows; i++) {
+			if (i==0 || i==numRows-1){
+				for (int j = i; j <s.length() ; j+=2*(numRows-1)) {
+					sb.append(s.charAt(j));
+				}
+			}else {
+				for (int j = i,k=2*(numRows-1); j <s.length()||k<s.length() ; j+=2*(numRows-1),k+=2*(numRows-1)) {
+					if (j<s.length())sb.append(s.charAt(j));
+					if (k<s.length())sb.append(s.charAt(k));
+				}
+			}
+		}
+		return sb.toString();
+	}
+	List<String> leetcode17=new ArrayList<>();
+	String dict[]={"abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+	public List<String> letterCombinations(String digits) {
+		if (digits==null || digits.length()==0)return leetcode17;
+		leetcode17Helper(digits,0,"");
+		return leetcode17;
+	}
+	public void leetcode17Helper(String ss,int level,String s) {
+		if (level==ss.length()){
+			leetcode17.add(s);
+		}
+		char c = ss.charAt(level);
+		for (int i = 0; i < dict[c - '2'].length(); i++) {
+			leetcode17Helper(ss,level+1,s+dict[c-'2'].charAt(i));
+		}
+	}
+
+	static boolean vis[][];
+	static boolean ans=false;
+	public static boolean exist(char[][] board, String word) {
+		vis=new boolean[board.length][board[0].length];
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j <board[i].length; j++) {
+				for (int x = 0; x <board.length ; x++) {
+					Arrays.fill(vis[x],false);
+				}
+				leetcode79Help(board,i,j,word,0);
+				if (ans)return ans;
+			}
+		}
+		return ans;
+	}
+	public static void leetcode79Help(char[][] dict,int r,int l,String word,int n){
+		if (n==word.length()){
+			ans=true;
+			return;
+		}
+		if (ans)return;
+		if (r>=dict.length || r<0)return;
+		if (l>=dict[0].length || l<0)return;
+
+		if (vis[r][l]){
+			//vis[r][l]=false;
+			return;
+		}
+		if (dict[r][l]==word.charAt(n)){
+			vis[r][l]=true;
+		}else {
+			vis[r][l]=false;
+			return;
+		}
+		leetcode79Help(dict,r-1,l,word,n+1);
+		leetcode79Help(dict,r,l+1,word,n+1);
+		leetcode79Help(dict,r+1,l,word,n+1);
+		leetcode79Help(dict,r,l-1,word,n+1);
+		vis[r][l]=true;
+	}
+	public int dietPlanPerformance(int[] calories, int k, int lower, int upper) {
+		int ans[]=new int[calories.length+1];
+		ans[0]=0;
+		for(int i=1;i<=calories.length;i++){
+			ans[i]=ans[i-1]+calories[i-1];
+		}
+		int res=0;
+		for (int i = k; i < ans.length; i++) {
+			if (ans[i]-ans[i-k]>upper){
+				res++;
+			}else if (ans[i]-ans[i-k]<lower){
+				res--;
+			}
+		}
+		return res;
+	}
+	public static List<Boolean> canMakePaliQueries(String s, int[][] queries) {
+		List<Boolean> ans = new ArrayList<>();
+		int dict[][]=new int[s.length()+1][26];
+		for (int i = 1; i <= s.length(); i++) {
+			for (int j = 0; j <26 ; j++) {
+				dict[i][j]=dict[i-1][j];
+			}
+			dict[i][s.charAt(i-1)-'a']++;
+		}
+		for (int i = 0; i < queries.length; i++) {
+			int flag=0;
+			for (int j = 0; j < 26; j++) {
+				if (dict[queries[i][1]+1][j]-dict[queries[i][0]][j]!=0&& (dict[queries[i][1]+1][j]-dict[queries[i][0]][j])%2!=0){
+					flag++;
+				}
+			}
+			if (flag-(queries[i][2]*2)>1){
+				ans.add(false);
+			}else ans.add(true);
+		}
+		return ans;
+	}
+	static Set<List<Integer>> leetCode46Ans=new HashSet<>();
+	static List<Integer> st=new ArrayList<>();
+	static boolean visd[];
+	public static List<List<Integer>> permute(int[] nums) {
+		visd=new boolean[nums.length];
+		dfsLeetCode46(nums,0);
+		List<List<Integer>> ans=new ArrayList<>();
+		leetCode46Ans.forEach(integers -> ans.add(integers));
+		return ans;
+	}
+	public static void dfsLeetCode46(int[] nums,int n){
+		if (n==nums.length){
+			List<Integer> temp=new ArrayList<>();
+			for (int i = 0; i < st.size(); i++) {
+				temp.add(st.get(i));
+			}
+			leetCode46Ans.add(temp);
+		}
+		for (int i = 0; i < nums.length; i++) {
+			if (!visd[i]){
+				visd[i]=true;
+				st.add(nums[i]);
+				dfsLeetCode46(nums,n+1);
+				visd[i]=false;
+				st.remove(st.size()-1);
+			}
+
+		}
+	}
+	public List<List<Integer>> subsets(int[] nums) {
+		List<List<Integer>> ans=new ArrayList<>();
+		int end=(int)Math.pow(2,nums.length);
+		for (int i = 0; i < end; i++) {
+			List<Integer> temp=new ArrayList<>();
+			for (int j = 0; j <nums.length; j++) {
+				int d=i>>j&1;
+				if (d==1){
+					temp.add(nums[j]);
+				}
+			}
+			ans.add(temp);
+		}
+		return ans;
+	}
+	static List<Integer> temp=new ArrayList<>();
+	static List<List<Integer>> lists =new ArrayList<>();
+	public static List<List<Integer>> subsets78(int[] nums) {
+
+		dfs78(nums,0);
+		return lists;
+	}
+	static void dfs78(int nums[],int n){
+		if (nums.length==n){
+			List<Integer> d=new ArrayList<>();
+			for (int i = 0; i < temp.size(); i++) {
+				d.add(temp.get(i));
+			}
+			lists.add(d);
+			return;
+		}
+		temp.add(nums[n]);
+		dfs78(nums, n + 1);
+		temp.remove(temp.size()-1);
+		dfs78(nums, n + 1);
+	}
+	public int[] sortedSquares(int[] A) {
+		for (int i = 0; i < A.length; i++) {
+			A[i]*=A[i];
+		}
+		Arrays.sort(A);
+		return A;
+	}
+	public static int maxTurbulenceSize(int[] A) {
+		if (A.length<=1)return A.length;
+		int n=A.length;
+		boolean flag=true;
+		int max=0;
+		for (int i = 0; i <n ; i++) {
+			int m=1;
+			flag=true;
+			for (int j = i; j < n - 1; j++) {
+				if (flag){
+					if (A[j]>A[j+1]){
+						flag=!flag;
+						m++;
+					}else break;
+				}else {
+					if (A[j]<A[j+1]){
+						flag=!flag;
+						m++;
+					}else break;
+				}
+			}
+			if (max<m){
+				max=m;
+			}
+		}
+		for (int i = 0; i <n ; i++) {
+			int m=1;
+			flag=false;
+			for (int j = i; j < n - 1; j++) {
+				if (flag){
+					if (A[j]>A[j+1]){
+						flag=!flag;
+						m++;
+					}else break;
+				}else {
+					if (A[j]<A[j+1]){
+						flag=!flag;
+						m++;
+					}else break;
+				}
+			}
+			if (max<m){
+				max=m;
+			}
+		}
+		return max;
+	}
+	int ans979=0;
+	public int distributeCoins(TreeNode root) {
+		dfs979(root,null);
+		return ans979;
+	}
+	// 利用自底向上的dfs,每当子节点的数不为1时,操作使得父节点相应增加减少,并把操作的值记录到结果中
+	public void dfs979(TreeNode root,TreeNode parent){
+		if (root==null)return;
+		dfs979(root.left,root);
+		dfs979(root.right,root);
+		if (root.val<=0){
+			parent.val+=(root.val-1);
+			ans979+=-(root.val-1);
+			root.val=1;
+		}
+		if (root.val>1){
+			parent.val+=(root.val-1);
+			ans979+=(root.val-1);
+			root.val=1;
+		}
+	}
+
+	public int largestSumAfterKNegations(int[] A, int K) {
+		Arrays.sort(A);
+		while (K>0){
+			A[0]=-A[0];
+			Arrays.sort(A);
+			K--;
+		}
+		int ans=0;
+		for (int i = 0; i < A.length; i++) {
+			ans+=A[i];
+		}
+		return ans;
+	}
+	public static int clumsy(int N) {
+		int ans=0;
+		Stack<Integer> stack=new Stack<>();
+		Stack<Character> pot=new Stack<>();
+		for (int i = 0; i <N-1; i++) {
+			if (i%4==0){
+				stack.push(N-i);
+				int c=stack.pop();
+				stack.push(c*(N-i-1));
+			}else if (i%4==1){
+				int c=stack.pop();
+				stack.push(c/(N-i-1));
+			}else if (i%4==2){
+				pot.push('+');
+			}else {
+				stack.push(N-i);
+				pot.push('-');
+			}
+		}
+		if (stack.size()==pot.size())stack.push(1);
+		Stack<Integer> s1=new Stack<>();
+		Stack<Character> s2=new Stack<>();
+		while (stack.size()>0)s1.push(stack.pop());
+		while (pot.size()>0)s2.push(pot.pop());
+		while (s2.size()>0){
+			int t1=s1.pop();
+			int t2=s1.pop();
+			if (s2.peek()=='+'){
+				s2.pop();
+				s1.push(t1+t2);
+			}else if (s2.peek()=='-'){
+				s2.pop();
+				s1.push(t1-t2);
+			}
+		}
+		return s1.peek();
+	}
+	public static int minDominoRotations(int[] A, int[] B) {
+		int count=0;
+		int ans=0;
+		int c=A.length;
+		int flag1=0;
+		int flag2=0;
+		for (int i = 1; i <=6; i++) {
+			count=0;
+			flag1=0;
+			flag2=0;
+			for (int j = 0; j < A.length; j++) {
+				if (A[j]==i||B[j]==i){
+					count++;
+					if (A[j]==i && B[j]!=i){
+						flag1++;
+					}else if (A[j]!=i && B[j]==i){
+						flag2++;
+					}
+				}else break;
+			}
+			if (count==A.length){
+				ans=1;
+				int d=Math.min(flag1,flag2);
+				if (c>d)c=d;
+			}
+		}
+		return ans==0?-1:c;
+	}
+	public static TreeNode bstFromPreorder(int[] preorder) {
+		if (preorder.length==0)return null;
+		TreeNode root=new TreeNode(preorder[0]);
+		int flag1=0;
+		int flag2=0;
+		for (int i = 1; i <preorder.length ; i++) {
+			if (preorder[0]>preorder[i]){
+				flag1++;
+			}else flag2++;
+		}
+		int l[]=new int[flag1];
+		int r[]=new int[flag2];
+		flag1=0;
+		flag2=0;
+		for (int i = 1; i <preorder.length ; i++) {
+			if (preorder[0]>preorder[i]){
+				l[flag1++]=preorder[i];
+			}else r[flag2++]=preorder[i];
+		}
+		root.left=bstFromPreorder(l);
+		root.right=bstFromPreorder(r);
+		return root;
+	}
+	public static void dfs1008(int preorder[],TreeNode root,int n){
+		if (n>=preorder.length)return;
+		if (root.val>preorder[n]){
+			root.left=new TreeNode(preorder[n]);
+		}else root.right=new TreeNode(preorder[n]);
+		if (++n>=preorder.length)return;
+		if (root.val>preorder[n] && root.left==null){
+			root.left=new TreeNode(preorder[n]);
+		}else if (root.val<preorder[n] && root.right==null)root.right=new TreeNode(preorder[n]);
+		if (root.left!=null)
+			dfs1008(preorder,root.left,n+1);
+		if (root.right!=null)
+			dfs1008(preorder,root.right,n+1);
+	}
+	public boolean hasGroupsSizeX(int[] deck) {
+		int dict[]=new int[10050];
+		for (int i = 0; i < deck.length; i++) {
+			dict[deck[i]]++;
+		}
+		for (int i = 2; i < dict.length; i++) {
+			int flag=0;
+			for (int j = 0; j < dict.length; j++) {
+				if (dict[j]!=0 && dict[j]%i!=0){
+					flag=1;
+					break;
+				}
+			}
+			if (flag==0)return true;
+		}
+		return false;
+	}
+	public int partitionDisjoint(int[] A) {
+		int max=A[0];
+		for (int i = 0; i <A.length ; i++) {
+			int flag =0;
+			max=Math.max(max,A[i]);
+			for (int j =i+1; j <A.length;j++) {
+				if (max>A[j]){
+					flag=1;
+					break;
+				}
+			}
+			if (flag==0)return i+1;
+		}
+		return 1;
+	}
+	public static List<String> wordSubsets(String[] A, String[] B) {
+		List<String> ans=new ArrayList<>();
+		int d[][]=new int[B.length][26];
+		Map<String,int[]> dict=new HashMap<>();
+		for (int i = 0; i < A.length; i++) {
+			int temp[]=new int[26];
+			for (int j = 0; j < A[i].length(); j++) {
+				temp[A[i].charAt(j)-'a']++;
+			}
+			dict.put(A[i],temp);
+		}
+		int finD[]=new int[26];
+		for (int i = 0; i < B.length; i++) {
+			for (int j = 0; j < B[i].length(); j++) {
+				d[i][B[i].charAt(j)-'a']++;
+			}
+			for (int j = 0; j < 26; j++) {
+				if (d[i][j]>finD[j])finD[j]=d[i][j];
+			}
+		}
+		dict.forEach((k,v)->{
+			int flag=0;
+			for (int l = 0; l < 26; l++) {
+				if (finD[l]>v[l]){
+					flag=1;
+					break;
+				}
+			}
+			if (flag==0)ans.add(k);
+		});
+		return ans;
+	}
+	public static int numPrimeArrangements(int n) {
+		int perm=0;
+		int m=1000000007;
+		for (int i = 2; i <=n ; i++) {
+			int flag=0;
+			for (int j = 2; j <=Math.sqrt(i) ; j++) {
+				if (i%j==0){
+					flag=1;
+					break;
+				}
+			}
+			if (flag==0)perm++;
+		}
+		long ans=1;
+		for (int i = 1; i <=perm; i++) {
+			ans=(ans*i)%m;
+		}
+		for (int i = 1; i <=n-perm; i++) {
+			ans=(ans*i)%m;
+		}
+		return (int)ans;
+
+	}
+	public static String dayOfTheWeek(int day, int month, int year) {
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+		String[] weekDays = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+		Calendar cal = Calendar.getInstance();
+		Date date;
+		try {
+			date = f.parse(year+"-"+month+"-"+day);
+			cal.setTime(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+		if (w < 0)
+			w = 0;
+		return weekDays[w];
+	}
+	public static int maximumSum(int[] arr) {
+		int n=arr.length;
+		long sumA[]=new long[n];
+		sumA[0]=arr[0];
+		long sumS[]=new long[n];
+		sumS[0]=Integer.MIN_VALUE;
+		int ans=arr[0];
+		for (int i = 1; i < n; i++) {
+			sumA[i]=Math.max(sumA[i-1]+arr[i],arr[i]);
+			sumS[i]=Math.max(sumS[i-1]+arr[i],sumA[i-1]);
+			ans=Math.max((int)Math.max(sumA[i],sumS[i]),ans);
+		}
+		return ans;
+	}
+	// leetcode 1189
+	public int maxNumberOfBalloons(String text) {
+		int ans=0;
+		int dict[]=new int[5];
+		int d[]=new int[5];
+		d[0]=1;//a
+		d[1]=1;//b
+		d[2]=2;//l
+		d[3]=2;//o
+		d[4]=1;//n
+		for (int i = 0; i < text.length(); i++) {
+			if (text.charAt(i)=='a')dict[0]++;
+			else if (text.charAt(i)=='b')dict[1]++;
+			else if (text.charAt(i)=='l')dict[2]++;
+			else if (text.charAt(i)=='o')dict[3]++;
+			else if (text.charAt(i)=='n')dict[4]++;
+		}
+		ans=dict[0];
+		for (int i = 1; i < 5; i++) {
+			ans=Math.min(dict[i]/d[i],ans);
+		}
+		return ans;
+	}
+	// leetcode 1190
+	public static String reverseParentheses(String s) {
+		StringBuilder ans=new StringBuilder();
+		Deque<Character> stack=new ArrayDeque<>();
+		//List<Character> collect = stack.stream().collect(Collectors.toList());
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i)!='('){
+				ans.append(s.charAt(i));
+			}else {
+				stack.add(s.charAt(i));
+				while (!stack.isEmpty()|| s.charAt(i)!=')'){
+					i++;
+					if (i>=s.length())break;
+					if (s.charAt(i)==')'){
+						Deque<Character> temp=new ArrayDeque<>();
+						while (stack.peek()!='('){
+							temp.addFirst(stack.pop());
+						}
+						if (stack.peek()=='(')stack.pop();
+						while (!temp.isEmpty())stack.push(temp.removeLast());
+					}else {
+						stack.push(s.charAt(i));
+					}
+				}
+				if (!stack.isEmpty())while (!stack.isEmpty())ans.append(stack.removeLast());
+			}
+		}
+		return ans.toString();
+	}
+	// leetcode 1191
+	public static int kConcatenationMaxSum(int[] arr, int k) {
+		long ans = 0;
+		int n=arr.length;
+		long sum = 0;
+		for (int i = 0; i < n; i++) sum+=arr[i];
+		int lmx=0,rmx=0,temp=0;
+		for (int i = 0; i < n ; i++) {
+			temp+=arr[i];
+			lmx=Math.max(temp,lmx);
+		}
+		temp=0;
+		for (int i = n-1; i >=0 ; i--) {
+			temp+=arr[i];
+			rmx=Math.max(temp,rmx);
+		}
+		temp=0;
+		for (int i = 0; i <n ; i++) {
+			temp+=arr[i];
+			ans=Math.max(ans,temp);
+			if (temp<=0){
+				temp=0;
+			}
+		}
+		if (k==1)return (int)ans%1000000007; //当k=0时，直接利用遍历的结果返回最大值
+		ans=Math.max(ans,sum*k%1000000007);// 第一种情况，返回扩展后数组的∑
+		ans=Math.max(ans,(sum*(k-1))%1000000007+lmx); // 返回k-1段数组+左边最大值
+		ans=Math.max(ans,(sum*(k-1))%1000000007+rmx); // 返回k-1段数组+右边最大值
+		ans=Math.max(ans,(sum*(k-2))%1000000007+rmx+lmx); // 返回k-2段数组+右边最大值+左边最大值
+		ans=Math.max(ans,lmx+rmx); // 返回左边+右边最大值
+		return (int)ans%1000000007;
+	}
+	static final int tableSizeFor(int cap) {
+		// ^异或^^相同为0 不同为1
+		int n = cap - 1;
+		n |= n >>> 1;
+		n |= n >>> 2;
+		n |= n >>> 4;
+		n |= n >>> 8;
+		n |= n >>> 16;
+		return (n < 0) ? 1 : (n >= 288) ? 288 : n + 1;
+	}
+	public static void testHashMap(){
+		Map<String,String> map=new HashMap<>();
+		map.put("s1","s2");
+		System.out.println(map.get("s1"));
+		System.out.println(map.get("s2"));
+		System.out.println(map.size());
+		char s = '\u0639';
+		System.out.println(s);
+	}
+	// leetcode 1080
+	public TreeNode sufficientSubset(TreeNode root, int limit) {
+		return dfs1080(root,limit,0);
+	}
+	public TreeNode dfs1080(TreeNode root,int limit,int now){
+		if (root==null)return root;
+		if (root.right==null && root.left==null){
+			if ((now+root.val)<limit)return null;
+			return root;
+		}
+		root.left=dfs1080(root.left,limit,root.val+now);
+		root.right=dfs1080(root.right,limit,root.val+now);
+		if (root.right==null && root.left==null)return null;
+		return root;
+	}
+	// leetcode 1034
+	/*boolean visd1034[][];
+	public int[][] colorBorder(int[][] grid, int r0, int c0, int color) {
+		visd1034=new boolean[grid.length][grid[0].length];
+		return dfs1034(grid,r0,c0,color);
+	}
+	public int[][] dfs1034(int[][] grid,int r0,int c0,int color){
+		if (r0>=grid.length || r0<0 || c0>=grid[0].length || c0<0 )return
+
+	}*/
+	// leetcode 494 dp
+	public static int findTargetSumWays(int[] nums, int S) {
+		int ans=0;
+		int sum=0;
+		for (int i = 0; i < nums.length; i++) {
+			sum+=nums[i];
+		}
+		int dp[][]=new int[nums.length+1][sum*2+1];
+		dp[0][sum]=1;
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = nums[i]; j <= 2*sum -nums[i]; j++) {
+				dp[i+1][j+nums[i]]+=dp[i][j];
+				dp[i+1][j-nums[i]]+=dp[i][j];
+			}
+		}
+		return dp[nums.length][S+sum];
+	}
+	// leetcode 494 dfs
+
+
+	public List<List<Integer>> minimumAbsDifference(int[] arr) {
+		List<List<Integer>> ans =new ArrayList<>();
+		Arrays.sort(arr);
+		int flag= Integer.MAX_VALUE;
+		for (int i = 0; i < arr.length - 1; i++) {
+			flag=Math.min(Math.abs(arr[i]-arr[i+1]),flag);
+		}
+		for (int i = 0; i < arr.length - 1; i++) {
+			if (Math.abs(arr[i]-arr[i+1])==flag){
+				List<Integer> temp=new ArrayList<>();
+				temp.add(arr[i]);
+				temp.add(arr[i+1]);
+				ans.add(temp);
+			}
+		}
+		return ans;
+	}
+	public static int nthUglyNumber3(int n, int a, int b, int c) {
+		long l=1;
+		long r=Integer.MAX_VALUE;
+		while (l<r){
+			long mid=(l+r)>>>1;
+			long count=mid/a;
+			count+=mid/b;
+			count+=mid/c;
+			count-=mid/((long) a*b/gcd(a,b));
+			count-=mid/((long)a*c/gcd(a,c));
+			count-=mid/((long)b*c/gcd(b,c));
+			long temp=((long)a*b/gcd(a,b));
+			//if (temp==0)temp=1;
+			count+=mid/((long)temp*c/gcd(c,temp));
+			if (count<n){
+				l=mid+1;
+			}else r=mid;
+		}
+		return (int)r;
+	}
+	public static long gcd(long a,long b){
+		if (b==0)return a;
+		return gcd(b,a%b);
+	}
+	/*List<Integer>nums=new ArrayList<>();
+		int begin=1;
+		int indexA=0,indexB=0,indexC=0;
+		nums.add(1);
+		while (begin<=n){
+			nums.add(Math.min(nums.get(indexA)*a,Math.min(nums.get(indexB)*b,nums.get(indexC)*c)));
+			if (nums.get(begin)==nums.get(indexA)*a)indexA++;
+			if (nums.get(begin)==nums.get(indexB)*b)indexB++;
+			if (nums.get(begin)==nums.get(indexC)*c)indexC++;
+			begin++;
+		}
+		return nums.get(n);*/
+
+	/*public String smallestStringWithSwaps(String s, List<List<Integer>> pairs) {
+		StringBuilder sb=new StringBuilder(s);
+
+		for (int i = 0; i < pairs.size();i++) {
+			pairs.get(i).get(0);
+			pairs.get(i).get(1);
+		}
+	}*/
+	public  static void main(String[] args) {
+		String s="atach";
+		String a1[]={"cat","bt","hat","tree"};
+		int a[]={1,1,1,1,1};
+		char bo[][]={{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+		char b1[][]={{'a','b'}};
+		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
+		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
+		String caca="abcda";
+		int adf[][] = {{3,3,0},{1,2,0},{0,3,1},{0,3,2},{0,4,1}};
+		int tt[] = {-5,-2,0,0,3,9,-2,-5,4};
+		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
+		System.out.println(nthUglyNumber3(7,7,7,7));
+
+
+		/*TreeNode root=new TreeNode(5);
+		root.left=new TreeNode(-6);
+		root.right=new TreeNode(-6);*/
+		//System.out.println(findTargetSumWays(a,3));
+	}
+
 }

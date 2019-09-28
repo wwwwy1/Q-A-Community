@@ -95,6 +95,13 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.0</version>
 		</dependency>
+		<!--xstream支持-->
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.10</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
