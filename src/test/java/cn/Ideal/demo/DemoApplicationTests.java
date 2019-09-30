@@ -2345,6 +2345,75 @@ public class DemoApplicationTests {
 			pairs.get(i).get(1);
 		}
 	}*/
+	public boolean uniqueOccurrences(int[] arr) {
+		int dict[]=new int[2050];
+		for (int i = 0; i < arr.length; i++) {
+			dict[arr[i]+1000]++;
+		}
+		Arrays.sort(dict);
+		for (int i = dict.length-1; i >0 ; i--) {
+			if (dict[i]==0)continue;
+			if (dict[i]==dict[i-1]){
+				return false;
+			}
+		}
+		return true;
+	}
+	public static int equalSubstring(String s, String t, int maxCost) {
+		int dict[]=new int[s.length()];
+		for (int i = 0; i < s.length(); i++) {
+			dict[i]=Math.abs(s.charAt(i)-t.charAt(i));
+		}
+		//Arrays.sort(dict);
+		int max=0,min=0;
+		int temp=0;
+		int ans=0;
+		int start=0,end=0;
+		while (min<=max&&max<s.length()){
+			temp+=dict[max++];
+			if (temp>maxCost)
+				temp-=dict[min++];
+			ans=Math.max(max-min,ans);
+		}
+		return ans;
+	}
+	public static String removeDuplicates(String s, int k) {
+		//Stack<Character> stack=new Stack<>();
+		StringBuilder sb=new StringBuilder(s);
+		int flag=1;
+		while(flag==1){
+			flag=0;
+			for (int i = 0; i < s.length(); i++) {
+				int start=i,end=i;
+				while (i+1<s.length() &&s.charAt(i)==s.charAt(i+1)){
+					end++;
+					i++;
+				}
+				if ((end-start+1)%k==0){
+					flag=1;
+					StringBuilder sb1=new StringBuilder();
+					for (int j = start; j <=end; j++) {
+						sb1.append(" ");
+					}
+					sb.replace(start,end+1,sb1.toString());
+				}else if (end-start+1>k){
+					int i1 = (end - start + 1) / k;
+					end=start+i1*k-1;
+					flag=1;
+					StringBuilder sb1=new StringBuilder();
+					for (int j = start; j <=end; j++) {
+						sb1.append(" ");
+					}
+					sb.replace(start,end+1,sb1.toString());
+				}
+			}
+			s=sb.toString();
+			String replace = s.replace(" ", "");
+			sb=new StringBuilder(replace);
+			s=replace;
+		}
+		return s;
+	}
 	public  static void main(String[] args) {
 		String s="atach";
 		String a1[]={"cat","bt","hat","tree"};
@@ -2357,7 +2426,7 @@ public class DemoApplicationTests {
 		int adf[][] = {{3,3,0},{1,2,0},{0,3,1},{0,3,2},{0,4,1}};
 		int tt[] = {-5,-2,0,0,3,9,-2,-5,4};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
-		System.out.println(nthUglyNumber3(7,7,7,7));
+		System.out.println(removeDuplicates("deeedbbcccbdaa",3));
 
 
 		/*TreeNode root=new TreeNode(5);
