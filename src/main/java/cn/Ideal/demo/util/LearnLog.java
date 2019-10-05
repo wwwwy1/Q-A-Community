@@ -6,7 +6,9 @@ public enum  LearnLog {
 	 * 日期，内容
 	 * */
 	LearnConcurrent1("2019/10/1","学习<java并发编程的艺术> 第一章第二章第四章1/2"),
-	LearnConcurrent2("2019/10/2","学习<java并发编程的艺术> 第四章到第五章5.3");
+	LearnConcurrent2("2019/10/2","学习<java并发编程的艺术> 第四章到第五章5.3"),
+	LearnConcurrent3("2019/10/3","学习<java并发编程的艺术> 第四章到第五章5.4");
+
 	// 时间
 	private final String learnTime;
 	// 内容
