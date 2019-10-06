@@ -2414,20 +2414,95 @@ public class DemoApplicationTests {
 		}
 		return s;
 	}
+	public static int longestSubsequence(int[] arr, int difference) {
+		Map<Integer,Integer> dp = new HashMap<>();
+		int ans=0;
+		for (int i = 0; i < arr.length; i++) {
+			int cur=Math.max(dp.containsKey(arr[i])?dp.get(arr[i]):0,(dp.containsKey(arr[i]-difference)?dp.get(arr[i]-difference):0)+1);
+			dp.put(arr[i],cur);
+			ans=Math.max(ans,cur);
+		}
+		return ans;
+	}
+	boolean vis5215[][];
+	int code=0;
+	public int getMaximumGold(int[][] grid) {
+		vis5215 = new boolean[grid.length][grid[0].length];
+		int max=0;
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				if (grid[i][j]==0)continue;
+				dfs5215(grid,i,j,0);
+			}
+		}
+		return code;
+	}
+	public void dfs5215(int[][] grid,int r,int l,int cur){
+		if (r>=grid.length || l>=grid[0].length || r<0 ||l<0){
+			code=Math.max(code,cur);
+			return;
+		}
+		if (grid[r][l]==0){
+			code=Math.max(code,cur);
+			return;
+		}
+		if (vis5215[r][l]){
+			code=Math.max(code,cur);
+			return;
+		}
+		cur+=grid[r][l];
+		code=Math.max(code,cur);
+		vis5215[r][l]=true;
+		dfs5215(grid,r-1,l,cur);
+		dfs5215(grid,r,l-1,cur);
+		dfs5215(grid,r+1,l,cur);
+		dfs5215(grid,r,l+1,cur);
+		vis5215[r][l]=false;
+	}
+	public int minCostToMoveChips(int[] chips) {
+		int cnt[]=new int[2];
+		for (int chip : chips) {
+			cnt[chip&1]++;
+		}
+		return Math.min(cnt[0],cnt[1]);
+	}
+	String dict5216[]={"ae", "ea", "ei", "ia", "ie", "io", "iu", "oi", "ou","ua"};
+	public int countVowelPermutation(int n) {
+		if (n==1)return 5;
+		// a3 e2 i2 o1 u2
+		long dp[] = new long[5];
+		Arrays.fill(dp,1);
+		long temp[] = new long[5];
+		for (int i = 1; i < n; i++) {
+			temp[0]=(dp[1]+dp[2]+dp[4])%(1000000000+7);
+			temp[1]=(dp[0]+dp[2])%(1000000000+7);
+			temp[2]=(dp[1]+dp[3])%(1000000000+7);
+			temp[3]=(dp[2])%(1000000000+7);
+			temp[4]=(dp[2]+dp[3])%(1000000000+7);
+			for (int j = 0; j < 5; j++) {
+				dp[j]=temp[j];
+			}
+		}
+		long ans=0;
+		for (int i = 0; i < 5; i++) {
+			ans=(ans+temp[i])%(1000000000+7);
+		}
+
+		return (int)ans;
+	}
 	public  static void main(String[] args) {
 		String s="atach";
 		String a1[]={"cat","bt","hat","tree"};
-		int a[]={1,1,1,1,1};
-		char bo[][]={{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+		int a[]={1,2,3,4};
+		int bo[][]={{0,6,0},{5,8,7},{0,9,0}};
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
 		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
 		String caca="abcda";
 		int adf[][] = {{3,3,0},{1,2,0},{0,3,1},{0,3,2},{0,4,1}};
-		int tt[] = {-5,-2,0,0,3,9,-2,-5,4};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
-		System.out.println(removeDuplicates("deeedbbcccbdaa",3));
-
+		DemoApplicationTests d=new DemoApplicationTests();
+		System.out.println(d.longestSubsequence(a,1));
 
 		/*TreeNode root=new TreeNode(5);
 		root.left=new TreeNode(-6);
