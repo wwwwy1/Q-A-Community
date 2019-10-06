@@ -2490,6 +2490,22 @@ public class DemoApplicationTests {
 
 		return (int)ans;
 	}
+	public int maxArea(int[] height) {
+		int L=0,R=height.length-1;
+		int ans=0;
+		/* 暴力法O(n^2)
+		for (int i = 0; i < height.length; i++) {
+			for (int j = i; j < height.length; j++) {
+				ans=Math.max(Math.min(height[i],height[j])*(j-i),ans);
+			}
+		}*/
+		// 双指针
+		while (L!=R){
+			ans=Math.max(ans,Math.min(height[L],height[R])*(R-L));
+			if (height[L]>height[R])R++; else L++;
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 		String s="atach";
 		String a1[]={"cat","bt","hat","tree"};
