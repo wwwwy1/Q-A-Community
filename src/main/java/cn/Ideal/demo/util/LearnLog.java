@@ -12,7 +12,9 @@ public enum  LearnLog {
 	LearnConcurrent5("2019/10/6","LeetCode157周赛"),
 	LearnConcurrent6("2019/10/6","学习<java并发编程的艺术>第六章"),
 	LearnConcurrent7("2019/10/7","学习<java并发编程的艺术>第七章"),
-	LearnConcurrent8("2019/10/7","学习<java并发编程的艺术>第八章、第九章");
+	LearnConcurrent8("2019/10/8","学习<java并发编程的艺术>第八章、第九章"),
+	LearnConcurrent9("2019/10/9","学习<java并发编程的艺术>第十章、第十一章(完结)");
+
 
 
 

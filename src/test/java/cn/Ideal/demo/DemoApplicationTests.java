@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.junit4.SpringRunner;
+import sun.nio.cs.ext.MacHebrew;
 import sun.reflect.generics.tree.Tree;
 
 import javax.annotation.Resource;
@@ -2506,10 +2507,80 @@ public class DemoApplicationTests {
 		}
 		return ans;
 	}
+	public static List<List<Integer>> threeSum(int[] nums) {
+		Set<List<Integer>> ans =new HashSet<>();
+		HashMap<Integer,Integer> dict = new HashMap<>();
+		for (int num : nums) {
+			if (!dict.containsKey(num)){
+				dict.put(num,1);
+			}else {
+				dict.put(num,dict.get(num)+1);
+			}
+		}
+		// 326ms
+		Set<Integer> set = dict.keySet();
+		List<Integer> collect = set.stream().collect(Collectors.toList());
+		for (int i = 0; i < collect.size(); i++) {
+			int get = collect.get(i);
+			if (dict.get(get)>1){
+				int ditt = -(get*2);
+				if (!dict.containsKey(ditt)){
+					int k = dict.get(ditt);
+					if (ditt == get ){
+						if (k>=3){
+							List<Integer> tt = Arrays.asList(ditt,ditt,ditt);
+							Collections.sort(tt);
+							ans.add(tt);
+						}
+					}else {
+						List<Integer> tt = Arrays.asList(ditt,get,get);
+						Collections.sort(tt);
+						ans.add(tt);
+					}
+				}
+			}
+			for (int j = i+1; j < collect.size(); j++) {
+				int temp = -(collect.get(i)+collect.get(j));
+				if (!dict.containsKey(temp)) continue;
+				int k = dict.get(temp);
+				if (collect.get(i)==temp)k--;
+				if (collect.get(j)==temp)k--;
+				if (k>0){
+					List<Integer> tt = Arrays.asList(temp,collect.get(i),collect.get(j));
+					Collections.sort(tt);
+					ans.add(tt);
+				}
+			}
+		}
+		return ans.stream().collect(Collectors.toList());
+	}
+	public static int longestSubstring(String s, int k) {
+		int max=0;
+		int dict[]=new int[26];
+		for (char a: s.toCharArray() ) {
+			dict[a-'a']++;
+		}
+		boolean full = true;
+		for (int i = 0; i < 26; i++) {
+			if (dict[i]>0 &&dict[i]<k) full=false;
+		}
+		if (full)return s.length();
+		int end=0,start=0;
+		while (end<s.length()){
+			if (dict[s.charAt(end)-'a']<k){
+				max=Math.max(max,longestSubstring(s.substring(start,end),k));
+				start=end+1;
+			}
+			end++;
+		}
+		max=Math.max(max,longestSubstring(s.substring(start),k));
+		return max;
+	}
+
 	public  static void main(String[] args) {
 		String s="atach";
 		String a1[]={"cat","bt","hat","tree"};
-		int a[]={1,2,3,4};
+		int a[]={-3,1,-5,2,-4,2,-1,1,-5,-1,4};
 		int bo[][]={{0,6,0},{5,8,7},{0,9,0}};
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
@@ -2518,7 +2589,7 @@ public class DemoApplicationTests {
 		int adf[][] = {{3,3,0},{1,2,0},{0,3,1},{0,3,2},{0,4,1}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.longestSubsequence(a,1));
+		System.out.println(longestSubstring("bbaaacbd",3));
 
 		/*TreeNode root=new TreeNode(5);
 		root.left=new TreeNode(-6);
