@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 @Component
 public class TestXmlClass {
-	@Value("${springUrl}")
 	private String occ01;
 	private String occ02;
 	private String occ18;
