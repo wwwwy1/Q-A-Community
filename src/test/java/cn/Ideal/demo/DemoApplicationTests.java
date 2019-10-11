@@ -2576,20 +2576,91 @@ public class DemoApplicationTests {
 		max=Math.max(max,longestSubstring(s.substring(start),k));
 		return max;
 	}
-
+	public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+		int n = (nums1.length+nums2.length)%2;
+		List<Integer> attr = new ArrayList<>();
+		if (n==1){
+			attr.add((nums1.length+nums2.length)/2);
+		}else {
+			attr.add((nums1.length+nums2.length)/2);
+			attr.add((nums1.length+nums2.length)/2+1);
+		}
+		int L=0,R=0,count=0;
+		List<Integer> ans =new ArrayList<>();
+		while (L<nums1.length || R<nums2.length){
+			count++;
+			if (L<nums1.length && R<nums2.length){
+				if (nums1[L]<nums2[R]){
+					if (attr.contains(count)){
+						ans.add(nums1[L]);
+					}
+					L++;
+				}else {
+					if (attr.contains(count)){
+						ans.add(nums2[R]);
+					}
+					R++;
+				}
+			}else {
+				if (L>=nums1.length){
+					if (attr.contains(count)){
+						ans.add(nums2[R]);
+					}
+					R++;
+				}else {
+					if (attr.contains(count)) {
+						ans.add(nums1[L]);
+					}
+					L++;
+				}
+			}
+		}
+		System.out.println(ans);
+		if (n==1)return ans.get(0);
+		else return (ans.get(0)+ans.get(1))*1.0/2;
+	}
+	public boolean canJump(int[] nums) {
+		if (nums.length<=1)return true;
+		if (nums[0]==0)return false;
+		int check[] = new int[nums.length];
+		check[nums.length-1]=1;
+		for (int i = nums.length-1; i >=0 ; i--) {
+			for (int j = nums[i]; j >=1 ; j--) {
+				if (i+j<nums.length && check[i+j]==1){
+					check[i]=1;
+					break;
+				}
+			}
+		}
+		return check[0]==1?true:false;
+		/*
+		* if (nums.length<=1)return true;
+		if (nums[0]==0)return false;
+		int end = nums.length-1;
+        for (int i=nums.length-1; i>=0 ; i--){
+            if(i+nums[i]>=end){
+                end=i;
+            }
+        }
+        return end==0;
+		*
+		*
+		* */
+	}
 	public  static void main(String[] args) {
 		String s="atach";
 		String a1[]={"cat","bt","hat","tree"};
-		int a[]={-3,1,-5,2,-4,2,-1,1,-5,-1,4};
-		int bo[][]={{0,6,0},{5,8,7},{0,9,0}};
+		int a[]={3,2,1,0,4};
+		int bo[]={3,4};
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
 		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
+
 		String caca="abcda";
 		int adf[][] = {{3,3,0},{1,2,0},{0,3,1},{0,3,2},{0,4,1}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(longestSubstring("bbaaacbd",3));
+		System.out.println(d.canJump(a));
 
 		/*TreeNode root=new TreeNode(5);
 		root.left=new TreeNode(-6);
