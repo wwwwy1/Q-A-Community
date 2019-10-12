@@ -2647,20 +2647,91 @@ public class DemoApplicationTests {
 		*
 		* */
 	}
+	public static void setZeroes(int[][] matrix) {
+		Map<Integer,List<Integer>> dict = new HashMap<>();
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[0].length; j++) {
+				if (matrix[i][j]==0){
+					if (dict.containsKey(i)){
+						dict.get(i).add(j);
+					}else {
+						List<Integer> list =new ArrayList<>();
+						list.add(j);
+						dict.put(i,list);
+					}
+				}
+			}
+		}
+		dict.forEach((k,v)->{
+			Arrays.fill(matrix[k],0);
+			v.forEach(pageNum -> {
+				for (int i = 0; i < matrix.length; i++) {
+					matrix[i][pageNum]=0;
+				}
+			});
+		});
+	}
+	public boolean isPalindrome(String s) {
+		StringBuilder s1= new StringBuilder();
+		StringBuilder s2= new StringBuilder();
+		String s3 = s.toUpperCase();
+		int n =s3.length();
+		for (int i = 0; i < n; i++) {
+			if (s3.charAt(i)>='A' && s3.charAt(i)<='Z' || s3.charAt(i)>='0' && s3.charAt(i)<='9'){
+				s1.append(s3.charAt(i));
+			}
+			if (s3.charAt(n-1-i)>='A' && s3.charAt(n-1-i)<='Z' || s3.charAt(n-1-i)>='0' && s3.charAt(n-1-i)<='9'){
+				s2.append(s3.charAt(n-1-i));
+			}
+		}
+		return s1.toString().equals(s2.toString())?true:false;
+	}
+	public int canCompleteCircuit(int[] gas, int[] cost) {
+		int n = gas.length;
+		int dit[] = new int[n];
+		for (int i = 0; i < n; i++) {
+			dit[i]=gas[i]-cost[i];
+		}
+		int ans = 0;
+		int jh = 0;
+		int flag = 0;
+		boolean can = true;
+		while (flag<n){
+			jh=0;
+			can = true;
+			ans=flag;
+			while (ans<n && can ==true){
+				jh+=dit[ans++];
+          				if (jh<0) {
+					can=false;
+				}
+			}
+			ans =0;
+			while (ans<flag && can ==true){
+				jh+=dit[ans++];
+				if (jh<0) {
+					can=false;
+				}
+			}
+			if (can)return flag;
+			flag++;
+		}
+		return -1;
+	}
 	public  static void main(String[] args) {
-		String s="atach";
+		String s="A man, a plan, a canal: Panama";
 		String a1[]={"cat","bt","hat","tree"};
-		int a[]={3,2,1,0,4};
-		int bo[]={3,4};
+		int a[]={2,3,4};
+		int bo[]={3,4,3};
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
 		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
-
 		String caca="abcda";
-		int adf[][] = {{3,3,0},{1,2,0},{0,3,1},{0,3,2},{0,4,1}};
+		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.canJump(a));
+
+		System.out.println(d.canCompleteCircuit(a,bo));
 
 		/*TreeNode root=new TreeNode(5);
 		root.left=new TreeNode(-6);
