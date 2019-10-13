@@ -2718,11 +2718,169 @@ public class DemoApplicationTests {
 		}
 		return -1;
 	}
+	/*
+	* leetcode week 158
+	* */
+	public int balancedStringSplit(String s) {
+		int a = 0;
+		int ans=0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i)=='L')a--;
+			else if (s.charAt(i)=='R')a++;
+			if (a==0)ans++;
+		}
+		return ans;
+	}
+	public List<List<Integer>> queensAttacktheKing(int[][] queens, int[] king) {
+		List<List<Integer>> ans = new ArrayList<>();
+		List<Integer> dict = new ArrayList<>();
+		for (int i = 0; i < queens.length; i++) {
+			int t=0;
+			for (int j = 0; j < queens[i].length; j++) {
+				t=t*10+queens[i][j];
+			}
+			dict.add(t);
+		}
+		int L=king[0],R=king[1];
+		// 右边
+		int tL=L,tR=R+1;
+		while (tL>=0 && tL<8 && tR>=0 && tR<8){
+			if (dict.contains(tL*10+tR)){
+				List<Integer> temp = new ArrayList<>();
+				temp.add(tL);
+				temp.add(tR);
+				ans.add(temp);
+				break;
+			}
+			tR++;
+		}
+		// 左边
+		tL=L;tR=R-1;
+		while (tL>=0 && tL<8 && tR>=0 && tR<8){
+			if (dict.contains(tL*10+tR)){
+				List<Integer> temp = new ArrayList<>();
+				temp.add(tL);
+				temp.add(tR);
+				ans.add(temp);
+				break;
+			}
+			tR--;
+		}
+		// 上边
+		tL=L-1;tR=R;
+		while (tL>=0 && tL<8 && tR>=0 && tR<8){
+			if (dict.contains(tL*10+tR)){
+				List<Integer> temp = new ArrayList<>();
+				temp.add(tL);
+				temp.add(tR);
+				ans.add(temp);
+				break;
+			}
+			tL--;
+		}
+		// 下边
+		tL=L+1;tR=R;
+		while (tL>=0 && tL<8 && tR>=0 && tR<8){
+			if (dict.contains(tL*10+tR)){
+				List<Integer> temp = new ArrayList<>();
+				temp.add(tL);
+				temp.add(tR);
+				ans.add(temp);
+				break;
+			}
+			tL++;
+		}
+		// 左上
+		tL=L-1;tR=R-1;
+		while (tL>=0 && tL<8 && tR>=0 && tR<8){
+			if (dict.contains(tL*10+tR)){
+				List<Integer> temp = new ArrayList<>();
+				temp.add(tL);
+				temp.add(tR);
+				ans.add(temp);
+				break;
+			}
+			tL--;
+			tR--;
+		}
+		// 右上
+		tL=L-1;tR=R+1;
+		while (tL>=0 && tL<8 && tR>=0 && tR<8){
+			if (dict.contains(tL*10+tR)){
+				List<Integer> temp = new ArrayList<>();
+				temp.add(tL);
+				temp.add(tR);
+				ans.add(temp);
+				break;
+			}
+			tL--;
+			tR++;
+		}
+		// 左下
+		tL=L+1;tR=R-1;
+		while (tL>=0 && tL<8 && tR>=0 && tR<8){
+			if (dict.contains(tL*10+tR)){
+				List<Integer> temp = new ArrayList<>();
+				temp.add(tL);
+				temp.add(tR);
+				ans.add(temp);
+				break;
+			}
+			tL++;
+			tR--;
+		}
+		// 右下
+		tL=L+1;tR=R+1;
+		while (tL>=0 && tL<8 && tR>=0 && tR<8){
+			if (dict.contains(tL*10+tR)){
+				List<Integer> temp = new ArrayList<>();
+				temp.add(tL);
+				temp.add(tR);
+				ans.add(temp);
+				break;
+			}
+			tL++;
+			tR++;
+		}
+		return ans;
+	}
+	public int dieSimulator(int n, int[] rollMax) {
+		long mod = 1000000000+7;
+		long dp[][][] = new long[n+1][6][20];
+		for (int i = 0; i < 6; i++) {
+			dp[0][i][1]=1;
+		}
+		for (int i = 1; i < n; i++) {
+			for (int j = 0; j < 6; j++) {
+				for (int k = 0; k < 6; k++) {
+					if (k==j){
+						for (int l = 1; l < rollMax[k] ; l++) {
+							dp[i][j][l+1]+=dp[i-1][k][l];
+							dp[i][j][l+1]%=mod;
+						}
+					}else {
+						for (int l = 1; l <= rollMax[k] ; l++) {
+							dp[i][j][1]+=dp[i-1][k][l];
+							dp[i][j][1]%=mod;
+						}
+					}
+				}
+			}
+		}
+		int res=0;
+		for (int i = 0; i < 6; i++) {
+			for (int j = 1; j <= rollMax[i] ; j++) {
+				res+=dp[n-1][i][j];
+				res%=mod;
+			}
+		}
+		return res;
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"cat","bt","hat","tree"};
 		int a[]={2,3,4};
-		int bo[]={3,4,3};
+		int bo[]={1,1,1,2,2,3};
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
 		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
@@ -2731,7 +2889,7 @@ public class DemoApplicationTests {
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
 
-		System.out.println(d.canCompleteCircuit(a,bo));
+		System.out.println(d.dieSimulator(3,bo));
 
 		/*TreeNode root=new TreeNode(5);
 		root.left=new TreeNode(-6);
