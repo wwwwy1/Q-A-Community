@@ -17,7 +17,9 @@ public enum  LearnLog {
 	LearnConcurrent10("2019/10/12","日常leetcode"),
 	LearnConcurrent11("2019/10/12","学习<图解HTTP>第一章到第四章"),
 	LearnConcurrent12("2019/10/13","leetcode周赛158"),
-	LearnConcurrent13("2019/10/13","mysql学习");
+	LearnConcurrent13("2019/10/13","mysql学习"),
+	LearnConcurrent14("2019/10/14","投递简历复习知识点");
+
 
 
 
@@ -26,7 +28,6 @@ public enum  LearnLog {
 	private final String learnTime;
 	// 内容
 	private final String context;
-
 
 
 	private LearnLog(String learnTime,String context) {
