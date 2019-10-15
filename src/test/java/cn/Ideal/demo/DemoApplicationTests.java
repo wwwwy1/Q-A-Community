@@ -2880,7 +2880,7 @@ public class DemoApplicationTests {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"cat","bt","hat","tree"};
 		int a[]={2,3,4};
-		int bo[]={1,1,1,2,2,3};
+		Integer bo[]={1,1,1,2,2,3};
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
 		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
@@ -2888,7 +2888,8 @@ public class DemoApplicationTests {
 		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.dieSimulator(3,bo));
+		//System.out.println(d.dieSimulator(3,bo));
+
 
 		/*TreeNode root=new TreeNode(5);
 		root.left=new TreeNode(-6);
