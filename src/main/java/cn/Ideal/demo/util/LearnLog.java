@@ -19,7 +19,8 @@ public enum  LearnLog {
 	LearnConcurrent12("2019/10/13","leetcode周赛158"),
 	LearnConcurrent13("2019/10/13","mysql学习"),
 	LearnConcurrent14("2019/10/14","投递简历复习知识点"),
-	LearnConcurrent15("2019/10/15","投递简历复习spring");
+	LearnConcurrent15("2019/10/15","投递简历复习spring"),
+	LearnConcurrent16("2019/10/16-2019/10/21","面试+宣讲会/复习ing");
 
 
 

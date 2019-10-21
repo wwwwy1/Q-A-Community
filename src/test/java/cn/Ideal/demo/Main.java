@@ -1,66 +1,241 @@
 package cn.Ideal.demo;
 
-
-
-import org.junit.experimental.max.MaxHistory;
-
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
+	static final String DICT = "ABAC";
+	static class ReviewEncourage {
+		public int n;
+		public ReviewEncourage(int n) { // 构造函数,n为中奖用户数
+			this.n=n;
+		}
+		public static class PrizePool {
+			StringBuilder list = new StringBuilder();
+			public void send(String input) {
+				System.out.print(list.toString());
+			}
+		}
 
-	public static void main(String[] args) {
+		public void bonus(PrizePool prizePool) { // 仅能打印A，表示发放积分
+			prizePool.list.append('A');
+		}
+
+		public void coupon(PrizePool prizePool) { // 仅能打印B，表示发放优惠券
+			prizePool.list.append('B');
+		}
+
+		public void contribution(PrizePool prizePool) { // 仅能打印C，表示发放贡献值
+			prizePool.list.append('C');
+		}
+
+	}
+	public static void main(String[] args) throws InterruptedException {
 		Scanner sc=new Scanner(System.in);
-		int n=sc.nextInt();
+		ExecutorService executorService = Executors.newFixedThreadPool(3);
+		int n = sc.nextInt();
+		ReviewEncourage encourage = new ReviewEncourage(n);
+		ReviewEncourage.PrizePool sendObj =new ReviewEncourage.PrizePool();
+		Thread A = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				encourage.bonus(sendObj);
+			}
+		});
+		Thread B = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				encourage.coupon(sendObj);
+			}
+		});
+		Thread C = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				encourage.contribution(sendObj);
+			}
+		});
 		for (int i = 0; i < n; i++) {
-			int m=sc.nextInt();
-			List<Integer> list=new ArrayList<>();
-			for (int j = 0; j < m; j++) {
-				list.add(sc.nextInt());
-			}
-
-			Collections.sort(list);
-			int ans1=0;
-			int ans2=0;
-			int flag1=0;
-			int flag2=0;
-			if (m%2==0){
-				for (int j = list.size()-1; j >=0 ; j--) {
-					if (flag1<m/2 && ans1<=ans2){
-						ans1+=list.get(j);
-						flag1++;
-					}else {
-						if (flag2<m/2){
-							ans2+=list.get(j);
-							flag2++;
-						}else {
-							ans1+=list.get(j);
-							flag1++;
-						}
-					}
-				}
+			if (DICT.charAt(i%4)=='A'){
+				executorService.execute(A);
+				A.join();
+			}else if (DICT.charAt(i%4)=='B'){
+				executorService.execute(B);
+				B.join();
 			}else {
-				for (int j = list.size()-1; j >=0 ; j--) {
-					if (flag1<(m/2+1) && ans1<=ans2){
-						ans1+=list.get(j);
-						flag1++;
-					}else {
-						if (flag2<(m/2+1)){
-							ans2+=list.get(j);
-							flag2++;
-						}else {
-							ans1+=list.get(j);
-							flag1++;
-						}
-					}
-				}
+				executorService.execute(C);
+				C.join();
 			}
-			if (ans1<ans2)System.out.println(ans1+" "+ans2);
-			else System.out.println(ans2+" "+ans1);
+		}
+		sendObj.send(null);
+		executorService.shutdown();
+	}
+}
+
+
+
+
+/*
+* 美团点评 2020校招 后台方向在线考试
+编程题|20.0分1/2
+美团骑手包裹区间分组
+时间限制：C/C++语言 1000MS；其他语言 3000MS
+内存限制：C/C++语言 8192KB；其他语言 532480KB
+题目描述：
+2110年美团外卖火星第3000号配送站点有26名骑手，分别以大写字母A-Z命名，因此可以称呼这些骑手为黄家骑士特工A，黄家骑士特工B…黄家骑士特工Z，某美团黑珍珠餐厅的外卖流水线上会顺序产出一组包裹，美团配送调度引擎已经将包裹分配到骑手，并在包裹上粘贴好骑手名称，如RETTEBTAE代表一组流水线包裹共9个，同时分配给了名字为A B E R T的5名骑手。请在不打乱流水线产出顺序的情况下，把这组包裹划分为尽可能多的片段，同一个骑手只会出现在其中的一个片段，返回一个表示每个包裹片段的长度的列表。
+
+输入
+输入数据只有一行，为一个字符串(不包含引号)，长度不超过1000，只包含大写字母'A'到'Z'，字符之间无空格。
+
+输出
+输出每个分割成片段的包裹组的长度，每个长度之间通过空格隔开
+
+
+样例输入
+MPMPCPMCMDEFEGDEHINHKLIN
+样例输出
+9 7 8
+
+提示
+划分结果为 MPMPCPMCM, DEFEGDE, HINHKLIN。
+每个骑手最多出现在一个片段中。
+像 MPMPCPMCMDEFEGDE, HINHKLIN 的划分是错误的，因为划分的片段数较少。
+*
+* public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		String str = sc.next();
+		int dict[] = new int[26];
+		for (int i = 0; i < str.length(); i++) {
+			dict[str.charAt(i)-'A']=i;
+		}
+		int flag=0;
+		List<Integer> ans =new ArrayList<>();
+		for (int i = 0; i < str.length(); i++) {
+			flag=Math.max(flag,dict[str.charAt(i)-'A']);
+			if (flag==i)ans.add(flag);
+		}
+		flag = ans.get(0);
+		System.out.print(flag+1);
+		for (int i = 1; i < ans.size();i++) {
+			System.out.print(" "+(ans.get(i)-flag));
+			flag=ans.get(i);
 		}
 	}
+*
+*
+*
+*
+*
+*评价运营活动激励发放
+时间限制：C/C++语言 1000MS；其他语言 3000MS
+内存限制：C/C++语言 65536KB；其他语言 589824KB
+题目描述：
+为了激励更多的用户发表点评，大众点评在近期组织了一次促评排行榜的活动。在活动期间, 写评价数排名靠前的用户将获得对应的奖励，奖励分为积分、优惠券、贡献值三类。为了让活动更有趣味性，不同排名的用户将获得不同类型的激励。同时，为了保证激励发放效率，这三类激励会并行发放。
+
+我们把问题简单描述一下，假定有一个激励发放的类，如下所示：
+
+class ReviewEncourage {
+
+  public ReviewEncourage(int n) { ... }      // 构造函数,n为中奖用户数
+
+
+    PrizePool类仅有一个send方法，实现如下：
+
+    public class PrizePool {
+
+        public void send(String input) {
+
+            System.out.print(input);
+
+        }
+
+    }
+
+
+
+	public void bonus(PrizePool prizePool) { ... }  // 仅能打印A，表示发放积分
+
+	public void coupon(PrizePool prizePool) { ... }  // 仅能打印B，表示发放优惠券
+
+	public void contribution(PrizePool prizePool) { ... }  // 仅能打印C，表示发放贡献值
 
 }
+
+同一个ReviewEncourage实例将会传递给三个不同的线程用于激励发放：
+
+		1.积分发放线程将会调用bonus方法发放积分
+
+		2.优惠券发放线程将会调用coupon方法发放优惠券
+
+		3.贡献值发放线程将会调用contribution方法发放贡献值
+
+		要求依次对不同排位的用户发放不同类型的奖励，其中排位为奇数的用户发放积分，排位为偶数的用户交替发放优惠券和贡献值。
+
+		例如一共5个中奖用户，要求对第一个用户发放积分，第二个用户发放优惠券，第三个用户发放积分，第四个用户发放贡献值，第五个用户发放积分，即输出ABACA
+
+		要求补全以上代码，输出指定字符串序列
+
+		输入
+		获奖用户数n，n大于0，小于等于100
+
+		输出
+		由A、B、C组成的字符串，长度为n，奇数位为A，偶数位交替为B和C
+
+		提示: 三个激励发放线程异步执行，不保证执行顺序
+
+
+		样例输入
+		1
+		样例输出
+		A
+
+		提示
+		输入样例2
+		4
+		输出样例2
+		ABAC
+
+		输入样例3
+		5
+		输出样例3
+		ABACA
+		输入样例4
+		10
+		输出样例4
+		ABACABACAB
+* */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*Scanner sc=new Scanner(System.in);
