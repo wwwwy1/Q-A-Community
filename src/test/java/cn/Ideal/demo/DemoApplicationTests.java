@@ -2876,6 +2876,40 @@ public class DemoApplicationTests {
 		}
 		return res;
 	}
+	public int ugly2(int n){
+		int index2=0;
+		int index3=0;
+		int index5=0;
+		int dp[] = new int[n+1];
+		dp[0]=1;
+		int i=1;
+		// 也就是说每个丑数都能以他们的底为基准，乘上2,3,5
+		while (i<n){
+			dp[i]=Math.min(Math.min(dp[index2]*2,dp[index3]*3),dp[index5]*5);
+			if (dp[i]==dp[index2]*2)index2++;
+			if (dp[i]==dp[index3]*3)index3++;
+			if (dp[i]==dp[index5]*5)index5++;
+			i++;
+		}
+		return dp[n-1];
+	}
+	public int SuperUgly(int n,int[] primes){
+		int index[] = new int[primes.length];
+		int dp[] = new int[n+1];
+		dp[0]=1;
+		int i=1;
+		while (i<n){
+			int min = dp[index[0]]*primes[0];
+			for (int j = 0; j < primes.length; j++) {
+				dp[i]=Math.min(dp[index[j]]*primes[i],min);
+			}
+			for (int j = 0; j < primes.length; j++) {
+				if (dp[i]==dp[j]*primes[j])index[j]++;
+			}
+			i++;
+		}
+		return dp[n-1];
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"cat","bt","hat","tree"};
@@ -2888,7 +2922,7 @@ public class DemoApplicationTests {
 		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		//System.out.println(d.dieSimulator(3,bo));
+		System.out.println(d.ugly2(10));
 
 
 		/*TreeNode root=new TreeNode(5);
