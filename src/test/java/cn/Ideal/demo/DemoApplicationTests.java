@@ -2910,10 +2910,72 @@ public class DemoApplicationTests {
 		}
 		return dp[n-1];
 	}
+	/*
+	格雷码+位运算！！！没思路
+	Set<Integer> set5239 = new HashSet<>();
+	List<Integer> res5239 = new ArrayList<>();
+	public List<Integer> circularPermutation(int n, int start) {
+		set5239.add(start);
+		res5239.add(start);
+		dfs5239(n,start);
+		return res5239;
+	}
+	boolean dfs5239(int n,int cur){
+		if (res5239.size()==(1<<n)){
+			int temp = res5239.get(0)^cur;
+			return (temp^(temp-1))==0;
+		}
+		for (int i = 0; i < n; i++) {
+			if (set5239.contains(cur^i<<1)){
+				set5239.add(cur>>i&1);
+				res5239.add(cur>>i&1);
+
+			}
+		}
+
+
+		return false;
+	}*/
+
+
+
+	int[] dict5240 =new int[26];
+	int ans5240=0;
+	public int maxLength(List<String> arr) {
+		dfs5240(arr,0,0);
+		return ans5240;
+	}
+	public void dfs5240(List<String> arr,int i,int cost){
+		ans5240=Math.max(ans5240,cost);
+		if (i>=arr.size()){
+			return;
+		}
+		// not
+		dfs5240(arr,i+1,cost);
+		for (int j = 0; j <arr.get(i).length(); j++) {
+			dict5240[arr.get(i).charAt(j)-'a']++;
+		}
+		boolean flag=true;
+		for (int j = 0; j < 26; j++) {
+			if (dict5240[j]>1){
+				flag=false;break;
+			}
+		}
+		if (flag) {
+			cost += arr.get(i).length();
+			// Choice
+			dfs5240(arr, i + 1, cost);
+		}
+		for (int j = 0; j <arr.get(i).length(); j++) {
+			dict5240[arr.get(i).charAt(j)-'a']--;
+		}
+	}
+
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
-		String a1[]={"cat","bt","hat","tree"};
+		String a1[]={"cusy","s","imelfbpuoawkrq","roxckjm","vkaxcbespwotzq","jrnhyslwbifteqox","fnisjhckr","ubvpwtzxh","sgxkqdlw","hzsngeotfxbcm","zhrextvndpcmbql","bdfxez","rzgnbf","hbw","cohurlnjqpefzayig","xoqgyjsm"};
 		int a[]={2,3,4};
+		List<String> a22 =new ArrayList<>(Arrays.asList(a1));
 		Integer bo[]={1,1,1,2,2,3};
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
@@ -2922,7 +2984,7 @@ public class DemoApplicationTests {
 		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.ugly2(10));
+		System.out.println(d.maxLength(a22));
 
 
 		/*TreeNode root=new TreeNode(5);

@@ -39,6 +39,9 @@ public enum  LearnLog {
 			"http与https区别，访问https的整个过程" +
 			"线程与进程的区别" +
 			"线程之间是如何交互的，如何传递资源" +
+			"(说到了等待通知模型)了解NIO的其他模型吗(好像说了Reactor)" +
+			"了解协程吗，协程与线程的区别" +
+			"Linux如何查看程序所占用的端口命令(想不起来)" +
 			"java中的hashmap" +
 			"springmvc的访问过程" +
 			"当传参错误时，发生错误在哪一层" +
@@ -53,7 +56,9 @@ public enum  LearnLog {
 			"reset的两种模式（head与sort）" +
 			"算法题：丑数（leetcode264题原题！！！）" +
 			"面试结果：一个小时左右，凉凉"),
-	LearnConcurrent19("2019/10/26","赶电商作业，以及回顾凉经，复习丑数！！！");
+	LearnConcurrent19("2019/10/26","赶电商作业，以及回顾凉经，复习丑数！！！"),
+	LearnConcurrent20("2019/10/27","leetcode周赛(大失败！只做出一题！),格雷码+最后一题还是没有思路");
+
 
 
 
