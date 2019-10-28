@@ -2970,10 +2970,75 @@ public class DemoApplicationTests {
 			dict5240[arr.get(i).charAt(j)-'a']--;
 		}
 	}
-
+	List<String> res22 = new ArrayList<>();
+	public List<String> generateParenthesis(int n) {
+		dfs22(0,n*2,new StringBuilder());
+		return res22;
+	}
+	public void dfs22(int leftCnt,int n,StringBuilder sb){
+		if (n==sb.length()){
+			res22.add(sb.toString());
+			return;
+		}
+		if (leftCnt>0){
+			sb.append(')');
+			dfs22(leftCnt-1,n,sb);
+			sb.deleteCharAt(sb.length()-1);
+		}
+		if (n-sb.length()>leftCnt){
+			sb.append('(');
+			dfs22(leftCnt+1,n,sb);
+			sb.deleteCharAt(sb.length()-1);
+		}
+	}
+	public String longestPalindrome123(String s) {
+		int n = s.length();
+		boolean dp[][] = new boolean[n+2][n+2];
+		dp[0][0]=true;
+		int left=-1,right=-1;
+		int max=1;//最好遍历左下半边（先遍历高边界而不是低边界，这样才能够正常遍历）
+		for (int i=0;i<n;i++){
+			dp[i][i]=true;
+			for (int j=i-1;j>=0;j--){
+				dp[i][j]=(i-j==1||dp[i-1][j+1])&&s.charAt(i)==s.charAt(j);
+				if (dp[i][j]==true && i-j>max){
+					left=j;right=i;max=i-j;
+				}
+			}
+		}
+		return s.substring(left,right+1);
+	}
+	int res127=Integer.MAX_VALUE;
+	Set<String> set127 = new HashSet<>();
+	public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+		dfs127(beginWord,endWord,1,wordList);
+		return res127==Integer.MAX_VALUE?0:res127;
+	}
+	public void dfs127(String cur,String attr,int now,List<String> wordList){
+		if (cur.equals(attr)){
+			res127=Math.min(res127,now);
+			return;
+		}
+		if(set127.size()==wordList.size())return;
+		for (String temp: wordList) {
+			int flag=0;
+			if (!set127.contains(temp)){
+				for (int i = 0; i < temp.length(); i++) {
+					if (temp.charAt(i)!=cur.charAt(i)){
+						flag++;
+					}
+				}
+				if (flag==1){
+					set127.add(temp);
+					dfs127(temp,attr,now+1,wordList);
+					set127.remove(temp);
+				}
+			}
+		}
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
-		String a1[]={"cusy","s","imelfbpuoawkrq","roxckjm","vkaxcbespwotzq","jrnhyslwbifteqox","fnisjhckr","ubvpwtzxh","sgxkqdlw","hzsngeotfxbcm","zhrextvndpcmbql","bdfxez","rzgnbf","hbw","cohurlnjqpefzayig","xoqgyjsm"};
+		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
 		int a[]={2,3,4};
 		List<String> a22 =new ArrayList<>(Arrays.asList(a1));
 		Integer bo[]={1,1,1,2,2,3};
@@ -2984,7 +3049,7 @@ public class DemoApplicationTests {
 		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.maxLength(a22));
+		System.out.println(d.ladderLength("qa","sq",Arrays.asList(a1)));
 
 
 		/*TreeNode root=new TreeNode(5);

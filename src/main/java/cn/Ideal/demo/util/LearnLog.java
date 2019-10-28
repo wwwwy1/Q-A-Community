@@ -57,8 +57,8 @@ public enum  LearnLog {
 			"算法题：丑数（leetcode264题原题！！！）" +
 			"面试结果：一个小时左右，凉凉"),
 	LearnConcurrent19("2019/10/26","赶电商作业，以及回顾凉经，复习丑数！！！"),
-	LearnConcurrent20("2019/10/27","leetcode周赛(大失败！只做出一题！),格雷码+最后一题还是没有思路");
-
+	LearnConcurrent20("2019/10/27","leetcode周赛(大失败！只做出一题！),格雷码+最后一题还是没有思路"),
+	LearnConcurrent21("2019/10/28","日常leetcode刷题，127单词接龙未完成（DFS失败，BFS冲！），学习《深入理解java虚拟机》");
 
 
 
