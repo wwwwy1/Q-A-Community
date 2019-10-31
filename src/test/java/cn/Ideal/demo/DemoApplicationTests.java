@@ -3036,6 +3036,42 @@ public class DemoApplicationTests {
 			}
 		}
 	}
+	public void sortColors(int[] nums) {
+		int[] count=new int[3];
+		for (int i = 0; i < nums.length; i++) {
+			count[nums[i]]++;
+		}
+		int flag=0;
+		for (int i = 0; i <3 ; i++) {
+			for (int j = 0; j < nums[i]; j++) {
+				nums[flag++]=i;
+			}
+		}
+	}
+	List<List<String>> res131 = new ArrayList<>();
+	public List<List<String>> partition(String s) {
+		dfs131(s,0,new ArrayList<>());
+		return res131;
+	}
+	public boolean canRev(String s){
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i)!=s.charAt(s.length()-1-i))return false;
+		}
+		return true;
+	}
+	public void dfs131(String s,int cur,List<String> temp){
+		if (cur>=s.length()){
+			res131.add(new ArrayList<>(temp));
+			return;
+		}
+		for (int i = cur; i < s.length(); i++) {
+			if (canRev(s.substring(cur,i+1))){
+				temp.add(s.substring(cur,i+1));
+				dfs131(s,i+1,temp);
+				temp.remove(temp.size()-1);
+			}
+		}
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
@@ -3049,7 +3085,7 @@ public class DemoApplicationTests {
 		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.ladderLength("qa","sq",Arrays.asList(a1)));
+		System.out.println(d.partition("aab"));
 
 
 		/*TreeNode root=new TreeNode(5);
