@@ -3072,6 +3072,52 @@ public class DemoApplicationTests {
 			}
 		}
 	}
+	// LeetCode格雷编码
+	public List<Integer> grayCode(int n) {
+		//异或 ^相同为0,不同为1
+		List<Integer> ret = new ArrayList<>();
+		for(int i = 0; i < 1<<n; ++i)
+			ret.add(i ^ i>>1);
+		return ret;
+	}
+	// LeetCode循环码排列
+	public List<Integer> circularPermutation(int n, int start) {
+		List<Integer> temp = new ArrayList<>();
+		// 生成所有的格雷码
+		for(int i = 0; i < 1<<n; ++i)
+			temp.add(i ^ i>>1);
+		List<Integer> res = new ArrayList<>();
+		int flag = -1;
+		// 找到起始位置
+		for (int i = 0; i < temp.size() && flag==-1 ; i++)
+			if (start==temp.get(i))flag=i;
+		// 插入答案
+		for (int i = flag; i < temp.size(); i++)
+			res.add(temp.get(i));
+		for (int i = 0; i <flag; i++)
+			res.add(temp.get(i));
+		return res;
+	}
+	// leetcode 43字符串相乘
+	public String multiply(String num1, String num2) {
+		StringBuilder re = new StringBuilder();
+		int strMin = Math.min(num1.length(),num2.length());
+		int flag=0;
+		for (int i = strMin-1; i >=0 ; i--) {
+			re.append(((num1.charAt(i)-'0')*(num2.charAt(i)-'0'))%10+flag);
+			flag=(((num1.charAt(i)-'0')*(num2.charAt(i)-'0'))+flag)/10;
+		}
+		return re.toString();
+	}
+	public boolean containsDuplicate(int[] nums) {
+		Set<Integer> set = new HashSet<>(nums.length);
+		for (int i = 0; i < nums.length; i++) {
+			if (set.contains(nums[i]))return true;
+			set.add(nums[i]);
+		}
+		return false;
+	}
+	/*<pre><code class="language-代码语言 line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
@@ -3085,7 +3131,7 @@ public class DemoApplicationTests {
 		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.partition("aab"));
+		System.out.println(d.multiply("123","456"));
 
 
 		/*TreeNode root=new TreeNode(5);

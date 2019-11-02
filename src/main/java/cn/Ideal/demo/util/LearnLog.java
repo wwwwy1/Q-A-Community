@@ -61,7 +61,9 @@ public enum  LearnLog {
 	LearnConcurrent19("2019/10/26","赶电商作业，以及回顾凉经，复习丑数！！！"),
 	LearnConcurrent20("2019/10/27","leetcode周赛(大失败！只做出一题！),格雷码+最后一题还是没有思路"),
 	LearnConcurrent21("2019/10/28","日常leetcode刷题，127单词接龙未完成（DFS失败，BFS冲！），学习《深入理解java虚拟机》"),
-	LearnConcurrent22("2019/10/31","日常leetcode刷题，75颜色分类（荷兰旗帜，三指针），131分割回文串（dfs+回溯）");
+	LearnConcurrent22("2019/10/31","日常leetcode刷题，75颜色分类（荷兰旗帜，三指针），131分割回文串（dfs+回溯）"),
+	LearnConcurrent23("2019/11/02","利用WordPress搭建自己的博客网站，日常leetcode刷题，主要是格雷码(上周周赛，没做出来的循环码排列get√)");
+
 
 
 
@@ -84,4 +86,7 @@ public enum  LearnLog {
 	public String getContext() {
 		return context;
 	}
+
+
+
 }
