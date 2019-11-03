@@ -2,6 +2,7 @@ package cn.Ideal.demo;
 
 import cn.Ideal.demo.util.MxGraphModel;
 import cn.Ideal.demo.util.TestXmlClass;
+import com.sun.jmx.remote.internal.ArrayQueue;
 import com.sun.xml.internal.bind.v2.runtime.reflect.ListTransducedAccessorImpl;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.crypto.hash.Hash;
@@ -2309,10 +2310,10 @@ public class DemoApplicationTests {
 			long count=mid/a;
 			count+=mid/b;
 			count+=mid/c;
-			count-=mid/((long) a*b/gcd(a,b));
-			count-=mid/((long)a*c/gcd(a,c));
-			count-=mid/((long)b*c/gcd(b,c));
-			long temp=((long)a*b/gcd(a,b));
+			count-=mid/((long) a*b/gcd((long)a,b));
+			count-=mid/((long)a*c/gcd((long)a,c));
+			count-=mid/((long)b*c/gcd((long)b,c));
+			long temp=((long)a*b/gcd((long)a,b));
 			//if (temp==0)temp=1;
 			count+=mid/((long)temp*c/gcd(c,temp));
 			if (count<n){
@@ -3117,13 +3118,109 @@ public class DemoApplicationTests {
 		}
 		return false;
 	}
-	/*<pre><code class="language-代码语言 line-numbers">代码内容</code></pre>*/
+	public int minimumSwap(String s1, String s2) {
+		int n = s1.length();
+		int sum1=0,sum2=0;
+		for (int i = 0; i < n; i++) {
+			if (s1.charAt(i)=='x')sum1++;
+			else sum2++;
+			if (s2.charAt(i)=='x')sum1++;
+			else sum2++;
+		}
+		if (sum1%2!=0||sum2%2!=0)return -1;
+		sum1=0;
+		sum2=0;
+		for (int i = 0; i <n ; i++) {
+			if (s1.charAt(i)!=s2.charAt(i)){
+				if (s1.charAt(i)=='x')sum1++;
+				else sum2++;
+			}
+		}
+		return (sum1)%2==1?(sum1+sum2)/2+1:(sum1+sum2)/2;
+	}
+	public String minRemoveToMakeValid(String s) {
+		Deque<Character> deque = new ArrayDeque<>();
+		StringBuilder dict = new StringBuilder();
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i)=='('||s.charAt(i)==')')dict.append(s.charAt(i));
+		}
+		int flag=0;
+		List<Character> list = new ArrayList<>();
+		for (int i = 0; i < dict.length(); i++) {
+			if (dict.charAt(i)=='('){
+				flag++;
+			}else flag--;
+			if (flag==0){
+				deque.add(dict.charAt(i));
+				while (!deque.isEmpty()) list.add(deque.pop());
+			}else if (flag<0)flag=0;
+			else deque.add(dict.charAt(i));
+		}
+
+		while (!deque.isEmpty())
+			list.add(deque.pop());
+		List<Character> list1 = new ArrayList<>();
+		flag=0;
+		for (int i = list.size()-1; i >=0; i--) {
+			if (list.get(i)==')'){
+				flag++;
+			}else flag--;
+			if (flag==0){
+				deque.add(list.get(i));
+				while (!deque.isEmpty()) list1.add(0,deque.pop());
+			}else if (flag<0)flag=0;
+			else deque.add(list.get(i));
+		}
+		StringBuilder res = new StringBuilder();
+		flag=0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i)=='(' || s.charAt(i)==')'){
+				if (flag<list1.size() && s.charAt(i)==list1.get(flag)){
+					flag++;
+					res.append(s.charAt(i));
+				}
+			}else res.append(s.charAt(i));
+		}
+		return res.toString();
+	}
+	public int numberOfSubarrays(int[] nums, int k) {
+		List<Integer> dict = new ArrayList<>();
+		for (int i = 0; i < nums.length; i++)  if (nums[i]%2!=0)dict.add(i);
+		if (dict.size()<k)return 0;
+		if (dict.size()==k) return (dict.get(0)+1)*(nums.length-1-dict.get(k-1)+1);
+		int res = 0;
+		int L=0,R=k-1;
+		while(R<dict.size()){
+			if (R==dict.size()-1){
+				res = res +(dict.get(L)-dict.get(L-1))*(nums.length-dict.get(R));
+			}else if (L==0){
+				res = res +(dict.get(L)-0+1)*(dict.get(R+1)-dict.get(R));
+			}else {
+				res = res +(dict.get(L)-dict.get(L-1))*(dict.get(R+1)-dict.get(R));
+			}
+			L++;R++;
+		}
+		return res;
+	}
+	public boolean isGoodArray(int[] nums) {
+		int n = nums.length;
+		int dd=nums[0];
+		for (int i = 1; i < n; i++) {
+			dd = gcd(nums[i],dd);
+			if (dd==1)return true;
+		}
+		return dd==1;
+	}
+	public int gcd(int a,int b){
+		if (b==0)return a;
+		return gcd(b,a%b);
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
 		int a[]={2,3,4};
 		List<String> a22 =new ArrayList<>(Arrays.asList(a1));
-		Integer bo[]={1,1,1,2,2,3};
+		int bo[]={2,1,2,1,2,2,1,2,1,2};
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
 		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
@@ -3131,7 +3228,8 @@ public class DemoApplicationTests {
 		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.multiply("123","456"));
+		System.out.println(d.numberOfSubarrays(bo,2));
+		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 
 		/*TreeNode root=new TreeNode(5);
