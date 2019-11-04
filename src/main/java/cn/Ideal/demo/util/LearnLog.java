@@ -63,7 +63,8 @@ public enum  LearnLog {
 	LearnConcurrent21("2019/10/28","日常leetcode刷题，127单词接龙未完成（DFS失败，BFS冲！），学习《深入理解java虚拟机》"),
 	LearnConcurrent22("2019/10/31","日常leetcode刷题，75颜色分类（荷兰旗帜，三指针），131分割回文串（dfs+回溯）"),
 	LearnConcurrent23("2019/11/02","利用WordPress搭建自己的博客网站，日常leetcode刷题，主要是格雷码(上周周赛，没做出来的循环码排列get√)"),
-	LearnConcurrent24("2019/11/03","leetcode161周赛，题目好像有点简单，但是比赛中只做出一题，还有就是最后的裴蜀定理是什么鬼（更新LeetCode161周赛4道题）");
+	LearnConcurrent24("2019/11/03","leetcode161周赛，题目好像有点简单，但是比赛中只做出一题，还有就是最后的裴蜀定理是什么鬼（更新LeetCode161周赛4道题）"),
+	LearnConcurrent25("2019/11/04","日常leetcode以及pat一题(反转链表)");
 
 
 

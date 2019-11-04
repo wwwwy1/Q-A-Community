@@ -1,74 +1,97 @@
 package cn.Ideal.demo;
 
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Main {
-	static final String DICT = "ABAC";
-	static class ReviewEncourage {
-		public int n;
-		public ReviewEncourage(int n) { // 构造函数,n为中奖用户数
-			this.n=n;
-		}
-		public static class PrizePool {
-			StringBuilder list = new StringBuilder();
-			public void send(String input) {
-				System.out.print(list.toString());
-			}
-		}
-
-		public void bonus(PrizePool prizePool) { // 仅能打印A，表示发放积分
-			prizePool.list.append('A');
-		}
-
-		public void coupon(PrizePool prizePool) { // 仅能打印B，表示发放优惠券
-			prizePool.list.append('B');
-		}
-
-		public void contribution(PrizePool prizePool) { // 仅能打印C，表示发放贡献值
-			prizePool.list.append('C');
-		}
-
-	}
 	public static void main(String[] args) throws InterruptedException {
 		Scanner sc=new Scanner(System.in);
-		ExecutorService executorService = Executors.newFixedThreadPool(3);
+		int start = sc.nextInt();
 		int n = sc.nextInt();
-		ReviewEncourage encourage = new ReviewEncourage(n);
-		ReviewEncourage.PrizePool sendObj =new ReviewEncourage.PrizePool();
-		Thread A = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				encourage.bonus(sendObj);
-			}
-		});
-		Thread B = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				encourage.coupon(sendObj);
-			}
-		});
-		Thread C = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				encourage.contribution(sendObj);
-			}
-		});
+		int end = sc.nextInt();
+		int head[] = new int[n];
+		int value[] = new int[n];
+		int tail[] = new int[n];
 		for (int i = 0; i < n; i++) {
-			if (DICT.charAt(i%4)=='A'){
-				executorService.execute(A);
-				A.join();
-			}else if (DICT.charAt(i%4)=='B'){
-				executorService.execute(B);
-				B.join();
-			}else {
-				executorService.execute(C);
-				C.join();
+			head[i]=sc.nextInt();
+			value[i]=sc.nextInt();
+			tail[i]=sc.nextInt();
+		}
+		int flag=0;
+		if (tail[0]==-1){
+			int t = head[0];
+			head[0] = head[1];
+			head[1] = t;
+			t = value[0];
+			value[0] = value[1];
+			value[1] = t;
+			t = tail[0];
+			tail[0] = tail[1];
+			tail[1] = t;
+			start=tail[1];
+		}
+		while(start != -1){
+			for (int i = 0; i < n; i++) {
+				if (head[i]==start){
+					int t = head[i];
+					head[i] = head[flag];
+					head[flag] = t;
+					t = value[i];
+					value[i] = value[flag];
+					value[flag] = t;
+					t = tail[i];
+					tail[i] = tail[flag];
+					tail[flag] = t;
+					start=tail[flag];
+					flag++;
+				}
 			}
 		}
-		sendObj.send(null);
-		executorService.shutdown();
+		int num = flag/end;
+		int fl=end*(num+1);
+		for (int j = num-1; j >=0; j--) {
+			fl-=end;
+			for (int i = fl-1; i >= j*end; i--) {
+				if (i!=j*end){
+					if (j==0 && i == fl-1)start=head[i];
+					tail[i]=head[i-1];
+				}
+				else {
+					if (fl<n){
+						if (num==1 && n%end!=0)
+							tail[i]=head[end];
+						else tail[i]=head[fl+end-1];
+					}
+
+					else tail[i]=-1;
+				}
+			}
+		}
+		flag=0;
+		while(start != -1){
+			for (int i = 0; i < n; i++) {
+				if (head[i]==start){
+					int t = head[i];
+					head[i] = head[flag];
+					head[flag] = t;
+					t = value[i];
+					value[i] = value[flag];
+					value[flag] = t;
+					t = tail[i];
+					tail[i] = tail[flag];
+					tail[flag] = t;
+					start=tail[flag];
+					flag++;
+				}
+			}
+		}
+		for (int i = 0; i < n; i++) {
+			if (tail[i]==-1){
+				System.out.printf("%05d %d %d",head[i],value[i],tail[i]);
+			}else
+				System.out.printf("%05d %d %05d",head[i],value[i],tail[i]);
+			System.out.println();
+		}
+
 	}
 }
 
