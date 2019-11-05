@@ -3215,6 +3215,57 @@ public class DemoApplicationTests {
 		if (b==0)return a;
 		return gcd(b,a%b);
 	}
+
+
+	List<List<Integer>> res39 = new ArrayList<>();
+	public List<List<Integer>> combinationSum(int[] candidates, int target) {
+		dfs39(new ArrayList<>(),0,target,candidates,0);
+		return res39;
+	}
+	public void dfs39(List<Integer> container,int curr,int target,int [] dict, int index){
+		if (curr==target){
+			res39.add(new ArrayList<>(container));
+			return;
+		}
+		for (int j = index; j < dict.length; j++) {//不能够直接从0开始遍历,应该从当前的index位置
+			if (curr+dict[j]<=target){
+				container.add(dict[j]);
+				dfs39(container,curr+dict[j],target,dict,j);
+				container.remove(container.size()-1);
+			}
+		}
+	}
+	public int[][] merge(int[][] intervals) {
+		int n = intervals.length;
+		if(n <= 1)return intervals;
+		int flag = 0;
+		Map<Integer,Integer> map = new HashMap<>();
+		Arrays.sort(intervals, new Comparator<int[]>() {
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				return o1[0]-o2[0];
+			}
+		});
+		for (int i = 0; i < n-1; i++) {
+			flag = 0;
+			if (intervals[i][1]>=intervals[i+1][0]){
+				intervals[i+1][0] = Math.min(intervals[i][0],intervals[i+1][0]);
+				intervals[i+1][1] = Math.max(intervals[i][1],intervals[i+1][1]);
+				flag=1;
+			}
+			if (flag==0){
+				map.put(intervals[i][0],intervals[i][1]);
+			}
+		}
+		flag=0;
+		map.put(intervals[n-1][0],intervals[n-1][1]);
+		int res[][] = new int[map.size()][2];
+		for (Integer a :map.keySet()) {
+			res[flag][0]=a;
+			res[flag++][1]=map.get(a);
+		}
+		return res;
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
