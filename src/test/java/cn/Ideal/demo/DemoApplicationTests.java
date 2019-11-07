@@ -3266,6 +3266,22 @@ public class DemoApplicationTests {
 		}
 		return res;
 	}
+	List<List<Integer>> res77 = new ArrayList<>();
+	public List<List<Integer>> combine(int n, int k) {
+		dfs77(n,k,0,new ArrayList<>());
+		return res77;
+	}
+	public void dfs77(int n,int k,int index,List<Integer> temp){
+		if (temp.size()==k){
+			res77.add(new ArrayList<>(temp));
+			return;
+		}
+		for (int i = index+1; i <= n; i++) {
+			temp.add(i);
+			dfs77(n,k,i,temp);
+			temp.remove(temp.size()-1);
+		}
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};

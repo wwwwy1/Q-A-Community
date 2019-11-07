@@ -66,9 +66,8 @@ public enum  LearnLog {
 	LearnConcurrent24("2019/11/03","leetcode161周赛，题目好像有点简单，但是比赛中只做出一题，还有就是最后的裴蜀定理是什么鬼（更新LeetCode161周赛4道题）"),
 	LearnConcurrent25("2019/11/04","日常leetcode以及pat一题(反转链表)"),
 	LearnConcurrent26("2019/11/05","日常leetcode(39.组合综合-dfs、56.合并区间)"),
-	LearnConcurrent27("2019/11/06","对公司接口熟悉,开发流程");
-
-
+	LearnConcurrent27("2019/11/06","对公司接口熟悉,开发流程"),
+	LearnConcurrent28("2019/11/07","日常leetcode(77.组合-dfs)");
 
 
 
