@@ -3282,12 +3282,93 @@ public class DemoApplicationTests {
 			temp.remove(temp.size()-1);
 		}
 	}
+	public int oddCells(int n, int m, int[][] indices) {
+		int dict[][] = new int[n][m];
+		for (int i = 0; i < indices.length; i++) {
+			for (int j = 0; j < dict[0].length; j++) {
+				dict[indices[i][0]][j]++;
+			}
+			for (int j = 0; j < dict.length; j++)
+				dict[j][indices[i][1]]++;
+		}
+		int res=0;
+		for (int i = 0; i < dict.length; i++) {
+			for (int j = 0; j < dict[i].length; j++) {
+				if (dict[i][j]%2!=0)res++;
+			}
+		}
+		return res;
+	}
+	public List<List<Integer>> reconstructMatrix(int upper, int lower, int[] colsum) {
+		List<List<Integer>> res = new ArrayList<>();
+		List<Integer> list1 = new ArrayList<>();
+		List<Integer> list2 = new ArrayList<>();
+		for (int i = 0; i < colsum.length; i++) {
+			if (colsum[i]==2){
+				if (upper<1)return res;
+				if (lower<1)return res;
+				list1.add(1);
+				list2.add(1);
+				upper--;
+				lower--;
+			}else if (colsum[i]==1){
+				if (upper>lower){
+					list1.add(1);
+					upper--;
+					list2.add(0);
+				}else {
+					lower--;
+					list2.add(1);
+					list1.add(0);
+				}
+			}else {
+				list1.add(0);
+				list2.add(0);
+			}
+		}
+		if (upper!=0 || lower!=0)return res;
+		res.add(list1);
+		res.add(list2);
+		return res;
+	}
+
+	boolean visit5257[][];
+	int[] dx5257 = {0,1,0,-1};
+	int[] dy5257 = {1,0,-1,0};
+	public int closedIsland(int[][] grid) {
+		int res=0;
+		visit5257 = new boolean[grid.length][grid[0].length];
+		int n = grid.length,m = grid[0].length;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				if (!visit5257[i][j] && grid[i][j]==0){
+					boolean ref = dfs5257(i, j, n, m, grid);
+					if (ref)res++;
+				}
+			}
+		}
+		return res;
+	}
+	public boolean dfs5257(int nowL,int nowR,int n,int m,int[][]grid){
+		visit5257[nowL][nowR]=true;
+		boolean flag = true;
+		for (int i = 0; i < 4; i++){
+			int dx=nowL+dx5257[i],dy=nowR+dy5257[i];
+			if (dx < 0 || dy<0 ||dx >= n || dy >= m){
+				flag=false;
+			}else if (!visit5257[dx][dy] && grid[dx][dy]==0){
+				boolean ref = dfs5257(dx, dy, n, m, grid);
+				flag = ref && flag;
+			}
+		}
+		return flag;
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
 		int a[]={2,3,4};
 		List<String> a22 =new ArrayList<>(Arrays.asList(a1));
-		int bo[]={2,1,2,1,2,2,1,2,1,2};
+		int bo[]={2,1,2,0,1,0,1,2,0,1};
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
 		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
@@ -3295,7 +3376,7 @@ public class DemoApplicationTests {
 		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.numberOfSubarrays(bo,2));
+		System.out.println(d.reconstructMatrix(5,5,bo));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 

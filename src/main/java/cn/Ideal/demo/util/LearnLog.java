@@ -67,7 +67,9 @@ public enum  LearnLog {
 	LearnConcurrent25("2019/11/04","日常leetcode以及pat一题(反转链表)"),
 	LearnConcurrent26("2019/11/05","日常leetcode(39.组合综合-dfs、56.合并区间)"),
 	LearnConcurrent27("2019/11/06","对公司接口熟悉,开发流程"),
-	LearnConcurrent28("2019/11/07","日常leetcode(77.组合-dfs)");
+	LearnConcurrent28("2019/11/07","日常leetcode(77.组合-dfs)"),
+	LearnConcurrent29("2019/11/07","leetcode162周赛(第一题（签到题）第二题（遍历贪心)第三题（dfs-连同点的最大数量）");
+
 
 
 
