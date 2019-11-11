@@ -3363,6 +3363,40 @@ public class DemoApplicationTests {
 		}
 		return flag;
 	}
+//	public List<String> removeComments(String[] source) {
+//		List<String> res = new ArrayList<>();
+//		for (int i = 0; i < source.length; i++) {
+//			if (source[i].indexOf("/*")!=-1){
+//				for (int j = 0; j < source[i].length()-1; j++) {
+//					if (source[i].charAt(j)=='/' && source[i].charAt(j+1)=='*'){
+//						StringBuilder sb = new StringBuilder();
+//						for (int k = 0; k < j; k++) {
+//							sb.append(source[k]);
+//						}
+//						if (sb.length()>=1)
+//							res.add(sb.toString());
+//					}
+//				}
+//				for (; i < source.length ; i++) {
+//					if (source[i].indexOf("*/")!=-1){
+//						break;
+//					}
+//				}
+//			}else if (source[i].indexOf("//")!=-1){
+//				for (int j = 0; j < source[i].length()-1; j++) {
+//					if (source[i].charAt(j)=='/' && source[i].charAt(j+1)=='/'){
+//						StringBuilder sb = new StringBuilder();
+//						for (int k = 0; k < j; k++) {
+//							sb.append(source[k]);
+//						}
+//						res.add(sb.toString());
+//					}
+//				}
+//			}else res.add(source[i]);
+//		}
+//		return res;
+//	}
+	/**/
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
@@ -3372,11 +3406,11 @@ public class DemoApplicationTests {
 		char b1[][]={{'a','b'}};
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
 		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
-		String caca="abcda";
+		String[] caca={"/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"};
 		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.reconstructMatrix(5,5,bo));
+		System.out.println(d);
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 
