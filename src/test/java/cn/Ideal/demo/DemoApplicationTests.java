@@ -3397,6 +3397,32 @@ public class DemoApplicationTests {
 //		return res;
 //	}
 	/**/
+	int res64=Integer.MAX_VALUE;
+	public int minPathSumDfs(int[][] grid) {
+		dfs64(0,0,grid,grid[0][0]);
+		return res64;
+	}
+	public void dfs64(int nowL,int nowR,int[][] grid,int score){
+		if (nowL<0 || nowR<0 || nowL>=grid.length || nowR >=grid[0].length)
+			return;
+		if (nowL==grid.length-1 && nowR == grid[0].length-1){
+			res64=Math.min(res64,score);
+			return;
+		}
+		dfs64(nowL+1,nowR,grid,score+grid[nowL][nowR]);
+		dfs64(nowL,nowR+1,grid,score+grid[nowL][nowR]);
+	}
+	public int minPathSum(int[][] grid) {
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (i==j && i==0)
+					grid[i][j]=grid[i][j];
+				else
+					grid[i][j]=grid[i][j] + Math.min((i-1)<0?Integer.MAX_VALUE:grid[i-1][j],(j-1)<0?Integer.MAX_VALUE:grid[i][j-1]);
+			}
+		}
+		return grid[grid.length-1][grid[0].length-1];
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
@@ -3407,10 +3433,10 @@ public class DemoApplicationTests {
 		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
 		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
 		String[] caca={"/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"};
-		int adf[][] = {{0,1,2,0},{3,4,5,2},{1,3,1,5}};
+		int adf[][] = {{1,2,3},{4,5,6}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d);
+		System.out.println(d.minPathSum(adf));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 
