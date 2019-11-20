@@ -3423,6 +3423,82 @@ public class DemoApplicationTests {
 		}
 		return grid[grid.length-1][grid[0].length-1];
 	}
+	public List<List<Integer>> shiftGrid(int[][] grid, int k) {
+		int n = grid.length*grid[0].length;
+		List<Integer> dict = new ArrayList<>();
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				dict.add(grid[i][j]);
+			}
+		}
+		List<List<Integer>> res = new ArrayList<>();
+		int flag = 0;
+		int red = grid[0].length;
+		List<Integer> temp = new ArrayList<>();
+		k=k%n;
+		for (int i = n-k; i < n; i++) {
+			flag++;
+			if (flag % red==0){
+				temp.add(dict.get(i));
+				res.add(temp);
+				temp = new ArrayList<>();
+			}else {
+				temp.add(dict.get(i));
+			}
+		}
+		for (int i = 0; i < n-k; i++) {
+			flag++;
+			if (flag % red==0){
+				temp.add(dict.get(i));
+				res.add(temp);
+				temp = new ArrayList<>();
+			}else {
+				temp.add(dict.get(i));
+			}
+		}
+		return res;
+	}
+	class FindElements {
+
+		List<Integer> dict = new ArrayList<>();
+		public FindElements(TreeNode root) {
+			dfsStructure(root,0,-1);
+		}
+		// L = 0 L 1 R
+		public void dfsStructure(TreeNode root,int val,int L){
+			if(root == null) return;
+			if(L==0){
+				root.val = val*2+1;
+			}else if(L == 1){
+				root.val = val*2+2;
+			}else root.val=0;
+			dict.add(root.val);
+			dfsStructure(root.left,root.val,0);
+			dfsStructure(root.right,root.val,1);
+		}
+		public boolean find(int target) {
+			return dict.contains(target);
+		}
+	}
+	public int maxSumDivThree(int[] nums) {
+		int n = nums.length;
+		int res = 0;
+		List<Integer> dict1 = new ArrayList<>();
+		List<Integer> dict2 = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			if (nums[i]%3==1)dict1.add(nums[i]);
+			else if (nums[i]%3==2)dict2.add(nums[i]);
+			res+=nums[i];
+		}
+		Collections.sort(dict1);
+		Collections.sort(dict2);
+		if (res%3==1){
+			return Math.max(dict1.size()>0?res-dict1.get(0):-1,dict2.size()>1?res-dict2.get(0)-dict2.get(1):-1);
+		}else if (res%3==2){
+			return Math.max(dict1.size()>1?res-dict1.get(0)-dict1.get(1):-1,dict2.size()>0?res-dict2.get(0):-1);
+		}else
+			return res;
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
