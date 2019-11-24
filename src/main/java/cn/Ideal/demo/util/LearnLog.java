@@ -72,7 +72,9 @@ public enum  LearnLog {
 	LearnConcurrent30("2019/11/11","了解新的搜索算法BERT,由谷歌发布。已经用于生产环境。这种算法最大的特点，就是考虑了搜索词的语序。以前的算法只考虑每个词本身，搜索hello world与搜索world hello，结果是一样的。https://blog.google/products/search/search-language-understanding-bert/"),
 	LearnConcurrent31("2019/11/12","日常leetcode(64.最小路径和)dfs-fail dp-success 找到leetcode资源,启动！"),
 	LearnConcurrent32("2019/11/13","白天主要学习了docker，晚上看了leetcode讲解第一章与第二章！"),
-	LearnConcurrent33("2019/11/18-2019/11/20","更新leetcode163周赛");
+	LearnConcurrent33("2019/11/18-2019/11/20","更新leetcode163周赛"),
+	LearnConcurrent34("2019/11/23","搭建论坛模型，找后台模板"),
+	LearnConcurrent35("2019/11/24","leetcode164周赛(完成23题 ps:现在已经要AK才能进前200了吗)");
 
 
 

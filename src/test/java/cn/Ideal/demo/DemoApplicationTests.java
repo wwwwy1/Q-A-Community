@@ -3499,6 +3499,139 @@ public class DemoApplicationTests {
 		}else
 			return res;
 	}
+
+	public int minTimeToVisitAllPoints(int[][] points) {
+		int res=0;
+		for (int i = 0; i < points.length - 1; i++) {
+			int a=points[i][0]-points[i+1][0];
+			int b=points[i][1]-points[i+1][1];
+			res+= Math.max(Math.abs(a),Math.abs(b));
+		}
+		return res;
+
+	}
+	public int countServers(int[][] grid) {
+		int res = 0;
+		for (int i = 0; i < grid.length; i++) {
+			int flag = 0;
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j]==0)continue;
+				for (int k = 0; k < j; k++) {
+					if (grid[i][k]==1){
+						flag=1;
+						break;
+					}
+				}
+				for (int k = j+1; k < grid[i].length; k++) {
+					if (flag ==1 ||grid[i][k]==1){
+						flag=1;
+						break;
+					}
+				}
+				for (int k = 0; k < i; k++) {
+					if (flag ==1 || grid[k][j]==1){
+						flag=1;
+						break;
+					}
+				}
+				for (int k = i+1; k < grid.length; k++) {
+					if (flag ==1 ||grid[k][j]==1){
+						flag=1;
+						break;
+					}
+				}
+				if (flag==1){
+					flag=0;
+					res++;
+				}
+			}
+		}
+		return res;
+	}
+class Trie {
+	class TrieNode{
+		TrieNode[] child;//记录孩子节点
+		int is_end;//记录当前节点是不是一个单词的结束字母
+		public TrieNode(){//
+			child = new TrieNode[26];//子节点数组长度26，0：‘a’，1：‘b’.....
+			is_end = 0;
+		}
+	}
+	TrieNode root;
+	/** Initialize your data structure here. */
+	public Trie() {
+		root=new TrieNode();
+	}
+
+	/** Inserts a word into the trie. */
+	public void insert(String word) {
+		TrieNode p=root;
+		for(char a:word.toCharArray()){
+			int d=a-'a';
+			if(p.child[d]==null){
+				p.child[d]=new TrieNode();
+			}
+			p=p.child[d];
+		}
+		p.is_end++;
+	}
+
+	/** Returns if the word is in the trie. */
+	public List<String> search(String word) {
+		TrieNode p=root;
+		for(char a:word.toCharArray()){
+			int d=a-'a';
+			if(p.child[d]==null)return new ArrayList<>();
+			p=p.child[d];
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(word);
+		List<String> list = new ArrayList<>();
+		dfs(p,list,sb);
+		return list;
+	}
+	public void dfs(TrieNode p, List<String> list,StringBuilder sb){
+		if (list.size()==3 )return;
+		if (p.is_end>0){
+			for (int i = 0; i < p.is_end; i++) {
+				if(list.size()<3)
+					list.add(new String(sb.toString()));
+			}
+		}
+		for (int i = 0; i < 26; i++) {
+			if (p.child[i] != null) {
+				sb.append((char) (i + 'a'));
+				dfs(p.child[i], list, sb);
+				sb.delete(sb.length()-1,sb.length());
+			}
+		}
+	}
+	/** Returns if there is any word in the trie that starts with the given prefix. */
+	public boolean startsWith(String prefix) {
+		TrieNode p=root;
+		for(char a:prefix.toCharArray()){
+			int d=a-'a';
+			if(p.child[d]==null)return false;
+			p=p.child[d];
+		}
+		return true;
+	}
+}
+	public List<List<String>> suggestedProducts(String[] products, String searchWord) {
+		List<List<String>> res = new ArrayList<>();
+		Trie t = new Trie();
+		for (int i = 0; i < products.length; i++) {
+			t.insert(products[i]);
+		}
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < searchWord.length(); i++) {
+			sb.append(searchWord.charAt(i));
+			if (!t.startsWith(sb.toString())){
+				res.add(new ArrayList<>());
+			}else res.add(t.search(sb.toString()));
+		}
+		return res;
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
@@ -3512,7 +3645,8 @@ public class DemoApplicationTests {
 		int adf[][] = {{1,2,3},{4,5,6}};
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		System.out.println(d.minPathSum(adf));
+		int [][] acw={{1,1},{3,4},{-1,0}};
+		System.out.println(d.minTimeToVisitAllPoints(acw));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 
@@ -3521,5 +3655,24 @@ public class DemoApplicationTests {
 		root.right=new TreeNode(-6);*/
 		//System.out.println(findTargetSumWays(a,3));
 	}
+/*
+*
+*
+*
+*
+*
+*
+*
+
+*
+*
+*
+*
+*
+*
+*
+*
+*
+* */
 
 }

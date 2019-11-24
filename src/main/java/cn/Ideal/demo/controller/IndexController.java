@@ -19,7 +19,7 @@ import java.util.Map;
 public class IndexController {
     @GetMapping(value = "/user/index")
     public String goIndex(){
-        return "/user/index1";
+        return "/user/index";
     }
     @GetMapping(value = "/user/login")
     public String goLogin(){
