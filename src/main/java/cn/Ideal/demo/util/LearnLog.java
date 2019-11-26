@@ -76,7 +76,8 @@ public enum  LearnLog {
 	LearnConcurrent34("2019/11/23","搭建论坛模型，找后台模板"),
 	LearnConcurrent35("2019/11/24","leetcode164周赛(完成23题 ps:现在已经要AK才能进前200了吗)"),
 	LearnConcurrent36("2019/11/24晚","剑指offer第114页"),
-	LearnConcurrent37("2019/11/25","完成大数据课程作业");
+	LearnConcurrent37("2019/11/25","完成大数据课程作业"),
+	LearnConcurrent38("2019/11/26","学习springboot整合swagger2,学习一点shell知识");
 
 
 
