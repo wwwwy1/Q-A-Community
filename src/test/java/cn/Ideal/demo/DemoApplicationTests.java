@@ -3632,6 +3632,28 @@ class Trie {
 		}
 		return res;
 	}
+	public void nextPermutation(int[] nums) {
+		int index1 = nums.length-1, index2 = nums.length-1;
+		int flag = 0;
+		for (int i = nums.length-2; i >=0 ; i--) {
+			if (nums[index1]>nums[i]){
+				flag = 1;
+				int temp = index2;
+				for (int j = i+1; j <= index2 ; j++) {
+					if (nums[i]>=nums[j]){
+						temp = j-1;
+						break;
+					}
+				}
+				int temp1 = nums[temp];
+				nums[temp] = nums[i];
+				nums[i] = temp1;
+				Arrays.sort(nums,i+1,nums.length);
+				break;
+			}else index1 = i;
+		}
+		if (flag == 0) Arrays.sort(nums);
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
