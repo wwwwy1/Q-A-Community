@@ -81,7 +81,8 @@ public enum  LearnLog {
 	LearnConcurrent39("2019/11/26晚","完成论坛注册功能,重写result类,增加log4j日志(前端问题:当一个方法调用多个ajax方法时，是否会发生调用顺序改变)"),
 	LearnConcurrent40("2019/11/27","完成学校实训课内容"),
 	LearnConcurrent41("2019/11/28","日常leetcode(31.下一个排列更大),Linux命令熟悉"),
-	LearnConcurrent42("2019/11/30","日常leetcode+双周赛+部门团建");
+	LearnConcurrent42("2019/11/30","日常leetcode+双周赛+部门团建"),
+	LearnConcurrent43("2019/12/01","昨天leetcode双周赛排名(254/871)和今天leetcode165周赛排名(158/1659)");
 
 
 
