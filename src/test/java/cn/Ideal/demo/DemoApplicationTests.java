@@ -3654,6 +3654,56 @@ class Trie {
 		}
 		if (flag == 0) Arrays.sort(nums);
 	}
+
+
+
+
+	int dfsV = 0;
+	int dfsC = 0;
+	boolean vis5114[];
+	List<Integer> pars = new ArrayList<>();
+	public int deleteTreeNodes(int nodes, int[] parent, int[] value) {
+		int res = 0;
+		int n = parent.length;
+		vis5114 = new boolean[n];
+		int index = n-1;
+		for (int i = 0; i < n; i++) {
+			if(vis5114[i])continue;
+			dfsV = value[i];
+			dfsC = 1;
+			dfs(parent,value,i);
+			//vis5114[i] = true;
+			if (dfsV==0){
+				pars.add(parent[i]);
+				vis5114[i] = true;
+				res+=dfsC;
+				//dfsVis(parent,value,i);
+			}
+		}
+		return nodes-res;
+	}
+	public void dfs(int parent[],int value[],int par){
+		if (pars.contains(par)) {
+			//pars.add(par);
+			return;
+		}
+		for (int i = par+1; i < parent.length; i++) {
+			if (parent[i]==par){
+				dfsV+=value[i];
+				dfsC++;
+				dfs(parent,value,i);
+			}
+		}
+	}
+	public void dfsVis(int parent[],int value[],int par){
+		vis5114[par] = true;
+		for (int i = par+1; i < parent.length; i++) {
+			if (parent[i]==par){
+				vis5114[i] = true;
+				dfsVis(parent,value,i);
+			}
+		}
+	}
 	public  static void main(String[] args) {
 		String s="A man, a plan, a canal: Panama";
 		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
@@ -3668,7 +3718,9 @@ class Trie {
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
 		int [][] acw={{1,1},{3,4},{-1,0}};
-		System.out.println(d.minTimeToVisitAllPoints(acw));
+		int parent[] = {-1,0,0,1,2,2,2};
+		int value[] = {1,-2,4,0,-2,-1,-1};
+		System.out.println(d.deleteTreeNodes(7,parent,value));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 
