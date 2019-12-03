@@ -86,7 +86,9 @@ public enum  LearnLog {
 	// 165周赛(第一题分类讨论,第二题数学题,第三题数据量较小暴力直接过,第四题有点难顶没做出来)ps本周手速相对不错 排名(158/1659)
 	LearnConcurrent43("2019/12/01","昨天leetcode双周赛排名(254/871)和今天leetcode165周赛排名(158/1659)"),
 	// 周六双周赛，第三题dfs程序粗心写错了。。。然而卡在了最后一个用例报T了
-	LearnConcurrent44("2019/12/02","日常leetcode刷题,以及《leetcode视频》4-5");
+	LearnConcurrent44("2019/12/02","日常leetcode刷题,以及《leetcode视频》4-5"),
+	LearnConcurrent45("2019/12/03","日常leetcode刷题,map表");
+
 
 
 
