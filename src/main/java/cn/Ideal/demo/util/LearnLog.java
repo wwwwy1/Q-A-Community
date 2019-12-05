@@ -88,7 +88,8 @@ public enum  LearnLog {
 	// 周六双周赛，第三题dfs程序粗心写错了。。。然而卡在了最后一个用例报T了
 	LearnConcurrent44("2019/12/02","日常leetcode刷题,以及《leetcode视频》4-5"),
 	LearnConcurrent45("2019/12/03","日常leetcode刷题,map表"),
-	LearnConcurrent46("2019/12/04","日常leetcode刷题,以及《leetcode视频》第4章完");
+	LearnConcurrent46("2019/12/04","日常leetcode刷题,以及《leetcode视频》第4章完"),
+	LearnConcurrent47("2019/12/05","日常leetcode刷题,映射表相关");
 
 
 
