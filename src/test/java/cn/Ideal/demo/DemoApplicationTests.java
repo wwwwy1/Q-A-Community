@@ -3704,30 +3704,101 @@ class Trie {
 			}
 		}
 	}
+	boolean boolean98 = true;
+	public boolean isValidBST(TreeNode root) {
+		if (root==null) return true;
+		dfs98(root,null,null);
+		return boolean98;
+	}
+	public void dfs98(TreeNode root,Integer max,Integer min){
+		if (!boolean98) return;
+		if ((root.left!=null && root.val<=root.left.val) || (root.right!=null && root.val>=root.right.val)){
+			boolean98 = false;
+			return;
+		}
+		if (max!=null && max<root.val) {
+			boolean98 = false;
+			return;
+		}
+		if (min!=null && min>root.val) {
+			boolean98 = false;
+			return;
+		}
+		if (root.right!=null) {
+			dfs98(root.right,max,root.val);
+		}
+		if (root.left!=null) {
+			dfs98(root.left,root.val,min);
+		}
+	}
+
+	public int subtractProductAndSum(int n) {
+		int ans1 = 1;
+		int ans2 = 0;
+		while (n==0){
+			int temp = n%10;
+			ans1 *=temp;
+			ans2 +=temp;
+			n=n/10;
+		}
+		return ans1-ans2;
+	}
+	public List<List<Integer>> groupThePeople(int[] groupSizes) {
+		List<List<Integer>> ans = new ArrayList<>();
+		int n = groupSizes.length;
+		boolean vis[] = new boolean[n];
+		for (int i = 0; i < n; i++) {
+			if (vis[i]) continue;
+			List<Integer> temp = new ArrayList<>();
+			temp.add(i);
+			for (int j = i+1; j < n; j++) {
+				if (groupSizes[i]==groupSizes[j] && temp.size()<groupSizes[i]){
+					temp.add(j);
+					vis[j] = true;
+				}
+			}
+			ans.add(temp);
+		}
+		return ans;
+	}
+	public int smallestDivisor(int[] nums, int threshold) {
+		int n = nums.length;
+		long temp = 0;
+		int max = 0;
+		for (int i = 0; i < n; i++)
+			if (max<nums[i]) max = nums[i];
+		int left = 1, right = max;
+		int mid = 0;
+		while (left<right){
+			mid = (left+right)>>1;
+			temp = 0;
+			for (int i = 0; i < n; i++) {
+				temp = temp + nums[i]/mid + (nums[i]%mid==0?0:1);
+			}
+			if (temp>threshold){
+				left = mid;
+			}else {
+				right = mid;
+			}
+		}
+		return left;
+	}
 	public  static void main(String[] args) {
-		String s="A man, a plan, a canal: Panama";
-		String a1[]={"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
-		int a[]={2,3,4};
-		List<String> a22 =new ArrayList<>(Arrays.asList(a1));
-		int bo[]={2,1,2,0,1,0,1,2,0,1};
-		char b1[][]={{'a','b'}};
-		char b2[][]={{'C','A','A'},{'A','A','A'},{'B','C','D'}};
-		char b3[][]={{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
-		String[] caca={"/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"};
-		int adf[][] = {{1,2,3},{4,5,6}};
+
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		DemoApplicationTests d=new DemoApplicationTests();
-		int [][] acw={{1,1},{3,4},{-1,0}};
-		int parent[] = {-1,0,0,1,2,2,2};
-		int value[] = {1,-2,4,0,-2,-1,-1};
-		System.out.println(d.deleteTreeNodes(7,parent,value));
+		TreeNode treeNode = new TreeNode(10);
+		treeNode.left = new TreeNode(5);
+		treeNode.right = new TreeNode(15);
+		treeNode.right.left = new TreeNode(6);
+		treeNode.right.right = new TreeNode(20);
+		TreeNode root = new TreeNode(2);
+		root.left = new TreeNode(1);
+		root.right = new TreeNode(3);
+		int c[] = {1,2,5,9};
+		System.out.println(d.smallestDivisor(c,6));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
-
-		/*TreeNode root=new TreeNode(5);
-		root.left=new TreeNode(-6);
-		root.right=new TreeNode(-6);*/
-		//System.out.println(findTargetSumWays(a,3));
 	}
 /*
 *
