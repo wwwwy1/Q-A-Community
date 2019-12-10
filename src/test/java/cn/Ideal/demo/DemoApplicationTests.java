@@ -3783,6 +3783,51 @@ class Trie {
 		}
 		return left;
 	}
+	public List<List<Integer>> levelOrder(TreeNode root) {
+		List<List<Integer>> ans = new ArrayList<>();
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.offer(root);
+		while (!queue.isEmpty()){
+			int size = queue.size();
+			List<Integer> t = new ArrayList<>();
+			for (int i = 0; i < size; i++) {
+				TreeNode poll = queue.poll();
+				t.add(poll.val);
+				if (poll.left!=null)queue.offer(poll.left);
+				if (poll.right!=null)queue.offer(poll.right);
+			}
+			ans.add(t);
+		}
+		return ans;
+	}
+	public int ladderLengthForBfs(String beginWord, String endWord, List<String> wordList) {
+		if (!wordList.contains(endWord)){
+			return 0;
+		}
+		int level = 0;
+		int n = wordList.size();
+		Queue<String> queue = new LinkedList<>();
+		queue.offer(beginWord);
+		while (!queue.isEmpty()){
+			++level;
+			int tempSize = queue.size();
+			for (int i = 0; i < tempSize; i++) {
+				StringBuilder word = new StringBuilder(queue.poll());
+				for (int j = 0; j < word.length(); j++) {
+					char orig_char = word.charAt(j);
+					for (char k = 'a'; k <= 'z'; k++) {
+						word.replace(j,j+1,k+"");
+						if (word.toString().equals(endWord))return level+1;
+						if (!wordList.contains(word.toString())) continue;
+						wordList.remove(word.toString());
+						queue.offer(word.toString());
+					}
+					word.replace(j,j+1,orig_char+"");
+				}
+			}
+		}
+		return 0;
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
@@ -3796,7 +3841,15 @@ class Trie {
 		root.left = new TreeNode(1);
 		root.right = new TreeNode(3);
 		int c[] = {1,2,5,9};
-		System.out.println(d.smallestDivisor(c,6));
+		List<String> tc = new ArrayList<>();
+		tc.add("hot");
+		//tc.add("dot");
+		tc.add("dog");
+		//tc.add("lot");
+		//tc.add("log");
+		//tc.add("cog");
+
+		System.out.println(d.ladderLengthForBfs("hot","dog",tc));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	}

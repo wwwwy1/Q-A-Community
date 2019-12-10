@@ -91,7 +91,8 @@ public enum  LearnLog {
 	LearnConcurrent46("2019/12/04","日常leetcode刷题,以及《leetcode视频》第4章完"),
 	LearnConcurrent47("2019/12/05","日常leetcode刷题,映射表相关"),
 	// 小飞生日回学校，顺便讨论毕业旅行，荒废了两天
-	LearnConcurrent48("2019/12/09","日常leetcode刷题+补刷上周leetcode166周赛");
+	LearnConcurrent48("2019/12/09","日常leetcode刷题+补刷上周leetcode166周赛"),
+	LearnConcurrent49("2019/12/10","日常leetcode刷题+学习BFS");
 
 
 
