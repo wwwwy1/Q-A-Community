@@ -3828,6 +3828,54 @@ class Trie {
 		}
 		return 0;
 	}
+	public int evalRPN(String[] tokens) {
+		int n = tokens.length;
+		//Stack<Character> ysf = new Stack<>();
+		Stack<Integer> czs = new Stack<>();
+		for (int i = 0; i < n; i++) {
+			if (tokens[i].equals("+")){
+				Integer pop = czs.pop();
+				Integer pop1 = czs.pop();
+				czs.push(pop+pop1);
+			}else if (tokens[i].equals("-")){
+				Integer pop = czs.pop();
+				Integer pop1 = czs.pop();
+				czs.push(pop-pop1);
+			}else if (tokens[i].equals("*")){
+				Integer pop = czs.pop();
+				Integer pop1 = czs.pop();
+				czs.push(pop*pop1);
+			}else if (tokens[i].equals("/")){
+				Integer pop = czs.pop();
+				Integer pop1 = czs.pop();
+				czs.push(pop/pop1);
+			}else {
+				czs.push(Integer.parseInt(tokens[i]));
+			}
+		}
+		return czs.peek();
+	}
+	public String simplifyPath(String path) {
+		String[] split = path.split("/");
+		Stack<String> ans = new Stack<>();
+		for (int i = 0; i < split.length; i++) {
+			if (!split[i].equals("") && !split[i].equals(".")){
+				if (split[i].charAt(0)=='.' ){
+					for (int j = 1; j < split[i].length() && !ans.isEmpty(); j++) {
+						ans.pop();
+					}
+				}else {
+					ans.push(split[i]);
+				}
+			}
+		}
+		if (ans.isEmpty())return "/";
+		StringBuilder sb = new StringBuilder();
+		while (!ans.isEmpty()){
+			sb.insert(0,'/'+ans.pop());
+		}
+		return sb.toString();
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
@@ -3849,7 +3897,7 @@ class Trie {
 		//tc.add("log");
 		//tc.add("cog");
 
-		System.out.println(d.ladderLengthForBfs("hot","dog",tc));
+		System.out.println(d.simplifyPath("/a//b////c/d//././/.."));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	}
