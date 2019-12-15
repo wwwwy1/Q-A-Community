@@ -3876,6 +3876,100 @@ class Trie {
 		}
 		return sb.toString();
 	}
+
+	public int findSpecialInteger(int[] arr) {
+		int n = arr.length;
+		for (int i = 0; i < n; i++) {
+			int flag = 0;
+			for (int j = i; j < n; j++) {
+				if (arr[j]==arr[i]){
+					flag++;
+				}
+			}
+			if (flag*4>n){
+				return arr[i];
+			}
+		}
+		return 0;
+	}
+	public int removeCoveredIntervals(int[][] intervals) {
+		int n = intervals.length;
+		boolean visited[] = new boolean[n];
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (i==j || visited[j])continue;
+				if (intervals[j][0]<=intervals[i][0] && intervals[j][1]>=intervals[i][1]){
+					ans++;
+					visited[i] = true;
+					break;
+				}
+			}
+		}
+		return n-ans;
+	}
+	public int getDecimalValue(ListNode head) {
+		int sum = 0;
+		List<Integer> list = new ArrayList<>();
+		while (head!=null){
+			list.add(head.val);
+			head = head.next;
+		}
+		int flag = 0;
+		for (int i = list.size()-1; i >=0 ; i--) {
+			sum+=list.get(i)*Math.pow(2,flag++);
+		}
+		return sum;
+	}
+	public List<Integer> sequentialDigits(int low, int high) {
+		List<Integer> ans = new ArrayList<>();
+		int dict[] = {12, 23, 34, 45, 56, 67, 78, 89, 123, 234, 345, 456, 567, 678, 789, 1234, 2345, 3456, 4567, 5678, 6789, 12345, 23456, 34567, 45678, 56789, 123456, 234567, 345678, 456789, 1234567, 2345678, 3456789, 12345678, 23456789, 123456789};
+
+		for (int i = 0; i < dict.length; i++) {
+			if (dict[i]>=low && dict[i]<=high){
+				ans.add(dict[i]);
+			}
+		}
+		return ans;
+	}
+	public boolean canSequential(int n){
+		int c1 = n%10;
+		n=n/10;
+		int c2 = 0;
+		while (n!=0){
+			c2 = n%10;
+			n=n/10;
+			if (c1-c2!=1)return false;
+			c1=c2;
+		}
+		return true;
+	}
+	public int maxSideLength(int[][] mat, int threshold) {
+		int res = 0;
+		int n = mat.length;
+		for (int j = 0; j < n; j++) {
+			for (int k = 0; k < mat[j].length; k++) {
+				for (int i = res+1; i <= n-(mat[j].length-k>n-j?n-j:mat[j].length-k); i++) {
+					if (boderSize(j, k, i, mat, threshold)){
+						if(res < i)res = i;
+						i = res + 1;
+					}
+				}
+			}
+		}
+		return res;
+	}
+
+	public boolean boderSize(int L,int R,int length,int matrix[][],int threshold){
+		for (int i = L; i < L+length; i++) {
+			for (int j = R; j < R+length; j++) {
+				if (i>=matrix.length || j>=matrix[0].length) return false;
+				threshold -=matrix[i][j];
+				if (threshold<0)return false;
+			}
+		}
+		return true;
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
@@ -3896,8 +3990,8 @@ class Trie {
 		//tc.add("lot");
 		//tc.add("log");
 		//tc.add("cog");
-
-		System.out.println(d.simplifyPath("/a//b////c/d//././/.."));
+		int ttts[][] = {{34335,39239},{15875,91969},{29673,66453},{53548,69161},{40618,93111}};
+		//System.out.println(d.maxSideLength(10,1000000000));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	}
