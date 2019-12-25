@@ -101,7 +101,8 @@ public enum  LearnLog {
 	LearnConcurrent55("2019/12/16","完成学校电子商务实习报告和毕业实习报告"),
 	LearnConcurrent56("2019/12/17","日常leetcode刷题，树与dfs相关"),
 	LearnConcurrent57("2019/12/18","webservice学习，soapUI学习使用"),
-	LearnConcurrent58("2019/12/19","日常leetcode刷题，dfs，以及《leetcode视频》第七章完");
+	LearnConcurrent58("2019/12/19","日常leetcode刷题，dfs，以及《leetcode视频》第七章完"),
+	LearnConcurrent59("2019/12/22","leetcode周赛");
 
 
 

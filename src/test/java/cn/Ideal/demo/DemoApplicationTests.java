@@ -3970,6 +3970,23 @@ class Trie {
 		}
 		return true;
 	}
+	public int findNumbers(int[] nums) {
+		int ans = 0;
+		for (int i = 0; i < nums.length; i++) {
+			Integer t = nums[i];
+			if (t.toString().length()%2==0)ans++;
+		}
+		return ans;
+	}
+	public boolean isPossibleDivide(int[] nums, int k) {
+		int n = nums.length;
+		if (n%k!=0) return false;
+		for (int i = 0; i < n; i++) {
+			if (nums[i]==)
+		}
+
+		return true;
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
