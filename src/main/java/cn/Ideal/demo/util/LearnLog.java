@@ -105,8 +105,8 @@ public enum  LearnLog {
 	LearnConcurrent59("2019/12/22","leetcode周赛"),
 	LearnConcurrent60("2019/12/25","完成文献综述摘要及引言"),
 	LearnConcurrent61("2019/12/26","完成文献综述正文第一段"),
-	LearnConcurrent62("2019/12/30","完成文献综述正文第二段第一节");
-
+	LearnConcurrent62("2019/12/30","完成文献综述正文第二段第一节"),
+	LearnConcurrent63("2020/01/01","完成文献综述,并找到外文翻译目标文章");
 	// 时间
 	private final String learnTime;
 	// 内容
