@@ -107,6 +107,7 @@ public enum  LearnLog {
 	LearnConcurrent61("2019/12/26","完成文献综述正文第一段"),
 	LearnConcurrent62("2019/12/30","完成文献综述正文第二段第一节"),
 	LearnConcurrent63("2020/01/01","完成文献综述,并找到外文翻译目标文章"),
+	// 文献综述被导师说字数不够。。。
 	LearnConcurrent64("2020/01/02","完成外文翻译摘要与引言");
 
 	// 时间
