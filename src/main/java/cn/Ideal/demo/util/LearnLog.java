@@ -108,8 +108,9 @@ public enum  LearnLog {
 	LearnConcurrent62("2019/12/30","完成文献综述正文第二段第一节"),
 	LearnConcurrent63("2020/01/01","完成文献综述,并找到外文翻译目标文章"),
 	// 文献综述被导师说字数不够。。。
-	LearnConcurrent64("2020/01/02","完成外文翻译摘要与引言");
-
+	LearnConcurrent64("2020/01/02","完成外文翻译摘要与引言"),
+	// 翻译的时候不小心先翻译了最后一节。。。
+	LearnConcurrent65("2020/01/03","完成外文翻译第2、4节，还差第三节和参考文献！");
 	// 时间
 	private final String learnTime;
 	// 内容
