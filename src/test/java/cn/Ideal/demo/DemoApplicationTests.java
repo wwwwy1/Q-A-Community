@@ -4103,6 +4103,31 @@ class Trie {
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	}
+
+	//map排序方式
+		/*Map<String, Integer> map = new HashMap<>();
+		while (!queue.isEmpty()) {
+			Integer idd = queue.poll();
+			for (int i = 0; i < watchedVideos.get(idd).size(); i++) {
+				map.put(watchedVideos.get(idd).get(i), map.getOrDefault(watchedVideos.get(idd).get(i), 0) + 1);
+			}
+		}
+
+		PriorityQueue<Pair<String, Integer>> priorityQueue = new PriorityQueue<>((t1, t2) -> {
+			if (t1.getValue().equals(t2.getValue())) {
+				return t1.getKey().compareTo(t2.getKey());
+			} else {
+				return t1.getValue().compareTo(t2.getValue());
+			}
+		});
+		map.forEach((key, value) -> priorityQueue.add(new Pair<>(key, value)));
+		List<String> ans = new ArrayList<>();
+		while (!priorityQueue.isEmpty()) {
+			ans.add(priorityQueue.poll().getKey());
+		}
+		return ans;*/
+
+
 /*
 *
 *
