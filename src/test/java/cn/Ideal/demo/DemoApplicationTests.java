@@ -4,6 +4,7 @@ import cn.Ideal.demo.util.MxGraphModel;
 import cn.Ideal.demo.util.TestXmlClass;
 import com.sun.jmx.remote.internal.ArrayQueue;
 import com.sun.xml.internal.bind.v2.runtime.reflect.ListTransducedAccessorImpl;
+import javafx.util.Pair;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.crypto.hash.Hash;
 import org.junit.Test;
@@ -24,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -3978,7 +3980,7 @@ class Trie {
 		}
 		return ans;
 	}
-	public boolean isPossibleDivide(int[] nums, int k) {
+	/*public boolean isPossibleDivide(int[] nums, int k) {
 		int n = nums.length;
 		if (n%k!=0) return false;
 		for (int i = 0; i < n; i++) {
@@ -3986,6 +3988,79 @@ class Trie {
 		}
 
 		return true;
+	}*/
+	public String freqAlphabets(String s) {
+		StringBuilder ans = new StringBuilder();
+		for (int i = s.length()-1; i >= 0; i--) {
+			if (s.charAt(i)!='#'){
+				ans.append((char)('a'+s.charAt(i)-'0'-1));
+			}else {
+				int tmp = ((int)s.charAt(i-2)-'0')*10+(int)(s.charAt(i-1)-'0');
+				char c = (char)(tmp+'a'-1);
+				ans.append(c);
+				i--;
+				i--;
+			}
+		}
+		return ans.reverse().toString();
+	}
+	public int[] xorQueries(int[] arr, int[][] queries) {
+		int[] ans = new int[queries.length];
+		for (int i = 0; i < queries.length; i++) {
+			int t = arr[queries[i][0]];
+			for (int j = arr[queries[i][0]]+1; j <= arr[queries[i][1]]; j++) {
+				t^=arr[j];
+			}
+			ans[i]=t;
+		}
+		return ans;
+	}
+	public List<String> watchedVideosByFriends(List<List<String>> watchedVideos, int[][] friends, int id, int level) {
+		Queue<Integer> queue = new LinkedList<>();
+		queue.offer(id);
+		int t = 0;
+		boolean[] vised = new boolean[friends.length];
+		while (level > t){
+			t++;
+			int size = queue.size();
+			while (size>0){
+				size--;
+				Integer pop = queue.poll();
+				vised[pop] = true;
+				for (int i = 0; i < friends[pop].length; i++) {
+					if (!vised[friends[pop][i]]){
+						vised[friends[pop][i]] = true;
+						queue.offer(friends[pop][i]);
+					}
+				}
+			}
+		}
+		Map<String,Integer> treeMap = new TreeMap<>();
+		while (!queue.isEmpty()){
+			Integer poll = queue.poll();
+			if (vised[poll])continue;
+			List<String> list1 = watchedVideos.get(poll);
+			for (int i = 0; i < list1.size(); i++) {
+				String s = list1.get(i);
+				if (treeMap.containsKey(s)){
+					treeMap.put(s,treeMap.get(s)+1);
+				}else {
+					treeMap.put(s,1);
+				}
+			}
+		}
+		List<String> ans = new ArrayList<>();
+		List<Entry<String, Integer>> temp = new ArrayList<Entry<String, Integer>>(treeMap.entrySet());
+		Collections.sort(temp,new Comparator<Entry<String,Integer>>() {
+			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+				return o1.getValue()-o2.getValue();
+			}
+		});
+
+		for (Entry<String, Integer> e: temp) {
+			ans.add(e.getKey());
+		}
+		return ans;
 	}
 	public  static void main(String[] args) {
 
@@ -3999,7 +4074,8 @@ class Trie {
 		TreeNode root = new TreeNode(2);
 		root.left = new TreeNode(1);
 		root.right = new TreeNode(3);
-		int c[] = {1,2,5,9};
+		int c[] = {1,3,4,8};
+		int a[][] = {{1,2},{0,3},{0,3},{1,2}};
 		List<String> tc = new ArrayList<>();
 		tc.add("hot");
 		//tc.add("dot");
@@ -4007,8 +4083,23 @@ class Trie {
 		//tc.add("lot");
 		//tc.add("log");
 		//tc.add("cog");
-		int ttts[][] = {{34335,39239},{15875,91969},{29673,66453},{53548,69161},{40618,93111}};
-		//System.out.println(d.maxSideLength(10,1000000000));
+		List<List<String>> list = new ArrayList<>();
+		List<String> a1 = new ArrayList<>();
+		a1.add("A");
+		a1.add("B");
+		list.add(a1);
+		List<String> a2 = new ArrayList<>();
+		a2.add("C");
+		list.add(a2);
+		List<String> a3 = new ArrayList<>();
+		a3.add("B");
+		a3.add("C");
+		list.add(a3);
+		List<String> a4 = new ArrayList<>();
+		a4.add("D");
+		list.add(a4);
+
+		System.out.println(d.watchedVideosByFriends(list,a,0,1));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	}
