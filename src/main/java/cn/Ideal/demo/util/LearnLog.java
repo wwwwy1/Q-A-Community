@@ -114,8 +114,8 @@ public enum  LearnLog {
 	// 第一题字符串处理，第二题循环遍历异或，可用前缀和的思想优化，第三题BFS，第四题放弃。。。
 	LearnConcurrent66("2020/01/05","leetcode170周赛，排名287/1647"),
 	LearnConcurrent67("2020/01/05晚","完成外文翻译，并提交文献综述与外文翻译到学校网站，搜集开题报告资料"),
-	LearnConcurrent68("2020/01/06","完成开题报告 国内外现状");
-
+	LearnConcurrent68("2020/01/06","完成开题报告 国内外现状"),
+	LearnConcurrent69("2020/01/07","完成开题报告 第一部分《本课题国内外状况，说明选题依据和意义》完成 ");
 	// 时间
 	private final String learnTime;
 	// 内容
