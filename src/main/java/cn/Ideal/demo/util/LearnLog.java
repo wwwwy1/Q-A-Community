@@ -116,8 +116,9 @@ public enum  LearnLog {
 	LearnConcurrent67("2020/01/05晚","完成外文翻译，并提交文献综述与外文翻译到学校网站，搜集开题报告资料"),
 	LearnConcurrent68("2020/01/06","完成开题报告 国内外现状"),
 	LearnConcurrent69("2020/01/07","完成开题报告 第一部分《本课题国内外状况，说明选题依据和意义》完成 "),
-	LearnConcurrent70("2020/01/08","完成开题报告 第二部分查阅资料");
-
+	LearnConcurrent70("2020/01/08","完成开题报告 第二部分查阅资料"),
+	// 中途被拉壮丁。。。
+	LearnConcurrent71("2020/01/09","完成开题报告 第二部分50%");
 	// 时间
 	private final String learnTime;
 	// 内容
