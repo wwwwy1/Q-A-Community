@@ -121,7 +121,9 @@ public enum  LearnLog {
 	LearnConcurrent71("2020/01/09","完成开题报告 第二部分50%"),
 	LearnConcurrent72("2020/01/10","完成开题报告！"),
 	// 第一次进前20名！
-	LearnConcurrent73("2020/01/11","leetcode17双周赛大成功！（20/897）");
+	LearnConcurrent73("2020/01/11","leetcode17双周赛大成功！（20/897）"),
+	// 周赛失败。。。需要加强学习union-find和连通图
+	LearnConcurrent74("2020/01/12","leetcode171周赛（457/1707）需要加强学习union-find和连通图");
 
 	// 时间
 	private final String learnTime;
