@@ -119,7 +119,10 @@ public enum  LearnLog {
 	LearnConcurrent70("2020/01/08","完成开题报告 第二部分查阅资料"),
 	// 中途被拉壮丁。。。
 	LearnConcurrent71("2020/01/09","完成开题报告 第二部分50%"),
-	LearnConcurrent72("2020/01/10","完成开题报告！");
+	LearnConcurrent72("2020/01/10","完成开题报告！"),
+	// 第一次进前20名！
+	LearnConcurrent73("2020/01/11","leetcode17双周赛大成功！（20/897）");
+
 	// 时间
 	private final String learnTime;
 	// 内容

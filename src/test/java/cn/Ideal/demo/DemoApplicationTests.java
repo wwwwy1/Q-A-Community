@@ -4062,6 +4062,83 @@ class Trie {
 		}
 		return ans;
 	}
+	public boolean isPossibleDivide(int[] nums, int k) {
+		int n = nums.length;
+		if (n%k!=0)return false;
+		List<Integer> ans = new LinkedList<>();
+		for (int i = 0; i < n; i++) {
+			ans.add(nums[i]);
+		}
+		Collections.sort(ans);
+
+		while (!ans.isEmpty()){
+			int t = ans.get(0);
+			ans.remove(0);
+			for (int i = 1; i < k; i++) {
+				if (!ans.remove((Object)(t+1)))return false;
+				t++;
+				//ans.remove(flag);
+			}
+		}
+		return true;
+	}
+	public int[] decompressRLElist(int[] nums) {
+		int flag = 0;
+		List<Integer> ans1 = new ArrayList<>();
+		for (int i = 0; i < nums.length; i+=2) {
+			for (int j = 0; j < nums[i]; j++) {
+				ans1.add(nums[i+1]);
+			}
+		}
+		int[] ans = new int[ans1.size()];
+		for (int i: ans1) {
+			ans[flag++] = i;
+		}
+		return ans;
+	}
+	public int[][] matrixBlockSum(int[][] mat, int K) {
+		int[][] ans = new int[mat.length][mat[0].length];
+		for (int i = 0; i < ans.length; i++) {
+			for (int j = 0; j < ans[i].length; j++) {
+				int t = 0;
+				for (int k = i-K; k <=i+K ; k++) {
+					for (int l = j-K; l <= j+K; l++) {
+						if (k<0||k>=mat.length || l<0||l>=mat[0].length)continue;
+						t+=mat[k][l];
+					}
+				}
+				ans[i][j]=t;
+			}
+		}
+		return ans;
+	}
+	int ans5145 = 0;
+	public int sumEvenGrandparent(TreeNode root) {
+		dfs5145(root,null,null);
+		return ans5145;
+	}
+	public void dfs5145(TreeNode now,TreeNode par,TreeNode gra){
+		if (now==null)return;
+		if (gra!=null && gra.val%2==0){
+			ans5145+=now.val;
+		}
+		dfs5145(now.left,now,par);
+		dfs5145(now.right,now,par);
+	}
+	public int distinctEchoSubstrings(String text) {
+		int n = text.length();
+		Set<String> set = new HashSet<>();
+		for (int i = 0; i < n; i++) {
+			for (int j = i+1; j < n; j++) {
+				int left = i,right = j;
+				if (j+j-i>n)break;
+				if (text.substring(i,j).equals(text.substring(j,j+j-i))){
+					set.add(text.substring(i,j));
+				}
+			}
+		}
+		return set.size();
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
@@ -4098,8 +4175,8 @@ class Trie {
 		List<String> a4 = new ArrayList<>();
 		a4.add("D");
 		list.add(a4);
-
-		System.out.println(d.watchedVideosByFriends(list,a,0,1));
+		int[] act = {1,2,3,3,4,4,5,6};
+		System.out.println(d.distinctEchoSubstrings("abcabcabc"));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	}
