@@ -123,8 +123,12 @@ public enum  LearnLog {
 	// 第一次进前20名！
 	LearnConcurrent73("2020/01/11","leetcode17双周赛大成功！（20/897）"),
 	// 周赛失败。。。需要加强学习union-find和连通图
-	LearnConcurrent74("2020/01/12","leetcode171周赛（457/1707）需要加强学习union-find和连通图");
-
+	LearnConcurrent74("2020/01/12","leetcode171周赛（457/1707）需要加强学习union-find和连通图"),
+	LearnConcurrent75("2020/01/13","学习union-find"),
+	LearnConcurrent76("2020/01/14-16","学习搜索引擎技术，Lucene与Solr"),
+	LearnConcurrent77("2020/01/18","leetcode可能是乙亥年最有趣的比赛（140/1166）"),
+	// 上班刷题，属实有点难
+	LearnConcurrent78("2020/01/18","leetcode172周赛（510/1414）");
 	// 时间
 	private final String learnTime;
 	// 内容
