@@ -130,8 +130,8 @@ public enum  LearnLog {
 	// 上班刷题，属实有点难
 	LearnConcurrent78("2020/01/18","leetcode172周赛（510/1414）"),
 	// 过年想要空下来写，属实难。。。
-	LearnConcurrent79("2020/01/23","论坛分页功能基本完成");
-
+	LearnConcurrent79("2020/01/23","论坛分页功能基本完成"),
+	LearnConcurrent80("2020/01/24","union-find学习巩固");
 	// 时间
 	private final String learnTime;
 	// 内容
