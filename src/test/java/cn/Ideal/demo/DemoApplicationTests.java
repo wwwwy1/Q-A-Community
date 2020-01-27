@@ -4139,6 +4139,97 @@ class Trie {
 		}
 		return set.size();
 	}
+	public int removePalindromeSub(String s) {
+		if (s==null ||s.equals(""))return 0;
+		int n = s.length();
+		int count = 0;
+		for (int i = 0; i < n; i++) {
+			int flag=i;
+			for (int j = i; j < n; j++) {
+				StringBuilder sb = new StringBuilder(s.substring(i,j+1));
+				if (sb.reverse().toString().equals(s.substring(i,j+1))){
+					flag=j;
+				}
+			}
+			count++;
+			i=flag;
+		}
+		return count;
+	}
+	public List<Integer> filterRestaurants(int[][] restaurants, int veganFriendly, int maxPrice, int maxDistance) {
+		List<Integer> ans = new ArrayList<>();
+		int n = restaurants.length;
+		List<Pair<Integer,Integer>> list = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			if (restaurants[i][2]>=veganFriendly && restaurants[i][3]<=maxPrice && restaurants[i][4]<=maxDistance)
+				list.add(new Pair<>(restaurants[i][0],restaurants[i][1]));
+		}
+		Collections.sort(list, new Comparator<Pair<Integer, Integer>>() {
+			@Override
+			public int compare(Pair<Integer, Integer> o1, Pair<Integer, Integer> o2) {
+				if (o1.getValue().equals(o2.getValue()))
+					return o2.getKey().compareTo(o1.getKey());
+				return o2.getValue().compareTo(o1.getValue());
+			}
+		});
+		for (Pair<Integer,Integer> pair:list) {
+			ans.add(pair.getKey());
+		}
+		return ans;
+	}
+	/*public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+		for (int i = 0; i < ; i++) {
+			
+		}
+	}*/
+	List<List<Pair<Integer,Integer>>> edge = new ArrayList<>();
+	int[] dist5321= new int[150];
+	int[] inQue5321= new int[150];
+	public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+		for (int i = 0; i < 150; i++) {
+			edge.add(new ArrayList<>());
+		}
+		for (int i = 0; i < edges.length; i++) {
+			edge.get(edges[i][0]).add(new Pair<>(edges[i][1],edges[i][2]));
+			edge.get(edges[i][1]).add(new Pair<>(edges[i][0],edges[i][2]));
+		}
+		int ans = -1,rec= n+1;
+		for (int i = 0; i < n; i++) {
+			int ret = bfs5321(i,distanceThreshold,n);
+			if (ret<=rec) {
+				ans=i;
+				rec=ret;
+			}
+		}
+		return ans;
+	}
+	public int bfs5321(int s,int threshold,int n){
+		Arrays.fill(inQue5321,0);
+		Arrays.fill(dist5321,-1);
+		Queue<Integer> que = new ArrayDeque<>();
+		((ArrayDeque<Integer>) que).push(s);
+		dist5321[s]=0;inQue5321[s]=1;
+		while (!que.isEmpty()){
+			int x=que.poll();
+			for (Pair<Integer,Integer> pair:edge.get(x)) {
+				int t=pair.getKey(),w=pair.getValue();
+				if (dist5321[t]==-1||dist5321[t]>dist5321[x]+w){
+					dist5321[t]=dist5321[x]+w;
+					if (inQue5321[t]!=0){
+						inQue5321[t]=1;
+						((ArrayDeque<Integer>) que).push(t);
+					}
+				}
+			}
+			inQue5321[x]=0;
+		}
+		int ret = 0;
+		for (int i = 0; i < n; i++) {
+			if (dist5321[i]==-1)continue;
+			if (dist5321[i]<=threshold)++ret;
+		}
+		return ret;
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
@@ -4178,7 +4269,10 @@ class Trie {
 		int[] act = {1,2,3,3,4,4,5,6};
 		System.out.println(d.distinctEchoSubstrings("abcabcabc"));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
-
+		String accc= "NggvEqfg";
+		for (int i = 0; i < accc.length(); i++) {
+			System.out.println((char)(accc.charAt(i)-2));
+		}
 	}
 
 	//map排序方式
