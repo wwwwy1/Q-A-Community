@@ -5,93 +5,21 @@ import java.util.*;
 public class Main {
 	public static void main(String[] args) throws InterruptedException {
 		Scanner sc=new Scanner(System.in);
-		int start = sc.nextInt();
-		int n = sc.nextInt();
-		int end = sc.nextInt();
-		int head[] = new int[n];
-		int value[] = new int[n];
-		int tail[] = new int[n];
-		for (int i = 0; i < n; i++) {
-			head[i]=sc.nextInt();
-			value[i]=sc.nextInt();
-			tail[i]=sc.nextInt();
-		}
-		int flag=0;
-		if (tail[0]==-1){
-			int t = head[0];
-			head[0] = head[1];
-			head[1] = t;
-			t = value[0];
-			value[0] = value[1];
-			value[1] = t;
-			t = tail[0];
-			tail[0] = tail[1];
-			tail[1] = t;
-			start=tail[1];
-		}
-		while(start != -1){
-			for (int i = 0; i < n; i++) {
-				if (head[i]==start){
-					int t = head[i];
-					head[i] = head[flag];
-					head[flag] = t;
-					t = value[i];
-					value[i] = value[flag];
-					value[flag] = t;
-					t = tail[i];
-					tail[i] = tail[flag];
-					tail[flag] = t;
-					start=tail[flag];
-					flag++;
-				}
+		String a = sc.next();
+		String b = sc.next();
+		int n = Math.min(a.length(),b.length());
+		int l = 0,r = 0;
+		int ans = 0;
+		while(r<n){
+			if (a.charAt(r)==b.charAt(r)){
+				ans = Math.max(r-l+1,ans);
+				r++;
+			}else {
+				l=r+1;
+				r=l;
 			}
 		}
-		int num = flag/end;
-		int fl=end*(num+1);
-		for (int j = num-1; j >=0; j--) {
-			fl-=end;
-			for (int i = fl-1; i >= j*end; i--) {
-				if (i!=j*end){
-					if (j==0 && i == fl-1)start=head[i];
-					tail[i]=head[i-1];
-				}
-				else {
-					if (fl<n){
-						if (num==1 && n%end!=0)
-							tail[i]=head[end];
-						else tail[i]=head[fl+end-1];
-					}
-
-					else tail[i]=-1;
-				}
-			}
-		}
-		flag=0;
-		while(start != -1){
-			for (int i = 0; i < n; i++) {
-				if (head[i]==start){
-					int t = head[i];
-					head[i] = head[flag];
-					head[flag] = t;
-					t = value[i];
-					value[i] = value[flag];
-					value[flag] = t;
-					t = tail[i];
-					tail[i] = tail[flag];
-					tail[flag] = t;
-					start=tail[flag];
-					flag++;
-				}
-			}
-		}
-		for (int i = 0; i < n; i++) {
-			if (tail[i]==-1){
-				System.out.printf("%05d %d %d",head[i],value[i],tail[i]);
-			}else
-				System.out.printf("%05d %d %05d",head[i],value[i],tail[i]);
-			System.out.println();
-		}
-
+		System.out.println(ans);
 	}
 }
 
