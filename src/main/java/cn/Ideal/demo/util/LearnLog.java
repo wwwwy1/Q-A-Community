@@ -135,7 +135,8 @@ public enum  LearnLog {
 	LearnConcurrent81("2020/01/27","补leetcode173周赛"),
 	LearnConcurrent82("2020/01/29","填充数据，日常牛客刷题"),
 	LearnConcurrent83("2020/01/30","补充分页footer，学习dp"),
-	LearnConcurrent84("2020/01/30","补充分页功能,websocket");
+	LearnConcurrent84("2020/01/31","补充分页功能,websocket"),
+	LearnConcurrent85("2020/02/01","学习设计模式-单例-工厂");
 
 	// 时间
 	private final String learnTime;

@@ -1,25 +1,13 @@
 package cn.Ideal.demo;
 
+import testDesignPattern.single.EnumHunger;
+
 import java.util.*;
 
 public class Main {
 	public static void main(String[] args) throws InterruptedException {
-		Scanner sc=new Scanner(System.in);
-		String a = sc.next();
-		String b = sc.next();
-		int n = Math.min(a.length(),b.length());
-		int l = 0,r = 0;
-		int ans = 0;
-		while(r<n){
-			if (a.charAt(r)==b.charAt(r)){
-				ans = Math.max(r-l+1,ans);
-				r++;
-			}else {
-				l=r+1;
-				r=l;
-			}
-		}
-		System.out.println(ans);
+		EnumHunger a = EnumHunger.INSTANCE;
+		a.doSomeThing();
 	}
 }
 
