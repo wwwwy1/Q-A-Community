@@ -4230,6 +4230,74 @@ class Trie {
 		}
 		return ret;
 	}
+	public int[] kWeakestRows(int[][] mat, int k) {
+		List<Pair<Integer,Integer>> ans = new ArrayList<>();
+		int n = mat.length;
+		for (int i = 0; i < n; i++) {
+			int flag = 0;
+			for (int j = 0; j < mat[i].length; j++) {
+				flag+=mat[i][j];
+			}
+			ans.add(new Pair<>(i,flag));
+		}
+		Collections.sort(ans, new Comparator<Pair<Integer, Integer>>() {
+			@Override
+			public int compare(Pair<Integer, Integer> o1, Pair<Integer, Integer> o2) {
+				return o1.getValue()-o2.getValue();
+			}
+		});
+		int[] ret = new int[k];
+		for (int i = 0; i < k; i++) {
+			ret[i] = ans.get(i).getKey();
+		}
+		return ret;
+	}
+	public int minSetSize(int[] arr) {
+		Map<Integer,Integer> hashMap = new HashMap<>();
+		for (int i = 0; i < arr.length; i++) {
+			if (hashMap.containsKey(arr[i])){
+				hashMap.put(arr[i],hashMap.get(arr[i])+1);
+			}else {
+				hashMap.put(arr[i],1);
+			}
+		}
+		Map<Integer, Integer> map = sortByValue2(hashMap);
+		Set<Integer> set = map.keySet();
+		int n = arr.length/2;
+		int ans = 0;
+		int count = 0;
+		for (Integer integer : set) {
+			count+=map.get(integer);
+			ans++;
+			if (count>=n)return set.size()-ans+1;
+		}
+		return ans;
+	}
+	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue2(Map<K, V> map) {
+		LinkedHashMap<K,V> result =new LinkedHashMap<>();
+		map.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEachOrdered(x->result.put(x.getKey(),x.getValue()));
+		return result;
+	}
+	double ans5330 = 0;
+	public int maxProduct(TreeNode root) {
+		int sum = dfs5330(root);
+		System.out.println(sum);
+		dfs53302(root,sum);
+		return (int)(ans5330%(1e9+7));
+	}
+	public int dfs53302(TreeNode root,int sum){
+		if (root==null) return 0;
+		int temp = root.val;
+		temp += dfs53302(root.left,sum);
+		temp += dfs53302(root.right,sum);
+		ans5330 = Math.max(temp*1.0*(sum-temp),ans5330);
+		return temp;
+	}
+	public int dfs5330(TreeNode root){
+		if (root==null)return 0;
+		return root.val+dfs5330(root.left)+dfs5330(root.right);
+	}
+
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
@@ -4266,13 +4334,10 @@ class Trie {
 		List<String> a4 = new ArrayList<>();
 		a4.add("D");
 		list.add(a4);
-		int[] act = {1,2,3,3,4,4,5,6};
-		System.out.println(d.distinctEchoSubstrings("abcabcabc"));
+		int[] act = {3,3,3,3,5,5,5,2,2,7};
+		System.out.println(d.minSetSize(act));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
-		String accc= "NggvEqfg";
-		for (int i = 0; i < accc.length(); i++) {
-			System.out.println((char)(accc.charAt(i)-2));
-		}
+
 	}
 
 	//map排序方式
