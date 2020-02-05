@@ -5,25 +5,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JobParse {
 
 	public static List<Jobs> getData(String entity) {
-
 		List<Jobs> data = new ArrayList<Jobs>();
 		Document doc = Jsoup.parse(entity);
 		Elements elements = doc.select("div.el");
-		/*Elements title = elements.select("p.t1").select("span").select("a"); //标题
-		Elements complany = elements.select("span.t2").select("a"); //公司
-		Elements address = elements.select("span.t3");//地址
-		Elements salary = elements.select("span.t4");//薪水
-		Elements datas = elements.select("span.t5");//发布日期
-		Elements SrcId = elements.select("p.t1").select("input.checkbox");//招聘信息对应的id*/
-
-
 		for (Element element : elements) {
 			Jobs jobs = new Jobs();
 			Elements title = element.select("p.t1").select("span").select("a"); //标题
@@ -44,8 +34,6 @@ public class JobParse {
 			jobs.setSalary(salary.text());
 			jobs.setPushDate(datas.text());
 			data.add(jobs);
-
-
 		}
 		return data;
 	}
