@@ -35,7 +35,9 @@ public class JobParse {
 				address.text().equals("") || salary == null || salary.text().equals("")|| datas == null || datas.text().equals("")) {
 				continue;
 			}
-
+			String href = title.attr("href");
+			if (href!=null && !href.equals("")) jobs.setUrl(href);
+			else continue;
 			jobs.setJobName(title.text());
 			jobs.setCompanyName(complany.text());
 			jobs.setWorkAddr(address.text());
