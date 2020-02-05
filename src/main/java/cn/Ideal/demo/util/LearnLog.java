@@ -139,7 +139,8 @@ public enum  LearnLog {
 	LearnConcurrent85("2020/02/01","学习设计模式-单例-工厂"),
 	LearnConcurrent86("2020/02/02","leetcode 174周赛"),
 	LearnConcurrent87("2020/02/03","办理离职事项"),
-	LearnConcurrent88("2020/02/04","学习设计模式-建造者模式-原型模式");
+	LearnConcurrent88("2020/02/04","学习设计模式-建造者模式-原型模式"),
+	LearnConcurrent89("2020/02/05","完成爬虫工具(爬取51job招聘信息)");
 
 	// 时间
 	private final String learnTime;
