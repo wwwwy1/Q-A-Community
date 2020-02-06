@@ -36,27 +36,4 @@ public class IndexController {
         return "/user/register";
     }
 
-    @GetMapping(value = "/user/createShop")
-    public String goCreateShop(){
-        return "/user/createShop";
-    }
-    @GetMapping(value = "/user/createLicense")
-    public String goCreateLicense(){
-        return "/user/createLicense";
-    }
-    @GetMapping(value = "/user/createQuotation")
-    public String goCreateQuotation(){
-        return "/user/createQuotation";
-    }
-    @GetMapping(value = "/user/cyxt")
-    public String gocyxt(){
-        return "/user/cyxt";
-    }
-    @GetMapping(value = "/user/zsjm")
-    public String gozsjm(){
-        return "/user/zsjm";
-    }
-
-
-
 }
