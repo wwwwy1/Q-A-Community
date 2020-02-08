@@ -22,6 +22,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.sql.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -4298,6 +4299,44 @@ class Trie {
 		return root.val+dfs5330(root.left)+dfs5330(root.right);
 	}
 
+	public int numberOfSteps (int num) {
+		int ans = 0;
+		while (num!=1){
+			if (num%2==0)num/=2;
+			else num--;
+			ans++;
+		}
+		return ans;
+	}
+	public int numOfSubarrays(int[] arr, int k, int threshold) {
+		//Arrays.sort(arr);
+		if (arr.length<k)return 0;
+		int left = 0,right=k-1;
+		int sum=0;
+		for (int i = 0; i < k; i++) {
+			sum+=arr[i];
+		}
+		int ans =0;
+		if (sum*1.0/k>=threshold){
+			ans++;
+		}
+		while (right<arr.length-1){
+			sum-=arr[left++];
+			sum+=arr[++right];
+			if (sum*1.0/k>=threshold){
+				ans++;
+			}
+		}
+		return ans;
+	}
+	public double angleClock(int hour, int minutes) {
+		double gap = (30 * hour - 5.5 * minutes) % 360;
+		gap = Math.abs(gap);
+		if (gap>180){
+			gap=360-gap;
+		}
+		return Math.abs(gap);
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
@@ -4334,8 +4373,8 @@ class Trie {
 		List<String> a4 = new ArrayList<>();
 		a4.add("D");
 		list.add(a4);
-		int[] act = {3,3,3,3,5,5,5,2,2,7};
-		System.out.println(d.minSetSize(act));
+		int[] act = {2,2,2,2,5,5,5,8};
+		System.out.println(d.angleClock(1,57));
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	}
