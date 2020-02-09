@@ -143,7 +143,8 @@ public enum  LearnLog {
 	LearnConcurrent89("2020/02/05","完成爬虫工具(爬取51job招聘信息)"),
 	LearnConcurrent90("2020/02/06","完善每日一言功能，以及思考总体架构方向"),
 	LearnConcurrent91("2020/02/07","学习并使用SweetAlert"),
-	LearnConcurrent92("2020/02/08","完成用户管理页面以及参加leetcode双周赛");
+	LearnConcurrent92("2020/02/08","完成用户管理页面以及参加leetcode双周赛"),
+	LearnConcurrent93("2020/02/09","编写标签管理页面以及参加leetcode周赛");
 
 
 	// 时间
