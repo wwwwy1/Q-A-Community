@@ -4337,6 +4337,36 @@ class Trie {
 		}
 		return Math.abs(gap);
 	}
+	public boolean checkIfExist(int[] arr) {
+		int n = arr.length;
+		for (int i = 0; i < n; i++) {
+			for (int j = i+1; j < n; j++) {
+				if (arr[i]*2==arr[j] || arr[j]*2==arr[i]){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public int minSteps(String s, String t) {
+		Map<Character,Integer> map = new HashMap<>();
+		for (int i = 0; i < t.length(); i++) {
+			if (map.containsKey(t.charAt(i))){
+				map.put(t.charAt(i),map.get(t.charAt(i))+1);
+			}else {
+				map.put(t.charAt(i),1);
+			}
+		}
+		int ans = 0;
+		for (int i = 0; i < s.length(); i++) {
+			if (map.containsKey(s.charAt(i)) && map.get(s.charAt(i))>=1){
+				map.put(s.charAt(i),map.get(s.charAt(i))-1);
+			}else {
+				ans++;
+			}
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
@@ -4374,7 +4404,14 @@ class Trie {
 		a4.add("D");
 		list.add(a4);
 		int[] act = {2,2,2,2,5,5,5,8};
-		System.out.println(d.angleClock(1,57));
+		//System.out.println(d.angleClock(1,57));
+		TweetCounts tweetCounts = new TweetCounts();
+		tweetCounts.recordTweet("t1",10);
+		tweetCounts.recordTweet("t1",0);
+		tweetCounts.recordTweet("t1",60);
+		tweetCounts.getTweetCountsPerFrequency("minute","t1",0,59);
+		tweetCounts.getTweetCountsPerFrequency("minute","t1",0,60);
+
 		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	}
