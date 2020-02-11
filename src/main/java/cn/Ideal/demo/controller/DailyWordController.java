@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2020-02-11
  */
 @Controller
-@RequestMapping("/reply")
-public class ReplyController {
+@RequestMapping("/dailyWord")
+public class DailyWordController {
 
 }

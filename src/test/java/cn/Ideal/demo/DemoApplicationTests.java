@@ -5,8 +5,6 @@ import cn.Ideal.demo.util.TestXmlClass;
 import com.sun.jmx.remote.internal.ArrayQueue;
 import com.sun.xml.internal.bind.v2.runtime.reflect.ListTransducedAccessorImpl;
 import javafx.util.Pair;
-import org.apache.commons.collections.map.HashedMap;
-import org.apache.shiro.crypto.hash.Hash;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -19,45 +19,39 @@ import java.time.LocalDateTime;
     @Data
         @EqualsAndHashCode(callSuper = false)
     @Accessors(chain = true)
-    public class Reply implements Serializable {
+    public class Tags implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
             /**
-            * 回复id
+            * 主键
             */
             @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
             /**
-            * 帖子id
+            * 标签名
             */
-        @TableField("forum_id")
-    private Integer forumId;
+        @TableField("tags_name")
+    private String tagsName;
 
             /**
-            * 回复内容
+            * 备注
             */
-        @TableField("reply_content")
-    private String replyContent;
+        @TableField("tags_remarks")
+    private String tagsRemarks;
 
             /**
-            * 回复者id
+            * 总统计次数
             */
-        @TableField("reply_user_id")
-    private String replyUserId;
+        @TableField("tags_count")
+    private Integer tagsCount;
 
             /**
-            * 0则为第一层，其他则为楼中楼
+            * 1-启用 0-禁用
             */
-        @TableField("reply_father")
-    private Integer replyFather;
-
-            /**
-            * 被回复人id
-            */
-        @TableField("reply_return_user_id")
-    private String replyReturnUserId;
+        @TableField("tags_enable")
+    private Integer tagsEnable;
 
     /**
      * 软删除  0:未删除 1:已删除

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.Ideal.demo.mapper.ForumMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.Ideal.demo.entity.Forum">
+        <id column="id" property="id" />
+        <result column="forum_title" property="forumTitle" />
+        <result column="forum_content" property="forumContent" />
+        <result column="forum_tips" property="forumTips" />
+        <result column="forum_replys" property="forumReplys" />
+        <result column="forum_clicks" property="forumClicks" />
+        <result column="forum_thumbs" property="forumThumbs" />
+        <result column="insert_date" property="insertDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, forum_title, forum_content, forum_tips, forum_replys, forum_clicks, forum_thumbs, insert_date, update_date, is_deleted, user_id
+    </sql>
+
+</mapper>

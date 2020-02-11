@@ -19,45 +19,51 @@ import java.time.LocalDateTime;
     @Data
         @EqualsAndHashCode(callSuper = false)
     @Accessors(chain = true)
-    public class Reply implements Serializable {
+    public class Forum implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
             /**
-            * 回复id
+            * 帖子id
             */
             @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
             /**
-            * 帖子id
+            * 标题
             */
-        @TableField("forum_id")
-    private Integer forumId;
+        @TableField("forum_title")
+    private String forumTitle;
 
             /**
-            * 回复内容
+            * 内容
             */
-        @TableField("reply_content")
-    private String replyContent;
+        @TableField("forum_content")
+    private String forumContent;
 
             /**
-            * 回复者id
+            * 标签记录id,用逗号间隔
             */
-        @TableField("reply_user_id")
-    private String replyUserId;
+        @TableField("forum_tips")
+    private String forumTips;
 
             /**
-            * 0则为第一层，其他则为楼中楼
+            * 回复数
             */
-        @TableField("reply_father")
-    private Integer replyFather;
+        @TableField("forum_replys")
+    private Integer forumReplys;
 
             /**
-            * 被回复人id
+            * 点击量
             */
-        @TableField("reply_return_user_id")
-    private String replyReturnUserId;
+        @TableField("forum_clicks")
+    private Integer forumClicks;
+
+            /**
+            * 点击量
+            */
+        @TableField("forum_thumbs")
+    private Integer forumThumbs;
 
     /**
      * 软删除  0:未删除 1:已删除
@@ -74,6 +80,12 @@ import java.time.LocalDateTime;
 
     @TableField(value = "update_date",fill = FieldFill.UPDATE)
     private LocalDateTime updateDate;
+
+            /**
+            * 创建人用户id
+            */
+        @TableField("user_id")
+    private String userId;
 
 
 }

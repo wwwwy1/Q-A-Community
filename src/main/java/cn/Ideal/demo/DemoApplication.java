@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 @EnableTransactionManagement
 @SpringBootApplication
-@MapperScan(basePackages = {"cn.Ideal.demo.*"})
+@MapperScan("cn.Ideal.demo.mapper")
 @ServletComponentScan
 public class DemoApplication  {
 

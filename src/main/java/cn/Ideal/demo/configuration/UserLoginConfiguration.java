@@ -17,14 +17,15 @@ public class UserLoginConfiguration implements WebMvcConfigurer {
         // 排除路径
         loginRegistry.excludePathPatterns("/");
         loginRegistry.excludePathPatterns("/user/login");
+        loginRegistry.excludePathPatterns("/user/index");
         loginRegistry.excludePathPatterns("/user/loginCheck");
         loginRegistry.excludePathPatterns("/user/register");
         loginRegistry.excludePathPatterns("/user/registerCheck");
         // 排除资源请求
         loginRegistry.excludePathPatterns("/static/css/*.css");
-       loginRegistry.excludePathPatterns("/static/js/*.*");
+        loginRegistry.excludePathPatterns("/static/js/*.*");
         loginRegistry.excludePathPatterns("/static/fonts/*.*");
-       loginRegistry.excludePathPatterns("/image/login/*.png");
+        loginRegistry.excludePathPatterns("/image/login/*.png");
     }
 
 }
