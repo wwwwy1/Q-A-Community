@@ -148,7 +148,8 @@ public enum  LearnLog {
 	//周赛排名233/2046 第三题出现意外，leetcode显示bug 总体不难 完成前三题
 	LearnConcurrent93("2020/02/09","编写标签管理页面以及参加leetcode周赛"),
 	LearnConcurrent94("2020/02/10","暂完成标签管理页面(vpn挂了没法查看switchery的例子)"),
-	LearnConcurrent95("2020/02/11","将mybatis升级为mybatis-plus,修改主页内容,重新开发前台");
+	LearnConcurrent95("2020/02/11","将mybatis升级为mybatis-plus,修改主页内容,重新开发前台"),
+	LearnConcurrent96("2020/02/12","学习使用Markdown编辑器，暂定使用editor.md插件");
 
 	// 时间
 	private final String learnTime;
