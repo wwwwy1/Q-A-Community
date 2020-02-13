@@ -35,5 +35,8 @@ public class IndexController {
     public String goRegister(){
         return "/user/register";
     }
-
+    @GetMapping(value = "/user/posting")
+    public String goPosting(){
+        return "/user/posting";
+    }
 }

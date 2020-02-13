@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="utf-8" />
+		<title>提问</title>
+		<link   th:href="@{/css/youcediv.css}"  href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<link  th:href="@{/css/bootstrap.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<script   th:src="@{/js/jquery.js}"  type="text/javascript" src="/static/js/jquery.js"></script>
+		<script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
+		<link rel="stylesheet" th:href="@{/editorMd/css/editormd.css}" />
+		<script th:src="@{/editorMd/editormd.min.js}" type="text/javascript"></script>
+
+	</head>
+
+	<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/front/index.html">Y</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="#">首页 <span class="sr-only">(current)</span></a>
+					</li>
+					<li>
+						<a href="forum.html">论坛</a>
+					</li>
+					<li>
+						<a href="#">行程规划<span class="badge">New</span></a>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">创业文案分享区 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">成功经历分享</a>
+							</li>
+							<li>
+								<a href="#">Another action</a>
+							</li>
+							<li>
+								<a href="#">Something else here</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">Separated link</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">One more separated link</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form navbar-left">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Daily word:Furious activity is no substitute for understanding</a></li>
+					<li>
+						<a href="#">收藏夹</a>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人管理 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">信息修改</a>
+							</li>
+							<li>
+								<a href="#">Another action</a>
+							</li>
+							<li>
+								<a href="#">Something else here</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">系统设置</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="jumbotron">
+		<div class="container">
+			<div class="alert alert-success">
+				<p>提问指导：</p>
+				<p><img src="../images/cystep1.JPG" width="30px" />尝试总结问题</p>
+				<p><img src="../images/cystep2.JPG" width="30px" />描述自己做过哪些尝试（例如:查阅过哪些资料、断点过程中出现哪些意料之外的数据等）</p>
+				<p><img src="../images/cystep3.JPG" width="30px" />合适的时候，可以展示一些代码</p>
+			</div>
+			<div id="my-editormd">
+				<textarea style="display:none;">### 关于 Editor.md
+					**Editor.md** 是一款开源的、可嵌入的 Markdown 在线编辑器（组件），基于 CodeMirror、jQuery 和 Marked 构建。
+				</textarea>
+					<!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
+					<textarea class="editormd-html-textarea" name="html"></textarea>
+			</div>
+			<p>
+				<input type="button" class="btn btn-primary btn-lg btn"  onclick="testGo()" value="提问">
+			</p>
+		</div>
+	</div>
+	<div class="side-bar" >
+		<a href="" class="icon-qq">QQ在线咨S询
+			<div class="qq-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="QQ订阅号"></div>
+		</a>
+		<a href="" class="icon-chat">微信
+			<div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="微信订阅号"></div>
+		</a>
+		<a target="_blank" href="https://weibo.com/" class="icon-blog">微博</a>
+		<a href="mailto:2500233233@qq.com" class="icon-mail">mail</a>
+	</div>
+
+	<nav class="navbar navbar-default navbar-fixed-bottom" id="footer">
+		<div class="container">
+			<div class="navbar-header" >
+				<a style="font-size: 10px;" class="navbar-brand" target="_blank"
+				   href="#"> Here is Y tribune  Copy Right @ 2019 </a>
+			</div>
+		</div>
+	</nav>
+
+
+	</body>
+
+</html>
+<script type="text/javascript">
+    function testGo() {
+        var content = $('.editormd-markdown-textarea').val();
+        alert(content);
+        var content1 = $('.editormd-html-textarea').val();
+        alert(content1);
+    }
+    var testEditor;
+
+    $(function () {
+        testEditor = editormd("my-editormd", {
+            width: "90%",
+            height: 640,
+            syncScrolling: "single",
+            path: "/editorMd/lib/",
+            //这个配置在simple.html中并没有，但是为了能够提交表单，使用这个配置可以让构造出来的HTML代码直接在第二个隐藏的textarea域中，方便post提交表单。
+            saveHTMLToTextarea: true,
+
+            imageUpload: true,
+            imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "/upload/uploadImage",//注意你后端的上传图片服务地址
+            onload: function(){
+                this.width("100%");
+                this.height(480);
+            }
+        });
+    });
+</script>
+
+<script>
+    var cylabel = document.getElementById("cyLabel");
+    $(document).ready(function() {
+        autoFooterHeight();
+    })
+    // 解决底部自动导航的问题
+    function autoFooterHeight() {
+        // 获取内容的高度
+        var bodyHeight = $("body").height();
+        // 获取底部导航的高度
+        var navHeight = $(".navbar").height();
+        // 获取显示屏的高度
+        var iHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        // 如果内容的高度大于（窗口的高度 - 导航的高度）,移除属性样式
+        if (bodyHeight > (iHeight - navHeight)) {
+            $("#footer").removeClass("navbar-fixed-bottom");
+        }
+    }
+
+</script>
