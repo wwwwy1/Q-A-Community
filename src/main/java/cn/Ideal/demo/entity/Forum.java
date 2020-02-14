@@ -36,10 +36,15 @@ import java.time.LocalDateTime;
     private String forumTitle;
 
             /**
-            * 内容
-            */
-        @TableField("forum_content")
+     * html格式内容
+     */
+    @TableField("forum_content")
     private String forumContent;
+    /**
+     * html格式内容
+     */
+    @TableField("forum_md")
+    private String forumMd;
 
             /**
             * 标签记录id,用逗号间隔

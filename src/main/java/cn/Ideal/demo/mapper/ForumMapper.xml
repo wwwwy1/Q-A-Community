@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="forum_title" property="forumTitle" />
         <result column="forum_content" property="forumContent" />
+        <result column="forum_md" property="forumMd" />
         <result column="forum_tips" property="forumTips" />
         <result column="forum_replys" property="forumReplys" />
         <result column="forum_clicks" property="forumClicks" />

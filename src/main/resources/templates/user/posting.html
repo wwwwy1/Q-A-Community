@@ -13,7 +13,30 @@
 		<link rel="stylesheet" th:href="@{/css/chosen/chosen.css}" />
 		<script th:src="@{/js/chosen.jquery.js}" type="text/javascript"></script>
 	</head>
-
+	<script>
+        $(function(){
+            $('.chosen-select').chosen({
+                no_results_text: "没有找到结果！",//搜索无结果时显示的提示
+                search_contains:true,   //关键字模糊搜索。设置为true，只要选项包含搜索词就会显示；设置为false，则要求从选项开头开始匹配
+                allow_single_deselect:true, //单选下拉框是否允许取消选择。如果允许，选中选项会有一个x号可以删除选项
+                disable_search: false, //禁用搜索。设置为true，则无法搜索选项。
+                disable_search_threshold: 0, //当选项少等于于指定个数时禁用搜索。
+                inherit_select_classes: false, //是否继承原下拉框的样式类，此处设为继承
+                placeholder_text_single: '选择标签', //单选选择框的默认提示信息，当选项为空时会显示。如果原下拉框设置了data-placeholder，会覆盖这里的值。
+                width: '400px', //设置chosen下拉框的宽度。即使原下拉框本身设置了宽度，也会被width覆盖。
+                max_shown_results: 1000, //下拉框最大显示选项数量
+                display_disabled_options: false,
+                single_backstroke_delete: false, //false表示按两次删除键才能删除选项，true表示按一次删除键即可删除
+                case_sensitive_search: false, //搜索大小写敏感。此处设为不敏感
+                group_search: false, //选项组是否可搜。此处搜索不可搜
+                include_group_label_in_selected: false //选中选项是否显示选项分组。false不显示，true显示。默认false。
+            });
+            /*$('.chosen2').chosen({
+                search_contains:false,
+                enable_split_word_search: true //分词搜索，选项词可通过空格或'[]'分隔。search_contains为false时才能看出效果
+            });*/
+        });
+	</script>
 	<body>
 
 	<nav class="navbar navbar-default">
@@ -110,7 +133,7 @@
 					<textarea class="editormd-html-textarea" name="html"></textarea>
 			</div>
 			<p>
-				<input type="button" class="btn btn-primary btn-lg btn"  onclick="testGo()" value="提问">
+				<input type="button" class="btn btn-primary btn-lg btn"  onclick="testGo()" value="下一步">
 			</p>
 		</div>
 	</div>
@@ -126,59 +149,34 @@
 							<input id="tagsId" hidden="hidden" value="-1">
 							<div class="form-group">
 								<div class="alert alert-success">
-									又是提示文字
+									请填写问题标题以及对于的关联标签：
+									标题应该尽量用简介的语言描述具体的问题。
+									为了提高回答效率，请准确选定标签。
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">标题：</label>
+								<div class="col-sm-8">
+									<input type="text" placeholder="请输入标题" id="forumTitle" class="form-control">
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label">标签名：</label>
 								<div class="col-sm-8">
 									<div class="input-group">
-										<select data-placeholder="选择省份" class="chosen-select" multiple style="width:350px;" tabindex="4">
-											<option value="">请选择省份</option>
-											<option value="110000" hassubinfo="true">北京</option>
-											<option value="120000" hassubinfo="true">天津</option>
-											<option value="130000" hassubinfo="true">河北省</option>
-											<option value="140000" hassubinfo="true">山西省</option>
-											<option value="150000" hassubinfo="true">内蒙古自治区</option>
-											<option value="210000" hassubinfo="true">辽宁省</option>
-											<option value="220000" hassubinfo="true">吉林省</option>
-											<option value="230000" hassubinfo="true">黑龙江省</option>
-											<option value="310000" hassubinfo="true">上海</option>
-											<option value="320000" hassubinfo="true">江苏省</option>
-											<option value="330000" hassubinfo="true">浙江省</option>
-											<option value="340000" hassubinfo="true">安徽省</option>
-											<option value="350000" hassubinfo="true">福建省</option>
-											<option value="360000" hassubinfo="true">江西省</option>
-											<option value="370000" hassubinfo="true">山东省</option>
-											<option value="410000" hassubinfo="true">河南省</option>
-											<option value="420000" hassubinfo="true">湖北省</option>
-											<option value="430000" hassubinfo="true">湖南省</option>
-											<option value="440000" hassubinfo="true">广东省</option>
-											<option value="450000" hassubinfo="true">广西壮族自治区</option>
-											<option value="460000" hassubinfo="true">海南省</option>
-											<option value="500000" hassubinfo="true">重庆</option>
-											<option value="510000" hassubinfo="true">四川省</option>
-											<option value="520000" hassubinfo="true">贵州省</option>
-											<option value="530000" hassubinfo="true">云南省</option>
-											<option value="540000" hassubinfo="true">西藏自治区</option>
-											<option value="610000" hassubinfo="true">陕西省</option>
-											<option value="620000" hassubinfo="true">甘肃省</option>
-											<option value="630000" hassubinfo="true">青海省</option>
-											<option value="640000" hassubinfo="true">宁夏回族自治区</option>
-											<option value="650000" hassubinfo="true">新疆维吾尔自治区</option>
-											<option value="710000" hassubinfo="true">台湾省</option>
-											<option value="810000" hassubinfo="true">香港特别行政区</option>
-											<option value="820000" hassubinfo="true">澳门特别行政区</option>
-											<option value="990000" hassubinfo="true">海外</option>
+										<select  data-placeholder="请选择标签" class="chosen-select" multiple style="width:350px;" tabindex="4">
+											<option th:each="tags:${list}" th:value="${tags.id}" th:text="${tags.tagsName}" hassubinfo="true">海外</option>
 										</select>
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
+								<div class="col-sm-8">
+								</div>
 							</div>
 							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
-									<button class="btn btn-primary" type="submit">提交</button>
+									<button class="btn btn-primary" onclick="addForum()" type="submit">发布</button>
 								</div>
 							</div>
 						</form>
@@ -215,11 +213,42 @@
 </html>
 <script type="text/javascript">
     function testGo() {
-        var content = $('.editormd-markdown-textarea').val();
+        /*var content = $('.editormd-markdown-textarea').val();
         alert(content);
         var content1 = $('.editormd-html-textarea').val();
-        alert(content1);
+        alert(content1);*/
         $('#myModal4').modal();
+    }
+    function addForum() {
+		var md = $('.editormd-markdown-textarea').val();
+		var html = $('.editormd-html-textarea').val();
+       /* $.ajax({
+            url: "/forum/add",
+            data:{"ids":ids},
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 200){
+                    swal({
+                        title: "删除成功",
+                        text: "删除成功",
+                        type: "success"
+                    },function () {
+                        location.href("/tags/page?current="+1+"&pageSize="+10);
+                    });
+                } else {
+                    swal({
+                        title: "删除失败",
+                        text: "删除失败",
+                        type: "warning"
+                    },function () {
+                        location.href("/tags/page?current="+1+"&pageSize="+10);
+                    });
+                }
+            }
+        })*/
+       alert($('.chosen-select').val());
+
     }
     var testEditor;
 
