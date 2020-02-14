@@ -8,6 +8,10 @@
 		<link  th:href="@{/css/bootstrap.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
 		<script   th:src="@{/js/jquery.js}"  type="text/javascript" src="/static/js/jquery.js"></script>
 		<script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
+		<link  th:href="@{/css/font-awesome.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<link  th:href="@{/css/style.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+
+
 	</head>
 
 	<body>
@@ -68,7 +72,12 @@
 					<li>
 						<a href="#">收藏夹</a>
 					</li>
+
 					<li class="dropdown">
+						<a href="javascript:void(0)" onclick="openLogin()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/注册 </a>
+					</li>
+
+					<!--<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人管理 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li>
@@ -85,11 +94,47 @@
 								<a href="#">系统设置</a>
 							</li>
 						</ul>
-					</li>
+					</li>-->
 				</ul>
 			</div>
 		</div>
 	</nav>
+	<div id="modal-form" class="modal fade" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-6 b-r">
+							<h3 class="m-t-none m-b">登录</h3>
+							<form role="form">
+								<div class="form-group">
+									<label>用户名：</label>
+									<input type="email" placeholder="请输入用户名" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>密码：</label>
+									<input type="password" placeholder="请输入密码" class="form-control">
+								</div>
+								<div>
+									<button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>登录</strong>
+									</button>
+									<label>
+										<input type="checkbox" class="i-checks">自动登录</label>
+								</div>
+							</form>
+						</div>
+						<div class="col-sm-6">
+							<h4>还不是会员？</h4>
+							<p>您可以注册一个账户</p>
+							<p class="text-center">
+								<a href="form_basic.html"><i class="fa fa-sign-in big-icon"></i></a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="jumbotron">
 		<div class="container">
 			<div class="jumbotron">
@@ -234,5 +279,7 @@
             $("#footer").removeClass("navbar-fixed-bottom");
         }
     }
-
+	function openLogin() {
+        $('#modal-form').modal();
+    }
 </script>

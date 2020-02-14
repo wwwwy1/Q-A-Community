@@ -150,7 +150,8 @@ public enum  LearnLog {
 	LearnConcurrent94("2020/02/10","暂完成标签管理页面(vpn挂了没法查看switchery的例子)"),
 	LearnConcurrent95("2020/02/11","将mybatis升级为mybatis-plus,修改主页内容,重新开发前台"),
 	LearnConcurrent96("2020/02/12","学习使用Markdown编辑器，暂定使用editor.md插件"),
-	LearnConcurrent97("2020/02/13","开发发帖页面，学习使用chosen");
+	LearnConcurrent97("2020/02/13","开发发帖页面，学习使用chosen"),
+	LearnConcurrent98("2020/02/14","开发完成发帖页面、前台注册登录页面");
 	// 时间
 	private final String learnTime;
 	// 内容
