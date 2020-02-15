@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-@Configuration
+//@Configuration
 public class UserLoginConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -22,6 +22,7 @@ public class UserLoginConfiguration implements WebMvcConfigurer {
         loginRegistry.excludePathPatterns("/user/register");
         loginRegistry.excludePathPatterns("/user/registerCheck");
         loginRegistry.excludePathPatterns("/user/posting");
+        loginRegistry.excludePathPatterns("/userController/checkUserName");
         // 排除资源请求
         loginRegistry.excludePathPatterns("/static/css/*.css");
         loginRegistry.excludePathPatterns("/static/js/*.*");

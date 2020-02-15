@@ -10,6 +10,8 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 检查每个到来的请求对应的session域中是否有登录标识
+        StringBuffer requestURL = request.getRequestURL();
+        System.out.println(requestURL);
         Object loginName = request.getSession().getAttribute("username");
         if (null == loginName || !(loginName instanceof String)) {
             // 未登录，重定向到登录页
