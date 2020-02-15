@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>注册</title>
+		<link   th:href="@{/css/bootstrap-theme.css}"  href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<link  th:href="@{/css/bootstrap.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<script   th:src="@{/js/jquery.js}"  type="text/javascript" src="/static/js/jquery.js"></script>
+		<script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
+	</head>
+
+	<body>
+
+			<!--文字-->
+			<div align="center" style="margin-top: 50px;"><h1>注册 <small>系统</small></h1></div>
+			<!--main-->
+			<div class="container-fluid" style="width: 300px;margin-top: 30px;">
+				<!--用户名文本框-->
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1 "><span class=" glyphicon glyphicon-user"></span></span>
+					<input id="UserName" name='uName' type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+				</div>
+
+				<!--密码文本框-->
+				<div class="input-group" style="margin-top: 10px;">
+					<span class="input-group-addon"><span class=" glyphicon glyphicon-lock"></span></span>
+					<input id="UserPWD" type="password" name='uPwd' class="form-control" placeholder="Password">
+				</div>
+
+				<!--再次输入密码框-->
+				<div class="input-group" style="margin-top: 10px;">
+					<span class="input-group-addon"><span class=" glyphicon glyphicon-lock"></span></span>
+					<input id="UserPWDre" type="password" class="form-control" placeholder="Password">
+				</div>
+				<!--项目名称类别-->
+				<div class="input-group" style="margin-top: 10px;">
+					<span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
+					<input type="text" name='uProj' id="uProj" class="form-control" placeholder="Project Name" style="width: 130px;">
+					<select id="ProjType" name='uHy' class="form-control" style="width:101px; font-size: 12px;">
+						<option value="0">选择行业 </option>
+						<option value="农业">农业</option>
+						<option value="工业">工业</option>
+						<option value="服务业">服务业</option>
+						<option value="其他">其他</option>
+					</select>
+				</div>
+				<!--省份-->
+				<div class="input-group" style="margin-top: 10px;">
+					<span class="input-group-addon"><span class="glyphicon glyphicon-map-marker
+"></span></span>
+					<select id="UserProv" name="province" class="form-control" onChange="getCity()" style="width:130px; font-size: 12px;">
+						<option value="0">选择省份 </option>
+						<option value="直辖市">直辖市 </option>
+						<option value="江苏省">江苏省 </option>
+						<option value="福建省">福建省 </option>
+						<option value="广东省">广东省 </option>
+						<option value="甘肃省">甘肃省 </option>
+					</select>
+					<select id="UserCity" name="city" class="form-control" style="width:100px;font-size: 12px; ">
+						<option VALUE="0">城市 </option>
+					</select>
+				</div>
+				
+				<!--联系方式-->
+				<div class="input-group" style="margin-top: 10px;">
+					<span class="input-group-addon"><span class=" glyphicon glyphicon-earphone"></span></span>
+					<input id="UserTel" name='uTel' type="tel" class="form-control" placeholder="Telphone">
+				</div>
+				<div class="input-group" style="margin-top: 10px;">
+					<span class="btn btn-default  fileinput-button  ">
+					<span>选择上传头像</span>
+					<input id="uimg" name='uimgfile' type="file" class="filepath" onchange="changepic(this)">
+					</span>
+					<img src="" id="show" class="maximg">
+				</div>
+				<button type='button' onclick="check()" class="btn btn-primary" style="margin-top: 10px;width:270px" >注册</button>
+			</div>
+
+	</body>
+
+</html>
+<script language="JavaScript" type="text/javascript">
+	//定义了城市的二维数组，里面的顺序跟省份的顺序是相同的。通过selectedIndex获得省份的下标值来得到相应的城市数组
+	var city = [
+		["北京", "天津", "上海", "重庆"],
+		["南京", "苏州", "南通", "常州"],
+		["福州", "福安", "龙岩", "南平"],
+		["广州", "潮阳", "潮州", "澄海"],
+		["兰州", "白银", "定西", "敦煌"]
+	];
+	function getCity() {
+        //获得省份下拉框的对象
+        var sltProvince = document.getElementById("UserProv");
+        //获得城市下拉框的对象
+        var sltCity = document.getElementById("UserCity");
+        //得到对应省份的城市数组
+        var provinceCity = city[sltProvince.selectedIndex - 1];
+
+        //清空城市下拉框，仅留提示选项
+        sltCity.length = 1;
+
+        //将城市数组中的值填充到城市下拉框中
+        for (var i = 0; i < provinceCity.length; i++) {
+            sltCity[i + 1] = new Option(provinceCity[i], provinceCity[i]);
+        }
+    }
+     function check(){
+     var Uname=document.getElementById("UserName").value;
+     if(Uname=="") {
+			alert("请输入账号");
+			exit;
+		}
+     var Lupd1=document.getElementById("UserPWD").value.length;
+     if(Lupd1==0) {
+			alert("请输入密码");
+			exit;
+		}
+     var Upd1=document.getElementById("UserPWD").value;
+     var Upd2=document.getElementById("UserPWDre").value;
+	 if(Upd1 != Upd2) {
+			alert("请重试，两次密码不匹配");
+			exit;
+		}
+         var formData=new FormData();
+         var img_file=document.getElementById("uimg");
+         var titleFile=img_file.files[0];
+         var uName=$("#UserName").val();
+         //alert(uName);
+         var uPwd=$("#UserPWD").val();
+         var uProj=$("#uProj").val();
+         var uHy=$("#ProjType").val();
+         var province=$("#UserProv").val();
+         var city=$("#UserCity").val();
+         formData.append("uname",uName);
+         formData.append("upwd",uPwd);
+         formData.append("uproj",uProj);
+         formData.append("uhy",uHy);
+         formData.append("province",province);
+         formData.append("city",city);
+         formData.append("uimgfile",titleFile);
+
+         $.ajax({
+             url: "/user/registerCheck",
+             type: "post",
+             data:formData,
+             processData:false,
+             contentType:false,
+             success: function (data) {
+                 if (data.status==1){
+                     alert(data.msg);
+                     window.location.replace("/user/index");
+                 }else {
+                     alert(data.msg);
+                     window.location.reload();
+                 }
+             }
+         });
+	}
+    function changepic() {
+        var reads = new FileReader();
+        f = document.getElementById('uimg').files[0];
+        reads.readAsDataURL(f);
+        reads.onload = function(e) {
+            document.getElementById('show').src = this.result;
+        };
+    }
+</script>
+
+<style>
+	.fileinput-button {
+		position: relative;
+		display: inline-block;
+		overflow: hidden;
+	}
+
+	.fileinput-button input {
+		position: absolute;
+		right: 0px;
+		top: 0px;
+		opacity: 0;
+		-ms-filter: 'alpha(opacity=0)';
+		font-size: 200px;
+	}
+
+	.maximg {
+		max-width: 270px;
+		max-height: 270px;
+		margin: 5px;
+	}
+</style>

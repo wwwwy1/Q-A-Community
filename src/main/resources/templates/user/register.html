@@ -2,190 +2,428 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="utf-8" />
 		<title>注册</title>
-		<link   th:href="@{/css/bootstrap-theme.css}"  href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<link   th:href="@{/css/youcediv.css}"  href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 		<link  th:href="@{/css/bootstrap.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
 		<script   th:src="@{/js/jquery.js}"  type="text/javascript" src="/static/js/jquery.js"></script>
 		<script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
+		<link  th:href="@{/css/font-awesome.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<link  th:href="@{/css/style.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<link th:href="@{/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+		<link th:href="@{/css/plugins/iCheck/custom.css}" rel="stylesheet">
+		<link th:href="@{/css/plugins/steps/jquery.steps.css}" rel="stylesheet">
+		<link th:href="@{/css/animate.css}" rel="stylesheet">
+        <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+
+        <script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
 	</head>
 
 	<body>
 
-			<!--文字-->
-			<div align="center" style="margin-top: 50px;"><h1>注册 <small>系统</small></h1></div>
-			<!--main-->
-			<div class="container-fluid" style="width: 300px;margin-top: 30px;">
-				<!--用户名文本框-->
-				<div class="input-group">
-					<span class="input-group-addon" id="basic-addon1 "><span class=" glyphicon glyphicon-user"></span></span>
-					<input id="UserName" name='uName' type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-				</div>
-
-				<!--密码文本框-->
-				<div class="input-group" style="margin-top: 10px;">
-					<span class="input-group-addon"><span class=" glyphicon glyphicon-lock"></span></span>
-					<input id="UserPWD" type="password" name='uPwd' class="form-control" placeholder="Password">
-				</div>
-
-				<!--再次输入密码框-->
-				<div class="input-group" style="margin-top: 10px;">
-					<span class="input-group-addon"><span class=" glyphicon glyphicon-lock"></span></span>
-					<input id="UserPWDre" type="password" class="form-control" placeholder="Password">
-				</div>
-				<!--项目名称类别-->
-				<div class="input-group" style="margin-top: 10px;">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-					<input type="text" name='uProj' id="uProj" class="form-control" placeholder="Project Name" style="width: 130px;">
-					<select id="ProjType" name='uHy' class="form-control" style="width:101px; font-size: 12px;">
-						<option value="0">选择行业 </option>
-						<option value="农业">农业</option>
-						<option value="工业">工业</option>
-						<option value="服务业">服务业</option>
-						<option value="其他">其他</option>
-					</select>
-				</div>
-				<!--省份-->
-				<div class="input-group" style="margin-top: 10px;">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-map-marker
-"></span></span>
-					<select id="UserProv" name="province" class="form-control" onChange="getCity()" style="width:130px; font-size: 12px;">
-						<option value="0">选择省份 </option>
-						<option value="直辖市">直辖市 </option>
-						<option value="江苏省">江苏省 </option>
-						<option value="福建省">福建省 </option>
-						<option value="广东省">广东省 </option>
-						<option value="甘肃省">甘肃省 </option>
-					</select>
-					<select id="UserCity" name="city" class="form-control" style="width:100px;font-size: 12px; ">
-						<option VALUE="0">城市 </option>
-					</select>
-				</div>
-				
-				<!--联系方式-->
-				<div class="input-group" style="margin-top: 10px;">
-					<span class="input-group-addon"><span class=" glyphicon glyphicon-earphone"></span></span>
-					<input id="UserTel" name='uTel' type="tel" class="form-control" placeholder="Telphone">
-				</div>
-				<div class="input-group" style="margin-top: 10px;">
-					<span class="btn btn-default  fileinput-button  ">
-					<span>选择上传头像</span>
-					<input id="uimg" name='uimgfile' type="file" class="filepath" onchange="changepic(this)">
-					</span>
-					<img src="" id="show" class="maximg">
-				</div>
-				<button type='button' onclick="check()" class="btn btn-primary" style="margin-top: 10px;width:270px" >注册</button>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/front/index.html">Y</a>
 			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="#">首页 <span class="sr-only">(current)</span></a>
+					</li>
+					<li>
+						<a href="forum.html">论坛</a>
+					</li>
+					<li>
+						<a href="#">行程规划<span class="badge">New</span></a>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">创业文案分享区 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">成功经历分享</a>
+							</li>
+							<li>
+								<a href="#">Another action</a>
+							</li>
+							<li>
+								<a href="#">Something else here</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">Separated link</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">One more separated link</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form navbar-left">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Daily word:Furious activity is no substitute for understanding</a></li>
+					<li>
+						<a href="#">收藏夹</a>
+					</li>
+
+					<li class="dropdown">
+						<a href="javascript:void(0)" onclick="openLogin()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/注册 </a>
+					</li>
+
+					<!--<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人管理 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">信息修改</a>
+							</li>
+							<li>
+								<a href="#">Another action</a>
+							</li>
+							<li>
+								<a href="#">Something else here</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">系统设置</a>
+							</li>
+						</ul>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div id="modal-form" class="modal fade" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-6 b-r">
+							<h3 class="m-t-none m-b">登录</h3>
+							<form role="form">
+								<div class="form-group">
+									<label>用户名：</label>
+									<input type="email" placeholder="请输入用户名" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>密码：</label>
+									<input type="password" placeholder="请输入密码" class="form-control">
+								</div>
+								<div>
+									<button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>登录</strong>
+									</button>
+									<label>
+										<input type="checkbox" class="i-checks">自动登录</label>
+								</div>
+							</form>
+						</div>
+						<div class="col-sm-6">
+							<h4>还不是会员？</h4>
+							<p>您可以注册一个账户</p>
+							<p class="text-center">
+								<a href="form_basic.html"><i class="fa fa-sign-in big-icon"></i></a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="jumbotron"  style="background-color:#ffffff">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="ibox">
+						<div class="ibox-content">
+						<h2>
+							注册向导
+						</h2>
+						<p>
+							请通过以下向导完成注册
+						</p>
+
+						<form id="form" action="form_wizard.html#" class="wizard-big">
+							<h1>账户</h1>
+							<fieldset>
+								<h2>账户信息</h2>
+								<div class="row">
+									<div class="col-sm-8">
+										<div class="form-group">
+											<label>用户名 *</label>
+											<input id="userName" name="userName" type="text" class="form-control required">
+										</div>
+										<div class="form-group">
+											<label>密码 *</label>
+											<input id="password" name="password" type="text" class="form-control required">
+										</div>
+										<div class="form-group">
+											<label>确认密码 *</label>
+											<input id="confirm" name="confirm" type="text" class="form-control required">
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="text-center">
+											<div style="margin-top: 20px">
+												<i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</fieldset>
+							<h1>个人资料</h1>
+							<fieldset>
+								<h2>个人资料信息</h2>
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label>昵称 *</label>
+											<input id="userNickname" name="userNickname" type="text" class="form-control required">
+										</div>
+                                        <div class="form-group">
+                                            <label>座右铭</label>
+                                            <input id="zym" name="zym" type="text" class="form-control">
+                                        </div>
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label>Email *</label>
+											<input id="userEmail" name="userEmail" type="text" class="form-control required email">
+										</div>
+										<div class="form-group">
+											<label>地址</label>
+											<input id="address" name="address" type="text" class="form-control">
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<h1>用户协议</h1>
+							<fieldset>
+								<div class="text-center" style="text-align: left">
+									<h2>用户协议</h2>1. 本论坛对任何直接、间接、偶然、特殊及继起的损害不负责任，不予赔偿。这些损害来自：网络故障；不正当下载、使用论坛服务内容；在网上购买商品或类似服务；在网上进行交易，非法使用服务等。<br/>
+                                        2. 会员在使用潇湘晨报网所提供的服务时，如遭受任何人身或财务的损失、损害或伤害，不论原因如何，本网站均不负责任。由于用户将个人密码告知他人或与他人共享注册帐户，由此导致的任何个人资料泄露，本网站不负任何责任。<br/>
+                                        3. 会员须对其自身在使用本论坛所提供的服务时的一切行为、行动（不论是否故意）负全部责任。<br/>
+                                        4. 用户应对自己在论坛上发表的内容负全部责任，并承诺提交的姓名、身份证号码、常住地址、联系方式等个人资料真实可靠。<br/>
+                                        5. 对于因服务器的死机、网络的故障、数据库故障、软件升级等问题造成的服务中断和对会员个人数据及资料造成的损失，本网不负责任，亦不予补偿。<br/>
+                                        6. 当政府司法机关依照法定程序要求本网站披露个人资料时，我们将根据执法单位之要求或为公共安全之目的提供个人资料。在此情况下之任何披露，本网站均得免责。<br/>
+								</div>
+							</fieldset>
+
+							<h1>完成</h1>
+							<fieldset><div style="text-align: center">
+								<h2>同意条款</h2><p></p><p></p>
+                               <input id="acceptTerms" name="acceptTerms" type="checkbox" class="required">
+								<label for="acceptTerms">我同意注册条款</label></div>
+							</fieldset>
+						</form>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="side-bar" >
+		<a href="" class="icon-qq">QQ在线咨S询
+			<div class="qq-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="QQ订阅号"></div>
+		</a>
+		<a href="" class="icon-chat">微信
+			<div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="微信订阅号"></div>
+		</a>
+		<a target="_blank" href="https://weibo.com/" class="icon-blog">微博</a>
+		<a href="mailto:2500233233@qq.com" class="icon-mail">mail</a>
+	</div>
+
+	<nav class="navbar navbar-default navbar-fixed-bottom" id="footer">
+		<div class="container">
+			<div class="navbar-header" >
+				<a style="font-size: 10px;" class="navbar-brand" target="_blank"
+				   href="#"> Here is Y tribune  Copy Right @ 2019 </a>
+			</div>
+		</div>
+	</nav>
+
 
 	</body>
 
 </html>
-<script language="JavaScript" type="text/javascript">
-	//定义了城市的二维数组，里面的顺序跟省份的顺序是相同的。通过selectedIndex获得省份的下标值来得到相应的城市数组
-	var city = [
-		["北京", "天津", "上海", "重庆"],
-		["南京", "苏州", "南通", "常州"],
-		["福州", "福安", "龙岩", "南平"],
-		["广州", "潮阳", "潮州", "澄海"],
-		["兰州", "白银", "定西", "敦煌"]
-	];
-	function getCity() {
-        //获得省份下拉框的对象
-        var sltProvince = document.getElementById("UserProv");
-        //获得城市下拉框的对象
-        var sltCity = document.getElementById("UserCity");
-        //得到对应省份的城市数组
-        var provinceCity = city[sltProvince.selectedIndex - 1];
-
-        //清空城市下拉框，仅留提示选项
-        sltCity.length = 1;
-
-        //将城市数组中的值填充到城市下拉框中
-        for (var i = 0; i < provinceCity.length; i++) {
-            sltCity[i + 1] = new Option(provinceCity[i], provinceCity[i]);
+<script>
+    $(document).ready(function() {
+        autoFooterHeight();
+    })
+    // 解决底部自动导航的问题
+    function autoFooterHeight() {
+        // 获取内容的高度
+        var bodyHeight = $("body").height();
+        // 获取底部导航的高度
+        var navHeight = $(".navbar").height();
+        // 获取显示屏的高度
+        var iHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        // 如果内容的高度大于（窗口的高度 - 导航的高度）,移除属性样式
+        if (bodyHeight > (iHeight - navHeight)) {
+            //$("#footer").removeClass("navbar-fixed-bottom");
         }
     }
-     function check(){
-     var Uname=document.getElementById("UserName").value;
-     if(Uname=="") {
-			alert("请输入账号");
-			exit;
-		}
-     var Lupd1=document.getElementById("UserPWD").value.length;
-     if(Lupd1==0) {
-			alert("请输入密码");
-			exit;
-		}
-     var Upd1=document.getElementById("UserPWD").value;
-     var Upd2=document.getElementById("UserPWDre").value;
-	 if(Upd1 != Upd2) {
-			alert("请重试，两次密码不匹配");
-			exit;
-		}
-         var formData=new FormData();
-         var img_file=document.getElementById("uimg");
-         var titleFile=img_file.files[0];
-         var uName=$("#UserName").val();
-         //alert(uName);
-         var uPwd=$("#UserPWD").val();
-         var uProj=$("#uProj").val();
-         var uHy=$("#ProjType").val();
-         var province=$("#UserProv").val();
-         var city=$("#UserCity").val();
-         formData.append("uname",uName);
-         formData.append("upwd",uPwd);
-         formData.append("uproj",uProj);
-         formData.append("uhy",uHy);
-         formData.append("province",province);
-         formData.append("city",city);
-         formData.append("uimgfile",titleFile);
-
-         $.ajax({
-             url: "/user/registerCheck",
-             type: "post",
-             data:formData,
-             processData:false,
-             contentType:false,
-             success: function (data) {
-                 if (data.status==1){
-                     alert(data.msg);
-                     window.location.replace("/user/index");
-                 }else {
-                     alert(data.msg);
-                     window.location.reload();
-                 }
-             }
-         });
-	}
-    function changepic() {
-        var reads = new FileReader();
-        f = document.getElementById('uimg').files[0];
-        reads.readAsDataURL(f);
-        reads.onload = function(e) {
-            document.getElementById('show').src = this.result;
-        };
+	function openLogin() {
+        $('#modal-form').modal();
     }
 </script>
 
-<style>
-	.fileinput-button {
-		position: relative;
-		display: inline-block;
-		overflow: hidden;
-	}
 
-	.fileinput-button input {
-		position: absolute;
-		right: 0px;
-		top: 0px;
-		opacity: 0;
-		-ms-filter: 'alpha(opacity=0)';
-		font-size: 200px;
-	}
+<!-- 自定义js -->
+<script th:src="@{/js/content.js?v=1.0.0}"></script>
 
-	.maximg {
-		max-width: 270px;
-		max-height: 270px;
-		margin: 5px;
-	}
-</style>
+
+<!-- Steps -->
+<script th:src="@{/js/plugins/staps/jquery.steps.min.js}"></script>
+
+<!-- Jquery Validate -->
+<script th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
+<script th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
+
+
+<script>
+    $(document).ready(function () {
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#wizard").steps();
+        $("#form").steps({
+            bodyTag: "fieldset",
+            onStepChanging: function (event, currentIndex, newIndex) {
+                // Always allow going backward even if the current step contains invalid fields!
+                if (currentIndex > newIndex) {
+                    return true;
+                }
+
+                // Forbid suppressing "Warning" step if the user is to young
+                if (newIndex === 3 && Number($("#age").val()) < 18) {
+                    return false;
+                }
+
+                var form = $(this);
+
+                // Clean up if user went backward before
+                if (currentIndex < newIndex) {
+                    // To remove error styles
+                    $(".body:eq(" + newIndex + ") label.error", form).remove();
+                    $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+                }
+
+                // Disable validation on fields that are disabled or hidden.
+                form.validate().settings.ignore = ":disabled,:hidden";
+
+                // Start validation; Prevent going forward if false
+                return form.valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+                // Suppress (skip) "Warning" step if the user is old enough.
+                if (currentIndex === 2 && Number($("#age").val()) >= 18) {
+                    $(this).steps("next");
+                }
+
+                // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+                if (currentIndex === 2 && priorIndex === 3) {
+                    $(this).steps("previous");
+                }
+            },
+            onFinishing: function (event, currentIndex) {
+                var form = $(this);
+
+                // Disable validation on fields that are disabled.
+                // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                form.validate().settings.ignore = ":disabled";
+
+                // Start validation; Prevent form submission if false
+                return form.valid();
+            },
+            onFinished: function (event, currentIndex) {
+                var form = $(this);
+
+                // Submit form input
+                form.submit();
+            }
+        }).validate({
+            errorPlacement: function (error, element) {
+                element.before(error);
+            },
+            rules: {
+                userName: {
+                    required: true,
+                    minlength: 2,
+                    remote:{
+                        url: '/user/checkUserName',
+                        type:'post',
+                        async : false,
+                        data:{
+                            userName:function(){
+                                return $("#userName").val();
+                            }
+                        }
+                    }
+                },
+                userEmail:{
+                    remote:{
+                        url: '/user/checkUserEmail',
+                        type:'post',
+                        async : false,
+                        data:{
+                            userEmail:function(){
+                                return $("#userEmail").val();
+                            }
+                        }
+                    }
+                },
+                confirm: {
+                    equalTo: "#password"
+                },
+
+            }, messages: {
+                userName: {
+                    required: icon + "请输入您的用户名",
+                    minlength: icon + "用户名必须两个字符以上",
+                    remote: icon + "用户名不能重复"
+                },
+                userEmail:{
+                    remote: icon + "邮箱不能重复"
+                }
+            },submitHandler: function (form) {
+                $.ajax({
+                    url: "/user/add",
+                    data:{"userName":$("#userName").val(),"userNickname":$("#userNickname").val(),
+                        "userPassword":$("#password").val(),"userEmail":$("#userEmail").val()},
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code == 200){
+                            swal({
+                                title: "注册成功",
+                                text: "注册成功,请前往登录页面",
+                                type: "success"
+                            },function () {
+                                location.href("/user/login");
+                            });
+                        } else {
+                            swal({
+                                title: "添加失败",
+                                text: data.msg,
+                                type: "warning"
+                            },function () {
+                                location.href("/user/register");
+                            });
+                        }
+                    }
+                })
+            }
+        });
+    });
+</script>

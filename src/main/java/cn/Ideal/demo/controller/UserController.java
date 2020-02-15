@@ -39,6 +39,11 @@ public class UserController {
 		}
 		return new Result("失败",500,null);
 	}
+	@PostMapping(value = "loginCheck")
+	public Result tologin(User user,HttpServletRequest request){
+		if (user==null) return new Result("失败",500,null);
+		return iUserService.login(user,request);
+	}
 //    @Autowi
    /*@PostMapping(value = "/user/loginCheck")
    public ResponseEntity userLogin(User user, HttpServletRequest request){

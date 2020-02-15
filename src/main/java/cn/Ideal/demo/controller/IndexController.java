@@ -21,6 +21,7 @@ public class IndexController {
         return "/user/login";
     }
 
+
     @GetMapping(value = "/user/forumLvMsg")
     public String goForumLvMsg(){
         return "/user/forumLvMsg";
