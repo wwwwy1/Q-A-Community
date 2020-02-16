@@ -4365,6 +4365,30 @@ class Trie {
 		}
 		return ans;
 	}
+	public int countNegatives(int[][] grid) {
+		int ans = 0;
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j]<0){
+					ans++;
+				}
+			}
+		}
+		return ans;
+	}
+	public int maxEvents(int[][] events) {
+		Arrays.sort(events,(o1,o2)->o1[1]-o2[1]);
+		Set<Integer> set = new HashSet<>();
+		for (int i = 0; i < events.length; i++) {
+			for (int j = events[i][0]; j <= events[i][1] ; j++) {
+				if (!set.contains(j)){
+					set.add(j);
+					break;
+				}
+			}
+		}
+		return set.size();
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
