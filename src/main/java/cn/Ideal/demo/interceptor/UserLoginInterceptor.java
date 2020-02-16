@@ -3,16 +3,19 @@ package cn.Ideal.demo.interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
-public class UserLoginInterceptor extends HandlerInterceptorAdapter {
+@Component
+public class UserLoginInterceptor implements HandlerInterceptor {
 	private final Logger logger = LoggerFactory.getLogger(UserLoginInterceptor.class);
 	@Autowired
 	private RedisTemplate<String,String> redisTemplate;
@@ -35,4 +38,5 @@ public class UserLoginInterceptor extends HandlerInterceptorAdapter {
 		return false;
 
     }
+
 }
