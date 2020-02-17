@@ -24,6 +24,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 
     	// 检查每个到来的请求对应的session域中是否有登录标识
 		logger.info("request请求地址path[{}] uri[{}]", request.getServletPath(),request.getRequestURI());
+		System.out.println("url:-------"+request.getRequestURI()+"--------");
 		//从请求头中获取用户token（登陆凭证根据业务而定）
 		String token = (String) request.getSession().getAttribute("tokenFront");
 		String userId = "";

@@ -31,10 +31,7 @@ public class IndexController {
     public String goRegister(){
         return "/user/register";
     }
-    @GetMapping(value = "/user/contacts")
-    public String goContacts(){
-        return "/user/contacts";
-    }
+
 
     @GetMapping(value = "/user/posting")
     public ModelAndView goPosting(ModelAndView mav){
