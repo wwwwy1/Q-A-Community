@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title> - 联系人</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link   th:href="@{/css/youcediv.css}"  href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.css}" rel="stylesheet">
+
+    <link th:href="@{/css/animate.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/front/index.html">Y</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#">首页 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li>
+                        <a href="forum.html">论坛</a>
+                    </li>
+                    <li>
+                        <a href="#">行程规划<span class="badge">New</span></a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">创业文案分享区 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">成功经历分享</a>
+                            </li>
+                            <li>
+                                <a href="#">Another action</a>
+                            </li>
+                            <li>
+                                <a href="#">Something else here</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#">Separated link</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#">One more separated link</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" width="100px" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Daily word:Furious activity is no substitute for understanding</a></li>
+                    <li>
+                        <a href="#">收藏夹</a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" onclick="openLogin()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/注册 </a>
+                    </li>
+
+                    <!--<li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人管理 <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">信息修改</a>
+                            </li>
+                            <li>
+                                <a href="#">Another action</a>
+                            </li>
+                            <li>
+                                <a href="#">Something else here</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#">系统设置</a>
+                            </li>
+                        </ul>
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6 b-r">
+                            <h3 class="m-t-none m-b">登录</h3>
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>用户名：</label>
+                                    <input type="email" placeholder="请输入用户名" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>密码：</label>
+                                    <input type="password" placeholder="请输入密码" class="form-control">
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>登录</strong>
+                                    </button>
+                                    <label>
+                                        <input type="checkbox" class="i-checks">自动登录</label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <h4>还不是会员？</h4>
+                            <p>您可以注册一个账户</p>
+                            <p class="text-center">
+                                <a href="form_basic.html"><i class="fa fa-sign-in big-icon"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron" style="background-color:#ffffff">
+        <div class="container">
+            <div class="alert alert-success">
+                <p>标签：</p>
+                <p>标签是将您的问题与其他类似问题分类的关键字或标签。使用正确的标签可以使其他人更容易找到并回答您的问题。</p>
+            </div>
+            <div style="float: none">
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" th:value="${keyWords}" id="tagKeyWord" class="form-control" placeholder="按标签名称过滤">
+                    </div>
+                    <button type="button" class="btn btn-default" th:onclick="'javascript:goSearch('+${rank}+')'" onclick="goSearch()">查找</button>
+                </form>
+                <div class="btn-group" style="float: right;">
+                    <button class="btn " th:classappend="${rank}==1?'btn-primary':'btn-white'" th:onclick="'window.location.href=\'/user/contacts?current=1&keyWords='+'&rank=1\''" type="button">插入时间</button>
+                    <button class="btn " th:classappend="${rank}==2?'btn-primary':'btn-white'" th:onclick="'window.location.href=\'/user/contacts?current=1&keyWords='+'&rank=2\''" type="button">名称</button>
+                    <button class="btn " th:classappend="${rank}==3?'btn-primary':'btn-white'" th:onclick="'window.location.href=\'/user/contacts?current=1&keyWords='+'&rank=3\''" type="button">使用次数</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="row" >
+                    <div class="col-sm-3" style="height: 28%"    th:each="data:${data}">
+                        <div class="contact-box" style="height: 230px;">
+                            <a th:href="${data.url}" target="_blank">
+                                <div style="width: 100%;height: 100%;" >
+                                    <h3><strong style="font-size: medium" th:text="'公司名：'+${data.companyName}">java</strong></h3>
+                                    <p style="font-size: small"  th:text="'岗位名称:'+${data.jobName}" ></p>
+                                    <p style="font-size: small"  th:utext="'待遇:'+${data.salary}+' '+'<i class=\'fa fa-map-marker\'></i>'+${data.workAddr}" ></p>
+                                    <p style="font-size: small"  th:text="'发布时间:'+${data.pushDate}" ></p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="pull-right pagination">
+                <ul class="pagination pagination-outline">
+                    <li class="page-first disabled" th:if="${data.page.pageNum eq 1}"><a th:href="'/user/contacts?current=' + '1' +'&keyWords='+${keyWords} +'&rank='+${rank} " href="javascript:void(0)">«</a>
+                    </li>
+                    <li class="page-first " th:if="${data.page.pageNum ne 1}"><a th:href="'/user/contacts?current=' + '1' + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">«</a>
+                    </li>
+                    <li class="page-pre " th:if="${data.page.pageNum ne 1}"><a th:href="'/user/contacts?current=' + ${data.page.pageNum - 1} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">‹</a>
+                    </li>
+                    <li class="page-pre disabled" th:if="${data.page.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
+                    </li>
+                </ul>
+                <ul class="pagination pagination-outline"th:each="pageNum:${#numbers.sequence(1, data.page.pages)}">
+                    <li class="page-number active" th:if="${pageNum eq data.page.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+                    <li class="page-number" th:if="${pageNum ne data.page.pageNum}" ><a th:href="'/user/contacts?current=' + ${pageNum} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="/user/page?current=1&pageSize=10" th:text="${pageNum}">pageNum</a></li>
+                </ul>
+                <ul class="pagination pagination-outline">
+                    <li class="page-next disabled" th:if="${data.page.pageNum} eq ${data.page.pages}"><a href="javascript:void(0)">›</a>
+                    </li>
+                    <li class="page-next " th:if="${data.page.pageNum} ne ${data.page.pages}"><a th:href="'/user/contacts?current=' + ${data.page.pageNum + 1} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">›</a>
+                    </li>
+                    <li class="page-last " th:if="${data.page.pageNum} ne ${data.page.pages}"><a th:href="'/user/contacts?current=' + ${data.page.pages} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">»</a>
+                    </li>
+                    <li class="page-last disabled" th:if="${data.page.pageNum} eq ${data.page.pages}"><a  href="javascript:void(0)">»</a>
+                    </li>
+                </ul>
+            </div>-->
+        </div>
+    </div>
+
+
+    <div class="side-bar" >
+        <a href="" class="icon-qq">QQ在线咨S询
+            <div class="qq-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="QQ订阅号"></div>
+        </a>
+        <a href="" class="icon-chat">微信
+            <div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="微信订阅号"></div>
+        </a>
+        <a target="_blank" href="https://weibo.com/" class="icon-blog">微博</a>
+        <a href="mailto:2500233233@qq.com" class="icon-mail">mail</a>
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom" id="footer">
+        <div class="container">
+            <div class="navbar-header" >
+                <a style="font-size: 10px;" class="navbar-brand" target="_blank"
+                   href="#"> Here is Y tribune  Copy Right @ 2019 </a>
+            </div>
+        </div>
+    </nav>
+    <!-- 全局js -->
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+
+
+
+    <!-- 自定义js -->
+    <script th:src="@{/js/content.js}"></script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('.contact-box').each(function () {
+                animationHover(this, 'pulse');
+            });
+        });
+    </script>
+
+    
+    
+
+</body>
+
+</html>
+<script>
+    function goSearch(rank){
+        var keyWord= $("#tagKeyWord").val();
+        alert("/user/contacts?current=1"+"&keyWords="+keyWord+"&rank="+rank);
+        window.location.href("/user/contacts?current=1"+"&keyWords="+keyWord+"&rank="+rank);
+    }
+    $(document).ready(function() {
+        autoFooterHeight();
+    })
+    // 解决底部自动导航的问题
+    function autoFooterHeight() {
+
+            $("#footer").removeClass("navbar-fixed-bottom");
+
+    }
+    function openLogin() {
+        $('#modal-form').modal();
+    }
+</script>

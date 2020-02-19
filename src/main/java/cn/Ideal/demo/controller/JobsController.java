@@ -9,15 +9,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/jobs")
 public class JobsController extends BaseController {
 	@Autowired
 	private RedisTemplate  redisTemplate;
-	@GetMapping("put")
+	@GetMapping("/jobs/put")
 	@ResponseBody
 	public Result putData(){
 		List<Jobs> jobs = (List<Jobs>)redisTemplate.opsForValue().get("jobs");
@@ -26,11 +26,13 @@ public class JobsController extends BaseController {
 		}
 		return new Result("成功",200,null);
 	}
-	@GetMapping("get")
+	@GetMapping("/user/jobs")
 	@ResponseBody
-	public List<Jobs> getData(){
+	public ModelAndView getData(ModelAndView mav,Integer current){
 		List<Jobs> jobs = (List<Jobs>)redisTemplate.opsForValue().get("jobs");
-		return jobs;
+		mav.getModel().put("data",jobs);
+		mav.setViewName("/user/jobs");
+		return mav;
 	}
 
 }
