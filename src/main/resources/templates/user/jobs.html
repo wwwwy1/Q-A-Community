@@ -147,11 +147,12 @@
                 <p>标签是将您的问题与其他类似问题分类的关键字或标签。使用正确的标签可以使其他人更容易找到并回答您的问题。</p>
             </div>
             <div style="float: none">
-                <form class="navbar-form navbar-left">
+                <form class="navbar-form navbar-left" >
                     <div class="form-group">
-                        <input type="text" th:value="${keyWords}" id="tagKeyWord" class="form-control" placeholder="按标签名称过滤">
+                        <input type="hidden" name="rank" th:value="${rank}"  class="form-control" placeholder="按标签名称过滤">
+                        <input type="text" name="keyWords" th:value="${keyWords}" id="tagKeyWord" class="form-control" placeholder="按标签名称过滤">
                     </div>
-                    <button type="button" class="btn btn-default" th:onclick="'javascript:goSearch('+${rank}+')'" onclick="goSearch()">查找</button>
+                    <button type="submit" class="btn btn-default">查找</button>
                 </form>
                 <div class="btn-group" style="float: right;">
                     <button class="btn " th:classappend="${rank}==1?'btn-primary':'btn-white'" th:onclick="'window.location.href=\'/user/contacts?current=1&keyWords='+'&rank=1\''" type="button">插入时间</button>
@@ -162,14 +163,14 @@
             </div>
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row" >
-                    <div class="col-sm-3" style="height: 28%"    th:each="data:${data}">
+                    <div class="col-sm-3" style="height: 28%"    th:each="data:${data.data}">
                         <div class="contact-box" style="height: 230px;">
                             <a th:href="${data.url}" target="_blank">
                                 <div style="width: 100%;height: 100%;" >
-                                    <h3><strong style="font-size: medium" th:text="'公司名：'+${data.companyName}">java</strong></h3>
-                                    <p style="font-size: small"  th:text="'岗位名称:'+${data.jobName}" ></p>
+                                    <h3><strong style="font-size: medium" th:utext="'公司名：'+${data.companyName}">java</strong></h3>
+                                    <p style="font-size: small"  th:utext="'岗位名称:'+${data.jobName}" ></p>
                                     <p style="font-size: small"  th:utext="'待遇:'+${data.salary}+' '+'<i class=\'fa fa-map-marker\'></i>'+${data.workAddr}" ></p>
-                                    <p style="font-size: small"  th:text="'发布时间:'+${data.pushDate}" ></p>
+                                    <p style="font-size: small"  th:utext="'发布时间:'+${data.pushDate}" ></p>
                                 </div>
                                 <div class="clearfix"></div>
                             </a>
@@ -177,32 +178,32 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="pull-right pagination">
+            <div class="pull-right pagination">
                 <ul class="pagination pagination-outline">
-                    <li class="page-first disabled" th:if="${data.page.pageNum eq 1}"><a th:href="'/user/contacts?current=' + '1' +'&keyWords='+${keyWords} +'&rank='+${rank} " href="javascript:void(0)">«</a>
+                    <li class="page-first disabled" th:if="${data.pageNum eq 1}"><a th:href="'/user/jobs?current=' + '1' +'&keyWords='+${keyWords} " href="javascript:void(0)">«</a>
                     </li>
-                    <li class="page-first " th:if="${data.page.pageNum ne 1}"><a th:href="'/user/contacts?current=' + '1' + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">«</a>
+                    <li class="page-first " th:if="${data.pageNum ne 1}"><a th:href="'/user/jobs?current=' + '1' +'&keyWords='+${keyWords}" href="javascript:void(0)">«</a>
                     </li>
-                    <li class="page-pre " th:if="${data.page.pageNum ne 1}"><a th:href="'/user/contacts?current=' + ${data.page.pageNum - 1} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">‹</a>
+                    <li class="page-pre " th:if="${data.pageNum ne 1}"><a th:href="'/user/jobs?current=' + ${data.pageNum - 1} + '&keyWords='+${keyWords}" href="javascript:void(0)">‹</a>
                     </li>
-                    <li class="page-pre disabled" th:if="${data.page.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
+                    <li class="page-pre disabled" th:if="${data.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
                     </li>
                 </ul>
-                <ul class="pagination pagination-outline"th:each="pageNum:${#numbers.sequence(1, data.page.pages)}">
-                    <li class="page-number active" th:if="${pageNum eq data.page.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
-                    <li class="page-number" th:if="${pageNum ne data.page.pageNum}" ><a th:href="'/user/contacts?current=' + ${pageNum} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="/user/page?current=1&pageSize=10" th:text="${pageNum}">pageNum</a></li>
+                <ul class="pagination pagination-outline"th:each="pageNum:${#numbers.sequence(1, data.pages)}">
+                    <li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+                    <li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/jobs?current=' + ${pageNum} + '&keyWords='+${keyWords}" href="/user/page?current=1&pageSize=10" th:text="${pageNum}">pageNum</a></li>
                 </ul>
                 <ul class="pagination pagination-outline">
-                    <li class="page-next disabled" th:if="${data.page.pageNum} eq ${data.page.pages}"><a href="javascript:void(0)">›</a>
+                    <li class="page-next disabled" th:if="${data.pageNum} eq ${data.pages}"><a href="javascript:void(0)">›</a>
                     </li>
-                    <li class="page-next " th:if="${data.page.pageNum} ne ${data.page.pages}"><a th:href="'/user/contacts?current=' + ${data.page.pageNum + 1} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">›</a>
+                    <li class="page-next " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/jobs?current=' + ${data.pageNum + 1} + '&keyWords='+${keyWords}" href="javascript:void(0)">›</a>
                     </li>
-                    <li class="page-last " th:if="${data.page.pageNum} ne ${data.page.pages}"><a th:href="'/user/contacts?current=' + ${data.page.pages} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">»</a>
+                    <li class="page-last " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/jobs?current=' + ${data.pages} +'&keyWords='+${keyWords}" href="javascript:void(0)">»</a>
                     </li>
-                    <li class="page-last disabled" th:if="${data.page.pageNum} eq ${data.page.pages}"><a  href="javascript:void(0)">»</a>
+                    <li class="page-last disabled" th:if="${data.pageNum} eq ${data.pages}"><a  href="javascript:void(0)">»</a>
                     </li>
                 </ul>
-            </div>-->
+            </div>
         </div>
     </div>
 
@@ -254,8 +255,8 @@
 <script>
     function goSearch(rank){
         var keyWord= $("#tagKeyWord").val();
-        alert("/user/contacts?current=1"+"&keyWords="+keyWord+"&rank="+rank);
-        window.location.href("/user/contacts?current=1"+"&keyWords="+keyWord+"&rank="+rank);
+        //alert("/user/jobs?current=1"+"&keyWords="+keyWord+"&rank="+rank);
+        window.location.href("/user/jobs?current=1"+"&keyWords="+keyWord+"&rank="+rank);
     }
     $(document).ready(function() {
         autoFooterHeight();
