@@ -3,6 +3,8 @@ package cn.Ideal.demo.controller;
 import cn.Ideal.demo.entity.Job;
 import cn.Ideal.demo.util.*;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -17,17 +19,19 @@ import java.util.List;
 public class JobsController extends BaseController {
 	@Autowired
 	private RedisTemplate  redisTemplate;
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
 	public static final Integer PAGE_SIZE = 12;
 	@GetMapping("/jobs/put")
 	@ResponseBody
 	public Result putData() throws IOException, SolrServerException {
-		Boolean jobs1 = redisTemplate.delete("jobs");
-		List<Job> jobs = (List<Job>)redisTemplate.opsForValue().get("jobs");
+		redisTemplate.delete("jobs");
 		List<Job> ret = JobUtil.getJobs();
-		if (jobs==null){
-			redisTemplate.opsForValue().set("jobs", ret);
-			SolrUtil.batchSaveOrUpdate(ret);
-		}
+		// 添加到缓存中
+		redisTemplate.opsForValue().set("jobs", ret);
+		// 添加到solr中
+		SolrUtil.batchSaveOrUpdate(ret);
+		logger.info("获取工作信息成功");
 		return new Result("成功",200,null);
 	}
 	@GetMapping("/user/jobs")
