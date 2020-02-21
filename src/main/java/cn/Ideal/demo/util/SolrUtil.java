@@ -1,6 +1,6 @@
 package cn.Ideal.demo.util;
 
-import cn.Ideal.demo.entity.Jobs;
+import cn.Ideal.demo.entity.Job;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -11,8 +11,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.solr.common.util.NamedList;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,31 +45,41 @@ public class SolrUtil {
 		QueryResponse rsp = client.query(query);
 		return rsp;
 	}
-	public static SolrPage queryHighlight(String keywords,Integer current,Integer pageSize) throws SolrServerException, IOException {
+	public static SolrPage queryHighlight(String keywords,String location,Integer current,Integer pageSize) throws SolrServerException, IOException {
 		SolrQuery q = new SolrQuery();
 		String keyWordsEnd = "";
-		// 排序
-		q.setSort("id",SolrQuery.ORDER.asc);
-		if (keywords==null || keywords.equals(""))
+		if (StringUtil.isNullOrSpace(keywords) && StringUtil.isNullOrSpace(location))
 			q.setQuery("*");
-		else{
-			keyWordsEnd = "jobName:" + keywords + " OR companyName:"+keywords+" OR workAddr:" + keywords;
+		else if (!StringUtil.isNullOrSpace(keywords) && !StringUtil.isNullOrSpace(location)){
+			keyWordsEnd = "jobName:" + keywords + " OR companyName:"+keywords + " AND workAddr:" + location;
 			q.setQuery(keyWordsEnd);
+			// 高亮字段
+			q.addHighlightField("jobName");
+			// 高亮字段
+			q.addHighlightField("companyName");
+			// 高亮字段
+			q.addHighlightField("workAddr");
+		} else if (!StringUtil.isNullOrSpace(location)){
+			keyWordsEnd = "workAddr:" + location;
+			q.setQuery(keyWordsEnd);
+			// 高亮字段
+			q.addHighlightField("workAddr");
+		} else {
+			keyWordsEnd = "jobName:" + keywords + " OR companyName:"+keywords;
+			q.setQuery(keyWordsEnd);
+			// 高亮字段
+			q.addHighlightField("jobName");
+			// 高亮字段
+			q.addHighlightField("companyName");
 		}
+		q.set("qf","jobName^3 companyName^5");
 		//开始页数
 		q.setStart(current); //需要-1
 		//每页显示条数
 		q.setRows(pageSize);
-		// 设置查询关键字
-
 		// 开启高亮
 		q.setHighlight(true);
-		// 高亮字段
-		q.addHighlightField("jobName");
-		// 高亮字段
-		q.addHighlightField("companyName");
-		// 高亮字段
-		q.addHighlightField("workAddr");
+
 		// 高亮单词的前缀
 		q.setHighlightSimplePre("<span style='color:red'>");
 		// 高亮单词的后缀
@@ -85,16 +93,17 @@ public class SolrUtil {
 		//获取查询结果
 		SolrDocumentList results = query.getResults();
 		Map<String, Map<String, List<String>>> highlighting = query.getHighlighting();
-		List<Jobs> jobs = new ArrayList<>();
+		List<Job> jobs = new ArrayList<>();
 		int lastPage = (pageAll%pageSize)==0?pageAll/pageSize-1:pageAll/pageSize;
 		int flag = 0;
 		if (current == lastPage){
-			lastPage = pageAll - (lastPage - 1) * pageSize;
+			lastPage = pageAll - (lastPage + 1) * pageSize;
 			flag = 1;
 		}
 		int count = 0;
 		for (SolrDocument solrDocument : results) {
-			Jobs job = new Jobs();
+			count++;
+			Job job = new Job();
 			// 获取高亮显示的集合
 			List<String> hightNames = highlighting.get(solrDocument.get("id")).get("jobName");
 			List<String> hightCompanys = highlighting.get(solrDocument.get("id")).get("companyName");
@@ -108,9 +117,11 @@ public class SolrUtil {
 			job.setPushDate((String) solrDocument.get("pushDate"));
 			job.setSalary((String) solrDocument.get("salary"));
 			job.setUrl((String) solrDocument.get("url"));
+			/*if(flag == 1 && lastPage>count)
+				continue;*/
 			jobs.add(job);
 		}
-		SolrPage<Jobs> jobsSolrPage = new SolrPage<Jobs>(jobs,current+1,((pageAll%pageSize)==0?pageAll/pageSize-1:pageAll/pageSize));
+		SolrPage<Job> jobsSolrPage = new SolrPage<Job>(jobs,current+1,((pageAll%pageSize)==0?pageAll/pageSize:pageAll/pageSize+1));
 		return jobsSolrPage;
 	}
 	public static <T> boolean saveOrUpdate(T entity) throws SolrServerException, IOException {

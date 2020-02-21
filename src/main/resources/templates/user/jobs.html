@@ -143,22 +143,20 @@
     <div class="jumbotron" style="background-color:#ffffff">
         <div class="container">
             <div class="alert alert-success">
-                <p>标签：</p>
-                <p>标签是将您的问题与其他类似问题分类的关键字或标签。使用正确的标签可以使其他人更容易找到并回答您的问题。</p>
+                <p>工作机会：</p>
+                <p>每日凌晨6点会为您提供最新工作机会。</p>
             </div>
             <div style="float: none">
                 <form class="navbar-form navbar-left" >
                     <div class="form-group">
-                        <input type="hidden" name="rank" th:value="${rank}"  class="form-control" placeholder="按标签名称过滤">
-                        <input type="text" name="keyWords" th:value="${keyWords}" id="tagKeyWord" class="form-control" placeholder="按标签名称过滤">
+                        <input type="hidden" name="rank" th:value="${rank}"  class="form-control" >
+                        <i class="fa fa-book"></i>关键词：<input type="text" name="keyWords" th:value="${keyWords}" id="tagKeyWord" class="form-control" placeholder="请输入关键词">
+                        <i class='fa fa-map-marker'></i>地点：<input type="text" name="location" th:value="${location}" class="form-control" placeholder="请输入工作地点，可不填">
+
                     </div>
                     <button type="submit" class="btn btn-default">查找</button>
                 </form>
-                <div class="btn-group" style="float: right;">
-                    <button class="btn " th:classappend="${rank}==1?'btn-primary':'btn-white'" th:onclick="'window.location.href=\'/user/contacts?current=1&keyWords='+'&rank=1\''" type="button">插入时间</button>
-                    <button class="btn " th:classappend="${rank}==2?'btn-primary':'btn-white'" th:onclick="'window.location.href=\'/user/contacts?current=1&keyWords='+'&rank=2\''" type="button">名称</button>
-                    <button class="btn " th:classappend="${rank}==3?'btn-primary':'btn-white'" th:onclick="'window.location.href=\'/user/contacts?current=1&keyWords='+'&rank=3\''" type="button">使用次数</button>
-                </div>
+
                 <div class="clearfix"></div>
             </div>
             <div class="wrapper wrapper-content animated fadeInRight">
@@ -178,27 +176,76 @@
                     </div>
                 </div>
             </div>
-            <div class="pull-right pagination">
+            <div class="pull-right pagination" th:if="${data.pages &gt; 10}">
                 <ul class="pagination pagination-outline">
-                    <li class="page-first disabled" th:if="${data.pageNum eq 1}"><a th:href="'/user/jobs?current=' + '1' +'&keyWords='+${keyWords} " href="javascript:void(0)">«</a>
+                    <li class="page-first disabled" th:if="${data.pageNum eq 1}"><a th:href="'/user/jobs?current=' + '1' +'&keyWords='+${keyWords}+'&location='+${location} " href="javascript:void(0)">«</a>
                     </li>
-                    <li class="page-first " th:if="${data.pageNum ne 1}"><a th:href="'/user/jobs?current=' + '1' +'&keyWords='+${keyWords}" href="javascript:void(0)">«</a>
+                    <li class="page-first " th:if="${data.pageNum ne 1}"><a th:href="'/user/jobs?current=' + '1' +'&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">«</a>
                     </li>
-                    <li class="page-pre " th:if="${data.pageNum ne 1}"><a th:href="'/user/jobs?current=' + ${data.pageNum - 1} + '&keyWords='+${keyWords}" href="javascript:void(0)">‹</a>
+                    <li class="page-pre " th:if="${data.pageNum ne 1}"><a th:href="'/user/jobs?current=' + ${data.pageNum - 1} + '&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">‹</a>
+                    </li>
+                    <li class="page-pre disabled" th:if="${data.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
+                    </li>
+                </ul>
+                <ul class="pagination pagination-outline" th:if="${data.pageNum &lt; 5}" th:each="pageNum:${#numbers.sequence(1,5)}">
+                    <li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+                    <li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/jobs?current='+ ${pageNum}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${pageNum}">pageNum</a></li>
+                </ul>
+                <ul class="pagination pagination-outline" th:if="${data.pageNum &lt; 5}">
+                    <li class="page-number" ><a href="javascript:void(0)">...</a></li>
+                    <li class="page-number"><a th:href="'/user/jobs?current='+ ${data.pages}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pages}">pageNum</a></li>
+                </ul>
+                <ul class="pagination pagination-outline" th:if="${data.pageNum &gt; data.pages-4}">
+                    <li class="page-number"><a th:href="'/user/jobs?current=1&keyWords='+${keyWords}+'&location='+${location}" >1</a></li>
+                    <li class="page-number" ><a href="javascript:void(0)">...</a></li>
+                </ul>
+                <ul class="pagination pagination-outline" th:if="${data.pageNum &gt; data.pages-4}" th:each="pageNum:${#numbers.sequence(data.pages-4,data.pages)}">
+                    <li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+                    <li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/jobs?current='+ ${pageNum}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${pageNum}">pageNum</a></li>
+                </ul>
+                <ul class="pagination pagination-outline" th:if="${data.pageNum &gt; 4 and data.pageNum &lt; data.pages-3}">
+                    <li class="page-number"><a th:href="'/user/jobs?current=1&keyWords='+${keyWords}+'&location='+${location}" th:text="1">pageNum</a></li>
+                    <li class="page-number" ><a href="javascript:void(0)">...</a></li>
+                    <li class="page-number"><a th:href="'/user/jobs?current='+ ${data.pageNum-2}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum-2}">pageNum</a></li>
+                    <li class="page-number"><a th:href="'/user/jobs?current='+ ${data.pageNum-1}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum-1}">pageNum</a></li>
+                    <li class="page-number active" ><a href="javascript:void(0)" th:text="${data.pageNum}"></a></li>
+                    <li class="page-number"><a th:href="'/user/jobs?current='+ ${data.pageNum+1}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum+1}">pageNum</a></li>
+                    <li class="page-number"><a th:href="'/user/jobs?current='+ ${data.pageNum+2}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum+2}">pageNum</a></li>
+                    <li class="page-number" ><a href="javascript:void(0)">...</a></li>
+                    <li class="page-number"><a th:href="'/user/jobs?current='+ ${data.pages}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pages}">pageNum</a></li>
+                </ul>
+                <ul class="pagination pagination-outline">
+                    <li class="page-next disabled" th:if="${data.pageNum} eq ${data.pages}"><a href="javascript:void(0)">›</a>
+                    </li>
+                    <li class="page-next " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/jobs?current=' + ${data.pageNum + 1} + '&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">›</a>
+                    </li>
+                    <li class="page-last " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/jobs?current=' + ${data.pages} +'&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">»</a>
+                    </li>
+                    <li class="page-last disabled" th:if="${data.pageNum} eq ${data.pages}"><a  href="javascript:void(0)">»</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="pull-right pagination" th:if="${data.pages &lt; 11 and data.pages &gt; 1}">
+                <ul class="pagination pagination-outline">
+                    <li class="page-first disabled" th:if="${data.pageNum eq 1}"><a th:href="'/user/jobs?current=' + '1' +'&keyWords='+${keyWords}+'&location='+ ${location}  " href="javascript:void(0)">«</a>
+                    </li>
+                    <li class="page-first " th:if="${data.pageNum ne 1}"><a th:href="'/user/jobs?current=' + '1' +'&keyWords='+${keyWords}+'&location='+ ${location}" href="javascript:void(0)">«</a>
+                    </li>
+                    <li class="page-pre " th:if="${data.pageNum ne 1}"><a th:href="'/user/jobs?current=' + ${data.pageNum - 1} + '&keyWords='+${keyWords}+'&location='+ ${location}" href="javascript:void(0)">‹</a>
                     </li>
                     <li class="page-pre disabled" th:if="${data.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
                     </li>
                 </ul>
                 <ul class="pagination pagination-outline"th:each="pageNum:${#numbers.sequence(1, data.pages)}">
                     <li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
-                    <li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/jobs?current=' + ${pageNum} + '&keyWords='+${keyWords}" href="/user/page?current=1&pageSize=10" th:text="${pageNum}">pageNum</a></li>
+                    <li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/jobs?current=' + ${pageNum} + '&keyWords='+${keyWords}+'&location='+ ${location}" href="/user/page?current=1&pageSize=10" th:text="${pageNum}">pageNum</a></li>
                 </ul>
                 <ul class="pagination pagination-outline">
                     <li class="page-next disabled" th:if="${data.pageNum} eq ${data.pages}"><a href="javascript:void(0)">›</a>
                     </li>
-                    <li class="page-next " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/jobs?current=' + ${data.pageNum + 1} + '&keyWords='+${keyWords}" href="javascript:void(0)">›</a>
+                    <li class="page-next " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/jobs?current=' + ${data.pageNum + 1} + '&keyWords='+${keyWords}+'&location='+ ${location}" href="javascript:void(0)">›</a>
                     </li>
-                    <li class="page-last " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/jobs?current=' + ${data.pages} +'&keyWords='+${keyWords}" href="javascript:void(0)">»</a>
+                    <li class="page-last " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/jobs?current=' + ${data.pages} +'&keyWords='+${keyWords}+'&location='+ ${location}" href="javascript:void(0)">»</a>
                     </li>
                     <li class="page-last disabled" th:if="${data.pageNum} eq ${data.pages}"><a  href="javascript:void(0)">»</a>
                     </li>

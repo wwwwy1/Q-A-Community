@@ -1,6 +1,6 @@
 package cn.Ideal.demo.util;
 
-import cn.Ideal.demo.entity.Jobs;
+import cn.Ideal.demo.entity.Job;
 import cn.hutool.http.HttpUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,12 +12,12 @@ import java.util.List;
 
 public class JobUtil {
 
-	public static List<Jobs> jobParse(String entity) {
-		List<Jobs> data = new ArrayList<Jobs>();
+	public static List<Job> jobParse(String entity) {
+		List<Job> data = new ArrayList<Job>();
 		Document doc = Jsoup.parse(entity);
 		Elements elements = doc.select("div.el");
 		for (Element element : elements) {
-			Jobs jobs = new Jobs();
+			Job jobs = new Job();
 			Elements title = element.select("p.t1").select("span").select("a"); //标题
 			Elements complany = element.select("span.t2").select("a"); //公司
 			Elements address = element.select("span.t3");//地址
@@ -40,11 +40,11 @@ public class JobUtil {
 		return data;
 	}
 
-	public static List<Jobs> getJobs(){
+	public static List<Job> getJobs(){
 		//https://search.51job.com/list/080200%252C020000%252C070200%252C070300%252C080300,000000,0000,00,9,99,java,2,1.html
 		//https://search.51job.com/list/080200%252C020000%252C070200%252C070300%252C080300,000000,0000,00,9,99,java,2,1.html?workyear=01
 		int pagesize = 20;
-		List<Jobs> ans = new ArrayList<>();
+		List<Job> ans = new ArrayList<>();
 		for (int i = 1; i <= pagesize; i++) {
 			String url = "https://search.51job.com/list/080200%252C020000%252C070200%252C070300%252C080300,000000,0000,00,9,99,java,2," + i + ".html";
 			String s = HttpUtil.get(url);
