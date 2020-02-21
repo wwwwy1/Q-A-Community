@@ -25,7 +25,10 @@ public class JobsController extends BaseController {
 	@GetMapping("/jobs/put")
 	@ResponseBody
 	public Result putData() throws IOException, SolrServerException {
+		// 删除缓存数据
 		redisTemplate.delete("jobs");
+		SolrUtil.deleteAll();
+		// 利用爬虫获取数据
 		List<Job> ret = JobUtil.getJobs();
 		// 添加到缓存中
 		redisTemplate.opsForValue().set("jobs", ret);

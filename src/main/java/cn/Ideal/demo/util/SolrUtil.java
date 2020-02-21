@@ -131,6 +131,16 @@ public class SolrUtil {
 		client.commit();
 		return true;
 	}
+	public static boolean deleteAll() {
+		try {
+			client.deleteByQuery("*");
+			client.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	public static boolean deleteById(String id) {
 		try {
 			client.deleteById(id);
