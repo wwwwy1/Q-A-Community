@@ -158,7 +158,9 @@ public enum  LearnLog {
 	LearnConcurrent102("2020/02/18","修改开题报告，测试招聘信息功能"),
 	LearnConcurrent103("2020/02/19","javaGuide复习计划"),
 	LearnConcurrent104("2020/02/20","学习并使用Solr结合redis"),
-	LearnConcurrent105("2020/02/21","深入理解solr，并且完成工作信息页面");
+	LearnConcurrent105("2020/02/21","深入理解solr，并且完成工作信息页面"),
+	LearnConcurrent106("2020/02/22","复习java基础，leetcode20双周赛");
+
 	// 时间
 	private final String learnTime;
 	// 内容

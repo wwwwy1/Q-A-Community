@@ -4155,27 +4155,6 @@ class Trie {
 		}
 		return count;
 	}
-	public List<Integer> filterRestaurants(int[][] restaurants, int veganFriendly, int maxPrice, int maxDistance) {
-		List<Integer> ans = new ArrayList<>();
-		int n = restaurants.length;
-		List<Pair<Integer,Integer>> list = new ArrayList<>();
-		for (int i = 0; i < n; i++) {
-			if (restaurants[i][2]>=veganFriendly && restaurants[i][3]<=maxPrice && restaurants[i][4]<=maxDistance)
-				list.add(new Pair<>(restaurants[i][0],restaurants[i][1]));
-		}
-		Collections.sort(list, new Comparator<Pair<Integer, Integer>>() {
-			@Override
-			public int compare(Pair<Integer, Integer> o1, Pair<Integer, Integer> o2) {
-				if (o1.getValue().equals(o2.getValue()))
-					return o2.getKey().compareTo(o1.getKey());
-				return o2.getValue().compareTo(o1.getValue());
-			}
-		});
-		for (Pair<Integer,Integer> pair:list) {
-			ans.add(pair.getKey());
-		}
-		return ans;
-	}
 	/*public int findTheCity(int n, int[][] edges, int distanceThreshold) {
 		for (int i = 0; i < ; i++) {
 			
@@ -4389,54 +4368,84 @@ class Trie {
 		}
 		return set.size();
 	}
+	public int[] sortByBits(int[] arr) {
+		int[] acc = new int[arr.length];
+		List<List<Integer>> list =new ArrayList<>();
+		for (int i = 0; i < arr.length; i++) {
+			String string = Integer.toBinaryString(arr[i]);
+			int t = 0;
+			for (int j = 0; j < string.length(); j++) {
+				if (string.charAt(j)=='1'){
+					t++;
+				}
+			}
+			acc[i]=t;
+			List<Integer> temp = new ArrayList<>();
+			temp.add(arr[i]);
+			temp.add(acc[i]);
+			list.add(temp);
+		}
+		Collections.sort(list, new Comparator<List<Integer>>() {
+			@Override
+			public int compare(List<Integer> o1, List<Integer> o2) {
+				if (o1.get(1).equals(o2.get(1))){
+					return o1.get(0)-o2.get(0);
+				}
+				return o2.get(1)-o1.get(1);
+			}
+		});
+		int[] ans = new int[acc.length];
+		for (int i = 0; i < list.size(); i++) {
+			ans[i]=list.get(i).get(0);
+		}
+		return ans;
+	}
+	public int numberOfSubstrings(String s) {
+		if (s.indexOf('a')>=s.length()/2 || s.indexOf('b')>=s.length()/2 ||s.indexOf('c')>=s.length()/2 ){
+			int ans =0;
+			for (int i = s.length()-1; i >=0 ; i--) {
+				int a=0,b=0,c=0;
+				int flag =0;
+				for (int j = i; j >=0 ; j--) {
+					if (s.charAt(j)=='a')a++;
+					if (s.charAt(j)=='b')b++;if (s.charAt(j)=='c')c++;
+					if (a>=1&&b>=1&&c>=1){
+						flag=j;
+						break;
+					}
+				}
+				if (flag==0)break;
+				ans+=flag;
+			}
+			return ans;
+		}
+		int ans =0;
+		for (int i = 0; i < s.length(); i++) {
+			int a=0,b=0,c=0;
+			int flag =0;
+			for (int j = i; j <s.length() ; j++) {
+				if (s.charAt(j)=='a')a++;
+				if (s.charAt(j)=='b')b++;if (s.charAt(j)=='c')c++;
+				if (a>=1&&b>=1&&c>=1){
+					flag=s.length()-j;
+					break;
+				}
+			}
+			if (flag==0)break;
+			ans+=flag;
+		}
+		return ans;
+
+	}
 	public  static void main(String[] args) {
 
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
-		DemoApplicationTests d=new DemoApplicationTests();
-		TreeNode treeNode = new TreeNode(10);
-		treeNode.left = new TreeNode(5);
-		treeNode.right = new TreeNode(15);
-		treeNode.right.left = new TreeNode(6);
-		treeNode.right.right = new TreeNode(20);
-		TreeNode root = new TreeNode(2);
-		root.left = new TreeNode(1);
-		root.right = new TreeNode(3);
-		int c[] = {1,3,4,8};
-		int a[][] = {{1,2},{0,3},{0,3},{1,2}};
-		List<String> tc = new ArrayList<>();
-		tc.add("hot");
-		//tc.add("dot");
-		tc.add("dog");
-		//tc.add("lot");
-		//tc.add("log");
-		//tc.add("cog");
-		List<List<String>> list = new ArrayList<>();
-		List<String> a1 = new ArrayList<>();
-		a1.add("A");
-		a1.add("B");
-		list.add(a1);
-		List<String> a2 = new ArrayList<>();
-		a2.add("C");
-		list.add(a2);
-		List<String> a3 = new ArrayList<>();
-		a3.add("B");
-		a3.add("C");
-		list.add(a3);
-		List<String> a4 = new ArrayList<>();
-		a4.add("D");
-		list.add(a4);
-		int[] act = {2,2,2,2,5,5,5,8};
-		//System.out.println(d.angleClock(1,57));
-		TweetCounts tweetCounts = new TweetCounts();
-		tweetCounts.recordTweet("t1",10);
-		tweetCounts.recordTweet("t1",0);
-		tweetCounts.recordTweet("t1",60);
-		tweetCounts.getTweetCountsPerFrequency("minute","t1",0,59);
-		tweetCounts.getTweetCountsPerFrequency("minute","t1",0,60);
-
-		/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
+		Cashier cashier = new Cashier(3,50,new int[]{1,2,3,4,5,6,7},new int[]{100,200,300,400,300,200,100});
+		cashier.getBill(new int[]{1,2},new int[]{1,2});                        // 返回 500.0, 账单金额为 = 1 * 100 + 2 * 200 = 500.
+		            // 返回 2500.0
 
 	}
+	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	//map排序方式
 		/*Map<String, Integer> map = new HashMap<>();
