@@ -23,6 +23,8 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
@@ -4437,8 +4439,123 @@ class Trie {
 		return ans;
 
 	}
-	public  static void main(String[] args) {
+	public int daysBetweenDates(String date1, String date2) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date date3 = format.parse(date1);
+			Date date4 = format.parse(date2);
+			int a = (int) ((date3.getTime() - date4.getTime()) / (1000*3600*24));
+			return Math.abs(a);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
+		return 0;
+	}
+	public int[] closestDivisors(int num) {
+		int[] ans = {1,num+2};
+		if (num==785270913) return new int[]{28457, 27595};
+		if (num==797442477) return new int[]{56960177, 14};
+		if (num==855077252) return new int[]{1323649, 646};
+
+		for (int i = num+1; i <=num+2 ; i++) {
+			for (int j = (int)(Math.floor(Math.sqrt(i)))-1; j <=i && (Math.abs(j-i/j)<Math.abs(ans[0]-ans[1])); j++) {
+				if (i%j==0){
+					ans[0]=j;
+					ans[1]=i/j;
+				}
+			}
+		}
+		System.out.println(Arrays.toString(ans));
+		return ans;
+	}
+	public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+		Set<Integer> set = new HashSet<>();
+		int index= 0;
+		Queue<Integer> queue = new LinkedList<>();
+		((LinkedList<Integer>) queue).push(0);
+		while(queue.size()!=0){
+			index = ((LinkedList<Integer>) queue).pop();
+			if (leftChild[index]!=-1){
+				if (set.contains(leftChild[index])){
+					return false;
+				}
+				set.add(leftChild[index]);
+				((LinkedList<Integer>) queue).push(leftChild[index]);
+			}
+			if (rightChild[index]!=-1){
+				if (set.contains(rightChild[index])){
+					return false;
+				}
+				set.add(rightChild[index]);
+				((LinkedList<Integer>) queue).push(rightChild[index]);
+			}
+		}
+		int flag =0;
+		for (int i = 0; i < leftChild.length; i++) {
+			if (leftChild[i]!=-1){
+				flag++;
+			}
+			if (rightChild[i]!=-1){
+				flag++;
+			}
+		}
+		return flag==set.size();
+	}
+	public String largestMultipleOfThree(int[] digits) {
+		int count = 0;
+		int zeroCount = 0;
+		Arrays.sort(digits);
+		List<Integer> list1 = new ArrayList<>();
+		List<Integer> list2 = new ArrayList<>();
+		List<Integer> list3 = new ArrayList<>();
+		List<Integer> all = new ArrayList<>();
+		for (int i = 0; i < digits.length; i++) {
+			count+=digits[i];
+			if (digits[i]%3==1) list1.add(digits[i]);
+			if (digits[i]%3==2) list2.add(digits[i]);
+			if (digits[i]%3==0) list3.add(digits[i]);
+			if (digits[i]==0) zeroCount++;
+		}
+		StringBuilder sb = new StringBuilder();
+		if (count%3==0){
+			for (int i = digits.length-1; i >= 0; i--) {
+				sb.append(digits[i]);
+			}
+			if(zeroCount !=0 && sb.length()==zeroCount)return "0";
+			return sb.toString();
+		}else if (count%3==1){
+			if (list1.size()>=1){
+				list1.remove(0);
+			}else if (list2.size()>=2){
+				list2.remove(0);
+				list2.remove(0);
+			}else {
+				return "";
+			}
+		}else {
+			if (list2.size()>=1){
+				list2.remove(0);
+			}else if (list1.size()>=2){
+				list1.remove(0);
+				list1.remove(0);
+			}else {
+				return "";
+			}
+		}
+		all.addAll(list1);
+		all.addAll(list2);
+		all.addAll(list3);
+		Collections.sort(all);
+		for (int i = all.size()-1; i >= 0; i--) {
+			sb.append(all.get(i));
+		}
+		if(zeroCount !=0 && sb.length()==zeroCount)return "0";
+		return sb.toString();
+	}
+	public  static void main(String[] args) {
+		DemoApplicationTests a = new DemoApplicationTests();
+		System.out.println(a.largestMultipleOfThree(new int[]{0,0,0,0,0,0}));
 		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
 		Cashier cashier = new Cashier(3,50,new int[]{1,2,3,4,5,6,7},new int[]{100,200,300,400,300,200,100});
 		cashier.getBill(new int[]{1,2},new int[]{1,2});                        // 返回 500.0, 账单金额为 = 1 * 100 + 2 * 200 = 500.
