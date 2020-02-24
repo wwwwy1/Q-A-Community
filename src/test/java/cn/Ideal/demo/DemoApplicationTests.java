@@ -4554,12 +4554,10 @@ class Trie {
 		return sb.toString();
 	}
 	public  static void main(String[] args) {
-		DemoApplicationTests a = new DemoApplicationTests();
-		System.out.println(a.largestMultipleOfThree(new int[]{0,0,0,0,0,0}));
-		//System.out.println(nthUglyNumber3(1000000000,2,217983653,336916467));
-		Cashier cashier = new Cashier(3,50,new int[]{1,2,3,4,5,6,7},new int[]{100,200,300,400,300,200,100});
-		cashier.getBill(new int[]{1,2},new int[]{1,2});                        // 返回 500.0, 账单金额为 = 1 * 100 + 2 * 200 = 500.
-		            // 返回 2500.0
+
+		System.out.println(1^0);
+		System.out.println(1^1);
+		System.out.println(0^0);
 
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
