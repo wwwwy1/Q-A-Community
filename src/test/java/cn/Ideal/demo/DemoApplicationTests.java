@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -4558,7 +4559,9 @@ class Trie {
 		System.out.println(1^0);
 		System.out.println(1^1);
 		System.out.println(0^0);
-
+		ConcurrentHashMap<String,List<Long>> map = new ConcurrentHashMap<>();
+		List<Long> list1 = Collections.synchronizedList(new ArrayList<Long>());
+		map.put("sdfsdf",list1);
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 

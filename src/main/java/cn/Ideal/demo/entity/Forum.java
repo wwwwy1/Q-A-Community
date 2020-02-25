@@ -41,7 +41,7 @@ import java.time.LocalDateTime;
     @TableField("forum_content")
     private String forumContent;
     /**
-     * html格式内容
+     * md格式内容
      */
     @TableField("forum_md")
     private String forumMd;
@@ -65,7 +65,7 @@ import java.time.LocalDateTime;
     private Integer forumClicks;
 
             /**
-            * 点击量
+            * 点赞量
             */
         @TableField("forum_thumbs")
     private Integer forumThumbs;

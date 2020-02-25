@@ -126,9 +126,7 @@
 				<p><img src="../images/cystep3.JPG" width="30px" />合适的时候，可以展示一些代码</p>
 			</div>
 			<div id="my-editormd">
-				<textarea style="display:none;">### 关于 Editor.md
-					**Editor.md** 是一款开源的、可嵌入的 Markdown 在线编辑器（组件），基于 CodeMirror、jQuery 和 Marked 构建。
-				</textarea>
+					<textarea style="display:none;"></textarea>
 					<!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
 					<textarea class="editormd-html-textarea" name="html"></textarea>
 			</div>
@@ -215,40 +213,38 @@
     function testGo() {
         /*var content = $('.editormd-markdown-textarea').val();
         alert(content);
-        var content1 = $('.editormd-html-textarea').val();
-        alert(content1);*/
+        var html = $('.editormd-html-textarea').val();
+        alert(html);*/
         $('#myModal4').modal();
     }
     function addForum() {
 		var md = $('.editormd-markdown-textarea').val();
 		var html = $('.editormd-html-textarea').val();
-       /* $.ajax({
+        $.ajax({
             url: "/forum/add",
-            data:{"ids":ids},
+            data:{"forumTitle":$('#forumTitle').val(),"forumMd":md,"forumContent":html,"forumTips":$('.chosen-select').val().join(",")},
             type: "post",
             dataType: "json",
             success: function (data) {
                 if (data.code == 200){
                     swal({
-                        title: "删除成功",
-                        text: "删除成功",
+                        title: "提问成功",
+                        text: "提问成功",
                         type: "success"
                     },function () {
-                        location.href("/tags/page?current="+1+"&pageSize="+10);
+                        location.href("/user/posting");
                     });
                 } else {
                     swal({
-                        title: "删除失败",
-                        text: "删除失败",
+                        title: "提问失败",
+                        text: "登录异常，请重新登录",
                         type: "warning"
                     },function () {
-                        location.href("/tags/page?current="+1+"&pageSize="+10);
+                        location.href("/user/login");
                     });
                 }
             }
-        })*/
-       alert($('.chosen-select').val());
-
+        })
     }
     var testEditor;
 

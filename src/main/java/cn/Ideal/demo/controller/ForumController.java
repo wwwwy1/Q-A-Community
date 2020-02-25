@@ -1,8 +1,18 @@
 package cn.Ideal.demo.controller;
 
 
+import cn.Ideal.demo.entity.Forum;
+import cn.Ideal.demo.service.IForumService;
+import cn.Ideal.demo.util.Result;
+import cn.Ideal.demo.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -15,5 +25,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/forum")
 public class ForumController {
-
+	@Autowired
+	private IForumService iForumService;
+	@Autowired
+	private RedisTemplate<String,String> redisTemplate;
+	@ResponseBody
+	@PostMapping("add")
+	public Result addForum(HttpServletRequest request, Forum forum){
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		if (StringUtil.isNullOrSpace(token)) return new Result("未登录",400,null);
+		String userId = redisTemplate.opsForValue().get(token);
+		if (StringUtil.isNullOrSpace(userId)) return new Result("未登录",400,null);
+		forum.setUserId(userId);
+		iForumService.save(forum);
+		return new Result("添加成功",200,null);
+	}
 }
