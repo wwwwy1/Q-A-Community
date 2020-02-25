@@ -1,6 +1,7 @@
 package cn.Ideal.demo;
 
 import cn.Ideal.demo.util.MxGraphModel;
+import cn.Ideal.demo.util.SensitiveWordsTrie;
 import cn.Ideal.demo.util.TestXmlClass;
 import com.sun.jmx.remote.internal.ArrayQueue;
 import com.sun.xml.internal.bind.v2.runtime.reflect.ListTransducedAccessorImpl;
@@ -4556,12 +4557,12 @@ class Trie {
 	}
 	public  static void main(String[] args) {
 
-		System.out.println(1^0);
-		System.out.println(1^1);
-		System.out.println(0^0);
-		ConcurrentHashMap<String,List<Long>> map = new ConcurrentHashMap<>();
-		List<Long> list1 = Collections.synchronizedList(new ArrayList<Long>());
-		map.put("sdfsdf",list1);
+
+		SensitiveWordsTrie a = SensitiveWordsTrie.INSTANCE;
+		SensitiveWordsTrie b = SensitiveWordsTrie.INSTANCE;
+		System.out.println(a==b);
+		System.out.println(a.getTree()==b.getTree());
+
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 

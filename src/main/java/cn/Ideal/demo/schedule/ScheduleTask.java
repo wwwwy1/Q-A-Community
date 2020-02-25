@@ -1,4 +1,4 @@
-package cn.Ideal.demo.controller;
+package cn.Ideal.demo.schedule;
 
 import cn.Ideal.demo.entity.Job;
 import cn.Ideal.demo.util.JobUtil;
