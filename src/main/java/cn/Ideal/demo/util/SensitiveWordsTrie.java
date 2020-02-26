@@ -20,6 +20,15 @@ public enum SensitiveWordsTrie {
 	public List<String> getSensitiveWords(String text){
 		return tree.matchAll(text, -1, false, true);
 	}
+	public String replaceSensitiveWords(String text){
+		List<String> sensitiveWords = getSensitiveWords(text);
+		for (String s : sensitiveWords) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < s.length(); i++) sb.append(SensitiveWordsTrie.SUBSTITUTE_WORDS);
+			text = text.replace(s,sb.toString());
+		}
+		return text;
+	}
 	public WordTree getTree() {
 		return tree;
 	}

@@ -43,13 +43,7 @@ public class ForumController {
 		if (StringUtil.isNullOrSpace(userId)) return new Result("未登录",400,null);
 		forum.setUserId(userId);
 		String content = forum.getForumContent();
-		List<String> sensitiveWords = sensitiveWordsTrie.getSensitiveWords(content);
-		for (String s : sensitiveWords) {
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < s.length(); i++) sb.append(SensitiveWordsTrie.SUBSTITUTE_WORDS);
-			content = content.replace(s,sb.toString());
-		}
-		forum.setForumContent(content);
+		forum.setForumContent(sensitiveWordsTrie.replaceSensitiveWords(content));
 		iForumService.save(forum);
 		return new Result("添加成功",200,forum);
 	}
