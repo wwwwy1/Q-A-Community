@@ -4,6 +4,7 @@ package cn.Ideal.demo.controller;
 import cn.Ideal.demo.entity.Forum;
 import cn.Ideal.demo.service.IForumService;
 import cn.Ideal.demo.util.Result;
+import cn.Ideal.demo.util.SensitiveWordsTrie;
 import cn.Ideal.demo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -27,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/forum")
 public class ForumController {
+	private SensitiveWordsTrie sensitiveWordsTrie = SensitiveWordsTrie.INSTANCE;
 	@Autowired
 	private IForumService iForumService;
 	@Autowired
@@ -39,6 +42,14 @@ public class ForumController {
 		String userId = redisTemplate.opsForValue().get(token);
 		if (StringUtil.isNullOrSpace(userId)) return new Result("未登录",400,null);
 		forum.setUserId(userId);
+		String content = forum.getForumContent();
+		List<String> sensitiveWords = sensitiveWordsTrie.getSensitiveWords(content);
+		for (String s : sensitiveWords) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < s.length(); i++) sb.append(SensitiveWordsTrie.SUBSTITUTE_WORDS);
+			content = content.replace(s,sb.toString());
+		}
+		forum.setForumContent(content);
 		iForumService.save(forum);
 		return new Result("添加成功",200,forum);
 	}
