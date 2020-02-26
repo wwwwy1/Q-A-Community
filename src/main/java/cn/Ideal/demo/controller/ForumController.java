@@ -8,9 +8,11 @@ import cn.Ideal.demo.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,6 +40,13 @@ public class ForumController {
 		if (StringUtil.isNullOrSpace(userId)) return new Result("未登录",400,null);
 		forum.setUserId(userId);
 		iForumService.save(forum);
-		return new Result("添加成功",200,null);
+		return new Result("添加成功",200,forum);
+	}
+	@GetMapping("get")
+	public ModelAndView get(ModelAndView mav,Integer id){
+		mav.setViewName("/user/test");
+		Forum byId = iForumService.getById(id);
+		mav.getModel().put("con",byId.getForumContent());
+		return mav;
 	}
 }
