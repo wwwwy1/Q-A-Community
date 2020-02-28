@@ -5,12 +5,13 @@ import testDesignPattern.single.EnumHunger;
 import java.util.*;
 
 public class Main {
-	public static void main(String[] args) throws InterruptedException {
-		EnumHunger a = EnumHunger.INSTANCE;
-		a.doSomeThing();
+	public static void main(String[] args)  {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+
 	}
 }
-
+// 1 2 4 8 16
 
 
 
