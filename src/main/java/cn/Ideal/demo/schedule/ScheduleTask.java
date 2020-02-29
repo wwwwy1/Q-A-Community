@@ -29,6 +29,7 @@ public class ScheduleTask {
 		// 添加到缓存中
 		redisTemplate.opsForValue().set("jobs", ret);
 		// 添加到solr中
+		SolrUtil.deleteAll();
 		SolrUtil.batchSaveOrUpdate(ret);
 		logger.info("获取工作信息成功-定时任务");
 	}

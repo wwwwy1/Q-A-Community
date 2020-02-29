@@ -2,13 +2,31 @@ package cn.Ideal.demo;
 
 import testDesignPattern.single.EnumHunger;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
+	static int c=0;
 	public static void main(String[] args)  {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
-
+		int a[] = new int[n];
+		a[0]=1;a[1]=2;a[2]=3;
+		int b[] = new int[n];
+		b[0]=1;b[1]=2;b[2]=4;
+		for (int i = 3; i < n; i++) {
+			a[i]=a[i-1]+a[i-2];
+			b[i]=b[i-1]+b[i-2]+b[i-3];
+		}
+		dfs(n);
+		System.out.println(a[n-1]+" "+b[n-1]+ " "+c);
+	}
+	public static void dfs (int n){
+		if (n==0)c++;
+		if (n<0)return;
+		dfs(n-2);
+		dfs(n-3);
 	}
 }
 // 1 2 4 8 16

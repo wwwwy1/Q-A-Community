@@ -18,6 +18,8 @@ import java.util.List;
 public class StartService implements ApplicationRunner {
 	@Autowired
 	private ISensitiveWordsService iSensitiveWordsService;
+	@Autowired
+	private ScheduleTask scheduleTask;
 	private static Logger logger = LoggerFactory.getLogger(StartService.class);
 	private SensitiveWordsTrie sensitiveWordsTrie = SensitiveWordsTrie.INSTANCE;
 	@Override
@@ -25,6 +27,9 @@ public class StartService implements ApplicationRunner {
 		List<SensitiveWords> list = iSensitiveWordsService.list();
 		sensitiveWordsTrie.contentDefault(list);
 		logger.info("=========== 项目启动后，初始化 字典树 =============");
+		scheduleTask.getJobsInfo();
+		logger.info("=========== 项目启动后，初始化 招聘信息 =============");
+
 	}
 
 }

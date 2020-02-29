@@ -165,7 +165,8 @@ public enum  LearnLog {
 	LearnConcurrent109("2020/02/25","完成发帖功能，敏感词管理，完成hutoolDFA"),
 	LearnConcurrent110("2020/02/26","完成敏感词功能，复习并发相关(JUC包)"),
 	LearnConcurrent111("2020/02/27","多线程复习"),
-	LearnConcurrent112("2020/02/28","计算机网络复习");
+	LearnConcurrent112("2020/02/28","计算机网络复习"),
+	LearnConcurrent113("2020/02/29","牛客网刷题，构思论坛列表设计");
 	// 时间
 	private final String learnTime;
 	// 内容

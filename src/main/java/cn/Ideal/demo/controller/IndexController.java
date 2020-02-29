@@ -33,6 +33,7 @@ public class IndexController {
     }
 
 
+
     @GetMapping(value = "/user/posting")
     public ModelAndView goPosting(ModelAndView mav){
         QueryWrapper<Tags> queryWrapper = new QueryWrapper<>();
