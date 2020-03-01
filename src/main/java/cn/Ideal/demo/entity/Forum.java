@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
 * <p>
@@ -51,7 +52,12 @@ import java.time.LocalDateTime;
             */
         @TableField("forum_tips")
     private String forumTips;
+    @TableField(exist = false)
+    private List<String> forumTipNames;
+    @TableField(exist = false)
+    private String abbreviationContent;
 
+    ;
             /**
             * 回复数
             */

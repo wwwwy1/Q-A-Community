@@ -96,11 +96,11 @@
 							<h3 class="post-title"><a href="forumDeatils.html" th:text="${data.forumTitle}">标题字段111</a></h3>
 							<div class="post-meta ">
 								<span class="date" th:text="${#temporals.format(data.insertDate,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
-								<span class="category"><a href="#">标签字段333</a></span>
+								<span class="category"th:each="tips:${data.forumTipNames}" th:utext="'<a href=\'#\'>'+${tips}+'</a>'" ></span>
 								<span class="comments"><a href="forumDeatils.html" th:text="${data.forumReplys}">回复数字段444</a></span>
 								<span class="like-count" th:text="${data.forumThumbs}">点赞字段555</span>
 							</div>
-							<p>&nbsp;&nbsp;&nbsp;&nbsp;主要内容字段666...
+							<p th:text="${data.abbreviationContent}">&nbsp;&nbsp;&nbsp;&nbsp;主要内容字段666...
 								<a href="forumDeatils.html">Read more</a>
 							</p>
 						</article>
