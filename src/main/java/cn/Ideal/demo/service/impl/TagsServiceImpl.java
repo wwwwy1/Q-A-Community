@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class TagsServiceImpl extends ServiceImpl<TagsMapper, Tags> implements ITagsService {
 
+	@Override
+	public int useTag(String tags) {
+		return baseMapper.useTag(tags);
+	}
 }

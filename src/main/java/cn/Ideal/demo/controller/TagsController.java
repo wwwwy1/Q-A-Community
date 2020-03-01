@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -45,5 +46,11 @@ public class TagsController extends BaseController {
 		mav.getModel().put("rank",rank);
 		mav.setViewName("/user/contacts");
 		return mav;
+	}
+	@ResponseBody
+	@GetMapping(value = "/tags/t")
+	public int useTags(String ids){
+		ids = "1,2,3,4";
+		return iTagsService.useTag(ids);
 	}
 }

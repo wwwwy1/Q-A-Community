@@ -55,6 +55,8 @@ public class ForumController extends BaseController{
 		forum.setUserId(userId);
 		String content = forum.getForumContent();
 		forum.setForumContent(sensitiveWordsTrie.replaceSensitiveWords(content));
+		// 添加标签使用次数
+		iTagsService.useTag(forum.getForumTips());
 		iForumService.save(forum);
 		return new Result("添加成功",200,forum);
 	}

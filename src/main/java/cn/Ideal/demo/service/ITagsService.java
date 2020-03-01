@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-02-11
  */
 public interface ITagsService extends IService<Tags> {
-
+	int useTag(String tags);
 }
