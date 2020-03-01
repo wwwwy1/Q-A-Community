@@ -6,6 +6,7 @@ import cn.Ideal.demo.util.TestXmlClass;
 import com.sun.jmx.remote.internal.ArrayQueue;
 import com.sun.xml.internal.bind.v2.runtime.reflect.ListTransducedAccessorImpl;
 import javafx.util.Pair;
+import org.apache.solr.common.util.Hash;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -4555,9 +4556,79 @@ class Trie {
 		if(zeroCount !=0 && sb.length()==zeroCount)return "0";
 		return sb.toString();
 	}
+	public int[] smallerNumbersThanCurrent(int[] nums) {
+		int ans[] = new int[nums.length];
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = 0; j < nums.length; j++) {
+				if (i!=j && nums[i]>nums[j])ans[i]++;
+			}
+		}
+		return ans;
+	}
+	public String rankTeams(String[] votes) {
+		List<HashMap<Character,Integer>> dict = new ArrayList<>();
+		for (int i = 0; i < votes[0].length(); i++) {
+			dict.add(new HashMap<>());
+			for (int j = 0; j < votes.length; j++) {
+				if (dict.get(i).containsKey(votes[j].charAt(i))){
+					dict.get(i).put(votes[j].charAt(i),dict.get(i).get(votes[j].charAt(i))+1);
+				}else {
+					dict.get(i).put(votes[j].charAt(i),1);
+				}
+			}
+		}
+		List<Character> collect = new ArrayList<>();
+		for (int i = 0; i < votes[0].length(); i++) {
+			collect.add(votes[0].charAt(i));
+		}
+		Collections.sort(collect, new Comparator<Character>() {
+			@Override
+			public int compare(Character o1, Character o2) {
+				for (int i = 0; i < dict.size(); i++) {
+					int a1 = dict.get(i).containsKey(o1)?dict.get(i).get(o1):0;
+					int a2 = dict.get(i).containsKey(o2)?dict.get(i).get(o2):0;
+					if (a1>a2)return 1;
+					else if (a1<a2) return -1;
+				}
+				return 0;
+			}
+		});
+		StringBuilder ans = new StringBuilder();
+		for (int i = 0; i < collect.size(); i++) {
+			ans.append(collect.get(i));
+		}
+		return ans.toString();
+	}
+	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+		List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+		list.sort(Map.Entry.comparingByValue());
+		Map<K, V> result = new LinkedHashMap<>();
+		for (Map.Entry<K, V> entry : list) {
+			result.put(entry.getKey(), entry.getValue());
+		}
+		return result;
+	}
+	public boolean isSubPath(ListNode head, TreeNode root) {
+		if (head==null)return true;
+		if (root==null)return false;
+		if (head.val==root.val){
+			boolean flag = dfs5346(head.next,root.left)||dfs5346(head.next,root.right);
+			if (flag) return true;
+		}
+		return isSubPath(head,root.left)||isSubPath(head,root.right);
+	}
+	public boolean dfs5346(ListNode head, TreeNode root){
+		if (head==null)return true;
+		if (root==null)return false;
+		if (head.val==root.val){
+			head=head.next;
+		}
+		return dfs5346(head,root.left)||dfs5346(head,root.right);
+	}
 	public  static void main(String[] args) {
-
-
+		DemoApplicationTests t = new DemoApplicationTests();
+		//t.rankTeams
+		Queue<Integer> queue = new LinkedList<>();
 		SensitiveWordsTrie a = SensitiveWordsTrie.INSTANCE;
 		SensitiveWordsTrie b = SensitiveWordsTrie.INSTANCE;
 		System.out.println(a==b);
