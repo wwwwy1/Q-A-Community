@@ -92,13 +92,14 @@
 						<button class="btn " th:classappend="${rank}==3?'btn-primary':'btn-white'"  type="button">创建时间</button>
 					</div>
 					<div>
-						<article class="type-post format-title  hentry" th:each="data:${data.data.list}">
+						<article class="type-post format-title  hentry" th:each="data:${data.data}">
 							<h3 class="post-title"><a href="forumDeatils.html" th:text="${data.forumTitle}">标题字段111</a></h3>
 							<div class="post-meta ">
 								<span class="date" th:text="${#temporals.format(data.insertDate,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
 								<span class="category"th:each="tips:${data.forumTipNames}" th:utext="'<a href=\'#\'>'+${tips}+'</a>'" ></span>
 								<span class="comments"><a href="forumDeatils.html" th:text="${data.forumReplys}">回复数字段444</a></span>
-								<span class="like-count" th:text="${data.forumThumbs}">点赞字段555</span>
+								<span style="padding-left:0px;" th:utext="'<i class=\'fa fa-eye\'> </i>' + '  '+${data.forumClicks}">144 浏览</span>
+								<span class="like-count" onclick="thumbs($(this))" th:text="${data.forumThumbs}">点赞字段555</span>
 							</div>
 							<p th:text="${data.abbreviationContent}">&nbsp;&nbsp;&nbsp;&nbsp;主要内容字段666...
 								<a href="forumDeatils.html">Read more</a>
@@ -110,7 +111,7 @@
 								<span class="date">2013/09/02</span>
 								<span class="category"><a href="#">精品卧室</a></span>
 								<span class="comments"><a href="#">0 回复</a></span>
-								<span class="like-count">7</span>
+								<span class="like-count" style="background:red">7</span>
 							</div>
 							<a href="#"><img src="images/livingroom.jpg" align="right" width="150px" hspace="10" vspace="5"></a>
 							<p>&nbsp;&nbsp;&nbsp;&nbsp;我国古代家具主要有席、床、屏风、镜台、桌、椅、柜等。席子，是最古老、最原始的家具，最早由树叶编织而成，后来大都由芦苇、竹篾编成。古人常“席地而坐”，足见席子的应用是很广泛的。床，是席子以后最早出现的家具。一开始，床极矮，古人读书、写字、饮食、睡觉几乎都在床上进行。《孔雀东南飞》：“阿母得闻之，槌床便大怒。”诗中的“床”指的是坐具。和这种矮床配合用的家具有几、案、屏风等。还有一种矮榻常与床并用，故有“床榻”之称。魏晋南北朝以后，床的高度与今天的床差不多，成为专供睡觉的家具。唐宋以来，高型家具广泛普及，有床、桌、椅、凳、高几、长案、柜、衣架、巾架、屏风、盆架、镜台等，种类繁多，品种齐全。各个朝代的家具，都讲究工艺手法，力求图案丰富、雕刻精美，表现出浓厚的中国传统气派，成了我国传统文化的一个组成部分...
@@ -162,6 +163,9 @@
         function search2() {
             search($('#Fsearch').val());
 
+        }
+        function thumbs(doc) {
+			doc.css("background-corlor","red");
         }
 	</script>
 </html>

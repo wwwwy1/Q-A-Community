@@ -8,6 +8,7 @@ import cn.Ideal.demo.service.IForumService;
 import cn.Ideal.demo.service.ITagsService;
 import cn.Ideal.demo.util.Result;
 import cn.Ideal.demo.util.SensitiveWordsTrie;
+import cn.Ideal.demo.util.SolrPage;
 import cn.Ideal.demo.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -70,11 +71,10 @@ public class ForumController extends BaseController{
 	@GetMapping(value = "/user/forum")
 	public ModelAndView goForum(ModelAndView mav,@RequestParam(value = "current",defaultValue = "1",required = false)Integer current,
 								@RequestParam(value = "keyWords",defaultValue = "",required = false) String keyWords,
-								@RequestParam(value = "rank",defaultValue = "1",required = false)Integer rank){
+								@RequestParam(value = "rank",defaultValue = "1",required = false)Integer rank) throws Exception {
 		//QueryWrapper<Forum> queryWrapper = new QueryWrapper<>();
-		IPage<Forum> iPage = new Page<>(current,PAGE_SIZE);
+		/*IPage<Forum> iPage = new Page<>(current,PAGE_SIZE);
 		IPage<Forum> page = iForumService.page(iPage);
-
 		List<Forum> records = page.getRecords();
 		for (int i = 0; i < records.size(); i++) {
 			Collection<Tags> tags = iTagsService.listByIds(StringUtil.getIdList(records.get(i).getForumTips()));
@@ -84,9 +84,10 @@ public class ForumController extends BaseController{
 			}
 			records.get(i).setForumTipNames(list);
 			records.get(i).setAbbreviationContent(StringUtil.ignoreHtml(records.get(i).getForumContent()));
-		}
+		}*/
+		SolrPage page = iForumService.page(keyWords, current, PAGE_SIZE);
 		mav.setViewName("/user/forum");
-		mav.getModel().put("data",buildPage(page));
+		mav.getModel().put("data",page);
 		return mav;
 	}
 }

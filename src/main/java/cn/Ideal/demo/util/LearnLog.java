@@ -167,7 +167,9 @@ public enum  LearnLog {
 	LearnConcurrent111("2020/02/27","多线程复习"),
 	LearnConcurrent112("2020/02/28","计算机网络复习"),
 	LearnConcurrent113("2020/02/29","牛客网刷题，构思论坛列表设计"),
-	LearnConcurrent114("2020/03/01","leetcode178周赛，论坛列表显示，标签使用次数");
+	LearnConcurrent114("2020/03/01","leetcode178周赛，论坛列表显示，标签使用次数"),
+	LearnConcurrent115("2020/03/02","利用redis实现点赞操作，缺少插入数据库与前端判断"),
+	LearnConcurrent116("2020/03/03","利用redis+solr重新实现论坛展示，并利用redis实现点赞，查看功能，减轻数据库压力");
 	// 时间
 	private final String learnTime;
 	// 内容

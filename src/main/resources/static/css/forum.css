@@ -31,6 +31,11 @@
   background: url("../images/like.png") no-repeat 4px -24px;
   color: #395996;
 }
+.myThumbed {
+  float: right;
+  background: url("../images/like.png") no-repeat 4px -24px;
+  color: #395996;
+}
 
 .like-btn .like-it {
   display: inline-block;

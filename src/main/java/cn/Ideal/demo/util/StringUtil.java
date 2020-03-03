@@ -1,8 +1,8 @@
 package cn.Ideal.demo.util;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -31,8 +31,32 @@ public class StringUtil {
 		}
 		return sb.toString();
 	}
+	// 判空
 	public static Boolean isNullOrSpace(String keyWords){
 		if (keyWords==null || keyWords.equals("") || keyWords.equals("null")) return true;
 		else return false;
 	}
+	// StringToSet
+	public static HashSet<Integer> StringToSet(String val){
+		HashSet<Integer> ans = new HashSet<>();
+		String[] split = val.split(",");
+		for (String s : split) {
+			ans.add(Integer.valueOf(s.trim()));
+		}
+		return ans;
+	}
+	// SetToString
+	public static String SetToString(Set val){
+		String string = val.toString();
+		return string.substring(1,string.length()-1);
+	}
+	public static String objectToString(Object object){
+		return JSON.toJSONString(object);
+	}
+	public static <T> T stringToObj(String jsonStr,Class<T> clazz){
+		return JSON.parseObject(jsonStr,clazz);
+	}
+
+
+
 }

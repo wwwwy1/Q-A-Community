@@ -2,6 +2,7 @@ package cn.Ideal.demo;
 
 import cn.Ideal.demo.util.MxGraphModel;
 import cn.Ideal.demo.util.SensitiveWordsTrie;
+import cn.Ideal.demo.util.StringUtil;
 import cn.Ideal.demo.util.TestXmlClass;
 import com.sun.jmx.remote.internal.ArrayQueue;
 import com.sun.xml.internal.bind.v2.runtime.reflect.ListTransducedAccessorImpl;
@@ -30,6 +31,7 @@ import java.time.Period;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -4625,14 +4627,16 @@ class Trie {
 		}
 		return dfs5346(head,root.left)||dfs5346(head,root.right);
 	}
+
 	public  static void main(String[] args) {
-		DemoApplicationTests t = new DemoApplicationTests();
-		//t.rankTeams
-		Queue<Integer> queue = new LinkedList<>();
-		SensitiveWordsTrie a = SensitiveWordsTrie.INSTANCE;
-		SensitiveWordsTrie b = SensitiveWordsTrie.INSTANCE;
-		System.out.println(a==b);
-		System.out.println(a.getTree()==b.getTree());
+		Set<Integer> set = new HashSet<>();
+		set.add(1);
+		set.add(2);
+		set.add(3);
+		set.add(4);
+		String string = StringUtil.SetToString(set);
+		HashSet<Integer> integers = StringUtil.StringToSet(string);
+
 
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
