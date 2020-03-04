@@ -32,6 +32,11 @@ public class IndexController {
         return "/user/register";
     }
 
+    @GetMapping(value = "/user/webTest")
+    public String goWebTest(){
+        return "/user/webTest";
+    }
+
 
 
     @GetMapping(value = "/user/posting")
