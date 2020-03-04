@@ -1,12 +1,15 @@
 package cn.Ideal.demo.service.impl;
 
 import cn.Ideal.demo.entity.Forum;
+import cn.Ideal.demo.entity.ThumbUp;
 import cn.Ideal.demo.mapper.ForumMapper;
 import cn.Ideal.demo.service.IForumService;
+import cn.Ideal.demo.service.IThumbUpService;
 import cn.Ideal.demo.util.RedisKeyEnum;
 import cn.Ideal.demo.util.SolrForumUtil;
 import cn.Ideal.demo.util.SolrPage;
 import cn.Ideal.demo.util.StringUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +33,11 @@ public class ForumServiceImpl extends ServiceImpl<ForumMapper, Forum> implements
 	@Autowired
 	private IForumService iForumService;
 	@Autowired
+	private IThumbUpService iThumbUpService;
+	@Autowired
 	private RedisTemplate<String,String> redisTemplate;
 	@Override
-	public SolrPage page(String keywords,Integer current,Integer pageSize) throws Exception{
+	public SolrPage page(String userId,String keywords,Integer current,Integer pageSize) throws Exception{
 		SolrPage solrPage = SolrForumUtil.queryHighlight(keywords, current, pageSize);
 		List<Forum> data = (List<Forum>) solrPage.getData();
 		for (Forum ent : data) {
@@ -49,6 +54,16 @@ public class ForumServiceImpl extends ServiceImpl<ForumMapper, Forum> implements
 				ent.setForumReplys(byId.getForumReplys());
 				ent.setForumClicks(byId.getForumClicks());
 				ent.setForumThumbs(byId.getForumThumbs());
+			}
+			if (StringUtil.isNullOrSpace(userId)){
+				ent.setCanThumbUp(0);
+			}else {
+				String canThumbUp = iThumbUpService.getCanThumbUp(userId, ent.getId());
+				if (StringUtil.isNullOrSpace(canThumbUp)){
+					ent.setCanThumbUp(0);
+				}else {
+					ent.setCanThumbUp(1);
+				}
 			}
 		}
 		return solrPage;

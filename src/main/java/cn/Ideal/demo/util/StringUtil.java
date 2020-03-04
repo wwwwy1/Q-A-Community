@@ -37,7 +37,8 @@ public class StringUtil {
 		else return false;
 	}
 	// StringToSet
-	public static HashSet<Integer> StringToSet(String val){
+	public static HashSet<Integer> stringToSet(String val){
+		if (isNullOrSpace(val)) return null;
 		HashSet<Integer> ans = new HashSet<>();
 		String[] split = val.split(",");
 		for (String s : split) {
@@ -46,7 +47,7 @@ public class StringUtil {
 		return ans;
 	}
 	// SetToString
-	public static String SetToString(Set val){
+	public static String setToString(Set val){
 		String string = val.toString();
 		return string.substring(1,string.length()-1);
 	}

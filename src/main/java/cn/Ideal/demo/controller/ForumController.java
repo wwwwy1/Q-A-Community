@@ -2,17 +2,12 @@ package cn.Ideal.demo.controller;
 
 
 import cn.Ideal.demo.entity.Forum;
-import cn.Ideal.demo.entity.ForumView;
-import cn.Ideal.demo.entity.Tags;
 import cn.Ideal.demo.service.IForumService;
 import cn.Ideal.demo.service.ITagsService;
 import cn.Ideal.demo.util.Result;
 import cn.Ideal.demo.util.SensitiveWordsTrie;
 import cn.Ideal.demo.util.SolrPage;
 import cn.Ideal.demo.util.StringUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -20,12 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -69,7 +58,7 @@ public class ForumController extends BaseController{
 		return mav;
 	}*/
 	@GetMapping(value = "/user/forum")
-	public ModelAndView goForum(ModelAndView mav,@RequestParam(value = "current",defaultValue = "1",required = false)Integer current,
+	public ModelAndView goForum(HttpServletRequest request,ModelAndView mav,@RequestParam(value = "current",defaultValue = "1",required = false)Integer current,
 								@RequestParam(value = "keyWords",defaultValue = "",required = false) String keyWords,
 								@RequestParam(value = "rank",defaultValue = "1",required = false)Integer rank) throws Exception {
 		//QueryWrapper<Forum> queryWrapper = new QueryWrapper<>();
@@ -85,7 +74,15 @@ public class ForumController extends BaseController{
 			records.get(i).setForumTipNames(list);
 			records.get(i).setAbbreviationContent(StringUtil.ignoreHtml(records.get(i).getForumContent()));
 		}*/
-		SolrPage page = iForumService.page(keyWords, current, PAGE_SIZE);
+		String userId = null;
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		if (StringUtil.isNullOrSpace(token)) {
+			userId = null;
+		}else {
+			userId = redisTemplate.opsForValue().get(token);
+		}
+		//if (StringUtil.isNullOrSpace(userId)) return new Result("未登录",400,null);
+		SolrPage page = iForumService.page(userId,keyWords, current, PAGE_SIZE);
 		mav.setViewName("/user/forum");
 		mav.getModel().put("data",page);
 		return mav;

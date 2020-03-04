@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-03-02
  */
 public interface IThumbUpService extends IService<ThumbUp> {
-
+	String getCanThumbUp(String userId,Integer forumId);
 }

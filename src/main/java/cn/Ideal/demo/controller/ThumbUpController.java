@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,7 +31,7 @@ public class ThumbUpController {
 	@Autowired
 	private RedisTemplate<String,String> redisTemplate;
 	@ResponseBody
-	@RequestMapping("/up")
+	@GetMapping("/up")
 	public void thumbUp(HttpServletRequest request, @RequestParam(value = "forumId",defaultValue = "-1",required = false)Integer forumId,
 						@RequestParam(value = "replyId",defaultValue = "-1",required = false)Integer replyId){
 		if (replyId.equals(-1) && forumId.equals(-1))
@@ -53,15 +54,15 @@ public class ThumbUpController {
 			redisTemplate.opsForHash().put(RedisKeyEnum.FORUM_KEY,String.valueOf(forumId),i+","+split[1]+","+split[2]);
 		}
 		String userResultString =  (String)redisTemplate.opsForHash().get(redisKey, userId);
-		Set<Integer> userResult = StringUtil.StringToSet(userResultString);
+		Set<Integer> userResult = StringUtil.stringToSet(userResultString);
 		if (userResult == null) userResult = new HashSet<>();
 		userResult.add(forumId);
-		redisTemplate.opsForHash().put(redisKey, userId, StringUtil.SetToString(userResult));
+		redisTemplate.opsForHash().put(redisKey, userId, StringUtil.setToString(userResult));
 
 
 	}
 	@ResponseBody
-	@RequestMapping("/cancel")
+	@GetMapping("/cancel")
 	public void thumbUpCancel(HttpServletRequest request, @RequestParam(value = "forumId",defaultValue = "-1",required = false)Integer forumId,
 						@RequestParam(value = "replyId",defaultValue = "-1",required = false)Integer replyId){
 		if (replyId.equals(-1) && forumId.equals(-1))
@@ -82,9 +83,9 @@ public class ThumbUpController {
 			redisTemplate.opsForHash().put(RedisKeyEnum.FORUM_KEY,String.valueOf(forumId),i+","+split[1]+","+split[2]);
 		}
 		String userResultString =  (String)redisTemplate.opsForHash().get(redisKey, userId);
-		Set<Integer> userResult = StringUtil.StringToSet(userResultString);
+		Set<Integer> userResult = StringUtil.stringToSet(userResultString);
 		if (userResult == null) userResult = new HashSet<>();
 		userResult.remove(forumId);
-		redisTemplate.opsForHash().put(redisKey, userId, StringUtil.SetToString(userResult));
+		redisTemplate.opsForHash().put(redisKey, userId, StringUtil.setToString(userResult));
 	}
 }

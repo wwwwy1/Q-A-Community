@@ -4690,8 +4690,8 @@ class Trie {
 		set.add(2);
 		set.add(3);
 		set.add(4);
-		String string = StringUtil.SetToString(set);
-		HashSet<Integer> integers = StringUtil.StringToSet(string);
+		String string = StringUtil.setToString(set);
+		HashSet<Integer> integers = StringUtil.stringToSet(string);
 
 
 	}

@@ -1,11 +1,7 @@
 package cn.Ideal.demo.mapper;
 
 import cn.Ideal.demo.entity.Forum;
-import cn.Ideal.demo.entity.ForumView;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
 
 /**
  * <p>

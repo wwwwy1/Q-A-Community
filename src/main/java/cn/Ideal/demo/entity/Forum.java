@@ -24,6 +24,9 @@ import java.util.List;
 
     private static final long serialVersionUID = 1L;
 
+    public Forum() {
+    }
+
     public Forum(Integer id, Integer forumReplys, Integer forumClicks, Integer forumThumbs) {
         this.id = id;
         this.forumReplys = forumReplys;
@@ -63,7 +66,8 @@ import java.util.List;
     private List<String> forumTipNames;
     @TableField(exist = false)
     private String abbreviationContent;
-
+    @TableField(exist = false)
+    private Integer canThumbUp;
     ;
             /**
             * 回复数

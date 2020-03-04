@@ -55,7 +55,7 @@ public class ScheduleTask {
 		for (Map.Entry<Object, Object> entry : thumbUpForum.entrySet()) {
 			String userId = (String)entry.getKey();
 			String forumIds = (String)entry.getValue();
-			HashSet<Integer> integers = StringUtil.StringToSet(forumIds);
+			HashSet<Integer> integers = StringUtil.stringToSet(forumIds);
 			// 待插入数据库
 			for (Integer forumId : integers) {
 				iThumbUpService.save(new ThumbUp(userId,forumId));
@@ -70,7 +70,7 @@ public class ScheduleTask {
 			String forumId = (String)entry.getKey();
 			String clicks = (String)entry.getValue();
 			String[] split = clicks.split(",");
-			iForumService.save(new Forum(Integer.valueOf(forumId),Integer.valueOf(split[2]),Integer.valueOf(split[1]),Integer.valueOf(split[0])));
+			iForumService.updateById(new Forum(Integer.valueOf(forumId),Integer.valueOf(split[2]),Integer.valueOf(split[1]),Integer.valueOf(split[0])));
 		}
 	}
 }
