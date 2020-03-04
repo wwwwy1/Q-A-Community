@@ -16,4 +16,5 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface IUserService extends IService<User> {
 	Result login(User user,HttpServletRequest request);
+	int addUserPoint(String userId);
 }

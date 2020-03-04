@@ -24,7 +24,14 @@ import java.util.List;
 
     private static final long serialVersionUID = 1L;
 
-            /**
+    public Forum(Integer id, Integer forumReplys, Integer forumClicks, Integer forumThumbs) {
+        this.id = id;
+        this.forumReplys = forumReplys;
+        this.forumClicks = forumClicks;
+        this.forumThumbs = forumThumbs;
+    }
+
+    /**
             * 帖子id
             */
             @TableId(value = "id", type = IdType.AUTO)

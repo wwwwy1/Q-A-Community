@@ -4627,7 +4627,63 @@ class Trie {
 		}
 		return dfs5346(head,root.left)||dfs5346(head,root.right);
 	}
-
+	public int orangesRotting(int[][] grid) {
+		Queue<List<Integer>> queue = new LinkedList<>();
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j]==2){
+					List<Integer> temp = new ArrayList<>();
+					temp.add(i);
+					temp.add(j);
+					queue.offer(temp);
+				}
+			}
+		}
+		int ans = 0;
+		while(!queue.isEmpty()){
+			int size = queue.size();
+			int flag = 0;
+			for (int i = 0; i < size; i++) {
+				List<Integer> remove = queue.remove();
+				Integer r = remove.get(0);
+				Integer l = remove.get(1);
+				if (r-1>=0 && grid[r-1][l]==1){
+					grid[r-1][l] = 2;
+					ArrayList<Integer> integers = new ArrayList<>();
+					integers.add(r-1);
+					integers.add(l);
+					queue.offer(integers);
+					flag=1;
+				}
+				if (r+1<grid.length && grid[r+1][l]==1){
+					grid[r+1][l] = 2;
+					ArrayList<Integer> integers = new ArrayList<>();
+					integers.add(r+1);
+					integers.add(l);
+					queue.offer(integers);
+					flag=1;
+				}
+				if (l-1>=0 && grid[r][l-1]==1){
+					grid[r][l-1] = 2;
+					ArrayList<Integer> integers = new ArrayList<>();
+					integers.add(r);
+					integers.add(l-1);
+					queue.offer(integers);
+					flag=1;
+				}
+				if (l+1<grid[r].length && grid[r][l+1]==1){
+					grid[r][l+1] = 2;
+					ArrayList<Integer> integers = new ArrayList<>();
+					integers.add(r);
+					integers.add(l+1);
+					queue.offer(integers);
+					flag=1;
+				}
+			}
+			if (flag==1)ans++;
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 		Set<Integer> set = new HashSet<>();
 		set.add(1);

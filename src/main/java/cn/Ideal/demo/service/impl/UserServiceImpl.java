@@ -47,4 +47,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 		session.setAttribute("tokenFront",uuid.toString());
 		return new Result("登录成功",200,userByName);
 	}
+
+	@Override
+	public int addUserPoint(String userId) {
+		return baseMapper.addUserPoint(userId);
+	}
 }
