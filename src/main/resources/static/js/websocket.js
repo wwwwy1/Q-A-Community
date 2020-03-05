@@ -1,13 +1,10 @@
 'use strict';
 
-var usernamePage = document.querySelector('#username-page');
-var chatPage = document.querySelector('#chat-page');
-var usernameForm = document.querySelector('#usernameForm');
 var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
-
+var imgUrl = document.querySelector('#imgUrl').value;
 var stompClient = null;
 var username = null;
 
@@ -15,32 +12,27 @@ var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
-
-function connect(event) {
+$(function () {
+    connect();
+});
+function connect() {
     username = document.querySelector('#name').value.trim();
-
     if(username) {
-        usernamePage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
-
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
-
         stompClient.connect({}, onConnected, onError);
     }
-    event.preventDefault();
+    //event.preventDefault();
 }
-
-
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
+    stompClient.subscribe('/private/'+username+'/chat', onMessageReceived);
 
     // Tell your username to the server
-    stompClient.send("/app/chat.addUser",
+    /*stompClient.send("/app/chat.addUser",
         {},
         JSON.stringify({sender: username, type: 'JOIN'})
-    )
+    )*/
 
     connectingElement.classList.add('hidden');
 }
@@ -54,15 +46,18 @@ function onError(error) {
 
 function sendMessage(event) {
     var messageContent = messageInput.value.trim();
-
+    console.log(imgUrl);
+    debugger;
     if(messageContent && stompClient) {
         var chatMessage = {
             sender: username,
             content: messageInput.value,
-            type: 'CHAT'
+            type: 'CHAT',
+            receiver:username,
+            imgUrl:imgUrl
         };
 
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        stompClient.send("/app/chat.privateMsg", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
     }
     event.preventDefault();
@@ -72,37 +67,31 @@ function sendMessage(event) {
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
 
-    var messageElement = document.createElement('li');
+    var messageElement = "";
 
-    if(message.type === 'JOIN') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
-    } else if (message.type === 'LEAVE') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
-    } else {
-        messageElement.classList.add('chat-message');
-
-        var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
-        avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
-
-        messageElement.appendChild(avatarElement);
-
-        var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(message.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
+    if(message.sender === username) {
+        messageElement="<div class=\"chat-message2\">\n" +
+        "                                        <img class=\"message-avatar\" src=\"/images/"+ message.imgUrl +"\" alt=\"\">\n" +
+        "                                        <div class=\"message\">\n" +
+        "                                            <a class=\"message-author\" href=\"#\">"+ message.sender+"</a>\n" +
+        "                                            <span class=\"message-date\">  "+ message.date+" </span>\n" +
+        "                                            <span class=\"message-content\">\n" + message.content +
+        "                                            </span>\n" +
+        "                                        </div>\n" +
+        "                                    </div>";
+    }else {
+        messageElement="<div class=\"chat-message1\">\n" +
+            "                                        <img class=\"message-avatar\" src=\"/images/"+ message.imgUrl +"\" alt=\"\">\n" +
+            "                                        <div class=\"message\">\n" +
+            "                                            <a class=\"message-author\" href=\"#\">"+ message.sender+"</a>\n" +
+            "                                            <span class=\"message-date\">  "+ message.date+" </span>\n" +
+            "                                            <span class=\"message-content\">\n" + message.content +
+            "                                            </span>\n" +
+            "                                        </div>\n" +
+            "                                    </div>";
     }
 
-    var textElement = document.createElement('p');
-    var messageText = document.createTextNode(message.content);
-    textElement.appendChild(messageText);
-
-    messageElement.appendChild(textElement);
-
-    messageArea.appendChild(messageElement);
+    messageArea.innerHTML = messageArea.innerHTML + messageElement;
     messageArea.scrollTop = messageArea.scrollHeight;
 }
 
@@ -117,5 +106,4 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
-usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)

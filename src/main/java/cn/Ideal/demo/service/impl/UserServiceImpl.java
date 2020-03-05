@@ -45,7 +45,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 		//request.setAttribute("token",uuid.toString());
 		HttpSession session = request.getSession();
 		session.setAttribute("tokenFront",uuid.toString());
-		return new Result("登录成功",200,userByName);
+		session.setAttribute("sessionUser",userByName);
+
+		return new Result("登录成功",200,null);
 	}
 
 	@Override

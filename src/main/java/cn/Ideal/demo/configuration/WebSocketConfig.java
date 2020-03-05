@@ -20,6 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 		// 以app开头的消息应该路由到 消息处理方法
 		registry.setApplicationDestinationPrefixes("/app");
 		// 以topic开头的消息应该路由到 消息代理
-		registry.enableSimpleBroker("/topic");
+		registry.enableSimpleBroker("/topic","/private");
+		registry.setUserDestinationPrefix("/private");
 	}
 }

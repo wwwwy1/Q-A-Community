@@ -1200,3 +1200,149 @@ button.dim:active:before {
 	top: 7px;
 	font-size: 50px;
 }
+
+.message-input {
+	height: 90px !important;
+}
+
+.chat-avatar {
+	white: 36px;
+	height: 36px;
+	float: left;
+	margin-right: 10px;
+}
+
+.chat-user-name {
+	padding: 10px;
+}
+
+.chat-user {
+	padding: 8px 10px;
+	border-bottom: 1px solid #e7eaec;
+}
+
+.chat-user a {
+	color: inherit;
+}
+
+.chat-view {
+	z-index: 20012;
+}
+
+.chat-users,
+.chat-statistic {
+	margin-left: -30px;
+}
+
+@media (max-width: 992px) {
+	.chat-users,
+	.chat-statistic {
+		margin-left: 0px;
+	}
+}
+
+.chat-view .ibox-content {
+	padding: 0;
+}
+
+.chat-message1 {
+	padding: 10px 20px;
+}
+.chat-message2 {
+	padding: 10px 20px;
+}
+.message-avatar {
+	height: 48px;
+	width: 48px;
+	border: 1px solid #e7eaec;
+	border-radius: 4px;
+	margin-top: 1px;
+}
+
+.chat-discussion .chat-message1 .message-avatar {
+	float: left;
+	margin-right: 10px;
+}
+
+.chat-discussion .chat-message2 .message-avatar {
+	float: right;
+	margin-left: 10px;
+}
+
+.message {
+	background-color: #fff;
+	border: 1px solid #e7eaec;
+	text-align: left;
+	display: block;
+	padding: 10px 20px;
+	position: relative;
+	border-radius: 4px;
+}
+
+.chat-discussion .chat-message1 .message-date {
+	float: right;
+}
+
+.chat-discussion .chat-message2 .message-date {
+	float: left;
+}
+
+.chat-discussion .chat-message1 .message {
+	text-align: left;
+	margin-left: 55px;
+}
+
+.chat-discussion .chat-message2 .message {
+	text-align: right;
+	margin-right: 55px;
+}
+
+.message-date {
+	font-size: 10px;
+	color: #888888;
+}
+
+.message-content {
+	display: block;
+}
+
+.chat-discussion {
+	background: #eee;
+	padding: 15px;
+	height: 400px;
+	overflow-y: auto;
+}
+
+.chat-users {
+	overflow-y: auto;
+	height: 400px;
+}
+
+.chat-message-form .form-group {
+	margin-bottom: 0;
+}
+
+.ibox-title {
+	height: 41px;
+	border-color: #edf1f2;
+	background-color: #f6f8f8;
+	color: #333;
+	font-weight: 700;
+	border-radius: 2px 2px 0 0;
+	padding: 15px 15px 3px 15px;
+	border-bottom: 1px solid transparent;
+	display: block;
+	clear: both;
+}
+
+.ibox-content {
+	background-color: #ffffff;
+	color: inherit;
+	padding: 15px 20px 20px 20px;
+	border-color: #e7eaec;
+	-webkit-border-image: none;
+	-o-border-image: none;
+	border-image: none;
+	border-style: solid solid none;
+	border-width: 1px 0px;
+}
