@@ -86,38 +86,32 @@
 			<div class="row">
 				<div>
 					<article class=" type-post format-title  hentry ">
-						<h1 class="post-title" th:text="${data.comment.title}">标题字段111</h1>
+						<h1 class="post-title" th:text="${forumData.forumTitle}">标题字段111</h1>
 						<div class="post-meta">
-							<span class="date" th:text="${#dates.format(data.comment.ctime,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
-							<span class="category" ><a href="#" th:text="${data.comment.tips}">标签字段333</a></span>
-							<span class="comments"><a href="#" th:text="${data.comment.count}">回复数字段444</a></span>
+							<span class="date" th:text="${#temporals.format(forumData.insertDate,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
+							<span class="category"th:each="tips:${forumData.forumTipNames}" th:utext="'<a href=\'#\'>'+${tips}+'</a>'" ></span>
+							<span class="comments"><a href="#" th:text="${forumData.forumReplys}">回复数字段444</a></span>
 						</div>
-						<h3  th:text=${data.comment.content}>主要内容字段666</h3>
-						
+						<div th:utext=${forumData.forumContent}>主要内容字段666</div>
 					</article>
-					<div class="like-btn">
-						<form id="like-it-form" action="#" method="post">
-							<span class="like-it ">66</span>
-						</form>
-					</div>
 					<section id="comments">
-						<h3  th:text=@{'全部回复：(共'+${data.comment.count}+'条)'} >回复数字段777（N 回复）</h3>
+						<h3  th:text=@{'全部回复：(共'+${forumData.forumReplys}+'条)'} >回复数字段777（N 回复）</h3>
 						<ol class="commentlist">
-							<li class="comment " th:each="value:${data.replys}">
+							<li class="comment " th:each="value:${replyData}">
 								<article>
 									<a href="#">
-										<img alt=""    th:src=@{'/images/'+${value.user.uimg}} class="avatar avatar-60 photo" height="60px" width="60px">
+										<img alt=""    th:src=@{'/images/'+${value.user.userImg}} class="avatar avatar-60 photo" height="60px" width="60px">
 									</a>
 									<div>
-										<h5><cite  th:text="${value.user.uname}">回复人字段888</cite>
-                                            - <a class="comment-reply-link"  th:href="'javascript:openReply('+${value.rid}+')'" >Reply</a>
+										<h5><cite  th:text="${value.user.userNickname}">回复人字段888</cite>
+                                            - <a class="comment-reply-link"  th:href="'javascript:openReply('+${value.id}+')'" >Reply</a>
                                         </h5>
-										<p><time th:text="${#dates.format(value.dtime,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time></p>
+										<p><time th:text="${#temporals.format(value.insertDate,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time></p>
 									</div>
 									<div>
-										<p th:text="${value.ridrp}">回复主要内容字段10.10.10.</p>
-										<p   th:if="${value.rn eq 0 }"></p>
-										<p  style="color: #2aabd2;cursor: pointer;"  th:onclick="'javascript:goMore('+${value.rid}+')'"   th:text= @{'查看'+${value.rn}+'条回复'} th:if="${value.rn ne 0 }" ></p>
+										<p th:text="${value.replyContent}">回复主要内容字段10.10.10.</p>
+										<p   th:if="${value.replyCount eq 0 }"></p>
+										<p  style="color: #2aabd2;cursor: pointer;"  th:onclick="'javascript:goMore('+${value.id}+')'"   th:text= @{'查看'+${value.replyCount}+'条回复'} th:if="${value.replyCount ne 0 }" ></p>
 									</div>
 								</article>
 								<!-- 递进评论 -->
@@ -127,7 +121,7 @@
 							<h3>发表评论</h3>
 							<input id="opencid"  type="text"  style="display:none">
 
-								<input id="cid"  th:value="${data.comment.cid}" type="text" style="display:none">
+								<input id="cid"  th:value="${forumData.id}" type="text" style="display:none">
 								<div>
 									<textarea id="titlecomment" cols="58" rows="10" style="width: 98%;overflow:hidden;"></textarea>
 								</div>

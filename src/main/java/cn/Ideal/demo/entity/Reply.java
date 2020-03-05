@@ -46,7 +46,8 @@ import java.time.LocalDateTime;
             */
         @TableField("reply_user_id")
     private String replyUserId;
-
+    @TableField(exist = false)
+    private User user;
             /**
             * 0则为第一层，其他则为楼中楼
             */
@@ -59,6 +60,11 @@ import java.time.LocalDateTime;
         @TableField("reply_return_user_id")
     private String replyReturnUserId;
 
+    /**
+     * 第一层评论中，有多少条回复内容
+     */
+    @TableField("reply_count")
+    private Integer replyCount;
     /**
      * 软删除  0:未删除 1:已删除
      */

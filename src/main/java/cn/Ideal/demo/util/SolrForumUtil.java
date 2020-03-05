@@ -52,12 +52,9 @@ public class SolrForumUtil {
 		client.commit();
 		return true;
 	}
-	public static QueryResponse query(String keywords, int startOfPage, int numberOfPage) throws SolrServerException, IOException {
+	public static QueryResponse queryById(int id) throws SolrServerException, IOException {
 		SolrQuery query = new SolrQuery();
-		query.setStart(startOfPage);
-		query.setRows(numberOfPage);
-
-		query.setQuery(keywords);
+		SolrDocument byId = client.getById(String.valueOf(id));
 		QueryResponse rsp = client.query(query);
 		return rsp;
 	}

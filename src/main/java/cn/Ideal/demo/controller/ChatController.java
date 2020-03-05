@@ -45,7 +45,7 @@ public class ChatController {
 		LocalDateTime time=LocalDateTime.now();
 		String strDate2 = dtf2.format(time);
 		chatMessage.setDate(strDate2);
-		List<User> list = iUserService.list();
+
 		//System.out.println(list);
 		System.out.println(chatMessage);
 		template.convertAndSendToUser(chatMessage.getReceiver(), "/chat", chatMessage);

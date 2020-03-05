@@ -54,6 +54,7 @@ public class ForumServiceImpl extends ServiceImpl<ForumMapper, Forum> implements
 				ent.setForumReplys(byId.getForumReplys());
 				ent.setForumClicks(byId.getForumClicks());
 				ent.setForumThumbs(byId.getForumThumbs());
+				redisTemplate.opsForHash().put(RedisKeyEnum.FORUM_KEY,String.valueOf(ent.getId()),byId.getForumThumbs()+","+ byId.getForumClicks()+","+byId.getForumReplys());
 			}
 			if (StringUtil.isNullOrSpace(userId)){
 				ent.setCanThumbUp(0);

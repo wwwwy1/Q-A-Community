@@ -10,6 +10,8 @@
         <result column="reply_user_id" property="replyUserId" />
         <result column="reply_father" property="replyFather" />
         <result column="reply_return_user_id" property="replyReturnUserId" />
+        <result column="reply_count" property="replyCount" />
+
         <result column="insert_date" property="insertDate" />
         <result column="update_date" property="updateDate" />
         <result column="is_deleted" property="isDeleted" />
@@ -17,7 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, forum_id, reply_content, reply_user_id, reply_father, reply_return_user_id, insert_date, update_date, is_deleted
+        id, forum_id, reply_content, reply_user_id, reply_father, reply_return_user_id, reply_count, insert_date, update_date, is_deleted
     </sql>
 
 </mapper>

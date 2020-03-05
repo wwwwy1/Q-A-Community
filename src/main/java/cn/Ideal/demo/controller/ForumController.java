@@ -2,12 +2,13 @@ package cn.Ideal.demo.controller;
 
 
 import cn.Ideal.demo.entity.Forum;
+import cn.Ideal.demo.entity.Reply;
+import cn.Ideal.demo.entity.Tags;
 import cn.Ideal.demo.service.IForumService;
+import cn.Ideal.demo.service.IReplyService;
 import cn.Ideal.demo.service.ITagsService;
-import cn.Ideal.demo.util.Result;
-import cn.Ideal.demo.util.SensitiveWordsTrie;
-import cn.Ideal.demo.util.SolrPage;
-import cn.Ideal.demo.util.StringUtil;
+import cn.Ideal.demo.util.*;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -33,6 +37,8 @@ public class ForumController extends BaseController{
 	private ITagsService iTagsService;
 	@Autowired
 	private RedisTemplate<String,String> redisTemplate;
+	@Autowired
+	private IReplyService iReplyService;
 	public static final Integer PAGE_SIZE = 10;
 
 	@ResponseBody
@@ -85,6 +91,23 @@ public class ForumController extends BaseController{
 		SolrPage page = iForumService.page(userId,keyWords, current, PAGE_SIZE);
 		mav.setViewName("/user/forum");
 		mav.getModel().put("data",page);
+		return mav;
+	}
+	@GetMapping(value = "/user/forum/{id}")
+	public ModelAndView goForum(ModelAndView mav,@PathVariable Integer id){
+		Forum byId = iForumService.getById(id);
+		mav.getModel().put("forumData",byId);
+		QueryWrapper<Reply> replyQueryWrapper = new QueryWrapper<>();
+		replyQueryWrapper.eq("forum_id",id);
+		List<Reply> list = iReplyService.list(replyQueryWrapper);
+		mav.getModel().put("replyData",list);
+		mav.setViewName("/user/forumDeatils");
+		Collection<Tags> tags = iTagsService.listByIds(StringUtil.getIdList(byId.getForumTips()));
+		List<String> temp = new ArrayList<>();
+		for (Tags tag : tags) {
+			temp.add(tag.getTagsName());
+		}
+		byId.setForumTipNames(temp);
 		return mav;
 	}
 }

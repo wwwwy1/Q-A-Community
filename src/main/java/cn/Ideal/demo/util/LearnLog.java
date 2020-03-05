@@ -171,7 +171,7 @@ public enum  LearnLog {
 	LearnConcurrent115("2020/03/02","利用redis实现点赞操作，缺少插入数据库与前端判断"),
 	LearnConcurrent116("2020/03/03","利用redis+solr重新实现论坛展示，并利用redis实现点赞，查看功能，减轻数据库压力"),
 	LearnConcurrent117("2020/03/04","完成点赞功能以及利用websocket实现简单的聊天功能");
-
+	// 记一个未完成任务：未建立聊天表（id，发送者，接受者，时间，内容，可能需要一个定位字段?）
 	// 时间
 	private final String learnTime;
 	// 内容
