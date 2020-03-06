@@ -41,7 +41,6 @@ public class IndexController {
     public String goChatView(){
         return "/user/chatView";
     }
-
     @GetMapping(value = "/user/posting")
     public ModelAndView goPosting(ModelAndView mav){
         QueryWrapper<Tags> queryWrapper = new QueryWrapper<>();

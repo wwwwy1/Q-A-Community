@@ -4,9 +4,11 @@ package cn.Ideal.demo.controller;
 import cn.Ideal.demo.entity.Forum;
 import cn.Ideal.demo.entity.Reply;
 import cn.Ideal.demo.entity.Tags;
+import cn.Ideal.demo.entity.User;
 import cn.Ideal.demo.service.IForumService;
 import cn.Ideal.demo.service.IReplyService;
 import cn.Ideal.demo.service.ITagsService;
+import cn.Ideal.demo.service.IUserService;
 import cn.Ideal.demo.util.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,8 @@ public class ForumController extends BaseController{
 	private ITagsService iTagsService;
 	@Autowired
 	private RedisTemplate<String,String> redisTemplate;
+	@Autowired
+	private IUserService iUserService;
 	@Autowired
 	private IReplyService iReplyService;
 	public static final Integer PAGE_SIZE = 10;
@@ -99,7 +103,12 @@ public class ForumController extends BaseController{
 		mav.getModel().put("forumData",byId);
 		QueryWrapper<Reply> replyQueryWrapper = new QueryWrapper<>();
 		replyQueryWrapper.eq("forum_id",id);
+		replyQueryWrapper.eq("reply_father",0);
 		List<Reply> list = iReplyService.list(replyQueryWrapper);
+		for (Reply reply : list) {
+			User byId1 = iUserService.getById(reply.getReplyUserId());
+			reply.setUser(byId1);
+		}
 		mav.getModel().put("replyData",list);
 		mav.setViewName("/user/forumDeatils");
 		Collection<Tags> tags = iTagsService.listByIds(StringUtil.getIdList(byId.getForumTips()));

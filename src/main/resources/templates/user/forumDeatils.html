@@ -11,6 +11,7 @@
 		<script   th:src="@{/js/jquery.js}"  type="text/javascript" src="/static/js/jquery.js"></script>
 		<script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
 		<script  th:src="@{/layer/layer.js}"    src="/static/layer/layer.js" type="text/javascript"></script>
+		<link th:href="@{/css/font-awesome.css}" rel="stylesheet">
 
 
 	</head>
@@ -91,6 +92,7 @@
 							<span class="date" th:text="${#temporals.format(forumData.insertDate,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
 							<span class="category"th:each="tips:${forumData.forumTipNames}" th:utext="'<a href=\'#\'>'+${tips}+'</a>'" ></span>
 							<span class="comments"><a href="#" th:text="${forumData.forumReplys}">回复数字段444</a></span>
+
 						</div>
 						<div th:utext=${forumData.forumContent}>主要内容字段666</div>
 					</article>

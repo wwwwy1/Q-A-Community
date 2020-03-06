@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="utf-8" />
+		<title>创业基地</title>
+		<link   th:href="@{/css/youcediv.css}"  href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<link  th:href="@{/css/bootstrap.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<script   th:src="@{/js/jquery.js}"  type="text/javascript" src="/static/js/jquery.js"></script>
+		<script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
+		<link  th:href="@{/css/font-awesome.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<link  th:href="@{/css/style.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+		<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/public.css}"/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/mygrxx.css}" />
+		<script th:src="@{/js/public.js}" type="text/javascript" charset="utf-8"></script>
+		<script th:src="@{/js/user.js}" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/front/index.html">Y</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="#">首页 <span class="sr-only">(current)</span></a>
+					</li>
+					<li>
+						<a href="forum.html">论坛</a>
+					</li>
+					<li>
+						<a href="#">行程规划<span class="badge">New</span></a>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">创业文案分享区 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">成功经历分享</a>
+							</li>
+							<li>
+								<a href="#">Another action</a>
+							</li>
+							<li>
+								<a href="#">Something else here</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">Separated link</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">One more separated link</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form navbar-left">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Daily word:Furious activity is no substitute for understanding</a></li>
+					<li>
+						<a href="#">收藏夹</a>
+					</li>
+
+					<li class="dropdown">
+						<a href="javascript:void(0)" onclick="openLogin()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/注册 </a>
+					</li>
+
+					<!--<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人管理 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">信息修改</a>
+							</li>
+							<li>
+								<a href="#">Another action</a>
+							</li>
+							<li>
+								<a href="#">Something else here</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">系统设置</a>
+							</li>
+						</ul>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="Bott">
+		<div class="wrapper clearfix">
+			<div class="zuo fl">
+				<h3>
+					<a href="#"><img class="img-circle m-t-xs img-responsive" style="height:55px;width:55px;" th:src=@{'/images/'+${data.userImg}}></a>
+					<span  style="font-family: 黑体;" th:text="${data.userNickname}">[羊羊羊]</span><br/>
+					<button class="btn btn-primary " type="submit">退出登录</button>
+				</h3>
+				<div>
+					<ul>
+						<li><a href="cart.html">我的购物车</a></li>
+						<li><a href="myorderq.html">我的订单</a></li>
+						<li><a href="myprod.html">评价晒单</a></li>
+						<li><a href="mygxin.html">我的中心</a></li>
+						<li><a href="address.html">地址管理</a></li>
+						<li  class="on"><a href="mygrxx.html">个人信息</a></li>
+						<li><a href="remima.html">修改密码</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="you fl">
+				<h2>个人信息</h2>
+				<div class="gxin">
+					<div class="tx"><a href="#"><img class="img-circle m-t-xs img-responsive" style="" th:src=@{'/images/'+${data.userImg}}><p id="avatar">修改头像</p></a></div>
+					<div class="xx">
+						<h3 class="clearfix"><strong class="fl">基础资料</strong><a href="javascript:openLogin()"  class="fr" id="edit1">编辑</a></h3>
+						<div th:text="'登录名：'+${data.userName}">姓名：六六六</div>
+						<div th:text="'昵称：'+${data.userNickname}">生日：1995-06-06</div>
+						<div th:text="'邮箱：'+${data.userEmail}">性别：女</div>
+						<div th:text="'收到的赞：'+${data.userThumbs}">性别：女</div>
+						<div th:text="'上次登录时间：'+${#temporals.format(data.lastLoginDate,'yyyy-MM-dd HH:mm:ss')}">性别：女</div>
+						<div th:text="'注册时间：'+${#temporals.format(data.insertDate,'yyyy-MM-dd HH:mm:ss')}">性别：女</div>
+
+						<!--<h3>高级设置</h3>
+						&lt;!&ndash;<div><span class="fl">银行卡</span><a href="#" class="fr">管理</a></div>&ndash;&gt;
+						<div><span class="fl">账号地区：中国</span><a href="#" class="fr" id="edit2">修改</a></div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="side-bar" >
+		<a href="" class="icon-qq">QQ在线咨S询
+			<div class="qq-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="QQ订阅号"></div>
+		</a>
+		<a href="" class="icon-chat">微信
+			<div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="微信订阅号"></div>
+		</a>
+		<a target="_blank" href="https://weibo.com/" class="icon-blog">微博</a>
+		<a href="mailto:2500233233@qq.com" class="icon-mail">mail</a>
+	</div>
+
+	<nav class="navbar navbar-default navbar-fixed-bottom" id="footer">
+		<div class="container">
+			<div class="navbar-header" >
+				<a style="font-size: 10px;" class="navbar-brand" target="_blank"
+				   href="#"> Here is Y tribune  Copy Right @ 2019 </a>
+			</div>
+		</div>
+	</nav>
+	<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" >
+		<div class="modal-dialog" role="document">
+			<div class="modal-content news-w3l">
+				<div class="modal-header" id="userManageModal">
+					<button type="button" class="close w3l" data-dismiss="modal">&times;</button>
+					<h4 id="modalTitle">修改基本资料</h4>
+					<!--newsletter-->
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm" >
+							<input id="id" th:value="${data.id}" hidden="hidden">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">用户名：</label>
+								<div class="col-sm-8">
+									<input id="userName" name="userName" readonly="readonly" th:value="${data.userName}" class="form-control" type="text">
+									<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 用于登录,不可修改</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">昵称：</label>
+								<div class="col-sm-8">
+									<input id="userNickname" name="userNickname" th:value="${data.userNickname}" class="form-control" type="text" aria-required="true" aria-invalid="false" >
+									<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 用于展示,可修改</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label">E-mail：</label>
+								<div class="col-sm-8">
+									<input id="userEmail" name="userEmail" th:value="${data.userEmail}" class="form-control" type="email">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button class="btn btn-primary" onclick="toUpdate()" type="button">确认修改</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--//newsletter-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	</body>
+
+</html>
+<script>
+	function toUpdate() {
+        var myreg = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+        if(!myreg.test($('#userEmail').val())){
+            swal({
+                title: "参数错误",
+                text: "请输入正确的邮箱账户！",
+                type: "warning"
+            });
+        }else {
+            $.ajax({
+                url:"/user/update",
+                method:"post",
+                data:{"userName":$('#userName').val(),"id":$('#id').val(),"userNickname":$('#userNickname').val(),"userEmail":$('#userEmail').val()},
+                dataType:"json",
+                success:function (data) {
+                    if (data.code == 200){
+                        swal({
+                            title: "修改成功",
+                            text: "修改成功",
+                            type: "success"
+                        },function () {
+                            location.reload();
+                        });
+                    } else {
+                        swal({
+                            title: "修改失败",
+                            text: "修改失败！",
+                            type: "warning"
+                        },function () {
+                            location.reload();
+                        });
+                    }
+                }
+            })
+        }
+    }
+
+
+    $(document).ready(function() {
+        autoFooterHeight();
+    })
+    // 解决底部自动导航的问题
+    function autoFooterHeight() {
+        // 获取内容的高度
+        var bodyHeight = $("body").height();
+        // 获取底部导航的高度
+        var navHeight = $(".navbar").height();
+        // 获取显示屏的高度
+        var iHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        // 如果内容的高度大于（窗口的高度 - 导航的高度）,移除属性样式
+        if (bodyHeight > (iHeight - navHeight)) {
+            //$("#footer").removeClass("navbar-fixed-bottom");
+        }
+    }
+	function openLogin() {
+        $('#myModal4').modal();
+    }
+</script>

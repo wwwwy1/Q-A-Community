@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -42,6 +43,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 		UUID uuid = UUID.fastUUID();
 		// 登录后,把token返回到前台,并且把token保存到redis中
 		redisTemplate.opsForValue().set(uuid.toString(),userByName.getId(),30,TimeUnit.MINUTES);
+		userByName.setLastLoginDate(LocalDateTime.now());
+		baseMapper.updateById(userByName);
 		//request.setAttribute("token",uuid.toString());
 		HttpSession session = request.getSession();
 		session.setAttribute("tokenFront",uuid.toString());

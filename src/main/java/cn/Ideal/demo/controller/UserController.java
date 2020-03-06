@@ -4,10 +4,13 @@ import cn.Ideal.demo.entity.User;
 import cn.Ideal.demo.service.IUserService;
 import cn.Ideal.demo.util.ResponseEntity;
 import cn.Ideal.demo.util.Result;
+import cn.Ideal.demo.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 	@Autowired
 	private IUserService iUserService;
-
+	@Autowired
+	private RedisTemplate<String,String> redisTemplate;
 	@PostMapping(value = "checkUserName")
 	public Boolean checkUserName(String userName){
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -39,10 +43,27 @@ public class UserController {
 		}
 		return new Result("失败",500,null);
 	}
+	@PostMapping(value = "update")
+	public Result update(User user){
+		boolean b = iUserService.updateById(user);
+		if (b)	return new Result("成功",200,user);
+		return new Result("失败",500,null);
+	}
 	@PostMapping(value = "loginCheck")
 	public Result tologin(User user,HttpServletRequest request){
 		if (user==null) return new Result("失败",500,null);
 		return iUserService.login(user,request);
+	}
+	@GetMapping(value = "personal")
+	public ModelAndView goPersional(ModelAndView mav,HttpServletRequest request){
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		if (StringUtil.isNullOrSpace(token)) mav.setViewName("/user/login");
+		String userId = redisTemplate.opsForValue().get(token);
+		if (StringUtil.isNullOrSpace(userId)) mav.setViewName("/user/login");
+		User byId = iUserService.getById(userId);
+		mav.getModel().put("data",byId);
+		mav.setViewName("/user/personal");
+		return mav;
 	}
 //    @Autowi
    /*@PostMapping(value = "/user/loginCheck")
