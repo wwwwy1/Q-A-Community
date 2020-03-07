@@ -4704,7 +4704,10 @@ class Trie {
 		set.add(4);
 		String string = StringUtil.setToString(set);
 		HashSet<Integer> integers = StringUtil.stringToSet(string);
-
+		Stack<Integer> stack = new Stack<>();
+		Queue<Integer> queue = new LinkedList<>();
+		queue.remove();
+		stack.peek();
 
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/

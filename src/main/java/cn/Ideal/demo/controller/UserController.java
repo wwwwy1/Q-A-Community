@@ -65,6 +65,17 @@ public class UserController {
 		mav.setViewName("/user/personal");
 		return mav;
 	}
+	@GetMapping(value = "taskList")
+	public ModelAndView goTaskList(ModelAndView mav,HttpServletRequest request){
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		if (StringUtil.isNullOrSpace(token)) mav.setViewName("/user/login");
+		String userId = redisTemplate.opsForValue().get(token);
+		if (StringUtil.isNullOrSpace(userId)) mav.setViewName("/user/login");
+		User byId = iUserService.getById(userId);
+		mav.getModel().put("data",byId);
+		mav.setViewName("/user/taskList");
+		return mav;
+	}
 //    @Autowi
    /*@PostMapping(value = "/user/loginCheck")
    public ResponseEntity userLogin(User user, HttpServletRequest request){

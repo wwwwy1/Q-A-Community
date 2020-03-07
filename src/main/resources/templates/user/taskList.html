@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="utf-8" />
+		<title>创业基地</title>
+		<link   th:href="@{/css/youcediv.css}"  href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+		<link  th:href="@{/css/bootstrap.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<script   th:src="@{/js/jquery.js}"  type="text/javascript" src="/static/js/jquery.js"></script>
+		<script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
+		<link  th:href="@{/css/font-awesome.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<link  th:href="@{/css/style.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
+		<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
+		<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/public.css}"/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/mygrxx.css}" />
+		<script th:src="@{/js/public.js}" type="text/javascript" charset="utf-8"></script>
+		<script th:src="@{/js/user.js}" type="text/javascript" charset="utf-8"></script>
+		<script th:src="@{/js/jquery-ui-1.10.4.min.js}"></script>
+		<script th:src="@{/js/plugins/layer/laydate/laydate.js}"></script>
+
+	</head>
+
+	<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/front/index.html">Y</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="#">首页 <span class="sr-only">(current)</span></a>
+					</li>
+					<li>
+						<a href="forum.html">论坛</a>
+					</li>
+					<li>
+						<a href="#">行程规划<span class="badge">New</span></a>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">创业文案分享区 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">成功经历分享</a>
+							</li>
+							<li>
+								<a href="#">Another action</a>
+							</li>
+							<li>
+								<a href="#">Something else here</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">Separated link</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">One more separated link</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form navbar-left">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Daily word:Furious activity is no substitute for understanding</a></li>
+					<li>
+						<a href="#">收藏夹</a>
+					</li>
+
+					<li class="dropdown">
+						<a href="javascript:void(0)" onclick="openLogin()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/注册 </a>
+					</li>
+
+					<!--<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人管理 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">信息修改</a>
+							</li>
+							<li>
+								<a href="#">Another action</a>
+							</li>
+							<li>
+								<a href="#">Something else here</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#">系统设置</a>
+							</li>
+						</ul>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="Bott">
+		<div class="wrapper clearfix">
+			<div class="zuo fl" >
+				<h3>
+					<a href="#"><img class="img-circle m-t-xs img-responsive" style="height:55px;width:55px;" th:src=@{'/images/'+${data.userImg}}></a>
+					<span  style="font-family: 黑体;" th:text="${data.userNickname}">[羊羊羊]</span><br/>
+					<button class="btn btn-primary " type="submit">退出登录</button>
+				</h3>
+				<div>
+					<ul>
+						<li><a href="cart.html">我的购物车</a></li>
+						<li><a href="myorderq.html">我的订单</a></li>
+						<li><a href="myprod.html">评价晒单</a></li>
+						<li><a href="mygxin.html">我的中心</a></li>
+						<li><a href="address.html">地址管理</a></li>
+						<li  class="on"><a href="mygrxx.html">个人信息</a></li>
+						<li><a href="remima.html">修改密码</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="you fl" style="border: 1px solid transparent; padding:0px;margin:0px;background-color:transparent;">
+				<div class="wrapper-content  animated fadeInRight">
+					<div class="row" style="background-color:#FFFFFF;">
+						<div class="col-sm-4">
+							<div class="ibox">
+								<div class="ibox-content">
+									<h3>任务列表</h3>
+									<p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
+
+									<div class="input-group">
+										<input type="text" placeholder="添加新任务" class="input input-sm form-control">
+										<span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-plus"></i> 添加</button>
+                                </span>
+									</div>
+
+									<ul class="sortable-list connectList agile-list">
+										<li class="warning-element">
+											加强过程管理，及时统计教育经费使用情况，做到底码清楚，
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
+												<i class="fa fa-clock-o"></i> 2015.09.01
+											</div>
+										</li>
+										<li class="success-element">
+											支持财会人员的继续培训工作。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.05.12
+											</div>
+										</li>
+										<li class="info-element">
+											协同教导处搞好助学金、减免教科书费的工作。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.09.10
+											</div>
+										</li>
+										<li class="danger-element">
+											要求会计、出纳人员严格执行财务制度，遵守岗位职责，按时上报各种资料。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-primary">确定</a>
+												<i class="fa fa-clock-o"></i> 2015.06.10
+											</div>
+										</li>
+										<li class="warning-element">
+											做好职工公费医疗工作，按时发放门诊费。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
+												<i class="fa fa-clock-o"></i> 2015.09.09
+											</div>
+										</li>
+										<li class="warning-element">
+											有计划地把课本复习三至五遍。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-primary">确定</a>
+												<i class="fa fa-clock-o"></i> 2015.08.04
+											</div>
+										</li>
+										<li class="success-element">
+											看一本高质量的高中语法书
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.05.12
+											</div>
+										</li>
+										<li class="info-element">
+											选择一份较好的英语报纸，通过阅读提高英语学习效果。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.09.10
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="ibox">
+								<div class="ibox-content">
+									<h3>进行中</h3>
+									<p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
+									<ul class="sortable-list connectList agile-list">
+										<li class="success-element">
+											全面、较深入地掌握我们“产品”的功能、特色和优势并做到应用自如。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
+												<i class="fa fa-clock-o"></i> 2015.09.01
+											</div>
+										</li>
+										<li class="success-element">
+											根据自己以前所了解的和从其他途径搜索到的信息，录入客户资料150家。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.05.12
+											</div>
+										</li>
+										<li class="warning-element">
+											锁定有意向客户20家。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.09.10
+											</div>
+										</li>
+										<li class="warning-element">
+											力争完成销售指标。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
+												<i class="fa fa-clock-o"></i> 2015.09.09
+											</div>
+										</li>
+										<li class="info-element">
+											在总结和摸索中前进。
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-primary">确定</a>
+												<i class="fa fa-clock-o"></i> 2015.08.04
+											</div>
+										</li>
+										<li class="success-element">
+											不断学习行业知识、产品知识，为客户带来实用介绍内容
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.05.12
+											</div>
+										</li>
+										<li class="danger-element">
+											先友后单：与客户发展良好友谊，转换销售员角色，处处为客户着想
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.11.04
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="ibox">
+								<div class="ibox-content">
+									<h3>已完成</h3>
+									<p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
+									<ul class="sortable-list connectList agile-list">
+										<li class="info-element">
+											制定工作日程表
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.09.10
+											</div>
+										</li>
+										<li class="warning-element">
+											每天坚持打40个有效电话，挖掘潜在客户
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
+												<i class="fa fa-clock-o"></i> 2015.09.09
+											</div>
+										</li>
+										<li class="warning-element">
+											拜访客户之前要对该客户做全面的了解(客户的潜在需求、职位、权限以及个人性格和爱好)
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
+												<i class="fa fa-clock-o"></i> 2015.09.09
+											</div>
+										</li>
+										<li class="warning-element">
+											提高自己电话营销技巧，灵活专业地与客户进行电话交流
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-primary">确定</a>
+												<i class="fa fa-clock-o"></i> 2015.08.04
+											</div>
+										</li>
+										<li class="success-element">
+											通过电话销售过程中了解各盛市的设备仪器使用、采购情况及相关重要追踪人
+											<div class="agile-detail">
+												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
+												<i class="fa fa-clock-o"></i> 2015.05.12
+											</div>
+										</li>
+
+									</ul>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="side-bar" >
+		<a href="" class="icon-qq">QQ在线咨S询
+			<div class="qq-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="QQ订阅号"></div>
+		</a>
+		<a href="" class="icon-chat">微信
+			<div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="微信订阅号"></div>
+		</a>
+		<a target="_blank" href="https://weibo.com/" class="icon-blog">微博</a>
+		<a href="mailto:2500233233@qq.com" class="icon-mail">mail</a>
+	</div>
+
+	<nav class="navbar navbar-default navbar-fixed-bottom" id="footer">
+		<div class="container">
+			<div class="navbar-header" >
+				<a style="font-size: 10px;" class="navbar-brand" target="_blank"
+				   href="#"> Here is Y tribune  Copy Right @ 2019 </a>
+			</div>
+		</div>
+	</nav>
+	<div class="modal fade" id="myModal4" tabindex="-1" role="dialog" >
+		<div class="modal-dialog" role="document">
+			<div class="modal-content news-w3l">
+				<div class="modal-header" id="userManageModal">
+					<button type="button" class="close w3l" data-dismiss="modal">&times;</button>
+					<h4 id="modalTitle">修改基本资料</h4>
+					<!--newsletter-->
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm" >
+							<input id="id" th:value="${data.id}" hidden="hidden">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">昵称：</label>
+								<div class="col-sm-8">
+									<input id="userNickname" name="userNickname" th:value="${data.userNickname}" class="form-control" type="text" aria-required="true" aria-invalid="false" >
+									<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 用于展示,可修改</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">普通：</label>
+								<div class="col-sm-10">
+									<input class="form-control layer-date" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+									<label class="laydate-icon"></label>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button class="btn btn-primary" onclick="toUpdate()" type="button">确认修改</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--//newsletter-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	</body>
+
+</html>
+<script>
+    $(document).ready(function () {
+        $(".sortable-list").sortable({
+            connectWith: ".connectList"
+        }).disableSelection();
+
+    });
+	function toUpdate() {
+        var myreg = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
+        if(!myreg.test($('#userEmail').val())){
+            swal({
+                title: "参数错误",
+                text: "请输入正确的邮箱账户！",
+                type: "warning"
+            });
+        }else {
+            $.ajax({
+                url:"/user/update",
+                method:"post",
+                data:{"userName":$('#userName').val(),"id":$('#id').val(),"userNickname":$('#userNickname').val(),"userEmail":$('#userEmail').val()},
+                dataType:"json",
+                success:function (data) {
+                    if (data.code == 200){
+                        swal({
+                            title: "修改成功",
+                            text: "修改成功",
+                            type: "success"
+                        },function () {
+                            location.reload();
+                        });
+                    } else {
+                        swal({
+                            title: "修改失败",
+                            text: "修改失败！",
+                            type: "warning"
+                        },function () {
+                            location.reload();
+                        });
+                    }
+                }
+            })
+        }
+    }
+
+
+    $(document).ready(function() {
+        autoFooterHeight();
+    })
+    // 解决底部自动导航的问题
+    function autoFooterHeight() {
+        // 获取内容的高度
+        var bodyHeight = $("body").height();
+        // 获取底部导航的高度
+        var navHeight = $(".navbar").height();
+        // 获取显示屏的高度
+        var iHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        // 如果内容的高度大于（窗口的高度 - 导航的高度）,移除属性样式
+        if (bodyHeight > (iHeight - navHeight)) {
+            //$("#footer").removeClass("navbar-fixed-bottom");
+        }
+    }
+	function openLogin() {
+        $('#myModal4').modal();
+    }
+</script>

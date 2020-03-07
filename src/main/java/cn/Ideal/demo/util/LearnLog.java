@@ -173,7 +173,8 @@ public enum  LearnLog {
 	LearnConcurrent117("2020/03/04","完成点赞功能以及利用websocket实现简单的聊天功能"),
 	// 记一个未完成任务：未建立聊天表（id，发送者，接受者，时间，内容，可能需要一个定位字段?）
 	LearnConcurrent118("2020/03/05","私聊功能以及论坛详情页暂存"),
-	LearnConcurrent119("2020/03/06","找到合适的个人中心页面，完成用户信息管理页面");
+	LearnConcurrent119("2020/03/06","找到合适的个人中心页面，完成用户信息管理页面"),
+	LearnConcurrent120("2020/03/07","完成前端任务清单页面，复习面试题");
 
 	// 时间
 	private final String learnTime;
