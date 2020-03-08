@@ -4696,6 +4696,49 @@ class Trie {
 		}
 		return ans[n-1];
 	}
+	public String generateTheString(int n) {
+		StringBuilder sb = new StringBuilder();
+		if(n%2==1){
+			for (int i = 0; i < n; i++) {
+				sb.append('a');
+			}
+		}else {
+			int t = n/2;
+			for (int i = 0; i < t; i++) {
+				sb.append('a');
+			}
+			for (int i = 0; i < t; i++) {
+				sb.append('b');
+			}
+		}
+		return sb.toString();
+	}
+	public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+		int ans = 0;
+		Queue<Integer> queue = new LinkedList<>();
+		HashMap<Integer,List<Integer>> hashMap = new HashMap<>();
+		int[] temp = new int[n+10];
+		for (int i = 0; i < n; i++) {
+			if (hashMap.containsKey(manager[i])){
+				hashMap.get(manager[i]).add(i);
+			}else {
+				List<Integer> c = new ArrayList<>();
+				c.add(i);
+				hashMap.put(manager[i],c);
+			}
+		}
+		queue.offer(headID);
+		while (!queue.isEmpty()){
+			int t=queue.remove();
+			ans=Math.max(temp[t]+informTime[t],ans);
+			List<Integer> list = hashMap.get(t);
+			for (int i = 0; i <list.size(); i++) {
+				queue.offer(list.get(i));
+				temp[list.get(i)]=temp[list.get(i)]+informTime[t];
+			}
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 		Set<Integer> set = new HashSet<>();
 		set.add(1);
