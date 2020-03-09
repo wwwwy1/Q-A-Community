@@ -1,6 +1,8 @@
 package cn.Ideal.demo.controller;
 
+import cn.Ideal.demo.entity.TaskList;
 import cn.Ideal.demo.entity.User;
+import cn.Ideal.demo.service.ITaskListService;
 import cn.Ideal.demo.service.IUserService;
 import cn.Ideal.demo.util.ResponseEntity;
 import cn.Ideal.demo.util.Result;
@@ -13,12 +15,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("user")
 public class UserController {
 	@Autowired
 	private IUserService iUserService;
+	@Autowired
+	private ITaskListService iTaskListService;
 	@Autowired
 	private RedisTemplate<String,String> redisTemplate;
 	@PostMapping(value = "checkUserName")
@@ -72,7 +80,14 @@ public class UserController {
 		String userId = redisTemplate.opsForValue().get(token);
 		if (StringUtil.isNullOrSpace(userId)) mav.setViewName("/user/login");
 		User byId = iUserService.getById(userId);
+		Map<String, List<TaskList>> taskList = iTaskListService.getTaskList(userId);
 		mav.getModel().put("data",byId);
+		Collections.sort(taskList.get("dont"),(o1, o2) -> o1.getRank()-o2.getRank());
+		Collections.sort(taskList.get("did"),(o1, o2) -> o1.getRank()-o2.getRank());
+		Collections.sort(taskList.get("doing"),(o1, o2) -> o1.getRank()-o2.getRank());
+		mav.getModel().put("dont",  taskList.get("dont"));
+		mav.getModel().put("doing",taskList.get("doing"));
+		mav.getModel().put("did",taskList.get("did"));
 		mav.setViewName("/user/taskList");
 		return mav;
 	}

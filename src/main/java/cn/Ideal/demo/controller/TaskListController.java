@@ -48,11 +48,11 @@ public class TaskListController {
 			return;
 		}
 		LinkedHashMap<String,String> map = new LinkedHashMap<>();
-		map.put("dontArray",dontArray);
-		map.put("doingArray",doingArray);
-		map.put("didArray",didArray);
+		map.put("dont",dontArray);
+		map.put("doing",doingArray);
+		map.put("did",didArray);
 		redisTemplate.opsForHash().delete(RedisKeyEnum.TASK_LIST_KEY,userId);
-		redisTemplate.opsForHash().put(RedisKeyEnum.TASK_LIST_KEY,userId,map);
+		redisTemplate.opsForHash().put(RedisKeyEnum.TASK_LIST_KEY,userId,StringUtil.objectToString(map));
 
 
 	}

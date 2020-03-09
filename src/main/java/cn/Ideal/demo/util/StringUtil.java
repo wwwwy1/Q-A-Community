@@ -71,7 +71,9 @@ public class StringUtil {
 			taskList.setTaskDate(LocalDateTime.parse(((Map<String,String>)o).get("taskDate"),df));
 			taskList.setUserId(userId);
 			taskList.setContent(((Map<String,String>)o).get("content"));
-			taskList.setContent(((Map<String,String>)o).get("rank"));
+			Integer rank = ((Map<String, Integer>) o).get("rank");
+			taskList.setRank(rank);
+			ans.add(taskList);
 		}
 		return ans;
 	}

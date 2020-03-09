@@ -2,8 +2,10 @@ package cn.Ideal.demo.schedule;
 
 import cn.Ideal.demo.entity.Forum;
 import cn.Ideal.demo.entity.Job;
+import cn.Ideal.demo.entity.TaskList;
 import cn.Ideal.demo.entity.ThumbUp;
 import cn.Ideal.demo.service.IForumService;
+import cn.Ideal.demo.service.ITaskListService;
 import cn.Ideal.demo.service.IThumbUpService;
 import cn.Ideal.demo.service.IUserService;
 import cn.Ideal.demo.util.*;
@@ -31,6 +33,8 @@ public class ScheduleTask {
 	private RedisTemplate<String,String> redisTemplate;
 	@Autowired
 	private IThumbUpService iThumbUpService;
+	@Autowired
+	private ITaskListService iTaskListService;
 	@Autowired
 	private IForumService iForumService;
 	@Autowired
@@ -72,5 +76,24 @@ public class ScheduleTask {
 			String[] split = clicks.split(",");
 			iForumService.updateById(new Forum(Integer.valueOf(forumId),Integer.valueOf(split[2]),Integer.valueOf(split[1]),Integer.valueOf(split[0])));
 		}
+	}
+	// 任务清单定时插入数据库
+	@Transactional
+	@Scheduled(cron = "0 0 0/1 * * ? ")
+	public void taskListRedisToMySQL(){
+		Map<Object, Object> taskLists = redisTemplate.opsForHash().entries(RedisKeyEnum.TASK_LIST_KEY);
+		for (Map.Entry<Object, Object> task : taskLists.entrySet()) {
+			String userId = (String)task.getKey();
+			String ret = (String)task.getValue();
+			Map<String,String> map = StringUtil.stringToObj(ret, Map.class);
+			List<TaskList> dont = StringUtil.jsonToTaskList(map.get("dont"), userId);
+			List<TaskList> doing = StringUtil.jsonToTaskList(map.get("doing"), userId);
+			List<TaskList> did = StringUtil.jsonToTaskList(map.get("did"), userId);
+			iTaskListService.deleteByUserId(userId);
+			iTaskListService.saveBatch(doing);
+			iTaskListService.saveBatch(dont);
+			iTaskListService.saveBatch(did);
+		}
+
 	}
 }
