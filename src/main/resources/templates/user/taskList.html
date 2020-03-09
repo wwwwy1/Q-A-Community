@@ -143,10 +143,10 @@
 									</div>
 
 									<ul class="sortable-list connectList agile-list" id="dont" >
-										<li class="warning-element" th:each="data:${dont}"><span th:text="${data.content}">
+										<li class="danger-element" th:each="data:${dont}"><span th:text="${data.content}">
 											提高自己电话营销技巧，灵活专业地与客户进行电话交流</span>
 											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-primary">编辑</a>
+												<a href="#" class="pull-right btn btn-xs btn-primary" onclick="changeTask($(this))">编辑</a>
 												<i class="fa fa-clock-o"></i> <span th:text="${#temporals.format(data.taskDate,'yyyy-MM-dd HH:mm:ss')}">2015-08-04 00:00:00</span>
 											</div>
 										</li>
@@ -163,53 +163,10 @@
 										<li class="warning-element" th:each="data:${doing}"><span th:text="${data.content}">
 											提高自己电话营销技巧，灵活专业地与客户进行电话交流</span>
 											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-primary">编辑</a>
+												<a href="#" class="pull-right btn btn-xs btn-primary" onclick="changeTask($(this))">编辑</a>
 												<i class="fa fa-clock-o"></i> <span th:text="${#temporals.format(data.taskDate,'yyyy-MM-dd HH:mm:ss')}">2015-08-04 00:00:00</span>
 											</div>
 										</li>
-										<!--<li class="success-element">
-											<span>根据自己以前所了解的和从其他途径搜索到的信息，录入客户资料150家。</span>
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-												<i class="fa fa-clock-o"></i> <span>2015-08-04 00:00:00</span>
-											</div>
-										</li>
-										<li class="warning-element">
-											锁定有意向客户20家。
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-												<i class="fa fa-clock-o"></i> 2015.09.10
-											</div>
-										</li>
-										<li class="warning-element">
-											力争完成销售指标。
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
-												<i class="fa fa-clock-o"></i> 2015.09.09
-											</div>
-										</li>
-										<li class="info-element">
-											在总结和摸索中前进。
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-primary">确定</a>
-												<i class="fa fa-clock-o"></i> 2015.08.04
-											</div>
-										</li>
-										<li class="success-element">
-											不断学习行业知识、产品知识，为客户带来实用介绍内容
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-												<i class="fa fa-clock-o"></i> 2015.05.12
-											</div>
-										</li>
-										<li class="danger-element">
-											<span>
-											先友后单：与客户发展良好友谊，转换销售员角色，处处为客户着想</span>
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-												<i class="fa fa-clock-o"></i> <span>2015-08-04 00:00:00</span>
-											</div>
-										</li>-->
 									</ul>
 								</div>
 							</div>
@@ -220,20 +177,13 @@
 									<h3>已完成</h3>
 									<p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
 									<ul class="sortable-list connectList agile-list" id="did" >
-										<li class="warning-element" th:each="data:${did}"><span th:text="${data.content}">
+										<li class="success-element" th:each="data:${did}"><span th:text="${data.content}">
 											提高自己电话营销技巧，灵活专业地与客户进行电话交流</span>
 											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-primary">编辑</a>
+												<a href="#" class="pull-right btn btn-xs btn-primary" onclick="changeTask($(this))">编辑</a>
 												<i class="fa fa-clock-o"></i> <span th:text="${#temporals.format(data.taskDate,'yyyy-MM-dd HH:mm:ss')}">2015-08-04 00:00:00</span>
 											</div>
 										</li>
-										<!--<li class="success-element"><span>
-											通过电话销售过程中了解各盛市的设备仪器使用、采购情况及相关重要追踪人</span>
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-												<i class="fa fa-clock-o"></i> <span>2015-08-04 00:00:00</span>
-											</div>
-										</li>-->
 									</ul>
 								</div>
 							</div>
@@ -277,11 +227,11 @@
 					<!--newsletter-->
 					<div class="ibox-content">
 						<form class="form-horizontal m-t" id="signupForm" >
-							<input id="id" th:value="${data.id}" hidden="hidden">
+							<input id="id" value="-1" hidden="hidden">
 							<div class="form-group">
 								<label class="col-sm-2 control-label">内容：</label>
 								<div class="col-sm-8">
-									<input id="workContent" name="userNickname" th:value="${data.userNickname}" class="form-control" type="text" aria-required="true" aria-invalid="false" >
+									<input id="workContent" name="userNickname"  class="form-control" type="text" aria-required="true" aria-invalid="false" >
 									<span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 工作内容</span>
 								</div>
 							</div>
@@ -294,7 +244,7 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-8 col-sm-offset-3">
-									<button class="btn btn-primary" onclick="addDont()" type="button">确认修改</button>
+									<button class="btn btn-primary" id="buttonText" onclick="addDont()" type="button">确认修改</button>
 								</div>
 							</div>
 						</form>
@@ -314,53 +264,80 @@
         function showLogin() {
             if (dontNum != $("#dont li").length || 
 				doingNum != $("#doing li").length ||didNum != $("#did li").length) {
-                dontNum = $("#dont li").length;
-                doingNum= $("#doing li").length;
-                didNum = $("#did li").length;
-                var $dontList = $("#dont li");
-                var $doingList = $("#doing li");
-                var $didList = $("#did li");
-                var dontArray = new Array();
-                var doingArray = new Array();
-                var didArray = new Array();
-                for (var i = 0; i < $dontList.length; i++) {
-					dontArray.push({rank:i,content:$dontList[i].children[0].innerText,taskDate:$dontList[i].children[1].children[2].innerText})
-                }
-                for (var i = 0; i < $doingList.length; i++) {
-                    doingArray.push({rank:i,content:$doingList[i].children[0].innerText,taskDate:$doingList[i].children[1].children[2].innerText})
-                }
-                for (var i = 0; i < $didList.length; i++) {
-                    didArray.push({rank:i,content:$didList[i].children[0].innerText,taskDate:$didList[i].children[1].children[2].innerText})
-                }
-                $.ajax({
-                    url:"/taskList/change",
-                    method:"post",
-                    data:{"dontArray":JSON.stringify(dontArray),"doingArray":JSON.stringify(doingArray),"didArray":JSON.stringify(didArray)},
-                    dataType:"json"
-                })
+                changeTaskList();
             }
         }
+        // 半秒轮询一次
         setInterval("showLogin()","500");
-		
+		function changeTaskList() {
+            dontNum = $("#dont li").length;
+            doingNum= $("#doing li").length;
+            didNum = $("#did li").length;
+            var $dontList = $("#dont li");
+            var $doingList = $("#doing li");
+            var $didList = $("#did li");
+            var dontArray = new Array();
+            var doingArray = new Array();
+            var didArray = new Array();
+            for (var i = 0; i < $dontList.length; i++) {
+                dontArray.push({rank:i,content:$dontList[i].children[0].innerText,taskDate:$dontList[i].children[1].children[2].innerText})
+            }
+            for (var i = 0; i < $doingList.length; i++) {
+                doingArray.push({rank:i,content:$doingList[i].children[0].innerText,taskDate:$doingList[i].children[1].children[2].innerText})
+            }
+            for (var i = 0; i < $didList.length; i++) {
+                didArray.push({rank:i,content:$didList[i].children[0].innerText,taskDate:$didList[i].children[1].children[2].innerText})
+            }
+            $.ajax({
+                url:"/taskList/change",
+                method:"post",
+                data:{"dontArray":JSON.stringify(dontArray),"doingArray":JSON.stringify(doingArray),"didArray":JSON.stringify(didArray)},
+                dataType:"json"
+            })
+        }
         function addDont() {
-            debugger;
+            //debugger;
             var workDate = $("#workDate").val();
+            var id = $("#id").val();
             var workContent = $("#workContent").val();
-            var content = '<li class="warning-element"><span>' + workContent +
-            '</span><div class="agile-detail">\n' +
-            '\t\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="pull-right btn btn-xs btn-white">编辑</a>\n' +
-            '\t\t\t\t\t\t\t\t\t\t\t\t<i class="fa fa-clock-o"></i><span>' +workDate+
-            '</span></div>\n' +
-            '\t\t\t\t\t\t\t\t\t\t</li>';
-            $("#dont").prepend(content);
-            swal({
-                title: "添加成功",
-                text: "添加成功",
-                type: "success"
-            },function () {
-                $('#myModal4').modal('hide');
-            });
-
+            if (id==-1){
+                var content = '<li class="warning-element"><span>' + workContent +
+                    '</span><div class="agile-detail">\n' +
+                    '\t\t\t\t\t\t\t\t\t\t\t\t<a href="#" class="pull-right btn btn-xs btn-primary" onclick="changeTask($(this))">编辑</a>\n' +
+                    '\t\t\t\t\t\t\t\t\t\t\t\t<i class="fa fa-clock-o"></i><span>' +workDate+
+                    '</span></div>\n' +
+                    '\t\t\t\t\t\t\t\t\t\t</li>';
+                $("#dont").prepend(content);
+                swal({
+                    title: "添加成功",
+                    text: "添加成功",
+                    type: "success"
+                },function () {
+                    $('#myModal4').modal('hide');
+                });
+			} else {
+                temp.parent().parent()[0].children[1].children[2].innerText = workDate;
+                temp.parent().parent()[0].children[0].innerText = workContent;
+                swal({
+                    title: "修改成功",
+                    text: "修改成功",
+                    type: "success"
+                },function () {
+                    $('#myModal4').modal('hide');
+                });
+			}
+            changeTaskList();
+        }
+        var temp;
+        function changeTask(t) {
+            temp = t;
+			debugger;
+            $("#workDate").val(t.parent().parent()[0].children[1].children[2].innerText);
+            $("#workContent").val(t.parent().parent()[0].children[0].innerText);
+            $('#modalTitle').text("修改任务");
+            $('#buttonText').text("确认修改");
+            $('#id').val("1");
+            $('#myModal4').modal();
         }
 	</script>
 </html>
@@ -371,44 +348,6 @@
         }).disableSelection();
 
     });
-	function toUpdate() {
-        var myreg = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
-        if(!myreg.test($('#userEmail').val())){
-            swal({
-                title: "参数错误",
-                text: "请输入正确的邮箱账户！",
-                type: "warning"
-            });
-        }else {
-            $.ajax({
-                url:"/user/update",
-                method:"post",
-                data:{"userName":$('#userName').val(),"id":$('#id').val(),"userNickname":$('#userNickname').val(),"userEmail":$('#userEmail').val()},
-                dataType:"json",
-                success:function (data) {
-                    if (data.code == 200){
-                        swal({
-                            title: "修改成功",
-                            text: "修改成功",
-                            type: "success"
-                        },function () {
-                            location.reload();
-                        });
-                    } else {
-                        swal({
-                            title: "修改失败",
-                            text: "修改失败！",
-                            type: "warning"
-                        },function () {
-                            location.reload();
-                        });
-                    }
-                }
-            })
-        }
-    }
-
-
     $(document).ready(function() {
         autoFooterHeight();
     })
@@ -426,6 +365,11 @@
         }
     }
 	function openLogin() {
+        $('#modalTitle').text("新增任务");
+        $('#buttonText').text("确认新增");
+        $("#workDate").val('');
+        $("#workContent").val('');
+        $('#id').val("-1");
         $('#myModal4').modal();
     }
 </script>
