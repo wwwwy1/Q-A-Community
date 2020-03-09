@@ -1,7 +1,10 @@
 package cn.Ideal.demo.util;
 
+import cn.Ideal.demo.entity.TaskList;
 import com.alibaba.fastjson.JSON;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class StringUtil {
 	private static String regEx_html = "<[^>]+>";
+	private static DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	private static Pattern compile = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
 	//过滤html标签
 	public static String ignoreHtml(String html){
@@ -56,6 +60,20 @@ public class StringUtil {
 	}
 	public static <T> T stringToObj(String jsonStr,Class<T> clazz){
 		return JSON.parseObject(jsonStr,clazz);
+	}
+
+	public static List<TaskList> jsonToTaskList(String json,String userId){
+		//((Map<String,String>)
+		List list = StringUtil.stringToObj(json, List.class);
+		List<TaskList> ans = new ArrayList<>();
+		for (Object o : list) {
+			TaskList taskList = new TaskList();
+			taskList.setTaskDate(LocalDateTime.parse(((Map<String,String>)o).get("taskDate"),df));
+			taskList.setUserId(userId);
+			taskList.setContent(((Map<String,String>)o).get("content"));
+			taskList.setContent(((Map<String,String>)o).get("rank"));
+		}
+		return ans;
 	}
 
 

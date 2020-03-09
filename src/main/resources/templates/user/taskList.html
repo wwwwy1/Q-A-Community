@@ -147,7 +147,7 @@
 											加强过程管理，及时统计教育经费使用情况，做到底码清楚，</span>
 											<div class="agile-detail">
 												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
-												<i class="fa fa-clock-o"></i> <span>2015.09.01</span>
+												<i class="fa fa-clock-o"></i> <span>2015-08-04 00:00:00</span>
 											</div>
 										</li>
 									</ul>
@@ -160,21 +160,21 @@
 									<h3>进行中</h3>
 									<p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
 									<ul class="sortable-list connectList agile-list" id="doing">
-										<li class="success-element">
-											全面、较深入地掌握我们“产品”的功能、特色和优势并做到应用自如。
+										<li class="success-element"><span>
+											全面、较深入地掌握我们“产品”的功能、特色和优势并做到应用自如。</span>
 											<div class="agile-detail">
 												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
-												<i class="fa fa-clock-o"></i> 2015.09.01
+												<i class="fa fa-clock-o"></i> <span>2015-08-04 00:00:00</span>
 											</div>
 										</li>
 										<li class="success-element">
-											根据自己以前所了解的和从其他途径搜索到的信息，录入客户资料150家。
+											<span>根据自己以前所了解的和从其他途径搜索到的信息，录入客户资料150家。</span>
 											<div class="agile-detail">
 												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-												<i class="fa fa-clock-o"></i> 2015.05.12
+												<i class="fa fa-clock-o"></i> <span>2015-08-04 00:00:00</span>
 											</div>
 										</li>
-										<li class="warning-element">
+										<!--<li class="warning-element">
 											锁定有意向客户20家。
 											<div class="agile-detail">
 												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
@@ -201,12 +201,13 @@
 												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
 												<i class="fa fa-clock-o"></i> 2015.05.12
 											</div>
-										</li>
+										</li>-->
 										<li class="danger-element">
-											先友后单：与客户发展良好友谊，转换销售员角色，处处为客户着想
+											<span>
+											先友后单：与客户发展良好友谊，转换销售员角色，处处为客户着想</span>
 											<div class="agile-detail">
 												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-												<i class="fa fa-clock-o"></i> 2015.11.04
+												<i class="fa fa-clock-o"></i> <span>2015-08-04 00:00:00</span>
 											</div>
 										</li>
 									</ul>
@@ -219,39 +220,19 @@
 									<h3>已完成</h3>
 									<p class="small"><i class="fa fa-hand-o-up"></i> 在列表之间拖动任务面板</p>
 									<ul class="sortable-list connectList agile-list" id="did" onclick="acc()">
-										<li class="info-element">
-											制定工作日程表
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-												<i class="fa fa-clock-o"></i> 2015.09.10
-											</div>
-										</li>
-										<li class="warning-element">
-											每天坚持打40个有效电话，挖掘潜在客户
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-white">标签</a>
-												<i class="fa fa-clock-o"></i> 2015.09.09
-											</div>
-										</li>
-										<li class="warning-element">
-											<span>拜访客户之前要对该客户做全面的了解(客户的潜在需求、职位、权限以及个人性格和爱好)</span>
-											<div class="agile-detail">
-												<a href="#" class="pull-right btn btn-xs btn-white">编辑</a>
-												<i class="fa fa-clock-o"></i> <span>2015.09.09</span>
-											</div>
-										</li>
-										<li class="warning-element">
-											提高自己电话营销技巧，灵活专业地与客户进行电话交流
+
+										<li class="warning-element"><span>
+											提高自己电话营销技巧，灵活专业地与客户进行电话交流</span>
 											<div class="agile-detail">
 												<a href="#" class="pull-right btn btn-xs btn-primary">确定</a>
-												<i class="fa fa-clock-o"></i> 2015.08.04
+												<i class="fa fa-clock-o"></i> <span>2015-08-04 00:00:00</span>
 											</div>
 										</li>
-										<li class="success-element">
-											通过电话销售过程中了解各盛市的设备仪器使用、采购情况及相关重要追踪人
+										<li class="success-element"><span>
+											通过电话销售过程中了解各盛市的设备仪器使用、采购情况及相关重要追踪人</span>
 											<div class="agile-detail">
 												<a href="#" class="pull-right btn btn-xs btn-white">标记</a>
-												<i class="fa fa-clock-o"></i> 2015.05.12
+												<i class="fa fa-clock-o"></i> <span>2015-08-04 00:00:00</span>
 											</div>
 										</li>
 
@@ -339,10 +320,24 @@
                 var $doingList = $("#doing li");
                 var $didList = $("#did li");
                 debugger;
+                var dontArray = new Array();
+                var doingArray = new Array();
+                var didArray = new Array();
                 for (var i = 0; i < $dontList.length; i++) {
-					alert($dontList[i].children[0].innerText);
-					alert($dontList[i].children[1].children[2].innerText);
+					dontArray.push({rank:i,content:$dontList[i].children[0].innerText,taskDate:$dontList[i].children[1].children[2].innerText})
                 }
+                for (var i = 0; i < $doingList.length; i++) {
+                    doingArray.push({rank:i,content:$doingList[i].children[0].innerText,taskDate:$doingList[i].children[1].children[2].innerText})
+                }
+                for (var i = 0; i < $didList.length; i++) {
+                    didArray.push({rank:i,content:$didList[i].children[0].innerText,taskDate:$didList[i].children[1].children[2].innerText})
+                }
+                $.ajax({
+                    url:"/taskList/change",
+                    method:"post",
+                    data:{"dontArray":JSON.stringify(dontArray),"doingArray":JSON.stringify(doingArray),"didArray":JSON.stringify(didArray)},
+                    dataType:"json"
+                })
             }
         }
         setInterval("showLogin()","5000");
