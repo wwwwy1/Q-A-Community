@@ -116,13 +116,13 @@
 				</h3>
 				<div>
 					<ul>
-						<li><a href="cart.html">我的购物车</a></li>
-						<li><a href="myorderq.html">我的订单</a></li>
-						<li><a href="myprod.html">评价晒单</a></li>
-						<li><a href="mygxin.html">我的中心</a></li>
-						<li><a href="address.html">地址管理</a></li>
-						<li  class="on"><a href="mygrxx.html">个人信息</a></li>
-						<li><a href="remima.html">修改密码</a></li>
+						<li><a href="/user/personal">个人信息</a></li>
+						<li><a href="#">修改密码</a></li>
+						<li class="on"><a href="/user/taskList">任务清单</a></li>
+						<li><a href="#">评价晒单</a></li>
+						<li><a href="#">我的中心</a></li>
+						<li><a href="#">地址管理</a></li>
+						<li><a href="#">个人信息</a></li>
 					</ul>
 				</div>
 			</div>
@@ -359,9 +359,12 @@
         var navHeight = $(".navbar").height();
         // 获取显示屏的高度
         var iHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        if ($(".Bott").height()<iHeight) {
+            $(".Bott").height(iHeight-20);
+		}
         // 如果内容的高度大于（窗口的高度 - 导航的高度）,移除属性样式
         if (bodyHeight > (iHeight - navHeight)) {
-            //$("#footer").removeClass("navbar-fixed-bottom");
+            $("#footer").removeClass("navbar-fixed-bottom");
         }
     }
 	function openLogin() {

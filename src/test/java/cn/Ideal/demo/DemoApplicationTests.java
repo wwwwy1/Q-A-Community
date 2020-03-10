@@ -4740,17 +4740,7 @@ class Trie {
 		return ans;
 	}
 	public  static void main(String[] args) {
-		Set<Integer> set = new HashSet<>();
-		set.add(1);
-		set.add(2);
-		set.add(3);
-		set.add(4);
-		String string = StringUtil.setToString(set);
-		HashSet<Integer> integers = StringUtil.stringToSet(string);
-		Stack<Integer> stack = new Stack<>();
-		Queue<Integer> queue = new LinkedList<>();
-		queue.remove();
-		stack.peek();
+
 
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/

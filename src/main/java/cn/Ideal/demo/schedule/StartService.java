@@ -40,20 +40,20 @@ public class StartService implements ApplicationRunner {
 	private RedisTemplate<String,String> redisTemplate;
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		/*List<SensitiveWords> list = iSensitiveWordsService.list();
+		List<SensitiveWords> list = iSensitiveWordsService.list();
 		sensitiveWordsTrie.contentDefault(list);
 		logger.info("=========== 项目启动后，初始化 字典树 =============");
 		scheduleTask.getJobsInfo();
-		logger.info("=========== 项目启动后，初始化 招聘信息 =============");*/
+		logger.info("=========== 项目启动后，初始化 招聘信息 =============");
 		List<Forum> forums = iForumService.list();
 		for (Forum forum : forums) {
 			redisTemplate.opsForHash().put(RedisKeyEnum.FORUM_KEY,forum.getId().toString(),forum.getForumThumbs()+","+forum.getForumClicks()+","+forum.getForumReplys());
 			Collection<Tags> tags = iTagsService.listByIds(StringUtil.getIdList(forum.getForumTips()));
-			List<String> list = new ArrayList<>();
+			List<String> tagsList = new ArrayList<>();
 			for (Tags tag : tags) {
-				list.add(tag.getTagsName());
+				tagsList.add(tag.getTagsName());
 			}
-			forum.setForumTipNames(list);
+			forum.setForumTipNames(tagsList);
 			forum.setAbbreviationContent(StringUtil.ignoreHtml(forum.getForumContent()));
 		}
 		SolrForumUtil.deleteAll();
