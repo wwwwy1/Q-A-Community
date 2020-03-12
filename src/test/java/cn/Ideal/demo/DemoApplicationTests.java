@@ -4739,8 +4739,15 @@ class Trie {
 		}
 		return ans;
 	}
+	public String gcdOfStrings(String str1, String str2) {
+		if (!(str1+str2).equals(str2+str1)){
+			return "";
+		}
+		return str1.substring(0,gcd(str1.length(), str2.length()));
+	}
 	public  static void main(String[] args) {
-
+		DemoApplicationTests t = new DemoApplicationTests();
+		System.out.println(t.gcdOfStrings("ABC","ABC"));
 
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/

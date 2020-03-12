@@ -7,6 +7,7 @@ import cn.Ideal.demo.service.IUserService;
 import cn.Ideal.demo.util.ResponseEntity;
 import cn.Ideal.demo.util.Result;
 import cn.Ideal.demo.util.StringUtil;
+import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -64,13 +65,13 @@ public class UserController {
 	}
 	@GetMapping(value = "personal")
 	public ModelAndView goPersional(ModelAndView mav,HttpServletRequest request){
+		mav.setViewName("/user/personal");
 		String token = (String) request.getSession().getAttribute("tokenFront");
 		if (StringUtil.isNullOrSpace(token)) mav.setViewName("/user/login");
 		String userId = redisTemplate.opsForValue().get(token);
 		if (StringUtil.isNullOrSpace(userId)) mav.setViewName("/user/login");
 		User byId = iUserService.getById(userId);
 		mav.getModel().put("data",byId);
-		mav.setViewName("/user/personal");
 		return mav;
 	}
 	@GetMapping(value = "taskList")
@@ -89,6 +90,23 @@ public class UserController {
 		mav.getModel().put("doing",taskList.get("doing"));
 		mav.getModel().put("did",taskList.get("did"));
 		mav.setViewName("/user/taskList");
+		return mav;
+	}
+	@GetMapping(value = "otherP/{userName}")
+	public ModelAndView goOtherPersional(@PathVariable String userName,ModelAndView mav,HttpServletRequest request){
+		mav.setViewName("/user/otherP");
+		if (StringUtil.isNullOrSpace(userName)) mav.setViewName("/user/404");
+		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("user_name",userName);
+		User byName = iUserService.getOne(queryWrapper);
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		if (StringUtil.isNullOrSpace(token)) mav.setViewName("/user/login");
+		String userId = redisTemplate.opsForValue().get(token);
+		if (StringUtil.isNullOrSpace(userId)) mav.setViewName("/user/login");
+		User byId = iUserService.getById(userId);
+		mav.getModel().put("me",byId);
+		if (byName==null) mav.setViewName("/user/404");
+		mav.getModel().put("data",byName);
 		return mav;
 	}
 //    @Autowi

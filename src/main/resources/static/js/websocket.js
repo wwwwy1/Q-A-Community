@@ -5,9 +5,11 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 var imgUrl = document.querySelector('#imgUrl').value;
+var toImgUrl = document.querySelector('#toImgUrl').value;
+var channel = document.querySelector('#channel').value;
 var stompClient = null;
 var username = null;
-
+var toName = null;
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
@@ -17,6 +19,8 @@ $(function () {
 });
 function connect() {
     username = document.querySelector('#name').value.trim();
+    toName = document.querySelector('#toName').value.trim();
+
     if(username) {
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
@@ -26,7 +30,7 @@ function connect() {
 }
 function onConnected() {
     // Subscribe to the Public Topic
-    stompClient.subscribe('/private/'+username+'/chat', onMessageReceived);
+    stompClient.subscribe('/private/'+channel+'/chat', onMessageReceived);
 
     // Tell your username to the server
     /*stompClient.send("/app/chat.addUser",
@@ -53,8 +57,8 @@ function sendMessage(event) {
             sender: username,
             content: messageInput.value,
             type: 'CHAT',
-            receiver:username,
-            imgUrl:imgUrl
+            receiver:toName,
+            channel:channel
         };
 
         stompClient.send("/app/chat.privateMsg", {}, JSON.stringify(chatMessage));
@@ -65,13 +69,15 @@ function sendMessage(event) {
 
 
 function onMessageReceived(payload) {
+    debugger;
+    console.log(JSON.parse(payload.body));
     var message = JSON.parse(payload.body);
 
     var messageElement = "";
 
     if(message.sender === username) {
         messageElement="<div class=\"chat-message2\">\n" +
-        "                                        <img class=\"message-avatar\" src=\"/images/"+ message.imgUrl +"\" alt=\"\">\n" +
+        "                                        <img class=\"message-avatar\" src=\"/images/"+ imgUrl +"\" alt=\"\">\n" +
         "                                        <div class=\"message\">\n" +
         "                                            <a class=\"message-author\" href=\"#\">"+ message.sender+"</a>\n" +
         "                                            <span class=\"message-date\">  "+ message.date+" </span>\n" +
@@ -81,7 +87,7 @@ function onMessageReceived(payload) {
         "                                    </div>";
     }else {
         messageElement="<div class=\"chat-message1\">\n" +
-            "                                        <img class=\"message-avatar\" src=\"/images/"+ message.imgUrl +"\" alt=\"\">\n" +
+            "                                        <img class=\"message-avatar\" src=\"/images/"+ toImgUrl +"\" alt=\"\">\n" +
             "                                        <div class=\"message\">\n" +
             "                                            <a class=\"message-author\" href=\"#\">"+ message.sender+"</a>\n" +
             "                                            <span class=\"message-date\">  "+ message.date+" </span>\n" +

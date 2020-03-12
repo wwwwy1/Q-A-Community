@@ -37,10 +37,7 @@ public class IndexController {
         return "/user/webTest";
     }
 
-    @GetMapping(value = "/user/chatView")
-    public String goChatView(){
-        return "/user/chatView";
-    }
+
 
     @GetMapping(value = "/user/posting")
     public ModelAndView goPosting(ModelAndView mav){

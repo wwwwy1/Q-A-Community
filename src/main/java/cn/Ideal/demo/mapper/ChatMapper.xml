@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.Ideal.demo.mapper.ChatMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.Ideal.demo.entity.Chat">
+        <id column="id" property="id" />
+        <result column="from_user_name" property="fromUserName" />
+        <result column="to_user_name" property="toUserName" />
+        <result column="channel_id" property="channelId" />
+        <result column="content" property="content" />
+        <result column="location" property="location" />
+        <result column="insert_date" property="insertDate" />
+        <result column="update_date" property="updateDate" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, from_user_name, to_user_name, channel_id, content, location, insert_date, update_date, is_deleted
+    </sql>
+
+</mapper>

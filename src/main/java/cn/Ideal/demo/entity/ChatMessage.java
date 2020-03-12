@@ -11,7 +11,7 @@ public class ChatMessage {
 	private String sender;   // 发送者
 	private String receiver; // 接收者
 	private String date;
-	private String imgUrl;
+	private String channel;
 	public enum MessageType{
 		CHAT, // 消息
 		JOIN, // 加入

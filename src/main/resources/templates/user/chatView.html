@@ -23,8 +23,11 @@
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content  animated fadeInRight">
-        <input type="hidden" id="name" th:value="${session.sessionUser.userName}" placeholder="Username" autocomplete="off" class="form-control" />
-        <input type="hidden" id="imgUrl" th:value="${session.sessionUser.userImg}" placeholder="Username" autocomplete="off" class="form-control" />
+        <input type="hidden" id="name" th:value="${fromUser.userName}" placeholder="Username" autocomplete="off" class="form-control" />
+        <input type="hidden" id="imgUrl" th:value="${fromUser.userImg}" placeholder="Username" autocomplete="off" class="form-control" />
+        <input type="hidden" id="toName" th:value="${toUser.userName}" placeholder="Username" autocomplete="off" class="form-control" />
+        <input type="hidden" id="toImgUrl" th:value="${toUser.userImg}" placeholder="Username" autocomplete="off" class="form-control" />
+        <input type="hidden" id="channel" th:value="${channel}" />
 
         <div class="row">
             <div class="col-sm-12">
@@ -34,8 +37,6 @@
                     <div class="ibox-title">
                         <small class="pull-right text-muted">最新消息：2015-02-02 18:39:23</small> 聊天窗口
                     </div>
-
-
                     <div class="ibox-content">
 
                         <div class="row">

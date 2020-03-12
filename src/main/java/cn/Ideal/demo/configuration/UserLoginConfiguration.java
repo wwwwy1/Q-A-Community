@@ -31,6 +31,7 @@ public class UserLoginConfiguration implements WebMvcConfigurer {
         loginRegistry.excludePathPatterns("/static/js/*.*");
         loginRegistry.excludePathPatterns("/static/fonts/*.*");
         loginRegistry.excludePathPatterns("/image/login/*.png");
+        loginRegistry.excludePathPatterns("/static/*");
     }
 
     @Bean
