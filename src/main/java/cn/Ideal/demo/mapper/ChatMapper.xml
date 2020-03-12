@@ -10,6 +10,7 @@
         <result column="channel_id" property="channelId" />
         <result column="content" property="content" />
         <result column="location" property="location" />
+        <result column="is_read" property="isRead" />
         <result column="insert_date" property="insertDate" />
         <result column="update_date" property="updateDate" />
         <result column="is_deleted" property="isDeleted" />
@@ -17,7 +18,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, from_user_name, to_user_name, channel_id, content, location, insert_date, update_date, is_deleted
+        id, from_user_name, to_user_name, channel_id, content, location, is_read, insert_date, update_date, is_deleted
     </sql>
 
 </mapper>
