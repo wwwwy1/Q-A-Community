@@ -12,5 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-03-12
  */
 public interface IChatService extends IService<Chat> {
+	int alreadyRead(String toUserName,String fromUserName);
+
 
 }

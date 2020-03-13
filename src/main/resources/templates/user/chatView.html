@@ -35,7 +35,7 @@
                 <div class="ibox chat-view">
 
                     <div class="ibox-title">
-                        <small class="pull-right text-muted">最新消息：2015-02-02 18:39:23</small> 聊天窗口
+                        <small class="pull-right text-muted"></small> 聊天窗口
                     </div>
                     <div class="ibox-content">
 
@@ -46,91 +46,45 @@
                                     Connecting...
                                 </div>
                                 <div class="chat-discussion" id="messageArea">
-                                    <div class="chat-message1">
-                                        <img class="message-avatar" src="img/a1.jpg" alt="">
-                                        <div class="message">
-                                            <a class="message-author" href="#"> 颜文字君</a>
-                                            <span class="message-date"> 2015-02-02 18:39:23 </span>
-                                            <span class="message-content">
-											H+ 是个好框架
-                                            </span>
+                                    <div th:each="data:${chatList}">
+                                        <div class="chat-message1" th:if="${data.fromUserName eq toUser.userName}">
+                                            <img class="message-avatar"  th:src=@{'/images/'+${toUser.userImg}} alt="">
+                                            <div class="message">
+                                                <a class="message-author" href="#" th:text="${data.fromUserName}"> 颜文字君</a>
+                                                <span class="message-date" th:text="${#temporals.format(data.insertDate,'yyyy-MM-dd HH:mm:ss')}"> 2015-02-02 18:39:23 </span>
+                                                <span class="message-content" th:text="${data.content}">
+                                                H+ 是个好框架
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="chat-message2">
-                                        <img class="message-avatar" src="img/a4.jpg" alt="">
-                                        <div class="message">
-                                            <a class="message-author" href="#"> 林依晨Ariel </a>
-                                            <span class="message-date">  2015-02-02 11:12:36 </span>
-                                            <span class="message-content">
-											jQuery表单验证插件 - 让表单验证变得更容易
-                                            </span>
+                                        <div class="chat-message2" th:if="${data.fromUserName eq fromUser.userName}">
+                                            <img class="message-avatar" th:src=@{'/images/'+${fromUser.userImg}} alt="">
+                                            <div class="message">
+                                                <a class="message-author" href="#" th:text="${data.fromUserName}"> 林依晨Ariel </a>
+                                                <span class="message-date" th:text="${#temporals.format(data.insertDate,'yyyy-MM-dd HH:mm:ss')}">  2015-02-02 11:12:36 </span>
+                                                <span class="message-content" th:text="${data.content}">
+                                                jQuery表单验证插件 - 让表单验证变得更容易
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-                            <!--<div class="col-md-3">
+                            <div class="col-md-3">
                                 <div class="chat-users">
-
-
                                     <div class="users-list">
-                                        <div class="chat-user">
-                                            <img class="chat-avatar" src="img/a4.jpg" alt="">
+                                        <div class="chat-user" th:each="data:${chats}" >
+                                            <span class="pull-right label label-primary" th:if="${data.userName eq toUser.userName}">正在聊天</span>
+                                            <img class="chat-avatar" th:src=@{'/images/'+${data.userImg}} alt="">
                                             <div class="chat-user-name">
-                                                <a href="#">伤城Simple</a>
+                                                <a th:href=@{'/user/chatView?userName='+${data.userName}} th:text="${data.userName}">伤城Simple</a>
                                             </div>
                                         </div>
-                                        <div class="chat-user">
-                                            <img class="chat-avatar" src="img/a1.jpg" alt="">
-                                            <div class="chat-user-name">
-                                                <a href="#">从未出现过的风景__</a>
-                                            </div>
-                                        </div>
-                                        <div class="chat-user">
-                                            <span class="pull-right label label-primary">在线</span>
-                                            <img class="chat-avatar" src="img/a2.jpg" alt="">
-                                            <div class="chat-user-name">
-                                                <a href="#">冬伴花暖</a>
-                                            </div>
-                                        </div>
-                                        <div class="chat-user">
-                                            <span class="pull-right label label-primary">在线</span>
-                                            <img class="chat-avatar" src="img/a3.jpg" alt="">
-                                            <div class="chat-user-name">
-                                                <a href="#">ZM敏姑娘	</a>
-                                            </div>
-                                        </div>
-                                        <div class="chat-user">
-                                            <img class="chat-avatar" src="img/a5.jpg" alt="">
-                                            <div class="chat-user-name">
-                                                <a href="#">才越越</a>
-                                            </div>
-                                        </div>
-                                        <div class="chat-user">
-                                            <img class="chat-avatar" src="img/a6.jpg" alt="">
-                                            <div class="chat-user-name">
-                                                <a href="#">时光十年TENSHI</a>
-                                            </div>
-                                        </div>
-                                        <div class="chat-user">
-                                            <img class="chat-avatar" src="img/a2.jpg" alt="">
-                                            <div class="chat-user-name">
-                                                <a href="#">刘顰颖</a>
-                                            </div>
-                                        </div>
-                                        <div class="chat-user">
-                                            <span class="pull-right label label-primary">在线</span>
-                                            <img class="chat-avatar" src="img/a3.jpg" alt="">
-                                            <div class="chat-user-name">
-                                                <a href="#">陈泳儿SccBaby</a>
-                                            </div>
-                                        </div>
-
-
                                     </div>
 
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">

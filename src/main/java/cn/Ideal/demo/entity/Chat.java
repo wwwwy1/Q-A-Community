@@ -47,7 +47,18 @@ import java.time.LocalDateTime;
         @TableField("channel_id")
     private String channelId;
 
-            /**
+    public Chat(String fromUserName, String toUserName, String channelId, String content, Integer isRead) {
+        this.fromUserName = fromUserName;
+        this.toUserName = toUserName;
+        this.channelId = channelId;
+        this.content = content;
+        this.isRead = isRead;
+    }
+
+    public Chat() {
+    }
+
+    /**
             * 发送内容
             */
         @TableField("content")

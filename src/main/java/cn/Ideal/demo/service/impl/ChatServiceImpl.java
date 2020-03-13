@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChatServiceImpl extends ServiceImpl<ChatMapper, Chat> implements IChatService {
 
+	@Override
+	public int alreadyRead(String toUserName, String fromUserName) {
+		return baseMapper.alreadyRead(toUserName,fromUserName);
+	}
 }

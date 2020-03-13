@@ -1,7 +1,9 @@
 package cn.Ideal.demo.controller;
 
+import cn.Ideal.demo.entity.Chat;
 import cn.Ideal.demo.entity.ChatMessage;
 import cn.Ideal.demo.entity.User;
+import cn.Ideal.demo.service.IChatService;
 import cn.Ideal.demo.service.IUserService;
 import cn.Ideal.demo.util.Result;
 import cn.Ideal.demo.util.StringUtil;
@@ -22,7 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ChatController {
@@ -32,6 +36,8 @@ public class ChatController {
 	private IUserService iUserService;
 	@Autowired
 	private RedisTemplate<String,String> redisTemplate;
+	@Autowired
+	private IChatService iChatService;
 
 	private final DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	// 以app开头的客户端发送的所有消息都将路由到@MessageMapping的消息处理方法
@@ -51,13 +57,14 @@ public class ChatController {
 		LocalDateTime time=LocalDateTime.now();
 		String strDate2 = dtf2.format(time);
 		chatMessage.setDate(strDate2);
-
+		// 将消息插入数据库
+		Chat chat = new Chat(chatMessage.getSender(),chatMessage.getReceiver(),chatMessage.getChannel(),chatMessage.getContent(),0);
+		iChatService.save(chat);
 		//System.out.println(list);
-		System.out.println(chatMessage);
+		//System.out.println(chatMessage);
 		template.convertAndSendToUser(chatMessage.getChannel(), "/chat", chatMessage);
 		return chatMessage;
 	}
-	// 进行到这里！
 	@GetMapping(value = "/user/chatView")
 	public ModelAndView goChatView(ModelAndView mav,HttpServletRequest request,String userName){
 		mav.setViewName("/user/chatView");
@@ -75,7 +82,29 @@ public class ChatController {
 		Arrays.sort(ch);
 		String channel = ch[0] + ch[1];
 		mav.getModel().put("channel",channel);
+		// 聊天记录
+		QueryWrapper<Chat> chatChannel = new QueryWrapper<>();
+		chatChannel.eq("channel_id",channel);
+		List<Chat> chatList = iChatService.list(chatChannel);
+		mav.getModel().put("chatList",chatList);
+		// 用户列表展示
+		QueryWrapper<Chat> chatQueryWrapper = new QueryWrapper<>();
+		chatQueryWrapper.eq("from_user_name",byId.getUserName()).or().eq("to_user_name",byId.getUserName());
+		List<Chat> list = iChatService.list(chatQueryWrapper);
+		Set<User> chats = new HashSet<>();
+		for (Chat chat : list) {
+			QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+			if (!byId.getUserName().equals(chat.getFromUserName())){
+				userQueryWrapper.eq("user_name",chat.getToUserName());
+			}else {
+				userQueryWrapper.eq("user_name",chat.getFromUserName());
+			}
+			User one1 = iUserService.getOne(queryWrapper);
+			chats.add(one1);
+		}
+		mav.getModel().put("chats",chats);
+		// 标记已读
+		iChatService.alreadyRead(byId.getUserName(),one.getUserName());
 		return mav;
-
 	}
 }
