@@ -180,7 +180,8 @@ public enum  LearnLog {
 	LearnConcurrent123("2020/03/10","修改部分页面，思考工作"),
 	LearnConcurrent124("2020/03/11","修改简历，复习数据库"),
 	LearnConcurrent125("2020/03/12","抓紧完成私聊功能"),
-	LearnConcurrent126("2020/03/13","完成私聊功能");
+	LearnConcurrent126("2020/03/13","完成私聊功能"),
+	LearnConcurrent127("2020/03/14","修改页面统一标题，复习jvm");
 	// 明天改整体的前台！！！
 	// 时间
 	private final String learnTime;
