@@ -649,24 +649,7 @@ public class DemoApplicationTests {
 		}
 		return ans;
 	}
-	public int lengthOfLIS(int[] nums) {
-		if(nums.length==0)return 0;
-		int length=nums.length;
-		int[] dp=new int[length];
-		for (int i = 0; i < length; i++) {
-			dp[i]=1;
-			for (int j = 0; j < i; j++) {
-				if (nums[i]>nums[j]){
-					dp[i]=Math.max(dp[i],dp[j]+1);
-				}
-			}
-		}
-		int max=dp[0];
-		for (int i = 1; i < length; i++) {
-			max=Math.max(max,dp[i]);
-		}
-		return max;
-	}
+
 	// 丑数
 	public int nthUglyNumber(int n) {
 		int[] nums=new int[n];
@@ -4744,6 +4727,22 @@ class Trie {
 			return "";
 		}
 		return str1.substring(0,gcd(str1.length(), str2.length()));
+	}
+	public int lengthOfLIS(int[] nums) {
+		if(nums.length==0) return 0;
+		int[] dp = new int[nums.length];
+		for (int i = 0; i < nums.length; i++) {
+			dp[i] = 1;
+			for (int j = 0; j < i; j++)
+				if (nums[j]>nums[i]){
+					dp[j] = Math.max(dp[j],dp[i]+1);
+			}
+		}
+		int ans = dp[0];
+		for (int j = 1; j < dp.length; j++) {
+			ans = Math.max(ans,dp[j]);
+		}
+		return ans;
 	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();

@@ -22,88 +22,63 @@
 
 <body class="gray-bg">
     <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/front/index.html">Y</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="#">首页 <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li>
-                        <a href="forum.html">论坛</a>
-                    </li>
-                    <li>
-                        <a href="#">行程规划<span class="badge">New</span></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">创业文案分享区 <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#">成功经历分享</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li role="separator" class="divider"></li>
-                            <li>
-                                <a href="#">Separated link</a>
-                            </li>
-                            <li role="separator" class="divider"></li>
-                            <li>
-                                <a href="#">One more separated link</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" width="100px" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Daily word:Furious activity is no substitute for understanding</a></li>
-                    <li>
-                        <a href="#">收藏夹</a>
-                    </li>
-
-                    <li class="dropdown">
-                        <a href="javascript:void(0)" onclick="openLogin()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/注册 </a>
-                    </li>
-
-                    <!--<li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">个人管理 <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#">信息修改</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li role="separator" class="divider"></li>
-                            <li>
-                                <a href="#">系统设置</a>
-                            </li>
-                        </ul>
-                    </li>-->
-                </ul>
-            </div>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/front/index.html">Y</a>
         </div>
-    </nav>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="#">首页 <span class="sr-only">(current)</span></a>
+                </li>
+                <li>
+                    <a href="forum.html">论坛</a>
+                </li>
+                <li>
+                    <a href="/user/contacts">标签</a>
+                </li>
+                <li>
+                    <a href="/user/jobs">工作机会<span class="badge">New</span></a>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Daily word:Furious activity is no substitute for understanding</a></li>
+                <!--<li>
+                    <a href="#">收藏夹</a>
+                </li>-->
+                <li class="dropdown" th:if="${#strings.isEmpty(session.sessionUserNickname)}">
+                    <a href="javascript:void(0)" onclick="openLogin()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/注册 </a>
+                </li>
+                <li class="dropdown" th:if="${not #strings.isEmpty(session.sessionUserNickname)}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.sessionUserNickname}">个人管理 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/user/personal">个人中心</a>
+                        </li>
+                        <li>
+                            <a href="/user/changePassword">修改密码</a>
+                        </li>
+                        <li>
+                            <a href="/user/taskList">任务清单</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
     <div id="modal-form" class="modal fade" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -114,7 +89,7 @@
                             <form role="form">
                                 <div class="form-group">
                                     <label>用户名：</label>
-                                    <input type="email" placeholder="请输入用户名" class="form-control">
+                                    <input type="text" placeholder="请输入用户名" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>密码：</label>
