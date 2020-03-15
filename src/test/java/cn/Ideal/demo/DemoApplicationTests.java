@@ -4744,10 +4744,132 @@ class Trie {
 		}
 		return ans;
 	}
+	boolean[][] vis695;
+	int ans695 = 0;
+	public int maxAreaOfIsland(int[][] grid) {
+		vis695 = new boolean[grid.length][grid[0].length];
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (!vis695[i][j] && grid[i][j] != 0){
+					dfs695(grid,i,j,0);
+				}
+			}
+		}
+		return ans695;
+	}
+	public int dfs695(int[][] grid,int i,int j,int now){
+		if (i<0 || i>=grid.length || j<0 || j>=grid[0].length || grid[i][j]==0 || vis695[i][j]) {
+			return now;
+		}
+		now++;
+		ans695 = Math.max(ans695,now);
+		vis695[i][j] = true;
+		return now + dfs695(grid,i-1,j,now)+dfs695(grid,i,j+1,now)+dfs695(grid,i+1,j,now)+dfs695(grid,i,j-1,now);
+
+	}
+	public List<Integer> luckyNumbers (int[][] matrix) {
+		List<Integer> list = new ArrayList<>();
+		for (int i = 0; i < matrix.length; i++) {
+			int row = 0;
+			int min = Integer.MAX_VALUE;
+			for (int j = 0; j < matrix[i].length; j++) {
+				if (matrix[i][j]>min){
+					row = j;
+					min = matrix[i][j];
+				}
+			}
+			int flag = 0;
+			for (int j = 0; j < matrix.length; j++) {
+				if (matrix[j][row]>=min){
+					flag = 1;
+					break;
+				}
+			}
+			if (flag==0){
+				list.add(min);
+			}
+		}
+		return list;
+	}
+	public static void sortPlus(int[] arr,int[] arr2){
+		if(arr != null && arr.length > 1){
+			for(int i = 0; i < arr.length - 1; i++){
+				// 初始化一个布尔值
+				boolean flag = true;
+				for(int j = 0; j < arr.length - i - 1 ; j++){
+					if(arr[j] > arr[j+1]){
+						// 调换
+						int temp;
+						temp = arr[j];
+						arr[j] = arr[j+1];
+						arr[j+1] = temp;
+						temp = arr2[j];
+						arr2[j] = arr2[j+1];
+						arr2[j+1] = temp;
+
+						// 改变flag
+						flag = false;
+					}
+				}
+				if(flag){
+					break;
+				}
+			}
+		}
+	}
+
+	class MaxQueue {
+		Deque<Integer> queue;
+		Deque<Integer> help;
+		public MaxQueue() {
+			queue = new ArrayDeque<>();
+			help = new ArrayDeque<>();
+		}
+
+		public int max_value() {
+			return queue.isEmpty()?-1:help.peek();
+		}
+
+		public void push_back(int value) {
+			queue.offer(value);
+			while(!help.isEmpty()&&value<help.peekLast()){
+				help.pollLast();
+			}
+			help.offer(value);
+		}
+
+		public int pop_front() {
+			if(queue.isEmpty()) return -1;
+			int val = queue.pop();
+			if(help.peek()==val){
+				help.pop();
+			}
+			return val;
+		}
+	}
+	public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
+		int mod = 10^9+7;
+		sortPlus(efficiency,speed);
+		MaxQueue minQueue = new MaxQueue();
+		int sp = 0;
+		for (int i = 0; i < k; i++) {
+			minQueue.push_back(efficiency[i]);
+			sp+=speed[i];
+		}
+		int max = sp*minQueue.max_value()%mod;
+		for (int i = k; i < n; i++) {
+			minQueue.pop_front();
+			sp-=speed[i-1];
+			minQueue.push_back(efficiency[i]);
+			sp+=speed[i];
+			max = sp*minQueue.max_value()%mod;
+		}
+		return max;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
-		System.out.println(t.gcdOfStrings("ABC","ABC"));
-
+		int[][] gc = new int[][]{{1,1},{1,0}};
+		t.maxAreaOfIsland(gc);
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
