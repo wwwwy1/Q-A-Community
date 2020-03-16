@@ -4866,6 +4866,26 @@ class Trie {
 		}
 		return max;
 	}
+	public String compressString(String S) {
+		StringBuilder sb = new StringBuilder();
+		Stack<Character> stack = new Stack<>();
+		int flag=1;
+		for (int i = 0; i < S.length(); i++) {
+			if (stack.isEmpty()){
+				stack.push(S.charAt(i));
+			} else if (stack.peek()!=S.charAt(i)){
+				sb.append(stack.peek());
+				sb.append(flag);
+				stack.push(S.charAt(i));
+				flag = 1;
+			}else {
+				flag++;
+			}
+		}
+		sb.append(stack.peek());
+		sb.append(flag);
+		return sb.length()>=S.length()?S:sb.toString();
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
