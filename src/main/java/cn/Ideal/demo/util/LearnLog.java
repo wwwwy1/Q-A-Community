@@ -183,7 +183,8 @@ public enum  LearnLog {
 	LearnConcurrent126("2020/03/13","完成私聊功能"),
 	LearnConcurrent127("2020/03/14","修改页面统一标题，复习jvm"),
 	LearnConcurrent128("2020/03/15","leetcode180周赛，复习mysql"),
-	LearnConcurrent129("2020/03/16","物色工作，准备面试题");
+	LearnConcurrent129("2020/03/16","物色工作，准备面试题"),
+	LearnConcurrent130("2020/03/17","每日刷题，复习面试题");
 	// 明天改整体的前台！！！
 	// 时间
 	private final String learnTime;

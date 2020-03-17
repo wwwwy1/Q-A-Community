@@ -1,9 +1,5 @@
 package cn.Ideal.demo;
 
-import testDesignPattern.single.EnumHunger;
-
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
@@ -11,23 +7,33 @@ public class Main {
 	public static void main(String[] args)  {
 		Scanner sc = new Scanner(System.in);
 		int n = sc.nextInt();
-		int a[] = new int[n];
-		a[0]=1;a[1]=2;a[2]=3;
-		int b[] = new int[n];
-		b[0]=1;b[1]=2;b[2]=4;
-		for (int i = 3; i < n; i++) {
-			a[i]=a[i-1]+a[i-2];
-			b[i]=b[i-1]+b[i-2]+b[i-3];
+		String next = sc.next();
+		int ans = 0;
+		int c[] = new int[next.length()];
+		int flag = -1;
+		for (int i = 0; i < next.length(); i++) {
+			if (i==0) c[i] = next.charAt(i)-'0';
+			else c[i] = c[i-1] + next.charAt(i)-'0';
+			if (n==c[i]){
+				flag = n;
+			}
 		}
-		dfs(n);
-		System.out.println(a[n-1]+" "+b[n-1]+ " "+c);
+		if (flag==-1) System.out.println(0);
+		else {
+			for (int i = flag; i < next.length(); i++) {
+				for (int j = i; j < next.length(); j++) {
+					if (c[j]-c[i]==n){
+						ans++;
+					}else if (c[j]-c[i]>n){
+						break;
+					}
+				}
+			}
+			System.out.println(ans);
+		}
+
 	}
-	public static void dfs (int n){
-		if (n==0)c++;
-		if (n<0)return;
-		dfs(n-2);
-		dfs(n-3);
-	}
+
 }
 // 1 2 4 8 16
 

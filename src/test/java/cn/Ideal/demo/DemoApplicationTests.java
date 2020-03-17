@@ -4886,6 +4886,35 @@ class Trie {
 		sb.append(flag);
 		return sb.length()>=S.length()?S:sb.toString();
 	}
+	public int countCharacters2(String[] words, String chars) {
+		int[] dict = new int[26];
+		int ans = 0;
+		for (char c : chars.toCharArray()) {
+			dict[c-'a']++;
+		}
+		for (int i = 0; i < words.length; i++) {
+			Map<Integer,Integer> map = new HashMap<>();
+			for (int j = 0; j < words[i].length(); j++) {
+				if (map.containsKey(words[i].charAt(j)-'a')){
+					map.put(words[i].charAt(j)-'a',map.get(words[i].charAt(j)-'a')+1);
+				}else {
+					map.put(words[i].charAt(j)-'a',1);
+				}
+			}
+			int flag = 0;
+			Set<Entry<Integer, Integer>> entries = map.entrySet();
+			for (Entry<Integer, Integer> entry : entries) {
+				if (dict[entry.getKey()]<entry.getValue()){
+					flag =1;
+					break;
+				}
+			}
+			if (flag==0){
+				ans +=words[i].length();
+			}
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
