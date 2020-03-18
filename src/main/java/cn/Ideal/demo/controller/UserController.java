@@ -109,6 +109,11 @@ public class UserController {
 		mav.getModel().put("data",byName);
 		return mav;
 	}
+	@PostMapping("uploadPhoto")
+	public Result uploadPhoto(HttpServletRequest request,MultipartFile photo,Integer x,Integer y,Integer width,Integer height){
+
+		return null;
+	}
 //    @Autowi
    /*@PostMapping(value = "/user/loginCheck")
    public ResponseEntity userLogin(User user, HttpServletRequest request){

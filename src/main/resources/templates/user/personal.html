@@ -16,6 +16,8 @@
 		<link rel="stylesheet" type="text/css" th:href="@{/css/mygrxx.css}" />
 		<script th:src="@{/js/public.js}" type="text/javascript" charset="utf-8"></script>
 		<script th:src="@{/js/user.js}" type="text/javascript" charset="utf-8"></script>
+		<link th:href="@{/css/plugins/cropper/cropper.min.css}" rel="stylesheet">
+
 	</head>
 
 	<body>
@@ -126,7 +128,7 @@
 			<div class="you fl">
 				<h2>个人信息</h2>
 				<div class="gxin">
-					<div class="tx"><a href="#"><img class="img-circle m-t-xs img-responsive" style="" th:src=@{'/images/'+${data.userImg}}><p id="avatar">修改头像</p></a></div>
+					<div class="tx"><a href="#"><img class="img-circle m-t-xs img-responsive" style="" th:src=@{'/images/'+${data.userImg}}><p id="avatar" onclick="openImg()">修改头像</p></a></div>
 					<div class="xx">
 						<h3 class="clearfix"><strong class="fl">基础资料</strong><a href="javascript:openLogin()"  class="fr" id="edit1">编辑</a></h3>
 						<div th:text="'登录名：'+${data.userName}">姓名：六六六</div>
@@ -209,11 +211,127 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" >
+		<div class="modal-dialog" role="document">
+			<div class="modal-content news-w3l">
+				<div class="modal-header" >
+					<button type="button" class="close w3l" data-dismiss="modal">&times;</button>
+					<h4 >修改头像</h4>
+					<div class="ibox-content">
+						<input type="hidden" id="x">
+						<input type="hidden" id="y">
+						<input type="hidden" id="width">
+						<input type="hidden" id="height">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="image-crop" >
+									<img th:src=@{'/images/'+${data.userImg}}>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<h4>图片预览：</h4>
+								<div class="img-preview" style="width: 150px;height: 150px;"></div>
+								<h4>说明：</h4>
+								<p>
+									你可以选择新图片上传，然后下载裁剪后的图片
+								</p>
+								<form action="/user/uploadPhoto" method="post" enctype="multipart/form-data">
+									<div class="btn-group">
+										<label title="上传图片" for="inputImage" class="btn btn-primary">
+											<input type="file" accept="image/*" name="file" id="inputImage" class="hide"> 上传新图片
+										</label>
+										<button title="下载图片" id="download" onclick="goImg()" class="btn btn-primary">确认修改</button>
+									</div>
+									<input type="submit" value="123">
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
 
 	</body>
+	<script th:src="@{/js/plugins/cropper/cropper.min.js}"></script>
 
+
+
+	<script>
+        $(document).ready(function () {
+
+            var $image = $(".image-crop > img")
+            $($image).cropper({
+                aspectRatio: 1,
+                preview: ".img-preview",
+                done: function (data) {
+                    $('#x').val(data.x);
+                    $('#y').val(data.y);
+                    $('#width').val(data.width);
+                    $('#height').val(data.height);
+                    // 输出结果
+                }
+            });
+
+            var $inputImage = $("#inputImage");
+            if (window.FileReader) {
+                $inputImage.change(function () {
+                    var fileReader = new FileReader(),
+                        files = this.files,
+                        file;
+
+                    if (!files.length) {
+                        return;
+                    }
+
+                    file = files[0];
+
+                    if (/^image\/\w+$/.test(file.type)) {
+                        fileReader.readAsDataURL(file);
+                        fileReader.onload = function () {
+                            $inputImage.val("");
+                            $image.cropper("reset", true).cropper("replace", this.result);
+                        };
+                    } else {
+                        showMessage("请选择图片文件");
+                    }
+                    $('.cropper-container').css('left', '0px');
+                });
+            } else {
+                $inputImage.addClass("hide");
+            }
+            $('.cropper-container').css('left', '0px');
+        })
+	</script>
 </html>
 <script>
+	function goImg() {
+		var x = $("#x").val();
+        var y = $("#y").val();
+        var width = $("#width").val();
+        var height = $("#height").val();
+        var formData = new FormData();
+        formData.append('photo', $('#inputImage')[0].files[0]);//.files[0]
+        formData.append('x',x);
+        formData.append('y',y);
+        formData.append('width',width);
+        formData.append('height',height);
+        debugger;
+        $.ajax({
+            url:"/user/uploadPhoto",
+            type:"post",
+            data: {"x":x,"y":y,"width":width,"height":height,"photo":$('#inputImage')[0].files[0]},
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                alert("123");
+            },
+            error:function(data) {
+                alert("上传失败")
+            }
+        });
+    }
 	function toUpdate() {
         var myreg = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
         if(!myreg.test($('#userEmail').val())){
@@ -274,5 +392,9 @@
     }
 	function openLogin() {
         $('#myModal4').modal();
+    }
+    function openImg() {
+	    $('.cropper-container').css('left', '0px');
+        $('#myModal5').modal();
     }
 </script>
