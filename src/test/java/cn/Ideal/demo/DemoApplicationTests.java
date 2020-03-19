@@ -666,7 +666,7 @@ public class DemoApplicationTests {
 		return nums[--begin];
 	}
 	// 最长回文子串
-	public String longestPalindrome(String s) {
+	public String longestPalindrome2(String s) {
 		if (s==null) return s;
 
 		if (s=="")return s;
@@ -4914,6 +4914,38 @@ class Trie {
 			}
 		}
 		return ans;
+	}
+	public int longestPalindrome(String s) {
+		HashMap<Character,Integer> hash = new HashMap<>();
+		for (int i = 0; i < s.length(); i++) {
+			if (hash.containsKey(s.charAt(i))){
+				hash.put(s.charAt(i),hash.get(s.charAt(i))+1);
+			}else {
+				hash.put(s.charAt(i),1);
+			}
+		}
+		int ans = 0;
+		int flag = 1;
+		Set<Entry<Character, Integer>> entries = hash.entrySet();
+		for (Entry<Character, Integer> entry : entries) {
+			Integer value = entry.getValue();
+			if (value%2==0){
+				ans+=value;
+			}else if (value>2){
+				ans = ans + value/2*2;
+				flag = 1;
+			}else {
+				flag = 1;
+			}
+		}
+		return ans + flag;
+	}
+	public boolean check409(String s){
+		StringBuilder sb = new StringBuilder();
+		for (int i = s.length()-1; i >= 0; i++) {
+			sb.append(s.charAt(i));
+		}
+		return sb.toString().equals(s);
 	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();

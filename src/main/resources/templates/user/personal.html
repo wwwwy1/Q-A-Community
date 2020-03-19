@@ -235,7 +235,7 @@
 								<p>
 									你可以选择新图片上传，然后下载裁剪后的图片
 								</p>
-								<form action="/user/uploadPhoto" method="post" enctype="multipart/form-data">
+								<!--<form action="/user/uploadPhoto" method="post" enctype="multipart/form-data">-->
 									<div class="btn-group">
 										<label title="上传图片" for="inputImage" class="btn btn-primary">
 											<input type="file" accept="image/*" name="file" id="inputImage" class="hide"> 上传新图片
@@ -243,7 +243,7 @@
 										<button title="下载图片" id="download" onclick="goImg()" class="btn btn-primary">确认修改</button>
 									</div>
 									<input type="submit" value="123">
-								</form>
+								<!--</form>-->
 							</div>
 						</div>
 					</div>
@@ -259,6 +259,7 @@
 
 
 	<script>
+        var toFile;
         $(document).ready(function () {
 
             var $image = $(".image-crop > img")
@@ -280,13 +281,12 @@
                     var fileReader = new FileReader(),
                         files = this.files,
                         file;
-
                     if (!files.length) {
                         return;
                     }
 
                     file = files[0];
-
+                    toFile = file;
                     if (/^image\/\w+$/.test(file.type)) {
                         fileReader.readAsDataURL(file);
                         fileReader.onload = function () {
@@ -312,7 +312,8 @@
         var width = $("#width").val();
         var height = $("#height").val();
         var formData = new FormData();
-        formData.append('photo', $('#inputImage')[0].files[0]);//.files[0]
+        debugger;
+        formData.append('photo',toFile);//.files[0]$('#phooo')[0].files[0]
         formData.append('x',x);
         formData.append('y',y);
         formData.append('width',width);
@@ -321,11 +322,27 @@
         $.ajax({
             url:"/user/uploadPhoto",
             type:"post",
-            data: {"x":x,"y":y,"width":width,"height":height,"photo":$('#inputImage')[0].files[0]},
+            data: formData,//{"x":x,"y":y,"width":width,"height":height,"photo":$('#phooo')[0].files[0]},
             contentType: false,
             processData: false,
             success: function(data) {
-                alert("123");
+                if (data.code == 200){
+                    swal({
+                        title: "修改成功",
+                        text: "修改成功",
+                        type: "success"
+                    },function () {
+                        location.href("/user/personal");
+                    });
+                } else {
+                    swal({
+                        title: "修改失败",
+                        text: "修改失败",
+                        type: "warning"
+                    },function () {
+                        location.href("/user/personal");
+                    });
+                }
             },
             error:function(data) {
                 alert("上传失败")
