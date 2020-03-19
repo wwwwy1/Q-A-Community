@@ -192,4 +192,30 @@ public class UserController {
 				iis.close();
 		}
 	}
+	@GetMapping(value = "rePassword")
+	public ModelAndView goRePassword(ModelAndView mav, HttpServletRequest request) {
+		mav.setViewName("/user/rePassword");
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		if (StringUtil.isNullOrSpace(token)) mav.setViewName("/user/login");
+		String userId = redisTemplate.opsForValue().get(token);
+		if (StringUtil.isNullOrSpace(userId)) mav.setViewName("/user/login");
+		User byId = iUserService.getById(userId);
+		mav.getModel().put("data", byId);
+		return mav;
+	}
+	@PostMapping(value = "changePassword")
+	public Result changePassword(HttpServletRequest request,String password,String newPassword){
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		if (StringUtil.isNullOrSpace(token)) return new Result("未登录",400,null);
+		String userId = redisTemplate.opsForValue().get(token);
+		if (StringUtil.isNullOrSpace(userId)) return new Result("未登录",400,null);
+		User byId = iUserService.getById(userId);
+		if (!byId.getUserPassword().equals(password)){
+			return new Result("原密码错误",500,null);
+		}else {
+			byId.setUserPassword(newPassword);
+			iUserService.updateById(byId);
+			return new Result("更新成功",200,null);
+		}
+	}
 }
