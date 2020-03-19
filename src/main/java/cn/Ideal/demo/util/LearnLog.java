@@ -185,7 +185,8 @@ public enum  LearnLog {
 	LearnConcurrent128("2020/03/15","leetcode180周赛，复习mysql"),
 	LearnConcurrent129("2020/03/16","物色工作，准备面试题"),
 	LearnConcurrent130("2020/03/17","每日刷题，复习面试题"),
-	LearnConcurrent131("2020/03/17","图片插件！！！！未完成");
+	LearnConcurrent131("2020/03/18","图片插件！！！！未完成"),
+	LearnConcurrent132("2020/03/19","用户修改头像（图片插件）完成，用户修改密码（待扩展邮箱验证）完成");
 	// 明天改整体的前台！！！
 	// 时间
 	private final String learnTime;
