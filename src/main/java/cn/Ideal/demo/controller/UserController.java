@@ -160,14 +160,14 @@ public class UserController {
 			newFileName =  fileName.split("[.]")[0]+"cut."+fileName.split("[.]")[1]; // 新文件名
 			userImg = byId.getUserImg().split("[.]")[0]+"cut."+byId.getUserImg().split("[.]")[1];
 		}
-		byId.setUserImg(userImg);
-		iUserService.updateById(byId);
 		try {
 			cut(Math.round(Float.valueOf(x)),Math.round(Float.valueOf(y)),Math.round(Float.valueOf(width)),Math.round(Float.valueOf(height)),fileName,newFileName);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return new Result("失败", 500, null);
 		}
+		byId.setUserImg(userImg);
+		iUserService.updateById(byId);
 		return new Result("成功", 200, null);
 	}
 	public void cut(int x, int y, int width, int height, String srcpath, String subpath) throws IOException {//裁剪方法
