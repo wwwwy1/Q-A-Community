@@ -99,6 +99,13 @@ public class ForumController extends BaseController{
 	}
 	@GetMapping(value = "/user/forum/{id}")
 	public ModelAndView goForum(ModelAndView mav,@PathVariable Integer id){
+		String nums = (String)redisTemplate.opsForHash().get(RedisKeyEnum.FORUM_KEY, String.valueOf(id));
+		//赞，点击量，回复数
+		String[] split = nums.split(",");
+		int i = Integer.parseInt(split[1]);
+		i++;
+		redisTemplate.opsForHash().put(RedisKeyEnum.FORUM_KEY,String.valueOf(id),split[0]+","+i+","+split[2]);
+
 		Forum byId = iForumService.getById(id);
 		mav.getModel().put("forumData",byId);
 		QueryWrapper<Reply> replyQueryWrapper = new QueryWrapper<>();

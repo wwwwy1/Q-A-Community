@@ -48,7 +48,10 @@ import java.time.LocalDateTime;
     private String replyUserId;
     @TableField(exist = false)
     private User user;
-            /**
+    @TableField(exist = false)
+    private User reUser;
+
+    /**
             * 0则为第一层，其他则为楼中楼
             */
         @TableField("reply_father")

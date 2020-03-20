@@ -4947,6 +4947,19 @@ class Trie {
 		}
 		return sb.toString().equals(s);
 	}
+	public int[] getLeastNumbers(int[] arr, int k) {
+		TreeSet<Integer> set = new TreeSet<>();
+		int[] ans = new int[k];
+		for (int i = 0; i < arr.length; i++) {
+			set.add(arr[i]);
+		}
+		for (int i = 0; i < k; i++) {
+			ans[i]=set.first();
+			set.remove(set.first());
+		}
+		System.arraycopy(ans,0,ans,0,k);
+		return ans;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};

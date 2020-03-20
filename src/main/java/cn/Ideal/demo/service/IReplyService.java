@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-02-11
  */
 public interface IReplyService extends IService<Reply> {
-
+	int countReply(Integer replyId);
 }

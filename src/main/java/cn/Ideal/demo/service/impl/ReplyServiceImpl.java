@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReplyServiceImpl extends ServiceImpl<ReplyMapper, Reply> implements IReplyService {
 
+	@Override
+	public int countReply(Integer replyId) {
+		return baseMapper.countReply(replyId);
+	}
 }

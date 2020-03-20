@@ -199,12 +199,12 @@
 	   function addReply(ff) {
 		   var titlecomment=$("#titlecomment").val();
 		   if (titlecomment==""){
-		       alert("您还没有输入评论内容！");exit
+		       alert("您还没有输入评论内容！");exit;
 		   }
 		   $.ajax({
                url:"/user/addReply",
                method:"post",
-               data:{"Ridrp":titlecomment,"father":ff,"Cid":$("#cid").val()},
+               data:{"replyContent":titlecomment,"replyFather":ff,"forumId":$("#cid").val()},
                dataType:"json",
                success:function (data) {
                    alert(data.msg);
@@ -224,12 +224,12 @@
            var txt_statu=$("#txt_statu").val();
            var ff=$('#opencid').val();
            if (txt_statu==""){
-               alert("您还没有输入评论内容！");exit
+               alert("您还没有输入评论内容！");exit;
            }
            $.ajax({
                url:"/user/addReply",
                method:"post",
-               data:{"Ridrp":txt_statu,"father":ff,"Cid":$("#cid").val()},
+               data:{"replyContent":txt_statu,"replyFather":ff,"forumId":$("#cid").val()},
                dataType:"json",
                success:function (data) {
                    alert(data.msg);

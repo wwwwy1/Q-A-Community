@@ -16,36 +16,36 @@
 		<li class="comment " >
 			<article>
 				<a href="#">
-					<img alt="" th:src=@{'/images/'+${data.main.user.uimg}} class="avatar avatar-60 photo" height="60px" width="60px">
+					<img alt="" th:src=@{'/images/'+${main.user.userImg}} class="avatar avatar-60 photo" height="60px" width="60px">
 				</a>
 				<div>
-					<h5><cite  th:text="${data.main.user.uname}">回复人字段888</cite>
-						- <a class="comment-reply-link"  th:href="'javascript:addReplySon('+${data.main.rid}+',0,'+${data.main.rid}+','+${data.main.cid}+')'" >Reply</a>
+					<h5><cite  th:text="${main.user.userNickname}">回复人字段888</cite>
+						- <a class="comment-reply-link"  th:href="'javascript:addReplySon('+${main.id}+',0,'+${main.id}+','+${main.id}+')'" >Reply</a>
 					</h5>
-					<p><time th:text="${#dates.format(data.main.dtime,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time></p>
+					<p><time th:text="${#temporals.format(main.insertDate,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time></p>
 				</div>
 				<div>
-					<p th:text="${data.main.ridrp}">回复主要内容字段10.10.10.</p>
+					<p th:text="${main.replyContent}">回复主要内容字段10.10.10.</p>
 				</div>
 			</article>
-			<p th:text=@{'共'+${data.main.rn}+'条回复'}>回复</p>
+			<p th:text=@{'共'+${main.replyCount}+'条回复'}>回复</p>
 		</li>
 	</ol>
 	<ol class="commentlist">
-		<li class="comment " th:each="value:${data.reply}">
+		<li class="comment "  th:each="value:${list}">
 			<article>
 				<a href="#">
-					<img alt="" th:src=@{'/images/'+${value.user.uimg}} class="avatar avatar-60 photo" height="60px" width="60px">
+					<img alt="" th:src=@{'/images/'+${value.user.userImg}} class="avatar avatar-60 photo" height="60px" width="60px">
 				</a>
 				<div>
-					<h5><cite  th:text="${value.user.uname}" th:if="${value.ruser} == null">回复人字段888</cite>
-						<cite  th:text=@{${value.user.uname}+'&nbsp&nbsp回复&nbsp&nbsp'+${value.ruser.uname}} th:if="${value.ruser} != null">回复人字段888</cite>
-						- <a class="comment-reply-link"  th:href="'javascript:addReplySon('+${value.father}+','+${value.user.uid}+','+${value.rid}+','+${value.cid}+')'" >Reply</a>
+					<h5><cite  th:text="${value.user.userNickname}" th:if="${value.reUser} == null">回复人字段888</cite>
+						<cite  th:text=@{${value.user.userNickname}+'&nbsp&nbsp回复&nbsp&nbsp'+${value.reUser.userNickname}} th:if="${value.reUser} != null">回复人字段888</cite>
+						- <a class="comment-reply-link"  th:href="'javascript:addReplySon('+${value.replyFather}+','+${value.user.id}+','+${value.id}+','+${value.forumId}+')'" >Reply</a>
 					</h5>
-					<p><time th:text="${#dates.format(value.dtime,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time></p>
+					<p><time th:text="${#temporals.format(value.insertDate,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time></p>
 				</div>
 				<div>
-					<p th:text="${value.ridrp}">回复主要内容字段10.10.10.</p>
+					<p th:text="${value.replyContent}">回复主要内容字段10.10.10.</p>
 				</div>
 			</article>
 			<!-- 递进评论 -->
@@ -73,11 +73,9 @@
                     alert(data.msg);
                     if (data.status==0){
                         window.location.reload();
-
                     }
                 }
 			})
-
         }
 	</script>
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -99,7 +99,7 @@
 					</div>
 					<div>
 						<article class="type-post format-title  hentry" th:each="data:${data.data}">
-							<h3 class="post-title"><a href="forumDeatils.html" th:text="${data.forumTitle}">标题字段111</a></h3>
+							<h3 class="post-title"><a th:href="'/user/forum/'+${data.id}" th:text="${data.forumTitle}">标题字段111</a></h3>
 							<div class="post-meta ">
 								<span class="date" th:text="${#temporals.format(data.insertDate,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
 								<span class="category"th:each="tips:${data.forumTipNames}" th:utext="'<a href=\'#\'>'+${tips}+'</a>'" ></span>
@@ -109,6 +109,7 @@
 							</div>
 							<p th:text="${data.abbreviationContent}">&nbsp;&nbsp;&nbsp;&nbsp;主要内容字段666...
 								<a href="forumDeatils.html">Read more</a>
+
 							</p>
 						</article>
 						<article class=" type-post format-image hentry">
