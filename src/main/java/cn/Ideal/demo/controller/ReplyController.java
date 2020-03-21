@@ -1,8 +1,10 @@
 package cn.Ideal.demo.controller;
 
 
+import cn.Ideal.demo.entity.Forum;
 import cn.Ideal.demo.entity.Reply;
 import cn.Ideal.demo.entity.User;
+import cn.Ideal.demo.service.IForumService;
 import cn.Ideal.demo.service.IReplyService;
 import cn.Ideal.demo.service.IUserService;
 import cn.Ideal.demo.util.RedisKeyEnum;
@@ -34,6 +36,8 @@ public class ReplyController {
 	private RedisTemplate<String,String> redisTemplate;
 	@Autowired
 	private IReplyService iReplyService;
+	@Autowired
+	private IForumService iForumService;
 	@Autowired
 	private IUserService iUserService;
 
@@ -77,6 +81,26 @@ public class ReplyController {
 		}else {
 			return new Result("新增失败",500,null);
 		}
+	}
+	@Transactional
+	@PostMapping("/user/addReplySon")
+	public Result addReplySon(Reply reply,HttpServletRequest request){
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		if (StringUtil.isNullOrSpace(token)) return new Result("未登录",400,null);
+		String userId = redisTemplate.opsForValue().get(token);
+		if (StringUtil.isNullOrSpace(userId)) return new Result("未登录",400,null);
+		reply.setReplyUserId(userId);
+		iReplyService.save(reply);
+		iReplyService.countReply(reply.getReplyFather());
+		// 更新缓存，而不是表
+		String nums = (String)redisTemplate.opsForHash().get(RedisKeyEnum.FORUM_KEY, String.valueOf(reply.getForumId()));
+		//赞，点击量，回复数
+		String[] split = nums.split(",");
+		int i = Integer.parseInt(split[2]);
+		i++;
+		redisTemplate.opsForHash().put(RedisKeyEnum.FORUM_KEY,String.valueOf(reply.getForumId()),split[0]+","+split[1]+","+i);
 
+		iForumService.countForum(reply.getForumId());
+		return new Result("新增成功",200,null);
 	}
 }

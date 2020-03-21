@@ -107,6 +107,9 @@ public class ForumController extends BaseController{
 		redisTemplate.opsForHash().put(RedisKeyEnum.FORUM_KEY,String.valueOf(id),split[0]+","+i+","+split[2]);
 
 		Forum byId = iForumService.getById(id);
+		byId.setForumThumbs(Integer.valueOf(split[0]));
+		byId.setForumClicks(i);
+		byId.setForumReplys(Integer.valueOf(split[2]));
 		mav.getModel().put("forumData",byId);
 		QueryWrapper<Reply> replyQueryWrapper = new QueryWrapper<>();
 		replyQueryWrapper.eq("forum_id",id);

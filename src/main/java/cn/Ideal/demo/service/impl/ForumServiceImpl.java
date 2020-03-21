@@ -70,4 +70,9 @@ public class ForumServiceImpl extends ServiceImpl<ForumMapper, Forum> implements
 		return solrPage;
 	}
 
+	@Override
+	public int countForum(Integer forumId) {
+		return baseMapper.countForum(forumId);
+	}
+
 }

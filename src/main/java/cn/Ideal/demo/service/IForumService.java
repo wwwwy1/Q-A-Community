@@ -14,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IForumService extends IService<Forum> {
 	SolrPage page(String userId,String keywords,Integer current,Integer pageSize) throws Exception;
+	int countForum(Integer forumId);
 }

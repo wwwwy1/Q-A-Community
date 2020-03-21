@@ -4960,6 +4960,61 @@ class Trie {
 		System.arraycopy(ans,0,ans,0,k);
 		return ans;
 	}
+	public boolean canMeasureWater(int x, int y, int z) {
+		List<Integer> list = Arrays.asList(0,0);
+		Set<List<Integer>> set = new HashSet<>();
+		Queue<List<Integer>> queue = new LinkedList<>();
+		queue.add(list);
+		while (!queue.isEmpty()){
+			List<Integer> remove = queue.remove();
+			int cur_x = remove.get(0);
+			int cur_y = remove.get(1);
+			if (cur_x==z||cur_y==z || cur_x+cur_y==z){
+				return true;
+			}
+			// x 满
+			List<Integer> t1 = Arrays.asList(x,cur_y);
+			if (!set.contains(t1)){
+				set.add(t1);
+				queue.offer(t1);
+			}
+			// y 满
+			List<Integer> t2 = Arrays.asList(cur_x,y);
+			if (!set.contains(t2)){
+				set.add(t2);
+				queue.offer(t2);
+			}
+			// x 清空
+			List<Integer> t3 = Arrays.asList(0,cur_y);
+			if (!set.contains(t3)){
+				set.add(t3);
+				queue.offer(t3);
+			}
+			// y 清空
+			List<Integer> t4 = Arrays.asList(cur_x,0);
+			if (!set.contains(t4)){
+				set.add(t4);
+				queue.offer(t4);
+			}
+			// x给y倒满
+			List<Integer> t5 = (cur_x + cur_y >= y) ?
+					Arrays.asList(cur_x + cur_y - y, y) :
+					Arrays.asList(0, cur_x + cur_y);
+			if (!set.contains(t5)){
+				set.add(t5);
+				queue.offer(t5);
+			}
+			// y给x倒满
+			List<Integer> t6 = (cur_x + cur_y >= x) ?
+					Arrays.asList(x, cur_x + cur_y - x) :
+					Arrays.asList(cur_x + cur_y, 0);
+			if (!set.contains(t6)){
+				set.add(t6);
+				queue.offer(t6);
+			}
+		}
+		return false;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
