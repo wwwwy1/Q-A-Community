@@ -5015,10 +5015,226 @@ class Trie {
 		}
 		return false;
 	}
+	public int minIncrementForUnique(int[] A) {
+		Arrays.sort(A);
+		int res = 0;
+		for(int i=1;i<A.length;i++) {
+			if(A[i] == A[i-1]) {
+				A[i]++;
+				res++;
+			} else if(A[i] < A[i-1]) {
+				res += A[i-1] - A[i] + 1;
+				A[i] = A[i-1] + 1;
+			}
+		}
+		return res;
+	}
+	public int[] createTargetArray(int[] nums, int[] index) {
+		List<Integer> list = new ArrayList<>();
+		for (int i = 0; i < nums.length; i++) {
+			list.add(index[i],nums[i]);
+		}
+		int[] ans = new int[index.length];
+		for (int i = 0; i < nums.length; i++) {
+			ans[i] = list.get(i);
+		}
+		return ans;
+	}
+	public int sumFourDivisors(int[] nums) {
+		int ans = 0;
+		Map<Integer,Set<Integer>> map = new HashMap<>();
+		Set<Integer> no = new HashSet<>();
+		for (int i = 0; i < nums.length; i++) {
+			Set<Integer> set = new HashSet<>();
+			int flag = 0;
+			if (map.containsKey(nums[i])){
+				Set<Integer> list = map.get(nums[i]);
+				for (Integer integer : list) {
+					ans += integer;
+				}
+				continue;
+			}else if (no.contains(nums[i])) continue;
+			for (int j = 1; j <= Math.sqrt(nums[i]); j++) {
+				if (nums[i]%j==0){
+					set.add(j);
+					set.add(nums[i]/j);
+				}
+				if (set.size()>4){
+					flag = 1;
+					break;
+				}
+			}
+			if (flag==0 && set.size()==4){
+				map.put(nums[i],set);
+				for (Integer integer : set) {
+					ans += integer;
+				}
+			}else {
+				no.add(nums[i]);
+			}
+		}
+		return ans;
+	}
+	public boolean hasValidPath(int[][] grid) {
+		// 1 横 左右
+		// 2 竖 上下
+		// 3 转弯 右下
+		// 4 转弯 下右
+		// 5 转弯 右上
+		// 6 转弯 上右
+		int flag = 1;
+		int r = 0,l = 0;
+		Queue<List<Integer>> queue = new LinkedList<>();
+		queue.offer(Arrays.asList(r,l));
+		Set<List<Integer>> set = new HashSet<>();
+		while (!queue.isEmpty()){
+			int n = queue.size();
+			for (int i = 0; i < n; i++) {
+				List<Integer> remove = queue.remove();
+				r = remove.get(0);
+				l = remove.get(1);
+				if (r<0||r>=grid.length || l<0 || l>=grid[0].length){
+					continue;
+				}
+				if (set.contains(Arrays.asList(r,l)))
+					continue;
+				else
+					set.add(Arrays.asList(r,l));
+				if (grid[r][l] == 1){
+					if (check(r,l+1,grid) && (grid[r][l+1]==3 || grid[r][l+1]==1 ||grid[r][l+1]==5))
+						queue.offer(Arrays.asList(r,l+1));
+					if (check(r,l-1,grid) && (grid[r][l-1]==4 || grid[r][l-1]==1 ||grid[r][l-1]==6))
+						queue.offer(Arrays.asList(r,l-1));
+				}else if (grid[r][l] == 2){
+					if (check(r+1,l,grid) && (grid[r+1][l]==6 || grid[r+1][l]==2 ||grid[r+1][l]==5))
+						queue.offer(Arrays.asList(r+1,l));
+					if (check(r-1,l,grid) && (grid[r-1][l]==3 || grid[r-1][l]==2 ||grid[r-1][l]==4))
+						queue.offer(Arrays.asList(r-1,l));
+				}else if (grid[r][l] == 3){
+					if (check(r+1,l,grid) && (grid[r+1][l]==6 || grid[r+1][l]==5 ||grid[r+1][l]==2))
+						queue.offer(Arrays.asList(r+1,l));
+					if (check(r,l-1,grid) && (grid[r][l-1]==1 || grid[r][l-1]==4 || grid[r][l-1]==6))
+						queue.offer(Arrays.asList(r,l-1));
+				} else if (grid[r][l] == 4){
+					if (check(r+1,l,grid) && (grid[r+1][l]==6 || grid[r+1][l]==5 ||grid[r+1][l]==2))
+						queue.offer(Arrays.asList(r+1,l));
+					if (check(r,l+1,grid) && (grid[r][l+1]==1 || grid[r][l+1]==3 || grid[r][l+1]==5))
+						queue.offer(Arrays.asList(r,l+1));
+				} else if (grid[r][l] == 5){
+					if (check(r-1,l,grid) && (grid[r-1][l]==2 || grid[r-1][l]==4 ||grid[r-1][l]==3))
+						queue.offer(Arrays.asList(r-1,l));
+					if (check(r,l-1,grid) && (grid[r][l-1]==1 || grid[r][l-1]==4 || grid[r][l-1]==6))
+						queue.offer(Arrays.asList(r,l-1));
+				}else if (grid[r][l] == 6){
+					if (check(r-1,l,grid) && (grid[r-1][l]==2 || grid[r-1][l]==4 ||grid[r-1][l]==3))
+						queue.offer(Arrays.asList(r-1,l));
+					if (check(r,l+1,grid) && (grid[r][l+1]==1 || grid[r][l+1]==3 || grid[r][l+1]==5))
+						queue.offer(Arrays.asList(r,l+1));
+				}
+			}
+		}
+		return set.contains(Arrays.asList(grid.length-1,grid[0].length-1));
+	}
+	public boolean check(int r,int l,int[][] grid){
+		if (r<0||r>=grid.length || l<0 || l>=grid[0].length){
+			return false;
+		}
+		return true;
+	}
+	public String longestPrefix(String s) {
+		char c = s.charAt(0);
+		for (int i = 1; i < s.length(); i++) {
+			int index = s.indexOf(c, i);
+			if (index == -1){
+				return "";
+			}
+			String s1 = s.substring(index, s.length());
+			String s2 = s.substring(0, s.length() - index);
+			if (s1.equals(s2)){
+				return s1;
+			} else {
+				i = index;
+			}
+		}
+		return "";
+	}
+	public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
+		int ans = 0;
+		for (int i = 0; i < arr2.length; i++) {
+			int flag = 0;
+			for (int j = 0; j < arr1.length; j++) {
+				if (Math.abs(arr1[i]-arr2[j])<=d){
+					flag = 1;
+					break;
+				}
+			}
+			if (flag==0){
+				ans++;
+			}
+		}
+		return ans;
+	}
+	public int maxNumberOfFamilies(int n, int[][] reservedSeats) {
+		Map<Integer,List<Integer>> map = new HashMap<>();
+		for (int i = 0; i < reservedSeats.length; i++) {
+			if (map.containsKey(reservedSeats[i][0])){
+				map.get(reservedSeats[i][0]).add(reservedSeats[i][1]);
+			}else {
+				List<Integer> tem = new ArrayList<>();
+				tem.add(reservedSeats[i][1]);
+				map.put(reservedSeats[i][0],tem);
+			}
+		}
+		int ans = 0;
+		Set<Integer> set = map.keySet();
+		ans+= (n-set.size())*2;
+		for (Integer integer : set) {
+			List<Integer> list = map.get(integer);
+			Collections.sort(list);
+			if ((list.contains(2)||list.contains(3)) && ((!list.contains(4) && !list.contains(5) && !list.contains(6) && !list.contains(7))||
+					(!list.contains(6) && !list.contains(7) && !list.contains(8) && !list.contains(9)))){
+				ans++;
+			}else if ((list.contains(8)||list.contains(9)) && ((!list.contains(4) && !list.contains(5) && !list.contains(6) && !list.contains(7))||
+					(!list.contains(2) && !list.contains(3) && !list.contains(4) && !list.contains(5)))){
+				ans++;
+			}else if ((!list.contains(4) && !list.contains(5) && !list.contains(6) && !list.contains(7))&&
+					(!list.contains(2) && !list.contains(3) && !list.contains(8) && !list.contains(9))){
+				ans+=2;
+			}else if ((!list.contains(4) && !list.contains(5) && !list.contains(6) && !list.contains(7))){
+				ans+=1;
+			}else if ((!list.contains(2) && !list.contains(3) && !list.contains(4) && !list.contains(5))){
+				ans++;
+			}else if ((!list.contains(6) && !list.contains(7) && !list.contains(8) && !list.contains(9))){
+				ans++;
+			}
+		}
+		return ans;
+	}
+	public int getKth(int lo, int hi, int k) {
+		List<int[]> list = new ArrayList<>();
+		for (int i = lo; i <= hi; i++) {
+			int t = i,count = 0;
+			while (t!=1){
+				count++;
+				if(t%2==1){
+					t = t * 3 + 1;
+				}else {
+					t /=2;
+				}
+			}
+			list.add(new int[]{i,count});
+		}
+		Collections.sort(list,(o1, o2) -> {return o1[1]-o2[1];});
+		return list.get(k-1)[0];
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
-		t.maxAreaOfIsland(gc);
+		//t.maxAreaOfIsland(gc);
+		List<Integer> ar = new ArrayList<>();
+		//t.hasValidPath(new int[][]{{1,1,1,1,1,1,3}});
+		//ar.contains()
+		System.out.println(t.longestPrefix("babbb"));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
