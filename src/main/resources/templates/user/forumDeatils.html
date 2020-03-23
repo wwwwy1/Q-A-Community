@@ -14,7 +14,8 @@
 		<link th:href="@{/css/font-awesome.css}" rel="stylesheet">
 		<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 		<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
-
+        <link th:href="@{/css/animate.css}" rel="stylesheet">
+        <link th:href="@{/css/style.css}" rel="stylesheet">
 
 	</head>
 
@@ -158,7 +159,9 @@
 										<p th:text="${value.replyContent}">回复主要内容字段10.10.10.</p>
 										<p   th:if="${value.replyCount eq 0 }"></p>
 										<p  style="color: #2aabd2;cursor: pointer;"  th:onclick="'javascript:goMore('+${value.id}+')'"   th:text= @{'查看'+${value.replyCount}+'条回复'} th:if="${value.replyCount ne 0 }" ></p>
-									</div>
+                                        <span class="fa fa-thumbs-o-up" style="color: #8cd24e;" onclick="">1</span>
+                                        <span class="fa fa-thumbs-o-down" onclick="">1</span>
+                                    </div>
 								</article>
 								<!-- 递进评论 -->
 							</li>

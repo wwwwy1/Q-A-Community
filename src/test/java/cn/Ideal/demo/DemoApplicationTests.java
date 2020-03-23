@@ -5227,6 +5227,20 @@ class Trie {
 		Collections.sort(list,(o1, o2) -> {return o1[1]-o2[1];});
 		return list.get(k-1)[0];
 	}
+	public ListNode middleNode(ListNode head) {
+		int n = 0;
+		ListNode p = head;
+		while (head!=null){
+			n++;
+			head = head.next;
+		}
+		int flag = n/2;
+		while (flag>0){
+			flag--;
+			p = p.next;
+		}
+		return p;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};

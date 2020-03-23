@@ -20,6 +20,13 @@ import java.time.LocalDateTime;
         @EqualsAndHashCode(callSuper = false)
     @Accessors(chain = true)
     public class Reply implements Serializable {
+    public Reply() {
+    }
+
+    public Reply(Integer id, Integer replyThumbs) {
+        this.id = id;
+        this.replyThumbs = replyThumbs;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -56,13 +63,19 @@ import java.time.LocalDateTime;
             */
         @TableField("reply_father")
     private Integer replyFather;
-
+        // 0未操作 1已经点赞 2已经点踩
+    @TableField(exist = false)
+    private Integer canThumbUp;
             /**
             * 被回复人id
             */
         @TableField("reply_return_user_id")
     private String replyReturnUserId;
-
+    /**
+     * 点赞数
+     */
+    @TableField("reply_thumbs")
+    private Integer replyThumbs;
     /**
      * 第一层评论中，有多少条回复内容
      */

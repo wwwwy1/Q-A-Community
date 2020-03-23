@@ -15,6 +15,6 @@ import org.apache.ibatis.annotations.Select;
  * @since 2020-03-02
  */
 public interface ThumbUpMapper extends BaseMapper<ThumbUp> {
-	@Select("select user_id from thumb_up where user_id = #{userId,jdbcType=VARCHAR} and forum_id = #{forumId,jdbcType=INTEGER} and reply_id is NULL")
-	String getCanThumbUp(@Param("userId") String userId, @Param("forumId") Integer forumId);
+	@Select("select type from thumb_up where user_id = #{userId,jdbcType=VARCHAR} and forum_id = #{forumId,jdbcType=INTEGER} and reply_id is NULL")
+	Integer getCanThumbUp(@Param("userId") String userId, @Param("forumId") Integer forumId);
 }

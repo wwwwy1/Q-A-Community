@@ -57,4 +57,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 	public int addUserPoint(String userId) {
 		return baseMapper.addUserPoint(userId);
 	}
+
+	@Override
+	public int removeUserPoint(String userId) {
+		return baseMapper.removeUserPoint(userId);
+	}
 }

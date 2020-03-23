@@ -1,9 +1,11 @@
 package cn.Ideal.demo.schedule;
 
 import cn.Ideal.demo.entity.Forum;
+import cn.Ideal.demo.entity.Reply;
 import cn.Ideal.demo.entity.SensitiveWords;
 import cn.Ideal.demo.entity.Tags;
 import cn.Ideal.demo.service.IForumService;
+import cn.Ideal.demo.service.IReplyService;
 import cn.Ideal.demo.service.ISensitiveWordsService;
 import cn.Ideal.demo.service.ITagsService;
 import cn.Ideal.demo.util.RedisKeyEnum;
@@ -37,6 +39,8 @@ public class StartService implements ApplicationRunner {
 	@Autowired
 	private ITagsService iTagsService;
 	@Autowired
+	private IReplyService iReplyService;
+	@Autowired
 	private RedisTemplate<String,String> redisTemplate;
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -59,6 +63,11 @@ public class StartService implements ApplicationRunner {
 		SolrForumUtil.deleteAll();
 		SolrForumUtil.batchSaveOrUpdate(forums);
 		logger.info("=========== 项目启动后，初始化 论坛缓存信息 =============");
+		List<Reply> replies = iReplyService.list();
+		for (Reply reply : replies) {
+			redisTemplate.opsForHash().put(RedisKeyEnum.REPLY_KEY,reply.getId().toString(),String.valueOf(reply.getReplyThumbs()));
+		}
+		logger.info("=========== 项目启动后，初始化 评论点赞信息 =============");
 	}
 
 }

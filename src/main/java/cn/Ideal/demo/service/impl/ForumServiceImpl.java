@@ -18,7 +18,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -56,15 +58,27 @@ public class ForumServiceImpl extends ServiceImpl<ForumMapper, Forum> implements
 				ent.setForumThumbs(byId.getForumThumbs());
 				redisTemplate.opsForHash().put(RedisKeyEnum.FORUM_KEY,String.valueOf(ent.getId()),byId.getForumThumbs()+","+ byId.getForumClicks()+","+byId.getForumReplys());
 			}
+			// 0未操作 1已点赞 2已经点踩
 			if (StringUtil.isNullOrSpace(userId)){
 				ent.setCanThumbUp(0);
 			}else {
-				String canThumbUp = iThumbUpService.getCanThumbUp(userId, ent.getId());
-				if (StringUtil.isNullOrSpace(canThumbUp)){
-					ent.setCanThumbUp(0);
-				}else {
+				String userResultString =  (String)redisTemplate.opsForHash().get(RedisKeyEnum.THUMB_UP_FORUM, userId);
+				Set<Integer> userResult = StringUtil.stringToSet(userResultString);
+				String userDownString =  (String)redisTemplate.opsForHash().get(RedisKeyEnum.THUMB_DOWN_FORUM, userId);
+				Set<Integer> userDown = StringUtil.stringToSet(userDownString);
+				if (userResult != null && userResult.contains(ent.getId()) ) {
 					ent.setCanThumbUp(1);
+				}else if (userDown != null && userDown.contains(ent.getId())){
+					ent.setCanThumbUp(2);
+				}else {
+					Integer canThumbUp = iThumbUpService.getCanThumbUp(userId, ent.getId());
+					if (canThumbUp==null){
+						ent.setCanThumbUp(0);
+					}else {
+						ent.setCanThumbUp(canThumbUp);
+					}
 				}
+
 			}
 		}
 		return solrPage;

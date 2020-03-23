@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class ThumbUpServiceImpl extends ServiceImpl<ThumbUpMapper, ThumbUp> implements IThumbUpService {
 
 	@Override
-	public String getCanThumbUp(String userId, Integer forumId) {
+	public Integer getCanThumbUp(String userId, Integer forumId) {
 		return baseMapper.getCanThumbUp(userId,forumId);
 	}
 }

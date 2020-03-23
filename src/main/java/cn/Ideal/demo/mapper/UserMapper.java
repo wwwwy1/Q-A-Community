@@ -15,5 +15,7 @@ import org.apache.ibatis.annotations.Update;
 public interface UserMapper extends BaseMapper<User> {
 	@Update("UPDATE user SET user_point = user_point+1 WHERE id = #{userId,jdbcType=VARCHAR} ")
 	int addUserPoint(String userId);
+	@Update("UPDATE user SET user_point = user_point-1 WHERE id = #{userId,jdbcType=VARCHAR} ")
+	int removeUserPoint(String userId);
 
 }

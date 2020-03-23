@@ -22,15 +22,19 @@ import java.time.LocalDateTime;
         @EqualsAndHashCode(callSuper = false)
     @Accessors(chain = true)
     public class ThumbUp implements Serializable {
-    public ThumbUp(String userId, Integer forumId) {
+    public ThumbUp(String userId, Integer forumId,Integer type) {
         this.userId = userId;
         this.forumId = forumId;
+        this.type = type;
+
     }
 
-    public ThumbUp(String userId, Integer forumId, Integer replyId) {
+    public ThumbUp(String userId, Integer forumId, Integer replyId,Integer type) {
         this.userId = userId;
-        this.forumId = forumId;
+        //this.forumId = forumId;
         this.replyId = replyId;
+        this.type = type;
+
     }
 
     private static final long serialVersionUID = 1L;
@@ -58,7 +62,11 @@ import java.time.LocalDateTime;
             */
         @TableField("reply_id")
     private Integer replyId;
-
+    /**
+     * 1 赞 2 踩
+     */
+    @TableField("type")
+    private Integer type;
             /**
             * 插入日期
             */

@@ -5,10 +5,7 @@ import cn.Ideal.demo.entity.Forum;
 import cn.Ideal.demo.entity.Reply;
 import cn.Ideal.demo.entity.Tags;
 import cn.Ideal.demo.entity.User;
-import cn.Ideal.demo.service.IForumService;
-import cn.Ideal.demo.service.IReplyService;
-import cn.Ideal.demo.service.ITagsService;
-import cn.Ideal.demo.service.IUserService;
+import cn.Ideal.demo.service.*;
 import cn.Ideal.demo.util.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -43,6 +41,8 @@ public class ForumController extends BaseController{
 	private IUserService iUserService;
 	@Autowired
 	private IReplyService iReplyService;
+	@Autowired
+	private IThumbUpService iThumbUpService;
 	public static final Integer PAGE_SIZE = 10;
 
 	@ResponseBody
@@ -98,7 +98,14 @@ public class ForumController extends BaseController{
 		return mav;
 	}
 	@GetMapping(value = "/user/forum/{id}")
-	public ModelAndView goForum(ModelAndView mav,@PathVariable Integer id){
+	public ModelAndView goForum(ModelAndView mav,@PathVariable Integer id,HttpServletRequest request){
+		String userId = null;
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		if (StringUtil.isNullOrSpace(token)) {
+			userId = null;
+		}else {
+			userId = redisTemplate.opsForValue().get(token);
+		}
 		String nums = (String)redisTemplate.opsForHash().get(RedisKeyEnum.FORUM_KEY, String.valueOf(id));
 		//赞，点击量，回复数
 		String[] split = nums.split(",");
@@ -118,7 +125,32 @@ public class ForumController extends BaseController{
 		for (Reply reply : list) {
 			User byId1 = iUserService.getById(reply.getReplyUserId());
 			reply.setUser(byId1);
+			String result = (String) redisTemplate.opsForHash().get(RedisKeyEnum.REPLY_KEY, String.valueOf(reply.getId()));
+			if (!StringUtil.isNullOrSpace(result)){
+				reply.setReplyThumbs(Integer.parseInt(result));
+			}else {
+				redisTemplate.opsForHash().put(RedisKeyEnum.REPLY_KEY, String.valueOf(reply.getId()), String.valueOf(reply.getReplyThumbs()));
+			}
+			if (!StringUtil.isNullOrSpace(userId)){
+				String userResultString =  (String)redisTemplate.opsForHash().get(RedisKeyEnum.THUMB_UP_REPLY, userId);
+				Set<Integer> userResult = StringUtil.stringToSet(userResultString);
+				String userDownString =  (String)redisTemplate.opsForHash().get(RedisKeyEnum.THUMB_DOWN_REPLY, userId);
+				Set<Integer> userDown = StringUtil.stringToSet(userDownString);
+				if (userResult != null && userResult.contains(reply.getId()) ) {
+					reply.setCanThumbUp(1);
+				}else if (userDown != null && userDown.contains(reply.getId())){
+					reply.setCanThumbUp(2);
+				}else {
+					Integer canThumbUp = iThumbUpService.getCanThumbUp(userId, reply.getId());
+					if (canThumbUp==null){
+						reply.setCanThumbUp(0);
+					}else {
+						reply.setCanThumbUp(canThumbUp);
+					}
+				}
+			}
 		}
+
 		mav.getModel().put("replyData",list);
 		mav.setViewName("/user/forumDeatils");
 		Collection<Tags> tags = iTagsService.listByIds(StringUtil.getIdList(byId.getForumTips()));
