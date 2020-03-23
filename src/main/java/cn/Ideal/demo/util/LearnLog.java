@@ -189,7 +189,8 @@ public enum  LearnLog {
 	LearnConcurrent132("2020/03/19","用户修改头像（图片插件）完成，用户修改密码（待扩展邮箱验证）完成"),
 	LearnConcurrent133("2020/03/20","观看量、部分评论功能"),
 	LearnConcurrent134("2020/03/21","完成评论功能"),
-	LearnConcurrent135("2020/03/22","LeetCode周赛以及双周赛");
+	LearnConcurrent135("2020/03/22","LeetCode周赛以及双周赛"),
+	LearnConcurrent136("2020/03/23","后端的点赞/踩接口完成");
 	// 明天改整体的前台！！！
 	// 时间
 	private final String learnTime;
