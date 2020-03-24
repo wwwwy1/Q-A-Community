@@ -5241,6 +5241,17 @@ class Trie {
 		}
 		return p;
 	}
+	public int massage(int[] nums) {
+		if (nums.length==0)return 0;
+		if (nums.length==1)return nums[0];
+		int[] dp = new int[nums.length];
+		dp[0]=nums[0];
+		dp[1]=Math.max(nums[1],nums[0]);
+		for (int i = 2; i < nums.length; i++) {
+			dp[i] = Math.max(dp[i-1],dp[i-2]+nums[i]);
+		}
+		return dp[nums.length-1];
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
@@ -5248,7 +5259,7 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//t.hasValidPath(new int[][]{{1,1,1,1,1,1,3}});
 		//ar.contains()
-		System.out.println(t.longestPrefix("babbb"));
+		System.out.println(t.massage(new int[]{2,1,1,2}));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 

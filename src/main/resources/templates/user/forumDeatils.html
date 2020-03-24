@@ -151,17 +151,21 @@
 									</a>
 									<div>
 										<h5><cite  th:text="${value.user.userNickname}">回复人字段888</cite>
-                                            - <a class="comment-reply-link"  th:href="'javascript:openReply('+${value.id}+')'" >Reply</a>
+                                            - <time th:text="${#temporals.format(value.insertDate,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time>
+											<a class="comment-reply-link"  th:href="'javascript:openReply('+${value.id}+')'" >Reply</a>
                                         </h5>
-										<p><time th:text="${#temporals.format(value.insertDate,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time></p>
+										<p></p>
 									</div>
 									<div>
 										<p th:text="${value.replyContent}">回复主要内容字段10.10.10.</p>
+										<a  th:if="${value.canThumbUp ne 1}" th:id="'up'+${value.id}"  class="fa fa-thumbs-o-up" style="color: #8cd24e;text-decoration:none;" th:onclick="'thumbs($(this),'+${value.id}+')'"></a>
+										<a  th:if="${value.canThumbUp eq 1}" th:id="'up'+${value.id}" class="fa fa-thumbs-up" style="color: #8cd24e;text-decoration:none;" th:onclick="'thumbsCancel($(this),'+${value.id}+')'"></a>
+										<span th:id="'thumbs'+${value.id}" th:text="${value.replyThumbs}"></span>
+										<a th:if="${value.canThumbUp eq 2}" th:id="'down'+${value.id}" class="fa fa-thumbs-down" style="text-decoration:none;" th:onclick="'thumbsDownCancel($(this),'+${value.id}+')'"></a>
+										<a th:if="${value.canThumbUp ne 2}"  th:id="'down'+${value.id}" class="fa fa-thumbs-o-down" style="text-decoration:none;" th:onclick="'thumbsDown($(this),'+${value.id}+')'"></a>
 										<p   th:if="${value.replyCount eq 0 }"></p>
 										<p  style="color: #2aabd2;cursor: pointer;"  th:onclick="'javascript:goMore('+${value.id}+')'"   th:text= @{'查看'+${value.replyCount}+'条回复'} th:if="${value.replyCount ne 0 }" ></p>
-                                        <span class="fa fa-thumbs-o-up" style="color: #8cd24e;" onclick="">1</span>
-                                        <span class="fa fa-thumbs-o-down" onclick="">1</span>
-                                    </div>
+									</div>
 								</article>
 								<!-- 递进评论 -->
 							</li>
@@ -309,6 +313,80 @@
 </html>
 
 <script type="text/javascript">
+    function thumbs(doc,replyId) {
+        debugger;
+        doc.attr("class","fa fa-thumbs-up");
+        doc.attr("onclick","thumbsCancel($(this),"+replyId+")");
+        var reId = 'thumbs'+replyId;
+        var $k = $("#"+reId);
+        var t = $k.text();
+
+        var down = 'down'+ replyId;
+        var $down = $("#"+down);
+        if ($down.attr('class')=="fa fa-thumbs-down"){
+            $k.text(parseInt(t) +2);
+		}else {
+            $k.text(parseInt(t) +1);
+		}
+		$down.attr("class","fa fa-thumbs-o-down");
+        $down.attr("onclick","thumbsDown($(this),"+replyId+")");
+        $.ajax({
+            url:"/thumbUp/up",
+            method:"get",
+            data:{"replyId":replyId},
+            dataType:"json"
+        })
+    }
+    function thumbsCancel(doc,replyId) {
+        doc.attr("class","fa fa-thumbs-o-up");
+        doc.attr("onclick","thumbs($(this),"+replyId+")");
+        var reId = 'thumbs'+replyId;
+        var $k = $("#"+reId);
+        var t = $k.text();
+        $k.text(parseInt(t) -1);
+        $.ajax({
+            url:"/thumbUp/cancel",
+            method:"get",
+            data:{"replyId":replyId},
+            dataType:"json"
+        })
+    }
+    function thumbsDown(doc,replyId) {
+        doc.attr("class","fa fa-thumbs-down");
+        doc.attr("onclick","thumbsCancel($(this),"+replyId+")");
+        var reId = 'thumbs'+replyId;
+        var $k = $("#"+reId);
+        var t = $k.text();
+        var up = 'up'+ replyId;
+        var $up = $("#"+up);
+        if ($up.attr('class')=="fa fa-thumbs-up"){
+            $k.text(parseInt(t) -2);
+        }else {
+            $k.text(parseInt(t) -1);
+        }
+        $up.attr("class","fa fa-thumbs-o-up");
+        $up.attr("onclick","thumbs($(this),"+replyId+")");
+        $.ajax({
+            url:"/thumbUp/up",
+            method:"get",
+            data:{"replyId":replyId},
+            dataType:"json"
+        })
+    }
+    function thumbsDownCancel(doc,replyId) {
+        doc.attr("class","fa fa-thumbs-o-down");
+        doc.attr("onclick","thumbs($(this),"+replyId+")");
+        var reId = 'thumbs'+replyId;
+        var $k = $("#"+reId);
+        var t = $k.text();
+        $k.text(parseInt(t) +1);
+        $.ajax({
+            url:"/thumbUp/cancel",
+            method:"get",
+            data:{"replyId":replyId},
+            dataType:"json"
+        })
+    }
     function toLogin() {
         $.ajax({
             url:"/user/loginCheck",

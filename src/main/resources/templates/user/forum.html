@@ -105,7 +105,7 @@
 								<span class="category"th:each="tips:${data.forumTipNames}" th:utext="'<a href=\'#\'>'+${tips}+'</a>'" ></span>
 								<span class="comments"><a href="forumDeatils.html" th:text="${data.forumReplys}">回复数字段444</a></span>
 								<span style="padding-left:0px;" th:utext="'<i class=\'fa fa-eye\'> </i>' + '  '+${data.forumClicks}">144 浏览</span>
-								<span class="" th:classappend="${data.canThumbUp}==1?'myThumbed':'like-count'" th:onclick="${data.canThumbUp}==1?'#':'thumbs($(this),'+${data.id}+')'" th:text="${data.forumThumbs}">点赞字段555</span>
+								<span class="" th:classappend="${data.canThumbUp}==1?'myThumbed':'like-count'" th:onclick="${data.canThumbUp}==1?'thumbsCancel($(this),'+${data.id}+')':'thumbs($(this),'+${data.id}+')'" th:text="${data.forumThumbs}">点赞字段555</span>
 							</div>
 							<p th:text="${data.abbreviationContent}">&nbsp;&nbsp;&nbsp;&nbsp;主要内容字段666...
 								<a href="forumDeatils.html">Read more</a>
@@ -209,11 +209,23 @@
         }
         function thumbs(doc,forumId) {
 			doc.attr("class","myThumbed");
-			doc.attr("onclick","#")
+			doc.attr("onclick","thumbsCancel($(this),"+forumId+")")
 			var c = doc.text();
 			doc.text(parseInt(c) +1);
             $.ajax({
                 url:"/thumbUp/up",
+                method:"get",
+                data:{"forumId":forumId},
+                dataType:"json"
+            })
+        }
+        function thumbsCancel(doc,forumId) {
+            doc.attr("class","like-count");
+            doc.attr("onclick","thumbs($(this),"+forumId+")")
+            var c = doc.text();
+            doc.text(parseInt(c) -1);
+            $.ajax({
+                url:"/thumbUp/cancel",
                 method:"get",
                 data:{"forumId":forumId},
                 dataType:"json"

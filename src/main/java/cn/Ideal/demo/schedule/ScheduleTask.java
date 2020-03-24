@@ -61,11 +61,18 @@ public class ScheduleTask {
 			for (Integer forumId : integers) {
 				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
 				queryWrapper.eq("user_id",userId).eq("forum_id",forumId);
-				iThumbUpService.remove(queryWrapper);
+				ThumbUp one = iThumbUpService.getOne(queryWrapper);
+				int n = 1;
+				if (one!=null){
+					iThumbUpService.remove(queryWrapper);
+					n++;
+				}
 				iThumbUpService.save(new ThumbUp(userId,forumId,1));
 				// 给用户增加赞（声望）
 				Forum byId = iForumService.getById(forumId);
-				iUserService.addUserPoint(byId.getUserId());
+				for (int i = 0; i < n; i++) {
+					iUserService.addUserPoint(byId.getUserId());
+				}
 			}
 		}
 		//插入用户已经踩的文章
@@ -78,11 +85,18 @@ public class ScheduleTask {
 			for (Integer forumId : integers) {
 				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
 				queryWrapper.eq("user_id",userId).eq("forum_id",forumId);
-				iThumbUpService.remove(queryWrapper);
+				ThumbUp one = iThumbUpService.getOne(queryWrapper);
+				int n = 1;
+				if (one!=null){
+					iThumbUpService.remove(queryWrapper);
+					n++;
+				}
 				iThumbUpService.save(new ThumbUp(userId,forumId,2));
 				// 给用户增加赞（声望）
 				Forum byId = iForumService.getById(forumId);
-				iUserService.removeUserPoint(byId.getUserId());
+				for (int i = 0; i < n; i++) {
+					iUserService.removeUserPoint(byId.getUserId());
+				}
 			}
 		}
 		//插入用户已经点赞的评论
@@ -95,11 +109,18 @@ public class ScheduleTask {
 			for (Integer id : integers) {
 				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
 				queryWrapper.eq("user_id",userId).eq("reply_id",id);
-				iThumbUpService.remove(queryWrapper);
+				ThumbUp one = iThumbUpService.getOne(queryWrapper);
+				int n = 1;
+				if (one!=null){
+					iThumbUpService.remove(queryWrapper);
+					n++;
+				}
 				iThumbUpService.save(new ThumbUp(userId,0,id,1));
 				// 给用户增加赞（声望）
 				Reply byId = iReplyService.getById(id);
-				iUserService.addUserPoint(byId.getReplyUserId());
+				for (int i = 0; i < n; i++) {
+					iUserService.addUserPoint(byId.getReplyUserId());
+				}
 			}
 		}
 		//插入用户已经踩的评论
@@ -112,11 +133,18 @@ public class ScheduleTask {
 			for (Integer id : integers) {
 				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
 				queryWrapper.eq("user_id",userId).eq("reply_id",id);
-				iThumbUpService.remove(queryWrapper);
+				ThumbUp one = iThumbUpService.getOne(queryWrapper);
+				int n = 1;
+				if (one!=null){
+					iThumbUpService.remove(queryWrapper);
+					n++;
+				}
 				iThumbUpService.save(new ThumbUp(userId,0,id,2));
 				// 给用户增加赞（声望）
 				Reply byId = iReplyService.getById(id);
-				iUserService.removeUserPoint(byId.getReplyUserId());
+				for (int i = 0; i < n; i++) {
+					iUserService.removeUserPoint(byId.getReplyUserId());
+				}
 			}
 		}
 		//更新文章数据库中的赞，点击量，回复数
