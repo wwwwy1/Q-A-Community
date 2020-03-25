@@ -82,6 +82,7 @@ public class ScheduleTask {
 			String forumIds = (String)entry.getValue();
 			HashSet<Integer> integers = StringUtil.stringToSet(forumIds);
 			// 待插入数据库
+			if(integers != null)
 			for (Integer forumId : integers) {
 				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
 				queryWrapper.eq("user_id",userId).eq("forum_id",forumId);
@@ -106,6 +107,7 @@ public class ScheduleTask {
 			String forumIds = (String)entry.getValue();
 			HashSet<Integer> integers = StringUtil.stringToSet(forumIds);
 			// 待插入数据库
+			if (integers!=null)
 			for (Integer id : integers) {
 				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
 				queryWrapper.eq("user_id",userId).eq("reply_id",id);
@@ -130,6 +132,7 @@ public class ScheduleTask {
 			String ids = (String)entry.getValue();
 			HashSet<Integer> integers = StringUtil.stringToSet(ids);
 			// 待插入数据库
+			if (integers!=null)
 			for (Integer id : integers) {
 				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
 				queryWrapper.eq("user_id",userId).eq("reply_id",id);

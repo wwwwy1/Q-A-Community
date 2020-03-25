@@ -5252,6 +5252,43 @@ class Trie {
 		}
 		return dp[nums.length-1];
 	}
+	public int surfaceArea(int[][] grid) {
+		int max = 0;
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				max = Math.max(max,grid[i][j]);
+			}
+		}
+		int ans = 0;
+		for (int i = 1; i <= max; i++) {
+			for (int j = 0; j < grid.length; j++) {
+				for (int k = 0; k < grid[j].length; k++) {
+					if(grid[j][k]>i)ans+=5;
+					else if(grid[j][k]==i)ans+=6;
+					else if (grid[j][k]>i)ans-=1;
+					else continue;
+					if (check892(j-1,k,grid.length,grid[j].length) && grid[j-1][k]>=i){
+						ans--;
+					}
+					if (check892(j+1,k,grid.length,grid[j].length) && grid[j+1][k]>=i){
+						ans--;
+					}
+					if (check892(j,k-1,grid.length,grid[j].length) && grid[j][k-1]>=i){
+						ans--;
+					}
+					if (check892(j,k+1,grid.length,grid[j].length) && grid[j][k+1]>=i){
+						ans--;
+					}
+				}
+			}
+		}
+		return ans;
+	}
+	public boolean check892(int i,int j,int length,int length2){
+		if (i<0||i>=length||j<0||j>=length2)
+			return false;
+		return true;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
@@ -5259,7 +5296,7 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//t.hasValidPath(new int[][]{{1,1,1,1,1,1,3}});
 		//ar.contains()
-		System.out.println(t.massage(new int[]{2,1,1,2}));
+		System.out.println(t.surfaceArea(new int[][]{{1,0},{0,2}}));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
