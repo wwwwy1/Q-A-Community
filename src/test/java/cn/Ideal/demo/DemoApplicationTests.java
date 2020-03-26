@@ -5289,6 +5289,44 @@ class Trie {
 			return false;
 		return true;
 	}
+	public int numRookCaptures(char[][] board) {
+		int r = 0,l=0;
+		int ans = 0;
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j] == 'R'){
+					r=i;
+					l=j;
+					break;
+				}
+			}
+		}
+		for (int i = r+1; i < board.length; i++) {
+			if (board[i][l] !='.'){
+				if (board[i][l] == 'p') ans++;
+				break;
+			}
+		}
+		for (int i = r-1; i >=0; i--) {
+			if (board[i][l] !='.'){
+				if (board[i][l] == 'p') ans++;
+				break;
+			}
+		}
+		for (int i = l-1; i >=0; i--) {
+			if (board[r][i] !='.'){
+				if (board[r][i] == 'p') ans++;
+				break;
+			}
+		}
+		for (int i = l+1; i < board[0].length; i++) {
+			if (board[r][i] !='.'){
+				if (board[r][i] == 'p') ans++;
+				break;
+			}
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
