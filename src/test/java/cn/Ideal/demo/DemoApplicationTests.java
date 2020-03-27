@@ -5327,14 +5327,132 @@ class Trie {
 		}
 		return ans;
 	}
+	public boolean hasGroupsSizeX1(int[] deck) {
+		Map<Integer,Integer> hashMap = new HashMap<>();
+		for (int i = 0; i < deck.length; i++) {
+			if (hashMap.containsKey(deck[i])){
+				hashMap.put(deck[i],hashMap.get(deck[i])+1);
+			}else {
+				hashMap.put(deck[i],1);
+			}
+		}
+		Set<Integer> set = hashMap.keySet();
+		for (int i = 2; i <= deck.length/2; i++) {
+			int flag = 0;
+			for (Integer integer : set) {
+				if (hashMap.get(integer)<i)return false;
+				if (hashMap.get(integer)%i!=0){
+					flag=1;
+					break;
+				}
+			}
+			if (flag==0) return true;
+		}
+		return false;
+	}
+	public String sortString(String s) {
+		int[] dict = new int[26];
+		for (char c : s.toCharArray()) {
+			dict[c-'a']++;
+		}
+		StringBuilder sb = new StringBuilder();
+		int ret = s.length();
+		while (ret>0){
+			int flag =0;
+			for (int i = 0; i < 26; i++) {
+				if (flag==3)break;
+				if (dict[i]>0){
+					sb.append((char)(i+'a'));
+					dict[i]--;
+					ret--;
+					flag++;
+				}
+			}
+			flag = 0;
+			for (int i = 25; i >= 0; i--) {
+				if (flag==3)break;
+				if (dict[i]>0){
+					sb.append((char)(i+'a'));
+					dict[i]--;
+					ret--;
+					flag++;
+				}
+			}
+		}
+		return sb.toString();
+	}
+	public int findTheLongestSubstring(String s) {
+		int n = s.length();
+		int l = 0,r = 0;
+		int ans = 0;
+		int indexA = 0,indexE = 0,indexI = 0,indexO=0,indexU=0;
+		if (s.charAt(r) == 'a'){
+			indexA++;
+		}else if (s.charAt(r)=='e'){
+			indexE++;
+		}else if (s.charAt(r)=='i'){
+			indexI++;
+		}else if (s.charAt(r)=='o'){
+			indexO++;
+		}else if (s.charAt(r)=='u'){
+			indexU++;
+		}
+		while (l<r && r<n){
+			r++;
+			if (s.charAt(r) == 'a'){
+				indexA++;
+			}else if (s.charAt(r)=='e'){
+				indexE++;
+			}else if (s.charAt(r)=='i'){
+				indexI++;
+			}else if (s.charAt(r)=='o'){
+				indexO++;
+			}else if (s.charAt(r)=='u'){
+				indexU++;
+			}
+			if (indexA%2==0&&indexE%2==0&&indexI%2==0&&indexO%2==0&&indexU%2==0){
+				ans = Math.max(ans,r-l+1);
+			}else {
+				if (s.charAt(l) == 'a'){
+					indexA--;
+				}else if (s.charAt(l)=='e'){
+					indexE--;
+				}else if (s.charAt(l)=='i'){
+					indexI--;
+				}else if (s.charAt(l)=='o'){
+					indexO--;
+				}else if (s.charAt(l)=='u'){
+					indexU--;
+				}
+				l++;
+			}
+
+		}
+		return ans;
+	}
+	public int findMaxConsecutiveOnes(int[] nums) {
+		int ans = 0;
+		int flag = 0;
+		int l = 0,r=-1;
+		while (r<nums.length){
+			if (nums[++r]==0){
+				ans=Math.max(ans,r-l);
+				l=r+1;
+			}
+		}
+		if (nums[nums.length-1]==1){
+			ans=Math.max(ans,nums.length);
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
 		//t.maxAreaOfIsland(gc);
 		List<Integer> ar = new ArrayList<>();
-		//t.hasValidPath(new int[][]{{1,1,1,1,1,1,3}});
 		//ar.contains()
-		System.out.println(t.surfaceArea(new int[][]{{1,0},{0,2}}));
+
+		System.out.println(t.findMaxConsecutiveOnes(new int[]{1,1,0,1,1,1}));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
