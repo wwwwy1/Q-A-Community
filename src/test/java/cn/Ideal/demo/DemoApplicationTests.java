@@ -5445,6 +5445,26 @@ class Trie {
 		}
 		return ans;
 	}
+	public int minimumLengthEncoding(String[] words) {
+		int n = words.length;
+		Arrays.sort(words,(o1, o2) -> o2.length()-o1.length());
+		int ans = 0;
+		int sum = 0;
+		int flag = 0;
+		List<Integer> list = new ArrayList<>();
+		for (int i = 0; i < n; i++) {
+			sum+=words[i].length();
+			for (int j = i+1; j < n; j++) {
+				if (list.contains(j))continue;
+				if (words[i].substring(words[i].length()-words[j].length(),words[i].length()).equals(words[j])){
+					ans+=words[j].length();
+					list.add(j);
+					flag++;
+				}
+			}
+		}
+		return sum-ans+n-flag;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
@@ -5452,7 +5472,7 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
 
-		System.out.println(t.findMaxConsecutiveOnes(new int[]{1,1,0,1,1,1}));
+		System.out.println(t.minimumLengthEncoding(new String[]{"time", "time", "time", "time"}));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 

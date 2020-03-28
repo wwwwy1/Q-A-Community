@@ -11,7 +11,10 @@
 		<script  th:src="@{/js/bootstrap.js}"   type="text/javascript" src="/static/js/bootstrap.js"></script>
         <link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
         <script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
-
+		<script  th:src="@{/layer/layer.js}"    src="/static/layer/layer.js" type="text/javascript"></script>
+		<link th:href="@{/css/font-awesome.css}" rel="stylesheet">
+		<link th:href="@{/css/animate.css}" rel="stylesheet">
+		<link th:href="@{/css/style.css}" rel="stylesheet">
     </head>
 
 	<body>
@@ -23,12 +26,17 @@
 				</a>
 				<div>
 					<h5><cite  th:text="${main.user.userNickname}">回复人字段888</cite>
-						- <a class="comment-reply-link"  th:href="'javascript:addReplySon('+${main.id}+',0,'+${main.id}+','+${main.forumId}+')'" >Reply</a>
+						- <time th:text="${#temporals.format(main.insertDate,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time>
+						<a class="comment-reply-link"  th:href="'javascript:addReplySon('+${main.id}+',0,'+${main.id}+','+${main.forumId}+')'" >Reply</a>
 					</h5>
-					<p><time th:text="${#temporals.format(main.insertDate,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time></p>
+					<p></p>
 				</div>
 				<div>
 					<p th:text="${main.replyContent}">回复主要内容字段10.10.10.</p>
+					<!-- 点赞字段
+					<a class="fa fa-thumbs-up" id="up2" style="color: #8cd24e;text-decoration:none;" onclick="thumbsCancel($(this),2)"></a>
+					<span id="thumbs2">0</span>
+					<a class="fa fa-thumbs-o-down" id="down2" style="text-decoration:none;" onclick="thumbsDown($(this),2)"></a>-->
 				</div>
 			</article>
 			<p th:text=@{'共'+${main.replyCount}+'条回复'}>回复</p>
@@ -43,12 +51,18 @@
 				<div>
 					<h5><cite  th:text="${value.user.userNickname}" th:if="${value.reUser} == null">回复人字段888</cite>
 						<cite  th:text=@{${value.user.userNickname}+'&nbsp&nbsp回复&nbsp&nbsp'+${value.reUser.userNickname}} th:if="${value.reUser} != null">回复人字段888</cite>
-						- <a class="comment-reply-link"  th:href="'javascript:addReplySon('+${value.replyFather}+',\''+${value.user.id}+'\','+${value.id}+','+${value.forumId}+')'" >Reply</a>
+						-- <time th:text="${#temporals.format(value.insertDate,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time>
+						<a class="comment-reply-link"  th:href="'javascript:addReplySon('+${value.replyFather}+',\''+${value.user.id}+'\','+${value.id}+','+${value.forumId}+')'" >Reply</a>
 					</h5>
-					<p><time th:text="${#temporals.format(value.insertDate,'yyyy-MM-dd HH:mm:ss')}" >2018/09/12 12:15:37</time></p>
+					<p></p>
 				</div>
 				<div>
 					<p th:text="${value.replyContent}">回复主要内容字段10.10.10.</p>
+					<!-- 点赞字段
+					<a class="fa fa-thumbs-up" id="up2" style="color: #8cd24e;text-decoration:none;" onclick="thumbsCancel($(this),2)"></a>
+					<span id="thumbs2">0</span>
+					<a class="fa fa-thumbs-o-down" id="down2" style="text-decoration:none;" onclick="thumbsDown($(this),2)"></a>-->
+
 				</div>
 			</article>
 			<!-- 递进评论 -->

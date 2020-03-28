@@ -137,8 +137,11 @@
 							<span class="date" th:text="${#temporals.format(forumData.insertDate,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
 							<span class="category"th:each="tips:${forumData.forumTipNames}" th:utext="'<a href=\'#\'>'+${tips}+'</a>'" ></span>
 							<span class="comments"><a href="#" th:text="${forumData.forumReplys}">回复数字段444</a></span>
-
-						</div>
+							<!-- 论坛点赞内容
+							<a class="fa fa-thumbs-up" id="up1" style="color: #8cd24e;text-decoration:none;" onclick="thumbsCancel($(this),1)"></a>
+							<a id="thumbs1">1</a>
+							<a class="fa fa-thumbs-o-down" id="down1" style="text-decoration:none;" onclick="thumbsDown($(this),1)"></a>
+						--></div>
 						<div th:utext=${forumData.forumContent}>主要内容字段666</div>
 					</article>
 					<section id="comments">
