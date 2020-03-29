@@ -77,7 +77,41 @@ public class StringUtil {
 		}
 		return ans;
 	}
-
-
+	// 获取中括号中的内容
+	public static List<String> extractMessageByBrackets(String msg){
+		List<String> list=new ArrayList<String>();
+		Pattern p = Pattern.compile("(\\[[^\\]]*\\])");
+		Matcher m = p.matcher(msg);
+		while(m.find()){
+			list.add(m.group().substring(1, m.group().length()-1));
+		}
+		return list;
+	}
+	// 获取中引号中的内容
+	public static List<String> extractMessageByQuotationMarks(String msg){
+		Pattern p1=Pattern.compile("\"(.*?)\"");
+		Matcher m = p1.matcher(msg);
+		ArrayList<String> list = new ArrayList<>();
+		while (m.find()) {
+			list.add(m.group().trim().replace("\"",""));
+		}
+		return list;
+	}
+	// 获取时间
+	public static List<String> extractMessageByTime(String msg){
+		if (msg.indexOf("created:")==-1)
+			return null;
+		try {
+			int start = msg.indexOf("created:")+8;
+			String s = msg.substring(start,start+10);
+			String e = msg.substring(start+12,start+22);
+			ArrayList<String> list = new ArrayList<>();
+			list.add(s);
+			list.add(e);
+			return list;
+		}catch (Exception e){
+			return null;
+		}
+	}
 
 }

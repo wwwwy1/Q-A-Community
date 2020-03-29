@@ -59,6 +59,40 @@ public class SolrForumUtil {
 		return rsp;
 	}
 	public static SolrPage queryHighlight(String keywords,Integer current,Integer pageSize) throws SolrServerException, IOException {
+		// 标签字段
+		List<String> tagsKey = StringUtil.extractMessageByBrackets(keywords);
+		// 关键词字段
+		List<String> questionKey = StringUtil.extractMessageByQuotationMarks(keywords);
+		List<String> timeKey = StringUtil.extractMessageByTime(keywords);
+		StringBuilder sb = new StringBuilder();
+		if (tagsKey!=null){
+			for (int i = 0; i < tagsKey.size(); i++) {
+				if (sb.length()!=0){
+					sb.append(" AND (forumTipNames:\""+tagsKey.get(i)+"\") ");
+				}else {
+					sb.append("(forumTipNames:\""+tagsKey.get(i)+"\") ");
+				}
+			}
+		}
+		if (questionKey!=null){
+			for (int i = 0; i < questionKey.size(); i++) {
+				if (sb.length()!=0){
+					sb.append(" AND (forumContent:\""+questionKey.get(i)+"\") ");
+					sb.append(" AND (forumTitle:\""+questionKey.get(i)+"\")");
+				}else {
+					sb.append("(forumContent:\""+questionKey.get(i)+"\") ");
+				}
+			}
+		}
+		if (timeKey!=null){
+			if (sb.length()!=0){
+				sb.append(" AND (insertDate:["+timeKey.get(0)+"T00:00:00Z TO "+timeKey.get(1)+"T23:59:59Z]");
+			}else {
+				sb.append(" (insertDate:["+timeKey.get(0)+"T00:00:00Z TO "+timeKey.get(1)+"T23:59:59Z]");
+
+			}
+		}
+		// sb 就是query字段！！！
 		SolrQuery q = new SolrQuery();
 		String keyWordsEnd = "";
 		if (StringUtil.isNullOrSpace(keyWordsEnd)){

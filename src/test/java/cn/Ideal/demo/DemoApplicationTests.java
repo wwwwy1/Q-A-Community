@@ -5561,7 +5561,8 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
 
-		System.out.println(t.numTeams(new int[]{1,2,3,4}));
+		//System.out.println(t.numTeams(new int[]{1,2,3,4}));
+		System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
