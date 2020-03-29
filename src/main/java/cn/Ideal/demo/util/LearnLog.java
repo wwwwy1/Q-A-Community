@@ -195,9 +195,11 @@ public enum  LearnLog {
 	LearnConcurrent138("2020/03/25","复习面试题"),
 	LearnConcurrent139("2020/03/27","日常刷题"),
 	// 每天晚上都要计划明天的目标！！！！！！
-	LearnConcurrent140("2020/03/28","日常刷题+规划任务！！！");
+	LearnConcurrent140("2020/03/28","日常刷题+规划任务！！！"),
 	// 明天早上刷题周赛+点赞！！！
 	// 下午补充点赞+搜索分页接口
+	LearnConcurrent141("2020/03/29","周赛+点赞内容+搜索的分词");
+	// 明天完成搜索+两个分页功能
 	// 时间
 	private final String learnTime;
 	// 内容
