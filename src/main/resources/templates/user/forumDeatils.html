@@ -137,6 +137,12 @@
 							<span class="date" th:text="${#temporals.format(forumData.insertDate,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
 							<span class="category"th:each="tips:${forumData.forumTipNames}" th:utext="'<a href=\'#\'>'+${tips}+'</a>'" ></span>
 							<span class="comments"><a href="#" th:text="${forumData.forumReplys}">回复数字段444</a></span>
+							<a  th:if="${forumData.canThumbUp ne 1}" th:id="'forumUp'+${forumData.id}"  class="fa fa-thumbs-o-up" style="color: #8cd24e;text-decoration:none;" th:onclick="'forumUp($(this),'+${forumData.id}+')'"></a>
+							<a  th:if="${forumData.canThumbUp eq 1}" th:id="'forumUp'+${forumData.id}" class="fa fa-thumbs-up" style="color: #8cd24e;text-decoration:none;" th:onclick="'forumUpCancel($(this),'+${forumData.id}+')'"></a>
+							<a th:id="'forum'+${forumData.id}" th:text="${forumData.forumThumbs}"></a>
+							<a th:if="${forumData.canThumbUp eq 2}" th:id="'forumDown'+${forumData.id}" class="fa fa-thumbs-down" style="text-decoration:none;" th:onclick="'forumDownCancel($(this),'+${forumData.id}+')'"></a>
+							<a th:if="${forumData.canThumbUp ne 2}"  th:id="'forumDown'+${forumData.id}" class="fa fa-thumbs-o-down" style="text-decoration:none;" th:onclick="'forumDown($(this),'+${forumData.id}+')'"></a>
+
 							<!-- 论坛点赞内容
 							<a class="fa fa-thumbs-up" id="up1" style="color: #8cd24e;text-decoration:none;" onclick="thumbsCancel($(this),1)"></a>
 							<a id="thumbs1">1</a>
@@ -317,7 +323,7 @@
 
 <script type="text/javascript">
     function thumbs(doc,replyId) {
-        debugger;
+
         doc.attr("class","fa fa-thumbs-up");
         doc.attr("onclick","thumbsCancel($(this),"+replyId+")");
         var reId = 'thumbs'+replyId;
@@ -356,7 +362,7 @@
     }
     function thumbsDown(doc,replyId) {
         doc.attr("class","fa fa-thumbs-down");
-        doc.attr("onclick","thumbsCancel($(this),"+replyId+")");
+        doc.attr("onclick","thumbsDownCancel($(this),"+replyId+")");
         var reId = 'thumbs'+replyId;
         var $k = $("#"+reId);
         var t = $k.text();
@@ -378,7 +384,7 @@
     }
     function thumbsDownCancel(doc,replyId) {
         doc.attr("class","fa fa-thumbs-o-down");
-        doc.attr("onclick","thumbs($(this),"+replyId+")");
+        doc.attr("onclick","thumbsDown($(this),"+replyId+")");
         var reId = 'thumbs'+replyId;
         var $k = $("#"+reId);
         var t = $k.text();
@@ -387,6 +393,80 @@
             url:"/thumbUp/cancel",
             method:"get",
             data:{"replyId":replyId},
+            dataType:"json"
+        })
+    }
+    function forumUp(doc,replyId) {
+
+        doc.attr("class","fa fa-thumbs-up");
+        doc.attr("onclick","forumUpCancel($(this),"+replyId+")");
+        var reId = 'forum'+replyId;
+        var $k = $("#"+reId);
+        var t = $k.text();
+
+        var down = 'forumDown'+ replyId;
+        var $down = $("#"+down);
+        if ($down.attr('class')=="fa fa-thumbs-down"){
+            $k.text(parseInt(t) +2);
+        }else {
+            $k.text(parseInt(t) +1);
+        }
+        $down.attr("class","fa fa-thumbs-o-down");
+        $down.attr("onclick","forumDown($(this),"+replyId+")");
+        $.ajax({
+            url:"/thumbUp/up",
+            method:"get",
+            data:{"forumId":replyId},
+            dataType:"json"
+        })
+    }
+    function forumUpCancel(doc,replyId) {
+        doc.attr("class","fa fa-thumbs-o-up");
+        doc.attr("onclick","forumUp($(this),"+replyId+")");
+        var reId = 'forum'+replyId;
+        var $k = $("#"+reId);
+        var t = $k.text();
+        $k.text(parseInt(t) -1);
+        $.ajax({
+            url:"/thumbUp/cancel",
+            method:"get",
+            data:{"forumId":replyId},
+            dataType:"json"
+        })
+    }
+    function forumDown(doc,replyId) {
+        doc.attr("class","fa fa-thumbs-down");
+        doc.attr("onclick","forumDownCancel($(this),"+replyId+")");
+        var reId = 'forum'+replyId;
+        var $k = $("#"+reId);
+        var t = $k.text();
+        var up = 'forumUp'+ replyId;
+        var $up = $("#"+up);
+        if ($up.attr('class')=="fa fa-thumbs-up"){
+            $k.text(parseInt(t) -2);
+        }else {
+            $k.text(parseInt(t) -1);
+        }
+        $up.attr("class","fa fa-thumbs-o-up");
+        $up.attr("onclick","forumUp($(this),"+replyId+")");
+        $.ajax({
+            url:"/thumbUp/up",
+            method:"get",
+            data:{"forumId":replyId},
+            dataType:"json"
+        })
+    }
+    function forumDownCancel(doc,replyId) {
+        doc.attr("class","fa fa-thumbs-o-down");
+        doc.attr("onclick","forumDown($(this),"+replyId+")");
+        var reId = 'forum'+replyId;
+        var $k = $("#"+reId);
+        var t = $k.text();
+        $k.text(parseInt(t) +1);
+        $.ajax({
+            url:"/thumbUp/cancel",
+            method:"get",
+            data:{"forumId":replyId},
             dataType:"json"
         })
     }

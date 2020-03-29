@@ -117,6 +117,23 @@ public class ForumController extends BaseController{
 		byId.setForumThumbs(Integer.valueOf(split[0]));
 		byId.setForumClicks(i);
 		byId.setForumReplys(Integer.valueOf(split[2]));
+		// 点赞内容
+		String forumResultString =  (String)redisTemplate.opsForHash().get(RedisKeyEnum.THUMB_UP_FORUM, userId);
+		Set<Integer> forumResult = StringUtil.stringToSet(forumResultString);
+		String forumDownString =  (String)redisTemplate.opsForHash().get(RedisKeyEnum.THUMB_DOWN_FORUM, userId);
+		Set<Integer> forumDown = StringUtil.stringToSet(forumDownString);
+		if (forumResult != null && forumResult.contains(byId.getId()) ) {
+			byId.setCanThumbUp(1);
+		}else if (forumDown != null && forumDown.contains(byId.getId())){
+			byId.setCanThumbUp(2);
+		}else {
+			Integer canThumbUp = iThumbUpService.getCanThumbUp(userId, byId.getId());
+			if (canThumbUp==null){
+				byId.setCanThumbUp(0);
+			}else {
+				byId.setCanThumbUp(canThumbUp);
+			}
+		}
 		mav.getModel().put("forumData",byId);
 		QueryWrapper<Reply> replyQueryWrapper = new QueryWrapper<>();
 		replyQueryWrapper.eq("forum_id",id);

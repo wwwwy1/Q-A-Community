@@ -5465,6 +5465,95 @@ class Trie {
 		}
 		return sum-ans+n-flag;
 	}
+	public int maxDistance(int[][] grid) {
+		List<int[]> hy = new ArrayList<>();
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j]==0){
+					hy.add(new int[]{i,j});
+				}
+			}
+		}
+		int ans = -1;
+		for (int i = 0; i < hy.size(); i++) {
+			int dict = bfs1162(hy.get(i), grid);
+			ans = Math.max(dict,ans);
+		}
+		return ans;
+	}
+	public int bfs1162(int[] hy,int[][] grid){
+		Queue<int[]> queue = new LinkedList<>();
+		boolean[][] vis = new boolean[grid.length][grid[0].length];
+		queue.offer(hy);
+		vis[hy[0]][hy[1]]=true;
+		int flag = 0;
+		while (!queue.isEmpty()){
+			flag++;
+			int n = queue.size();
+			for (int i = 0; i < n; i++) {
+				int[] remove = queue.remove();
+				if (vis[remove[0]][remove[1]]){
+					continue;
+				}else {
+					vis[remove[0]][remove[1]] = true;
+				}
+				if (remove[0]-1>=0){
+					if (grid[remove[0]-1][remove[1]]==1){
+						return flag;
+					}else {
+						queue.offer(new int[]{remove[0]-1,remove[1]});
+					}
+				}
+				if (remove[0]+1<grid.length){
+					if (grid[remove[0]+1][remove[1]]==1){
+						return flag;
+					}else {
+						queue.offer(new int[]{remove[0]+1,remove[1]});
+					}
+				}
+				if (remove[1]+1<grid[0].length){
+					if (grid[remove[0]][remove[1]+1]==1){
+						return flag;
+					}else {
+						queue.offer(new int[]{remove[0],remove[1]+1});
+					}
+				}
+				if (remove[1]-1>=0){
+					if (grid[remove[0]][remove[1]-1]==1){
+						return flag;
+					}else {
+						queue.offer(new int[]{remove[0],remove[1]-1});
+					}
+				}
+			}
+		}
+		return -1;
+	}
+	public int findLucky(int[] arr) {
+		int[] dict = new int[550];
+		for (int i = 0; i < arr.length; i++) {
+			dict[arr[i]]++;
+		}
+		for (int i = 549; i >=0; i--) {
+			if (dict[i]==i)return i;
+		}
+		return -1;
+	}
+	public int numTeams(int[] rating) {
+		int ans = 0;
+		for (int i = 0; i < rating.length; i++) {
+			for (int j = i+1; j < rating.length; j++) {
+				for (int k = j+1; k < rating.length; k++) {
+					if (rating[i]>rating[j] && rating[j]>rating[k]){
+						ans++;
+					}else if (rating[i]<rating[j] && rating[j]<rating[k]){
+						ans++;
+					}
+				}
+			}
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
@@ -5472,7 +5561,7 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
 
-		System.out.println(t.minimumLengthEncoding(new String[]{"time", "time", "time", "time"}));
+		System.out.println(t.numTeams(new int[]{1,2,3,4}));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
