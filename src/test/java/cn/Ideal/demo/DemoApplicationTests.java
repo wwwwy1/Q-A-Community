@@ -5554,6 +5554,19 @@ class Trie {
 		}
 		return ans;
 	}
+	public int lastRemaining(int n, int m) {
+		ArrayList<Integer> list = new ArrayList<>(n);
+		for (int i = 0; i < n; i++) {
+			list.add(i);
+		}
+		int idx = 0;
+		while (n > 1) {
+			idx = (idx + m - 1) % n;
+			list.remove(idx);
+			n--;
+		}
+		return list.get(0);
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
@@ -5561,8 +5574,8 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
 
-		//System.out.println(t.numTeams(new int[]{1,2,3,4}));
-		System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
+		System.out.println(t.lastRemaining(5,3));
+		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 

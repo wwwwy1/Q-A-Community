@@ -198,8 +198,13 @@ public enum  LearnLog {
 	LearnConcurrent140("2020/03/28","日常刷题+规划任务！！！"),
 	// 明天早上刷题周赛+点赞！！！
 	// 下午补充点赞+搜索分页接口
-	LearnConcurrent141("2020/03/29","周赛+点赞内容+搜索的分词");
+	LearnConcurrent141("2020/03/29","周赛+点赞内容+搜索的分词"),
 	// 明天完成搜索+两个分页功能
+	LearnConcurrent142("2020/03/30","日常刷题+投简历");
+
+
+
+	/*(insertDate:[2020-02-18T00:00:00Z TO 2020-02-18T23:59:59Z]) AND (forumContent:接着) AND (forumTipNames:"数据库")  关联词大写！！！*/
 	// 时间
 	private final String learnTime;
 	// 内容
