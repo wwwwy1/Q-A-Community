@@ -85,7 +85,7 @@ public class StringUtil {
 		while(m.find()){
 			list.add(m.group().substring(1, m.group().length()-1));
 		}
-		return list;
+		return list.size()==0?null:list;
 	}
 	// 获取中引号中的内容
 	public static List<String> extractMessageByQuotationMarks(String msg){
@@ -95,7 +95,7 @@ public class StringUtil {
 		while (m.find()) {
 			list.add(m.group().trim().replace("\"",""));
 		}
-		return list;
+		return list.size()==0?null:list;
 	}
 	// 获取时间
 	public static List<String> extractMessageByTime(String msg){

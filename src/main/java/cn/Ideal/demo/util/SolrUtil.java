@@ -74,7 +74,7 @@ public class SolrUtil {
 		}
 		q.set("qf","jobName^3 companyName^5");
 		//开始页数
-		q.setStart(current); //需要-1
+		q.setStart(current*pageSize);
 		//每页显示条数
 		q.setRows(pageSize);
 		// 开启高亮

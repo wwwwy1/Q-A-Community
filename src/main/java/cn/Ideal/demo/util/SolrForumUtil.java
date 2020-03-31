@@ -65,6 +65,10 @@ public class SolrForumUtil {
 		List<String> questionKey = StringUtil.extractMessageByQuotationMarks(keywords);
 		List<String> timeKey = StringUtil.extractMessageByTime(keywords);
 		StringBuilder sb = new StringBuilder();
+		if (tagsKey==null && questionKey == null && timeKey == null){
+			sb.append(" ((forumContent:\""+keywords+"\") ");
+			sb.append(" OR (forumTitle:\""+keywords+"\"))");
+		}
 		if (tagsKey!=null){
 			for (int i = 0; i < tagsKey.size(); i++) {
 				if (sb.length()!=0){
@@ -77,10 +81,12 @@ public class SolrForumUtil {
 		if (questionKey!=null){
 			for (int i = 0; i < questionKey.size(); i++) {
 				if (sb.length()!=0){
-					sb.append(" AND (forumContent:\""+questionKey.get(i)+"\") ");
-					sb.append(" AND (forumTitle:\""+questionKey.get(i)+"\")");
+					sb.append(" AND ((forumContent:\""+questionKey.get(i)+"\") ");
+					sb.append(" OR (forumTitle:\""+questionKey.get(i)+"\"))");
 				}else {
-					sb.append("(forumContent:\""+questionKey.get(i)+"\") ");
+					sb.append("((forumContent:\""+questionKey.get(i)+"\") ");
+					sb.append(" OR (forumTitle:\""+questionKey.get(i)+"\"))");
+
 				}
 			}
 		}
@@ -94,27 +100,19 @@ public class SolrForumUtil {
 		}
 		// sb 就是query字段！！！
 		SolrQuery q = new SolrQuery();
-		String keyWordsEnd = "";
-		if (StringUtil.isNullOrSpace(keyWordsEnd)){
+
+		if (StringUtil.isNullOrSpace(keywords)){
 			q.setQuery("*")	;
-		} else if (!StringUtil.isNullOrSpace(keywords)){
-			keyWordsEnd = "forumTitle:" + keywords + " OR forumContent:"+keywords ;
-			q.setQuery(keyWordsEnd);
-			// 高亮字段
-			q.addHighlightField("forumTitle");
-			// 高亮字段
-			q.addHighlightField("forumContent");
 		} else {
-			keyWordsEnd = "forumTitle:" + keywords + " OR forumContent:"+keywords;
-			q.setQuery(keyWordsEnd);
+			q.setQuery(sb.toString());
 			// 高亮字段
 			q.addHighlightField("forumTitle");
 			// 高亮字段
 			q.addHighlightField("forumContent");
 		}
-		q.set("qf","jobName^3 companyName^5");
+		q.set("qf","forumTitle^3 forumContent^5");
 		//开始页数
-		q.setStart(current-1); //需要-1
+		q.setStart((current-1)*pageSize);
 		//每页显示条数
 		q.setRows(pageSize);
 		// 开启高亮
@@ -157,7 +155,7 @@ public class SolrForumUtil {
 			forum.setUpdateDate(((Date) solrDocument.get("updateDate")).toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime());
 			forums.add(forum);
 		}
-		SolrPage<Forum> jobsSolrPage = new SolrPage<Forum>(forums,current+1,((pageAll%pageSize)==0?pageAll/pageSize:pageAll/pageSize+1));
+		SolrPage<Forum> jobsSolrPage = new SolrPage<Forum>(forums,current,((pageAll%pageSize)==0?pageAll/pageSize:pageAll/pageSize+1));
 		return jobsSolrPage;
 	}
 	public static <T> boolean saveOrUpdate(T entity) throws SolrServerException, IOException {

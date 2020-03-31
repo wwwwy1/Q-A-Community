@@ -5574,8 +5574,95 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
 
-		System.out.println(t.lastRemaining(5,3));
+		//System.out.println(t.lastRemaining(5,3));
 		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
+		int[] arr = {1,3,5,3,2,5,1,4,6};
+		t.heapSort(arr);
+		t.quick_sort(arr,0,arr.length-1);
+		t.mergeSort(arr,0,arr.length-1);
+
+		System.out.println(Arrays.toString(arr));
+	}
+	public void swap(int[] nums, int i, int j) {
+		int temp = nums[i];
+		nums[i] = nums[j];
+		nums[j] = temp;
+	}
+
+	// 快排
+	public void quickSort(int[] nums, int left, int right) {
+		if (left >= right) return;
+		int lo = left+1;               // 小于分界点元素的最右侧的指针
+		int hi = right;                // 大于分界点元素的最左侧的指针
+		while (lo<=hi) {
+			if (nums[lo]>nums[left]) { // 交换元素确保左侧指针指向元素小于分界点元素
+				swap(nums, lo, hi);
+				hi--;
+			} else {
+				lo++;
+			}
+		}
+		lo--;                          // 回到小于分界点元素数组的最右侧
+		swap(nums, left, lo);          // 将分界点元素移到左侧数组最右侧
+		quickSort(nums, left, lo-1);
+		quickSort(nums, lo+1, right);
+	}
+
+	// 归并
+	public void mergeSort(int[] nums, int left, int right) {  // 需要左右边界确定排序范围
+		if (left >= right) return;
+		int mid = (left+right) / 2;
+
+		mergeSort(nums, left, mid);                           // 先对左右子数组进行排序
+		mergeSort(nums, mid+1, right);
+
+		int[] temp = new int[right-left+1];                   // 临时数组存放合并结果
+		int i=left,j=mid+1;
+		int cur = 0;
+		while (i<=mid&&j<=right) {                            // 开始合并数组
+			if (nums[i]<=nums[j]) temp[cur] = nums[i++];
+			else temp[cur] = nums[j++];
+			cur++;
+		}
+		while (i<=mid) temp[cur++] = nums[i++];
+		while (j<=right) temp[cur++] = nums[j++];
+
+		for (int k = 0; k < temp.length; k++) {             // 合并数组完成，拷贝到原来的数组中
+			nums[left+k] = temp[k];
+		}
+	}
+	// 堆排
+	public void heapSort(int[] nums) {
+		heapify(nums);                                 // 新建一个最大堆
+		for (int i = nums.length - 1; i >= 1; i--) {
+			swap(nums, 0, i);                       // 弹出最大堆的堆顶放在最后
+			rebuildHeap(nums, 0,i-1);          // 重建最大堆
+		}
+	}
+	private void heapify(int[] nums) {
+		for (int i = 1; i < nums.length; i++) {
+			int par = (i-1)>>1;                       // 找到父节点
+			int child = i;                            // 定义子节点
+			while (child>0&&nums[par]<nums[child]) {  // 从子节点到根节点构建最大堆
+				swap(nums, par, child);
+				child = par;
+				par = (par-1) >> 1;
+			}
+		}
+	}
+	private void rebuildHeap(int[] nums, int par, int last) {
+		int left = 2*par+1;                           // 左子节点
+		int right = 2*par+2;                          // 右子节点
+		int maxIndex = left;
+
+		if (right<=last && nums[right]>nums[left]) {  // 找到最大子节点
+			maxIndex = right;
+		}
+
+		if (left<=last && nums[par] < nums[maxIndex]) {// 和最大子节点比较
+			swap(nums, par, maxIndex);                 // 互换到最大子节点
+			rebuildHeap(nums, maxIndex, last);         // 重建最大子节点代表的子树
+		}
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 

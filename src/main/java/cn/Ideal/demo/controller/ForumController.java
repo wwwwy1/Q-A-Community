@@ -43,7 +43,7 @@ public class ForumController extends BaseController{
 	private IReplyService iReplyService;
 	@Autowired
 	private IThumbUpService iThumbUpService;
-	public static final Integer PAGE_SIZE = 10;
+	public static final Integer PAGE_SIZE = 5;
 
 	@ResponseBody
 	@PostMapping("/forum/add")
@@ -94,6 +94,7 @@ public class ForumController extends BaseController{
 		//if (StringUtil.isNullOrSpace(userId)) return new Result("未登录",400,null);
 		SolrPage page = iForumService.page(userId,keyWords, current, PAGE_SIZE);
 		mav.setViewName("/user/forum");
+		page.setKeyWords(StringUtil.isNullOrSpace(keyWords)?null:keyWords);
 		mav.getModel().put("data",page);
 		return mav;
 	}

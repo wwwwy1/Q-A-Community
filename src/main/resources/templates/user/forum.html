@@ -82,7 +82,7 @@
 					<h1 align="center">Have a Question?</h1>
 					<p align="right">这里有你需要的答案</p>
 					<div class="input-group container">
-						<input id="Fsearch" style="width: 70%; height: 50px;border-radius: 5px;" type="text" class="form-control" placeholder="Search for...">
+						<input id="Fsearch" style="width: 70%; height: 50px;border-radius: 5px;" type="text" class="form-control" th:value="${data.keyWords}" placeholder="Search for...">
 						<button class="btn btn-default" onclick="search2()" type="button" style="height: 50px;border-radius: 5px;width: 80px;">Go!</button>
 					</div>
 				</div>
@@ -99,7 +99,7 @@
 					</div>
 					<div>
 						<article class="type-post format-title  hentry" th:each="data:${data.data}">
-							<h3 class="post-title"><a th:href="'/user/forum/'+${data.id}" th:text="${data.forumTitle}">标题字段111</a></h3>
+							<h3 class="post-title"><a th:href="'/user/forum/'+${data.id}" th:utext="${data.forumTitle}">标题字段111</a></h3>
 							<div class="post-meta ">
 								<span class="date" th:text="${#temporals.format(data.insertDate,'yyyy-MM-dd HH:mm:ss')}">日期字段222</span>
 								<span class="category"th:each="tips:${data.forumTipNames}" th:utext="'<a href=\'#\'>'+${tips}+'</a>'" ></span>
@@ -107,11 +107,11 @@
 								<span style="padding-left:0px;" th:utext="'<i class=\'fa fa-eye\'> </i>' + '  '+${data.forumClicks}">144 浏览</span>
 								<span class="" th:classappend="${data.canThumbUp}==1?'myThumbed':'like-count'" th:onclick="${data.canThumbUp}==1?'thumbsCancel($(this),'+${data.id}+')':'thumbs($(this),'+${data.id}+')'" th:text="${data.forumThumbs}">点赞字段555</span>
 							</div>
-							<p th:text="${data.abbreviationContent}">&nbsp;&nbsp;&nbsp;&nbsp;主要内容字段666...
+							<p th:utext="${data.abbreviationContent}">&nbsp;&nbsp;&nbsp;&nbsp;主要内容字段666...
 								<a href="forumDeatils.html">Read more</a>
 							</p>
 						</article>
-						<article class=" type-post format-image hentry">
+						<!--<article class=" type-post format-image hentry">
 							<h3 class="post-title"><a href="forumDeatils.html">图片</a></h3>
 							<div class="post-meta ">
 								<span class="date">2013/09/02</span>
@@ -123,9 +123,83 @@
 							<p>&nbsp;&nbsp;&nbsp;&nbsp;我国古代家具主要有席、床、屏风、镜台、桌、椅、柜等。席子，是最古老、最原始的家具，最早由树叶编织而成，后来大都由芦苇、竹篾编成。古人常“席地而坐”，足见席子的应用是很广泛的。床，是席子以后最早出现的家具。一开始，床极矮，古人读书、写字、饮食、睡觉几乎都在床上进行。《孔雀东南飞》：“阿母得闻之，槌床便大怒。”诗中的“床”指的是坐具。和这种矮床配合用的家具有几、案、屏风等。还有一种矮榻常与床并用，故有“床榻”之称。魏晋南北朝以后，床的高度与今天的床差不多，成为专供睡觉的家具。唐宋以来，高型家具广泛普及，有床、桌、椅、凳、高几、长案、柜、衣架、巾架、屏风、盆架、镜台等，种类繁多，品种齐全。各个朝代的家具，都讲究工艺手法，力求图案丰富、雕刻精美，表现出浓厚的中国传统气派，成了我国传统文化的一个组成部分...
 								<a href="#">Read more</a>
 							</p>
-						</article>
+						</article>-->
 						<div id="result">
-
+							<div class="pagination" style="margin:0 auto;" th:if="${data.pages &gt; 10}">
+								<ul class="pagination pagination-outline">
+									<li class="page-first disabled" th:if="${data.pageNum eq 1}"><a th:href="'/user/forum?current=' + '1' +'&keyWords='+${keyWords}+'&location='+${location} " href="javascript:void(0)">«</a>
+									</li>
+									<li class="page-first " th:if="${data.pageNum ne 1}"><a th:href="'/user/forum?current=' + '1' +'&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">«</a>
+									</li>
+									<li class="page-pre " th:if="${data.pageNum ne 1}"><a th:href="'/user/forum?current=' + ${data.pageNum - 1} + '&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">‹</a>
+									</li>
+									<li class="page-pre disabled" th:if="${data.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
+									</li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &lt; 5}" th:each="pageNum:${#numbers.sequence(1,5)}">
+									<li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+									<li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/forum?current='+ ${pageNum}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${pageNum}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &lt; 5}">
+									<li class="page-number" ><a href="javascript:void(0)">...</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pages}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pages}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &gt; data.pages-4}">
+									<li class="page-number"><a th:href="'/user/forum?current=1&keyWords='+${keyWords}+'&location='+${location}" >1</a></li>
+									<li class="page-number" ><a href="javascript:void(0)">...</a></li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &gt; data.pages-4}" th:each="pageNum:${#numbers.sequence(data.pages-4,data.pages)}">
+									<li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+									<li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/forum?current='+ ${pageNum}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${pageNum}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &gt; 4 and data.pageNum &lt; data.pages-3}">
+									<li class="page-number"><a th:href="'/user/forum?current=1&keyWords='+${keyWords}+'&location='+${location}" th:text="1">pageNum</a></li>
+									<li class="page-number" ><a href="javascript:void(0)">...</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pageNum-2}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum-2}">pageNum</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pageNum-1}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum-1}">pageNum</a></li>
+									<li class="page-number active" ><a href="javascript:void(0)" th:text="${data.pageNum}"></a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pageNum+1}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum+1}">pageNum</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pageNum+2}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum+2}">pageNum</a></li>
+									<li class="page-number" ><a href="javascript:void(0)">...</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pages}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pages}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline">
+									<li class="page-next disabled" th:if="${data.pageNum} eq ${data.pages}"><a href="javascript:void(0)">›</a>
+									</li>
+									<li class="page-next " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/forum?current=' + ${data.pageNum + 1} + '&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">›</a>
+									</li>
+									<li class="page-last " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/forum?current=' + ${data.pages} +'&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">»</a>
+									</li>
+									<li class="page-last disabled" th:if="${data.pageNum} eq ${data.pages}"><a  href="javascript:void(0)">»</a>
+									</li>
+								</ul>
+							</div>
+							<div class="pagination" style="margin:0 auto;" th:if="${data.pages &lt; 11 and data.pages &gt; 0}">
+								<ul class="pagination pagination-outline">
+									<li class="page-first disabled" th:if="${data.pageNum eq 1}"><a th:href="'/user/forum?current=' + '1' +'&keyWords='+${keyWords}+'&location='+ ${location}  " href="javascript:void(0)">«</a>
+									</li>
+									<li class="page-first " th:if="${data.pageNum ne 1}"><a th:href="'/user/forum?current=' + '1' +'&keyWords='+${keyWords}+'&location='+ ${location}" href="javascript:void(0)">«</a>
+									</li>
+									<li class="page-pre " th:if="${data.pageNum ne 1}"><a th:href="'/user/forum?current=' + ${data.pageNum - 1} + '&keyWords='+${keyWords}+'&location='+ ${location}" href="javascript:void(0)">‹</a>
+									</li>
+									<li class="page-pre disabled" th:if="${data.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
+									</li>
+								</ul>
+								<ul class="pagination pagination-outline"th:each="pageNum:${#numbers.sequence(1, data.pages)}">
+									<li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+									<li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/forum?current=' + ${pageNum} + '&keyWords='+${keyWords}+'&location='+ ${location}" href="/user/page?current=1&pageSize=10" th:text="${pageNum}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline">
+									<li class="page-next disabled" th:if="${data.pageNum} eq ${data.pages}"><a href="javascript:void(0)">›</a>
+									</li>
+									<li class="page-next " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/forum?current=' + ${data.pageNum + 1} + '&keyWords='+${keyWords}+'&location='+ ${location}" href="javascript:void(0)">›</a>
+									</li>
+									<li class="page-last " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/forum?current=' + ${data.pages} +'&keyWords='+${keyWords}+'&location='+ ${location}" href="javascript:void(0)">»</a>
+									</li>
+									<li class="page-last disabled" th:if="${data.pageNum} eq ${data.pages}"><a  href="javascript:void(0)">»</a>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -187,7 +261,7 @@
 	</body>
 	<script type="text/javascript" >
 		function search(kw) {
-		    location.replace("/user/search?keywords="+kw);
+		    location.replace("/user/forum?keyWords="+kw);
         /*$.ajax({
 			url:"/user/search",
             method:"post",
