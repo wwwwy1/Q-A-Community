@@ -5567,6 +5567,21 @@ class Trie {
 		}
 		return list.get(0);
 	}
+	public int[] maxDepthAfterSplit(String seq) {
+		int n = seq.length();
+		int[] ret = new int[n];
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			if (seq.charAt(i)=='('){
+				ans++;
+				ret[i] = ans%2==1?1:0;
+			}else {
+				ret[i] = ans%2==1?1:0;
+				ans--;
+			}
+		}
+		return ret;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};

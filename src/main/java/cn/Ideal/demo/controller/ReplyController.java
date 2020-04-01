@@ -133,7 +133,7 @@ public class ReplyController {
 		int i = Integer.parseInt(split[2]);
 		i++;
 		redisTemplate.opsForHash().put(RedisKeyEnum.FORUM_KEY,String.valueOf(reply.getForumId()),split[0]+","+split[1]+","+i);
-		iReplyService.countReply(reply.getId());
+		iReplyService.countReply(reply.getReplyFather());
 		boolean save = iReplyService.save(reply);
 		if (save){
 			return new Result("新增成功",200,null);

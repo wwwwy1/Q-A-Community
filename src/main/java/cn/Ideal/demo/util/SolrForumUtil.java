@@ -165,6 +165,20 @@ public class SolrForumUtil {
 		client.commit();
 		return true;
 	}
+	public static  boolean addForum(Forum entity) throws SolrServerException, IOException {
+		SolrInputDocument doc = new SolrInputDocument();
+		doc.setField("id",entity.getId());
+		doc.setField("forumContent",entity.getAbbreviationContent());
+		doc.setField("forumTipNames",StringUtil.objectToString(entity.getForumTipNames()));
+		doc.setField("forumTitle",entity.getForumTitle());
+		doc.setField("insertDate",Date.from(entity.getInsertDate().minusDays(7).toInstant(ZoneOffset.UTC)));
+		LocalDateTime updateDate = entity.getUpdateDate()==null?entity.getInsertDate():entity.getUpdateDate();
+		doc.setField("updateDate",Date.from(updateDate.minusDays(7).toInstant(ZoneOffset.UTC)));
+		client.add(doc);
+		client.commit();
+		return true;
+	}
+
 	public static boolean deleteAll() {
 		try {
 			client.deleteByQuery("*");

@@ -53,103 +53,107 @@ public class ScheduleTask {
 	public void redisDataToMySQL() {
 		//插入用户已经点赞的文章
 		Map<Object, Object> thumbUpForum = redisTemplate.opsForHash().entries(RedisKeyEnum.THUMB_UP_FORUM);//thumbUpReply
-		for (Map.Entry<Object, Object> entry : thumbUpForum.entrySet()) {
-			String userId = (String)entry.getKey();
-			String forumIds = (String)entry.getValue();
-			HashSet<Integer> integers = StringUtil.stringToSet(forumIds);
-			// 待插入数据库
-			for (Integer forumId : integers) {
-				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
-				queryWrapper.eq("user_id",userId).eq("forum_id",forumId);
-				ThumbUp one = iThumbUpService.getOne(queryWrapper);
-				int n = 1;
-				if (one!=null){
-					iThumbUpService.remove(queryWrapper);
-					n++;
-				}
-				iThumbUpService.save(new ThumbUp(userId,forumId,1));
-				// 给用户增加赞（声望）
-				Forum byId = iForumService.getById(forumId);
-				for (int i = 0; i < n; i++) {
-					iUserService.addUserPoint(byId.getUserId());
+		if (thumbUpForum!=null)
+			for (Map.Entry<Object, Object> entry : thumbUpForum.entrySet()) {
+				String userId = (String)entry.getKey();
+				String forumIds = (String)entry.getValue();
+				HashSet<Integer> integers = StringUtil.stringToSet(forumIds);
+				// 待插入数据库
+				for (Integer forumId : integers) {
+					QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
+					queryWrapper.eq("user_id",userId).eq("forum_id",forumId);
+					ThumbUp one = iThumbUpService.getOne(queryWrapper);
+					int n = 1;
+					if (one!=null){
+						iThumbUpService.remove(queryWrapper);
+						n++;
+					}
+					iThumbUpService.save(new ThumbUp(userId,forumId,1));
+					// 给用户增加赞（声望）
+					Forum byId = iForumService.getById(forumId);
+					for (int i = 0; i < n; i++) {
+						iUserService.addUserPoint(byId.getUserId());
+					}
 				}
 			}
-		}
 		//插入用户已经踩的文章
 		Map<Object, Object> thumbDownForum = redisTemplate.opsForHash().entries(RedisKeyEnum.THUMB_DOWN_FORUM);
-		for (Map.Entry<Object, Object> entry : thumbDownForum.entrySet()) {
-			String userId = (String)entry.getKey();
-			String forumIds = (String)entry.getValue();
-			HashSet<Integer> integers = StringUtil.stringToSet(forumIds);
-			// 待插入数据库
-			if(integers != null)
-			for (Integer forumId : integers) {
-				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
-				queryWrapper.eq("user_id",userId).eq("forum_id",forumId);
-				ThumbUp one = iThumbUpService.getOne(queryWrapper);
-				int n = 1;
-				if (one!=null){
-					iThumbUpService.remove(queryWrapper);
-					n++;
-				}
-				iThumbUpService.save(new ThumbUp(userId,forumId,2));
-				// 给用户增加赞（声望）
-				Forum byId = iForumService.getById(forumId);
-				for (int i = 0; i < n; i++) {
-					iUserService.removeUserPoint(byId.getUserId());
+		if (thumbDownForum != null)
+			for (Map.Entry<Object, Object> entry : thumbDownForum.entrySet()) {
+				String userId = (String)entry.getKey();
+				String forumIds = (String)entry.getValue();
+				HashSet<Integer> integers = StringUtil.stringToSet(forumIds);
+				// 待插入数据库
+				if(integers != null)
+				for (Integer forumId : integers) {
+					QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
+					queryWrapper.eq("user_id",userId).eq("forum_id",forumId);
+					ThumbUp one = iThumbUpService.getOne(queryWrapper);
+					int n = 1;
+					if (one!=null){
+						iThumbUpService.remove(queryWrapper);
+						n++;
+					}
+					iThumbUpService.save(new ThumbUp(userId,forumId,2));
+					// 给用户增加赞（声望）
+					Forum byId = iForumService.getById(forumId);
+					for (int i = 0; i < n; i++) {
+						iUserService.removeUserPoint(byId.getUserId());
+					}
 				}
 			}
-		}
 		//插入用户已经点赞的评论
 		Map<Object, Object> thumbUpReply = redisTemplate.opsForHash().entries(RedisKeyEnum.THUMB_UP_REPLY);//thumbUpReply
-		for (Map.Entry<Object, Object> entry : thumbUpReply.entrySet()) {
-			String userId = (String)entry.getKey();
-			String forumIds = (String)entry.getValue();
-			HashSet<Integer> integers = StringUtil.stringToSet(forumIds);
-			// 待插入数据库
-			if (integers!=null)
-			for (Integer id : integers) {
-				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
-				queryWrapper.eq("user_id",userId).eq("reply_id",id);
-				ThumbUp one = iThumbUpService.getOne(queryWrapper);
-				int n = 1;
-				if (one!=null){
-					iThumbUpService.remove(queryWrapper);
-					n++;
-				}
-				iThumbUpService.save(new ThumbUp(userId,0,id,1));
-				// 给用户增加赞（声望）
-				Reply byId = iReplyService.getById(id);
-				for (int i = 0; i < n; i++) {
-					iUserService.addUserPoint(byId.getReplyUserId());
+		if (thumbUpReply!=null)
+			for (Map.Entry<Object, Object> entry : thumbUpReply.entrySet()) {
+				String userId = (String)entry.getKey();
+				String forumIds = (String)entry.getValue();
+				HashSet<Integer> integers = StringUtil.stringToSet(forumIds);
+				// 待插入数据库
+				if (integers!=null)
+				for (Integer id : integers) {
+					QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
+					queryWrapper.eq("user_id",userId).eq("reply_id",id);
+					ThumbUp one = iThumbUpService.getOne(queryWrapper);
+					int n = 1;
+					if (one!=null){
+						iThumbUpService.remove(queryWrapper);
+						n++;
+					}
+					iThumbUpService.save(new ThumbUp(userId,0,id,1));
+					// 给用户增加赞（声望）
+					Reply byId = iReplyService.getById(id);
+					for (int i = 0; i < n; i++) {
+						iUserService.addUserPoint(byId.getReplyUserId());
+					}
 				}
 			}
-		}
 		//插入用户已经踩的评论
 		Map<Object, Object> thumbDownReply = redisTemplate.opsForHash().entries(RedisKeyEnum.THUMB_DOWN_REPLY);//thumbUpReply
-		for (Map.Entry<Object, Object> entry : thumbDownReply.entrySet()) {
-			String userId = (String)entry.getKey();
-			String ids = (String)entry.getValue();
-			HashSet<Integer> integers = StringUtil.stringToSet(ids);
-			// 待插入数据库
-			if (integers!=null)
-			for (Integer id : integers) {
-				QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
-				queryWrapper.eq("user_id",userId).eq("reply_id",id);
-				ThumbUp one = iThumbUpService.getOne(queryWrapper);
-				int n = 1;
-				if (one!=null){
-					iThumbUpService.remove(queryWrapper);
-					n++;
-				}
-				iThumbUpService.save(new ThumbUp(userId,0,id,2));
-				// 给用户增加赞（声望）
-				Reply byId = iReplyService.getById(id);
-				for (int i = 0; i < n; i++) {
-					iUserService.removeUserPoint(byId.getReplyUserId());
+		if (thumbDownReply !=null)
+			for (Map.Entry<Object, Object> entry : thumbDownReply.entrySet()) {
+				String userId = (String)entry.getKey();
+				String ids = (String)entry.getValue();
+				HashSet<Integer> integers = StringUtil.stringToSet(ids);
+				// 待插入数据库
+				if (integers!=null)
+				for (Integer id : integers) {
+					QueryWrapper<ThumbUp> queryWrapper = new QueryWrapper<>();
+					queryWrapper.eq("user_id",userId).eq("reply_id",id);
+					ThumbUp one = iThumbUpService.getOne(queryWrapper);
+					int n = 1;
+					if (one!=null){
+						iThumbUpService.remove(queryWrapper);
+						n++;
+					}
+					iThumbUpService.save(new ThumbUp(userId,0,id,2));
+					// 给用户增加赞（声望）
+					Reply byId = iReplyService.getById(id);
+					for (int i = 0; i < n; i++) {
+						iUserService.removeUserPoint(byId.getReplyUserId());
+					}
 				}
 			}
-		}
 		//更新文章数据库中的赞，点击量，回复数
 		Map<Object, Object> entries = redisTemplate.opsForHash().entries(RedisKeyEnum.FORUM_KEY);
 		for (Map.Entry<Object, Object> entry : entries.entrySet()) {

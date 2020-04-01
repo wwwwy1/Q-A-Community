@@ -8,6 +8,7 @@ import cn.Ideal.demo.entity.User;
 import cn.Ideal.demo.service.*;
 import cn.Ideal.demo.util.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +49,7 @@ public class ForumController extends BaseController{
 
 	@ResponseBody
 	@PostMapping("/forum/add")
-	public Result addForum(HttpServletRequest request, Forum forum){
+	public Result addForum(HttpServletRequest request, Forum forum) throws IOException, SolrServerException {
 		String token = (String) request.getSession().getAttribute("tokenFront");
 		if (StringUtil.isNullOrSpace(token)) return new Result("未登录",400,null);
 		String userId = redisTemplate.opsForValue().get(token);
@@ -58,6 +60,14 @@ public class ForumController extends BaseController{
 		// 添加标签使用次数
 		iTagsService.useTag(forum.getForumTips());
 		iForumService.save(forum);
+		Collection<Tags> tags = iTagsService.listByIds(StringUtil.getIdList(forum.getForumTips()));
+		List<String> tagsList = new ArrayList<>();
+		for (Tags tag : tags) {
+			tagsList.add(tag.getTagsName());
+		}
+		forum.setForumTipNames(tagsList);
+		forum.setAbbreviationContent(StringUtil.ignoreHtml(forum.getForumContent()));
+		SolrForumUtil.addForum(forum);
 		return new Result("添加成功",200,forum);
 	}
 	/*@GetMapping("get")

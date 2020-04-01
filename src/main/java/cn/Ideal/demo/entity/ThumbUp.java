@@ -37,6 +37,9 @@ import java.time.LocalDateTime;
 
     }
 
+    public ThumbUp() {
+    }
+
     private static final long serialVersionUID = 1L;
 
             /**
