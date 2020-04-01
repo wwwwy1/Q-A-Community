@@ -180,6 +180,83 @@
 								<!-- 递进评论 -->
 							</li>
 						</ol>
+						<div id="result">
+							<div class="pagination" style="margin:0 auto;" th:if="${data.pages &gt; 10}">
+								<ul class="pagination pagination-outline">
+									<li class="page-first disabled" th:if="${data.pageNum eq 1}"><a th:href="'/user/forum?current=' + '1' +'&keyWords='+${keyWords}+'&location='+${location} " href="javascript:void(0)">«</a>
+									</li>
+									<li class="page-first " th:if="${data.pageNum ne 1}"><a th:href="'/user/forum?current=' + '1' +'&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">«</a>
+									</li>
+									<li class="page-pre " th:if="${data.pageNum ne 1}"><a th:href="'/user/forum?current=' + ${data.pageNum - 1} + '&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">‹</a>
+									</li>
+									<li class="page-pre disabled" th:if="${data.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
+									</li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &lt; 5}" th:each="pageNum:${#numbers.sequence(1,5)}">
+									<li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+									<li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/forum?current='+ ${pageNum}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${pageNum}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &lt; 5}">
+									<li class="page-number" ><a href="javascript:void(0)">...</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pages}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pages}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &gt; data.pages-4}">
+									<li class="page-number"><a th:href="'/user/forum?current=1&keyWords='+${keyWords}+'&location='+${location}" >1</a></li>
+									<li class="page-number" ><a href="javascript:void(0)">...</a></li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &gt; data.pages-4}" th:each="pageNum:${#numbers.sequence(data.pages-4,data.pages)}">
+									<li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+									<li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/forum?current='+ ${pageNum}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${pageNum}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline" th:if="${data.pageNum &gt; 4 and data.pageNum &lt; data.pages-3}">
+									<li class="page-number"><a th:href="'/user/forum?current=1&keyWords='+${keyWords}+'&location='+${location}" th:text="1">pageNum</a></li>
+									<li class="page-number" ><a href="javascript:void(0)">...</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pageNum-2}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum-2}">pageNum</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pageNum-1}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum-1}">pageNum</a></li>
+									<li class="page-number active" ><a href="javascript:void(0)" th:text="${data.pageNum}"></a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pageNum+1}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum+1}">pageNum</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pageNum+2}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pageNum+2}">pageNum</a></li>
+									<li class="page-number" ><a href="javascript:void(0)">...</a></li>
+									<li class="page-number"><a th:href="'/user/forum?current='+ ${data.pages}+'&keyWords='+${keyWords}+'&location='+${location}" th:text="${data.pages}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline">
+									<li class="page-next disabled" th:if="${data.pageNum} eq ${data.pages}"><a href="javascript:void(0)">›</a>
+									</li>
+									<li class="page-next " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/forum?current=' + ${data.pageNum + 1} + '&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">›</a>
+									</li>
+									<li class="page-last " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/forum?current=' + ${data.pages} +'&keyWords='+${keyWords}+'&location='+${location}" href="javascript:void(0)">»</a>
+									</li>
+									<li class="page-last disabled" th:if="${data.pageNum} eq ${data.pages}"><a  href="javascript:void(0)">»</a>
+									</li>
+								</ul>
+							</div>
+							<div class="pagination" style="margin:0 auto;" th:if="${data.pages &lt; 11 and data.pages &gt; 0}">
+								<ul class="pagination pagination-outline">
+									<li class="page-first disabled" th:if="${data.pageNum eq 1}"><a th:href="'/user/forum/'+${forumData.id}+'?current=' + '1'" href="javascript:void(0)">«</a>
+									</li>
+									<li class="page-first " th:if="${data.pageNum ne 1}"><a th:href="'/user/forum/'+${forumData.id}+'?current=' + '1'" href="javascript:void(0)">«</a>
+									</li>
+									<li class="page-pre " th:if="${data.pageNum ne 1}"><a th:href="'/user/forum/'+${forumData.id}+'?current=' + ${data.pageNum - 1}" href="javascript:void(0)">‹</a>
+									</li>
+									<li class="page-pre disabled" th:if="${data.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
+									</li>
+								</ul>
+								<ul class="pagination pagination-outline"th:each="pageNum:${#numbers.sequence(1, data.pages)}">
+									<li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+									<li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/forum/'+${forumData.id}+'?current=' + ${pageNum}" href="/user/page?current=1&pageSize=10" th:text="${pageNum}">pageNum</a></li>
+								</ul>
+								<ul class="pagination pagination-outline">
+									<li class="page-next disabled" th:if="${data.pageNum} eq ${data.pages}"><a href="javascript:void(0)">›</a>
+									</li>
+									<li class="page-next " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/forum/'+${forumData.id}+'?current=' + ${data.pageNum + 1}" href="javascript:void(0)">›</a>
+									</li>
+									<li class="page-last " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/forum/'+${forumData.id}+'?current=' + ${data.pages}" href="javascript:void(0)">»</a>
+									</li>
+									<li class="page-last disabled" th:if="${data.pageNum} eq ${data.pages}"><a  href="javascript:void(0)">»</a>
+									</li>
+								</ul>
+							</div>
+						</div>
 						<div>
 							<h3>发表评论</h3>
 							<div id="my-editormd">

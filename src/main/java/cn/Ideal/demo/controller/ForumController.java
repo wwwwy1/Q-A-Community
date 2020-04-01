@@ -8,6 +8,8 @@ import cn.Ideal.demo.entity.User;
 import cn.Ideal.demo.service.*;
 import cn.Ideal.demo.util.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -109,7 +111,8 @@ public class ForumController extends BaseController{
 		return mav;
 	}
 	@GetMapping(value = "/user/forum/{id}")
-	public ModelAndView goForum(ModelAndView mav,@PathVariable Integer id,HttpServletRequest request){
+	public ModelAndView goForum(ModelAndView mav,@PathVariable Integer id,HttpServletRequest request,
+								@RequestParam(value = "current",defaultValue = "1",required = false)Integer current){
 		String userId = null;
 		String token = (String) request.getSession().getAttribute("tokenFront");
 		if (StringUtil.isNullOrSpace(token)) {
@@ -149,7 +152,9 @@ public class ForumController extends BaseController{
 		QueryWrapper<Reply> replyQueryWrapper = new QueryWrapper<>();
 		replyQueryWrapper.eq("forum_id",id);
 		replyQueryWrapper.eq("reply_father",0);
-		List<Reply> list = iReplyService.list(replyQueryWrapper);
+		IPage<Reply> page = new Page<>(current,PAGE_SIZE);
+		IPage<Reply> pageRet = iReplyService.page(page, replyQueryWrapper);
+		List<Reply> list = pageRet.getRecords();
 		for (Reply reply : list) {
 			User byId1 = iUserService.getById(reply.getReplyUserId());
 			reply.setUser(byId1);
@@ -180,6 +185,10 @@ public class ForumController extends BaseController{
 		}
 
 		mav.getModel().put("replyData",list);
+		SolrPage<Reply> emptyData = new SolrPage<>();
+		emptyData.setPageNum(((Long)pageRet.getCurrent()).intValue());
+		emptyData.setPages(((Long)pageRet.getPages()).intValue());
+		mav.getModel().put("data",emptyData);
 		mav.setViewName("/user/forumDeatils");
 		Collection<Tags> tags = iTagsService.listByIds(StringUtil.getIdList(byId.getForumTips()));
 		List<String> temp = new ArrayList<>();

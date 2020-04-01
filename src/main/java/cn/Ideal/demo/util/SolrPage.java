@@ -11,6 +11,9 @@ public class SolrPage<T> {
 	private Integer pages; // 总页数
 	private String keyWords; // 查询词
 
+	public SolrPage() {
+	}
+
 	public SolrPage(List<T> data, Integer pageNum, Integer pages, String keyWords) {
 		this.data = data;
 		this.pageNum = pageNum;
