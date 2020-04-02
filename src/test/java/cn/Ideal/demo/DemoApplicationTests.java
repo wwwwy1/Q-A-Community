@@ -5582,6 +5582,41 @@ class Trie {
 		}
 		return ret;
 	}
+	// 2 活变到死 -1死变到活
+
+	public void gameOfLife(int[][] board) {
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				int count = 0;
+				if (helper289(board,i-1,j))count++;
+				if (helper289(board,i+1,j))count++;
+				if (helper289(board,i-1,j-1))count++;
+				if (helper289(board,i-1,j+1))count++;
+				if (helper289(board,i+1,j-1))count++;
+				if (helper289(board,i+1,j+1))count++;
+				if (helper289(board,i,j-1))count++;
+				if (helper289(board,i,j+1))count++;
+				if (board[i][j]==1 && (count<=2 || count>3)){
+					board[i][j] = 2;
+				}else if (board[i][j]==0 && count==3){
+					board[i][j] = -1;
+				}
+			}
+		}
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j]==2)board[i][j] = 0;
+				else if (board[i][j]==-1)board[i][j] = 1;
+			}
+		}
+	}
+	public boolean helper289(int[][] board,int r,int l){
+		if (r<0||r>=board.length || l<0||l>=board[r].length){
+			return false;
+		}
+		if (board[r][l]>=1)return true;
+		return false;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};

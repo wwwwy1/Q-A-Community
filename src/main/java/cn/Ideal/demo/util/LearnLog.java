@@ -203,8 +203,8 @@ public enum  LearnLog {
 	LearnConcurrent142("2020/03/30","日常刷题+投简历"),
 	LearnConcurrent143("2020/03/31","论坛帖子分页功能+补充论坛内容"),
 	// 明日工作： 新增论坛帖时，把solr索引也添加上；评论分页；补充论坛与评论内容（评论样式是否需要修改（斟酌一下））
-	LearnConcurrent144("2020/04/01","补充论坛内容+评论分页+评论使用md格式");
-
+	LearnConcurrent144("2020/04/01","补充论坛内容+评论分页+评论使用md格式"),
+	LearnConcurrent145("2020/04/02","日常刷题");
 
 	/*(insertDate:[2020-02-18T00:00:00Z TO 2020-02-18T23:59:59Z]) AND (forumContent:接着) AND (forumTipNames:"数据库")  关联词大写！！！*/
 	// 时间
