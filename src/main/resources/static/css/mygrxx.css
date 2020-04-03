@@ -296,6 +296,14 @@ form.remima p input[type=text]{
 	border: 1px solid #E0E0E0;
 	text-indent: 10px;
 }
+form.remima p input[type=password]{
+	display: inline-block;
+	width: 240px;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #E0E0E0;
+	text-indent: 10px;
+}
 form.remima p img{
 	display: inline-block;
 	margin-left: 10px;

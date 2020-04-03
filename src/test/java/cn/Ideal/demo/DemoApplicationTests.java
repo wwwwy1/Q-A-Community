@@ -5617,6 +5617,43 @@ class Trie {
 		if (board[r][l]>=1)return true;
 		return false;
 	}
+	public int myAtoi(String str) {
+		String trim = str.trim();
+		int flag  = 0;
+		int start = 0;
+
+		if (trim.length()>0 && trim.charAt(0)=='-'){
+			start=1;
+			flag=-1;
+		}else if(trim.length()>0 && trim.charAt(0)=='+'){
+			start=1;
+			flag=1;
+		}
+		StringBuilder sb = new StringBuilder();
+		for (; start < trim.length(); start++) {
+			if (trim.charAt(start)>='0'&&trim.charAt(start)<='9'){
+				sb.append(trim.charAt(start));
+			}
+		}
+		int count = 0;
+		for (int i = 0; i < sb.length(); i++) {
+			if (sb.charAt(i)=='0'){
+				count++;
+			}else {
+				break;
+			}
+		}
+		if (sb.length()-count>=11){
+			if (flag==-1)return Integer.MIN_VALUE;
+			else return Integer.MAX_VALUE;
+		}
+		long v = Long.parseLong(sb.toString());
+		if (v>Integer.MAX_VALUE){
+			v=Integer.MAX_VALUE;
+		}
+		if (flag==-1)v=-v;
+		return ((Long)v).intValue();
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};

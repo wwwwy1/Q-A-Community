@@ -156,7 +156,7 @@
 						<ol class="commentlist">
 							<li class="comment " th:each="value:${replyData}">
 								<article>
-									<a href="#">
+									<a th:href="'/user/otherP/'+${value.user.userName}">
 										<img alt=""    th:src=@{'/images/'+${value.user.userImg}} class="avatar avatar-60 photo" height="60px" width="60px">
 									</a>
 									<div>
