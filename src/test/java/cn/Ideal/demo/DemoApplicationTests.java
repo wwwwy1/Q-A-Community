@@ -5668,6 +5668,114 @@ class Trie {
 		}
 		return ans;
 	}
+
+	public int countLargestGroup(int n) {
+		int[] dict = new int[10000+10];
+		int max = 0;
+		for (int i = 1; i <= n; i++) {
+			int t = i;
+			int sum = 0;
+			while (t!=0){
+				sum+=t%10;
+				t/=10;
+			}
+			dict[sum]++;
+			max = Math.max(dict[sum],max);
+		}
+		int ans = 0;
+		for (int i = 0; i < dict.length; i++) {
+			if (max==dict[i]){
+				ans++;
+			}
+		}
+		return ans;
+	}
+	public boolean canConstruct(String s, int k) {
+		int[] dict = new int[26];
+		int n = s.length();
+		if (n<k)return false;
+		for (int i = 0; i < n; i++) {
+			dict[s.charAt(i)-'a']++;
+		}
+		int t1=0,t2=0;//单个的  两个的
+		for (int i = 0; i < 26; i++) {
+			if (dict[i]!=0){
+				if (dict[i]%2==0){
+					t2+=dict[i]/2;
+				}else if (dict[i]==1){
+					t1++;
+				}else if (dict[i]%2==1){
+					t2+=dict[i]/2;
+					t1++;
+				}
+			}
+		}
+		if (t1>k)return false;
+		return true;
+	}
+	public boolean checkOverlap(int radius, int x_center, int y_center, int x1, int y1, int x2, int y2) {
+		// 左边 x1,y1 - x1 y2  下边 x1.y1 - x2.y1
+		// 右边 x2,y1 - x2 y2  上边 x1.y2 - x2.y2
+		if (x_center+radius>=x1 && x_center+radius<=x2 && y_center+radius>=y1 && y_center+radius<=y2){
+			return true;
+		}
+		for (int i = y1; i <= y2; i++) {
+			if ((x1-x_center)*(x1-x_center)+(i-y_center)*(i-y_center)<=radius*radius){
+				return true;
+			}
+		}
+		for (int i = x1; i <= x2; i++) {
+			if ((i-x_center)*(i-x_center)+(y1-y_center)*(y1-y_center)<=radius*radius){
+				return true;
+			}
+		}
+		for (int i = y1; i <= y2; i++) {
+			if ((x2-x_center)*(x2-x_center)+(i-y_center)*(i-y_center)<=radius*radius){
+				return true;
+			}
+		}
+		for (int i = x1; i <= x2; i++) {
+			if ((i-x_center)*(i-x_center)+(y2-y_center)*(y2-y_center)<=radius*radius){
+				return true;
+			}
+		}
+		return false;
+	}
+	// -1 + 0+9+20
+	// -2 -2 0 12 25
+	// -3 -4 -3 0 15 30
+	public int maxSatisfaction(int[] satisfaction) {
+		Arrays.sort(satisfaction);
+		List<Integer> fushu = new ArrayList<>();
+		List<Integer> zhengshu = new ArrayList<>();
+		int n = satisfaction.length;
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			if (satisfaction[i]>=0){
+				zhengshu.add(satisfaction[i]);
+				ans += zhengshu.size()*satisfaction[i];
+			}else {
+				fushu.add(0,satisfaction[i]);
+			}
+		}
+		for (Integer integer : fushu) {
+			System.out.println(integer);
+		}
+		for (int i = 0; i < fushu.size(); i++) {
+			int flag = 0;
+			int t = 0;
+			for (int j = i; j >= 0; j--) {
+				flag++;
+				t+=flag*fushu.get(j);
+			}
+			for (int j = 0; j < zhengshu.size(); j++) {
+				flag++;
+				t+=flag*zhengshu.get(j);
+			}
+			ans = Math.max(t,ans);
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
