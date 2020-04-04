@@ -32,15 +32,15 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/front/index.html">Y</a>
+				<a class="navbar-brand" href="/user/index">Y</a>
 			</div>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li class="active">
-						<a href="#">首页 <span class="sr-only">(current)</span></a>
+					<li>
+						<a href="/user/index">首页</a>
 					</li>
 					<li>
-						<a href="forum.html">论坛</a>
+						<a href="/user/forum">论坛</a>
 					</li>
 					<li>
 						<a href="/user/contacts">标签</a>
@@ -49,17 +49,14 @@
 						<a href="/user/jobs">工作机会<span class="badge">New</span></a>
 					</li>
 				</ul>
-				<form class="navbar-form navbar-left">
+				<form class="navbar-form navbar-left" method="get" action="/user/forum">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search">
+						<input type="text" name="keyWords" class="form-control" placeholder="Search">
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Daily word:Furious activity is no substitute for understanding</a></li>
-					<!--<li>
-						<a href="#">收藏夹</a>
-					</li>-->
 					<li class="dropdown" th:if="${#strings.isEmpty(session.sessionUserNickname)}">
 						<a href="javascript:void(0)" onclick="openLogin()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/注册 </a>
 					</li>
@@ -75,12 +72,16 @@
 							<li>
 								<a href="/user/taskList">任务清单</a>
 							</li>
+							<li>
+								<a onclick="goLogout()">注销</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+
 	<div class="Bott">
 		<div class="wrapper clearfix">
 			<div class="zuo fl" >
@@ -175,14 +176,14 @@
 
 
 	<div class="side-bar" >
-		<a href="" class="icon-qq">QQ在线咨S询
-			<div class="qq-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="QQ订阅号"></div>
+		<a href="" class="icon-qq">QQ在线
+			<div class="qq-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="QQ"></div>
 		</a>
 		<a href="" class="icon-chat">微信
-			<div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="微信订阅号"></div>
+			<div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="../images/code1.png" alt="微信"></div>
 		</a>
-		<a target="_blank" href="https://weibo.com/" class="icon-blog">微博</a>
-		<a href="mailto:2500233233@qq.com" class="icon-mail">mail</a>
+		<a target="_blank" href="https://github.com/wwwwy1" class="icon-blog">github</a>
+		<a href="mailto:usx16147220@163.com" class="icon-mail">mail</a>
 	</div>
 
 	<nav class="navbar navbar-default navbar-fixed-bottom" id="footer">

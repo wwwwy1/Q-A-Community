@@ -5654,14 +5654,28 @@ class Trie {
 		if (flag==-1)v=-v;
 		return ((Long)v).intValue();
 	}
+	public int trap2(int[] height) {
+		Stack<Integer> stack = new Stack<>();
+		int ans = 0;
+		for (int i = 0; i < height.length; i++) {
+			while (!stack.isEmpty() && height[stack.peek()]<height[i]){
+				Integer pop = stack.pop();
+				if (!stack.isEmpty()){
+					ans = ans+ (Math.min(height[i],height[stack.peek()])-height[pop])*(i-stack.peek()-1);
+				}
+			}
+			stack.push(i);
+		}
+		return ans;
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
 		//t.maxAreaOfIsland(gc);
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
-
-		//System.out.println(t.lastRemaining(5,3));
+		int[] temp = {0,1,0,2,1,0,1,3,2,1,2,1};
+		System.out.println(t.trap2(temp));
 		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
 		int[] arr = {1,3,5,3,2,5,1,4,6};
 		t.heapSort(arr);

@@ -12,7 +12,6 @@
 		<link  th:href="@{/css/style.css}"   href="/static/css/forum.css" rel="stylesheet" type="text/css" media="all" />
 		<link th:href="@{/css/plugins/sweetalert/sweetalert.css}" rel="stylesheet">
 		<script th:src="@{/js/plugins/sweetalert/sweetalert.min.js}"></script>
-
 	</head>
 
 	<body>
@@ -43,17 +42,14 @@
 						<a href="/user/jobs">工作机会<span class="badge">New</span></a>
 					</li>
 				</ul>
-				<form class="navbar-form navbar-left">
+				<form class="navbar-form navbar-left" method="get" action="/user/forum">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Search">
+						<input type="text" name="keyWords" class="form-control" placeholder="Search">
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Daily word:Furious activity is no substitute for understanding</a></li>
-					<!--<li>
-						<a href="#">收藏夹</a>
-					</li>-->
 					<li class="dropdown" th:if="${#strings.isEmpty(session.sessionUserNickname)}">
 						<a href="javascript:void(0)" onclick="openLogin()" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/注册 </a>
 					</li>
@@ -69,6 +65,9 @@
 							<li>
 								<a href="/user/taskList">任务清单</a>
 							</li>
+							<li>
+								<a onclick="goLogout()">注销</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -82,7 +81,7 @@
 					<div class="row">
 						<div class="col-sm-6 b-r">
 							<h3 class="m-t-none m-b">登录</h3>
-							<form role="form">
+
 								<div class="form-group">
 									<label>用户名：</label>
 									<input id="userName" type="text" placeholder="请输入用户名" class="form-control">
@@ -97,7 +96,7 @@
 									<label>
 										<input type="checkbox" class="i-checks">自动登录</label>
 								</div>
-							</form>
+
 						</div>
 						<div class="col-sm-6">
 							<h4>还不是会员？</h4>
@@ -193,14 +192,14 @@
         </table>-->
 	</div>
 	<div class="side-bar" >
-		<a href="" class="icon-qq">QQ在线咨S询
-			<div class="qq-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="QQ订阅号"></div>
+		<a href="" class="icon-qq">QQ在线
+			<div class="qq-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="QQ"></div>
 		</a>
 		<a href="" class="icon-chat">微信
-			<div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="../images/code.jpg" alt="微信订阅号"></div>
+			<div class="chat-tips"><i></i><img style="width:138px;height:138px;" src="../images/code1.png" alt="微信"></div>
 		</a>
-		<a target="_blank" href="https://weibo.com/" class="icon-blog">微博</a>
-		<a href="mailto:2500233233@qq.com" class="icon-mail">mail</a>
+		<a target="_blank" href="https://github.com/wwwwy1" class="icon-blog">github</a>
+		<a href="mailto:usx16147220@163.com" class="icon-mail">mail</a>
 	</div>
 
 	<nav class="navbar navbar-default navbar-fixed-bottom" id="footer">
@@ -217,6 +216,34 @@
 
 </html>
 <script>
+	function goLogout() {
+        $.ajax({
+            url:"/user/logout",
+            method:"get",
+            dataType:"json",
+			success:function (data) {
+                debugger;
+                if (data.code == 200){
+                    swal({
+                        title: "注销成功",
+                        text: "注销成功",
+                        type: "success"
+                    },function () {
+                        window.location = "/user/index";
+                    });
+                } else {
+                    swal({
+                        title: "注销失败",
+                        text: "注销失败！",
+                        type: "warning"
+                    },function () {
+                        $("#resetBtn2 ").click();
+                        $('#upwd').val('');
+                    });
+                }
+            }
+        })
+    }
 	function toLogin() {
         $.ajax({
             url:"/user/loginCheck",
@@ -244,6 +271,9 @@
                 }
             }
         })
+    }
+    function openLogin() {
+        $('#modal-form').modal();
     }
     var cylabel = document.getElementById("cyLabel");
 
@@ -282,8 +312,5 @@
         if (bodyHeight > (iHeight - navHeight)) {
             $("#footer").removeClass("navbar-fixed-bottom");
         }
-    }
-	function openLogin() {
-        $('#modal-form').modal();
     }
 </script>

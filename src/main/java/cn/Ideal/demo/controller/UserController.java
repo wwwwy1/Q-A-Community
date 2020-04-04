@@ -218,4 +218,13 @@ public class UserController {
 			return new Result("更新成功",200,null);
 		}
 	}
+	@GetMapping(value = "logout")
+	public Result logout(HttpServletRequest request){
+		String token = (String) request.getSession().getAttribute("tokenFront");
+		//String userId = redisTemplate.opsForValue().get(token);
+		redisTemplate.delete(token);
+		request.getSession().removeAttribute("tokenFront");
+		request.getSession().removeAttribute("sessionUserNickname");
+		return new Result("注销成功",200,null);
+	}
 }

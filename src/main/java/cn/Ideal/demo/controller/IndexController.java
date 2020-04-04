@@ -20,13 +20,6 @@ public class IndexController {
     public String goLogin(){
         return "/user/login";
     }
-
-
-    @GetMapping(value = "/user/forumLvMsg")
-    public String goForumLvMsg(){
-        return "/user/forumLvMsg";
-    }
-
     @GetMapping(value = "/user/register")
     public String goRegister(){
         return "/user/register";
