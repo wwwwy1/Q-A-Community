@@ -205,7 +205,9 @@ public enum  LearnLog {
 	// 明日工作： 新增论坛帖时，把solr索引也添加上；评论分页；补充论坛与评论内容（评论样式是否需要修改（斟酌一下））
 	LearnConcurrent144("2020/04/01","补充论坛内容+评论分页+评论使用md格式"),
 	LearnConcurrent145("2020/04/02","日常刷题"),
-	LearnConcurrent146("2020/04/03","修改跳转链接以及样式");
+	LearnConcurrent146("2020/04/03","修改跳转链接以及样式"),
+	// 双周赛排名75/2007
+	LearnConcurrent147("2020/04/04","整理前端样式以及leetcode双周赛");
 
 	/*(insertDate:[2020-02-18T00:00:00Z TO 2020-02-18T23:59:59Z]) AND (forumContent:接着) AND (forumTipNames:"数据库")  关联词大写！！！*/
 	// 时间
