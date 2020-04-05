@@ -5776,6 +5776,167 @@ class Trie {
 		}
 		return ans;
 	}
+	public List<Integer> minSubsequence(int[] nums) {
+		int n = nums.length;
+		int max = 0;
+		for (int i = 0; i < n; i++) {
+			max+=nums[n];
+		}
+		Arrays.sort(nums);
+		List<Integer> ans = new ArrayList<>();
+		int temp = 0;
+		for (int i = n-1; i >=0 ; i--) {
+			ans.add(nums[i]);
+			temp+=nums[i];
+			max-=nums[i];
+			if (temp>max)return ans;
+		}
+		return ans;
+	}
+	public int numSteps(String s) {
+		StringBuilder sb = new StringBuilder(s);
+		StringBuilder reverse = sb.reverse();
+		int ans = 0;
+		while (reverse.length()>1){
+			ans++;
+			if (reverse.charAt(0)=='0'){
+				reverse.deleteCharAt(0);
+			}else {
+				int flag = 0;
+				for (int i = 0; i < reverse.length(); i++) {
+					if (reverse.charAt(i)=='0'){
+						reverse.replace(i,i+1,"1");
+						flag=1;
+						break;
+					}else {
+						reverse.replace(i,i+1,"0");
+					}
+				}
+				if (flag==0){
+					reverse.append('1');
+				}
+			}
+		}
+		return reverse.charAt(0)=='1'?ans:ans+1;
+	}
+	public String longestDiverseString(int a, int b, int c) {
+		StringBuilder sb = new StringBuilder();
+		dfs5195(sb,a,b,c);
+
+		return sb.toString();
+	}
+	public void dfs5195(StringBuilder sb,int a,int b,int c){
+		if (a==0 && b==0 && c==0)return;
+		if (sb.length()>0){
+			char c1 = sb.charAt(sb.length()-1);
+			if (c1=='a' && b==0 && c==0)return;
+			if (c1=='b' && a==0 && c==0)return;
+			if (c1=='c' && b==0 && a==0)return;
+		}
+		if (sb.length()==0){
+			if (a>=b && a>=c){
+				if (a>=2) {
+					sb.append("aa");
+					a-=2;
+				}else {
+					sb.append('a');
+					a--;
+				}
+			} else if (b>=a && b>=c){
+				if (b>=2) {
+					sb.append("bb");
+					b-=2;
+				}else {
+					sb.append('b');
+					b--;
+				}
+			}else if (c>=a && c>=b){
+				if (c>=2) {
+					sb.append("cc");
+					c-=2;
+				}else {
+					sb.append('c');
+					c--;
+				}
+			}
+		}else {
+			char last = sb.charAt(sb.length()-1);
+			if (last=='a'){
+				if (b>=c){
+					if (a>b){
+						sb.append('b');
+						b--;
+					}else if (b>=2) {
+						sb.append("bb");
+						b-=2;
+					}else {
+						sb.append('b');
+						b--;
+					}
+				}else {
+					if (a>c){
+						sb.append('c');
+						c--;
+					}else if (c>=2) {
+						sb.append("cc");
+						c-=2;
+					}else {
+						sb.append('c');
+						c--;
+					}
+				}
+			}else if (last=='b'){
+				if (a>=c){
+					if (b>a){
+						sb.append('a');
+						a--;
+					}else if (a>=2) {
+						sb.append("aa");
+						a-=2;
+					}else {
+						sb.append('a');
+						a--;
+					}
+				}else {
+					if (b>c){
+						sb.append('c');
+						c--;
+					}else if (c>=2) {
+						sb.append("cc");
+						c-=2;
+					}else {
+						sb.append('c');
+						c--;
+					}
+				}
+			}else if (last=='c'){
+				if (a>=b){
+					if (c>a){
+						sb.append('a');
+						a--;
+					}else if (a>=2) {
+						sb.append("aa");
+						a-=2;
+					}else {
+						sb.append('a');
+						a--;
+					}
+				}else {
+					if (c>b){
+						sb.append('b');
+						b--;
+					}else if (b>=2) {
+						sb.append("bb");
+						b-=2;
+					}else {
+						sb.append('b');
+						b--;
+					}
+				}
+			}
+		}
+		dfs5195(sb,a,b,c);
+	}
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};
@@ -5783,13 +5944,24 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
 		int[] temp = {0,1,0,2,1,0,1,3,2,1,2,1};
-		System.out.println(t.trap2(temp));
+		//System.out.println(t.numSteps("1101"));
 		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
 		int[] arr = {1,3,5,3,2,5,1,4,6};
 		t.heapSort(arr);
 		t.quick_sort(arr,0,arr.length-1);
 		t.mergeSort(arr,0,arr.length-1);
+		LFUCache cache = new LFUCache( 2 /* capacity (缓存容量) */ );
 
+		cache.put(1, 1);
+		cache.put(2, 2);
+		cache.get(1);       // 返回 1
+		cache.put(3, 3);    // 去除 key 2
+		cache.get(2);       // 返回 -1 (未找到key 2)
+		cache.get(3);       // 返回 3
+		cache.put(4, 4);    // 去除 key 1
+		cache.get(1);       // 返回 -1 (未找到 key 1)
+		cache.get(3);       // 返回 3
+		cache.get(4);       // 返回 4
 		System.out.println(Arrays.toString(arr));
 	}
 	public void swap(int[] nums, int i, int j) {
