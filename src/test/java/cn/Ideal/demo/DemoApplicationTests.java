@@ -5937,6 +5937,7 @@ class Trie {
 		}
 		dfs5195(sb,a,b,c);
 	}
+	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{1,1},{1,0}};

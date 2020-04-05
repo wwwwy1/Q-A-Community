@@ -207,7 +207,9 @@ public enum  LearnLog {
 	LearnConcurrent145("2020/04/02","日常刷题"),
 	LearnConcurrent146("2020/04/03","修改跳转链接以及样式"),
 	// 双周赛排名75/2007
-	LearnConcurrent147("2020/04/04","整理前端样式以及leetcode双周赛");
+	LearnConcurrent147("2020/04/04","整理前端样式以及leetcode双周赛"),
+	// 周赛排名252/3754
+	LearnConcurrent148("2020/04/05","leetcode周赛");
 
 	/*(insertDate:[2020-02-18T00:00:00Z TO 2020-02-18T23:59:59Z]) AND (forumContent:接着) AND (forumTipNames:"数据库")  关联词大写！！！*/
 	// 时间
