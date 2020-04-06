@@ -124,7 +124,7 @@
 					<p align="right">这里有你需要的答案</p>
 					<div class="input-group container">
 						<input id="Fsearch" style="width: 70%; height: 50px;border-radius: 5px;" type="text" class="form-control" placeholder="Search for...">
-						<button class="btn btn-default" type="button" style="height: 50px;border-radius: 5px;width: 80px;">Go!</button>
+						<button class="btn btn-default" type="button" style="height: 50px;border-radius: 5px;width: 80px;" onclick="search2()">Go!</button>
 					</div>
 				</div>
 			</div>
@@ -286,6 +286,10 @@
         function search1() {
 
             search($('#topKey').val());
+        }
+        function search2() {
+            search($('#Fsearch').val());
+
         }
        function goMore(ij){
 
