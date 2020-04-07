@@ -210,7 +210,8 @@ public enum  LearnLog {
 	LearnConcurrent147("2020/04/04","整理前端样式以及leetcode双周赛"),
 	// 周赛排名252/3754
 	LearnConcurrent148("2020/04/05","leetcode周赛"),
-	LearnConcurrent149("2020/04/06","部署服务器环境（redis,jdk,solr中文分词,mysql）,修复搜索功能");
+	LearnConcurrent149("2020/04/06","部署服务器环境（redis,jdk,solr中文分词,mysql）,修复搜索功能"),
+	LearnConcurrent150("2020/04/07","部署项目");
 	/*(insertDate:[2020-02-18T00:00:00Z TO 2020-02-18T23:59:59Z]) AND (forumContent:接着) AND (forumTipNames:"数据库")  关联词大写！！！*/
 	// 时间
 	private final String learnTime;
