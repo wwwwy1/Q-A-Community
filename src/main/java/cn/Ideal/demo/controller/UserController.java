@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("user")
 public class UserController {
-	private final String filePath = "F:\\eimg\\user\\"; // 上传后的路径
-	private final String filePathSrc = "F:/eimg/"; // 无图上传后的路径
+	private final String filePath = "F:\\eimg\\user\\"; // 上传后的路径 //win :F:\\eimg\\user\\  linux:/uar/eimg/user/
+	private final String filePathSrc = "F:\\eimg\\"; // 无图上传后的路径 //win :F:\\eimg\\  linux:/uar/eimg/
 
 	@Autowired
 	private IUserService iUserService;

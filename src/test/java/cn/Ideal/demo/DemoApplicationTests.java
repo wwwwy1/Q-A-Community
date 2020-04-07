@@ -1,13 +1,7 @@
 package cn.Ideal.demo;
 
-import cn.Ideal.demo.util.MxGraphModel;
-import cn.Ideal.demo.util.SensitiveWordsTrie;
-import cn.Ideal.demo.util.StringUtil;
-import cn.Ideal.demo.util.TestXmlClass;
-import com.sun.jmx.remote.internal.ArrayQueue;
-import com.sun.xml.internal.bind.v2.runtime.reflect.ListTransducedAccessorImpl;
+
 import javafx.util.Pair;
-import org.apache.solr.common.util.Hash;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -5970,6 +5964,24 @@ class Trie {
 			}
 		}
 		return D[n][m];
+	}
+	public void rotate(int[][] matrix) {
+		// a[0] -> a[n][length-1]
+		int n1 = matrix.length;
+		int n2 = matrix.length;
+		for (int i = 1; i < n1; i++) {
+			for (int j = 0; j < i; j++) {
+				int t = matrix[i][j];
+				matrix[i][j] = matrix[j][i];
+				matrix[j][i] = t;
+			}
+		}
+		for (int i = 0; i < n1; i++) {
+			for (int j = 0; j < n2; j++) {
+				System.out.print(matrix[i][j]+',');
+			}
+			System.out.println("");
+		}
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {

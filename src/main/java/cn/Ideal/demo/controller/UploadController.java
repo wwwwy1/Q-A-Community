@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/upload")
 public class UploadController {
 	//发布项目后改为项目地址
-	private static String UPLOADED_FOLDER = "F:\\eimg\\ceshi\\";
+	private static String UPLOADED_FOLDER = "F:\\eimg\\ceshi\\";  // win:F:\eimg\ceshi\  linux:/uar/eimg/ceshi/
 
 	@RequestMapping("/uploadImage")
 	@ResponseBody
@@ -31,7 +31,7 @@ public class UploadController {
 					new File(UPLOADED_FOLDER + newFileName));
 			resultMap.put("success", 1);
 			resultMap.put("message", "上传成功！");
-			resultMap.put("url", "http://localhost:8911/images/ceshi/" + newFileName);
+			resultMap.put("url", "http://localhost:8080/images/ceshi/" + newFileName);
 		} catch (Exception e) {
 			resultMap.put("success", 0);
 			resultMap.put("message", "上传失败！");
@@ -40,3 +40,7 @@ public class UploadController {
 		return resultMap;
 	}
 }
+/*
+* 重新启动docker ./重启Tomcat
+*
+* */
