@@ -5983,6 +5983,61 @@ class Trie {
 			System.out.println("");
 		}
 	}
+	public int movingCount(int m, int n, int k) {
+		boolean[][] vis = new boolean[m][n];
+		dfsMst13(vis,0,0,k);
+		int ans = 0;
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				if (vis[i][j]){
+					ans++;
+				}
+			}
+		}
+		return ans;
+	}
+	public void dfsMst13(boolean[][] vis,int m,int n,int k){
+		if (m<0 ||m>=vis.length || n < 0 || n>=vis[m].length)return;
+		int count = 0;
+		int r = m;
+		int l = n;
+		if (vis[m][n])return;
+		while (r!=0){
+			count+=r%10;
+			r/=10;
+		}
+		while (l!=0){
+			count+=l%10;
+			l/=10;
+		}
+		if (count<=k) vis[m][n]=true;
+		else return;
+		dfsMst13(vis,m-1,n,k);
+		dfsMst13(vis,m,n+1,k);
+		dfsMst13(vis,m+1,n,k);
+		dfsMst13(vis,m,n-1,k);
+	}
+	List<String> ans0409;
+	public List<String> generateParenthesis2(int n) {
+		ans0409 = new ArrayList<>();
+		dfs0409(0,n*2,new StringBuilder());
+		return ans0409;
+	}
+	public void dfs0409(int leftCnt,int n,StringBuilder sb){
+		if (sb.length()==n){
+			ans0409.add(sb.toString());
+			return;
+		}
+		if (leftCnt>0){
+			sb.append(')');
+			dfs0409(leftCnt-1,n,sb);
+			sb.deleteCharAt(sb.length()-1);
+		}else {
+			sb.append('(');
+			dfs0409(leftCnt+1,n,sb);
+			sb.deleteCharAt(sb.length()-1);
+		}
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
@@ -5991,7 +6046,7 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
 		int[] temp = {0,1,0,2,1,0,1,3,2,1,2,1};
-		//System.out.println(t.numSteps("1101"));
+		System.out.println(t.movingCount(2,3,1));
 		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
 		int[] arr = {1,3,5,3,2,5,1,4,6};
 		t.heapSort(arr);
