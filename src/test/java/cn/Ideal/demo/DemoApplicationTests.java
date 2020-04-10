@@ -6038,6 +6038,23 @@ class Trie {
 			sb.deleteCharAt(sb.length()-1);
 		}
 	}
+	public String reverseWords2(String s) {
+		String[] split = s.split(" ");
+		List<String> dict = new ArrayList<>();
+		for (int i = 0; i < split.length; i++) {
+			if (!split[i].equals(""))
+				dict.add(split[i]);
+		}
+		StringBuilder ans = new StringBuilder();
+		for (int i = dict.size()-1; i >=0 ; i--) {
+			if (i!=0){
+				ans.append(dict.get(i)+" ");
+			}else {
+				ans.append(dict.get(i));
+			}
+		}
+		return ans.toString();
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
@@ -6046,7 +6063,7 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
 		int[] temp = {0,1,0,2,1,0,1,3,2,1,2,1};
-		System.out.println(t.movingCount(2,3,1));
+		System.out.println(t.reverseWords2("  hello world!  "));
 		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
 		int[] arr = {1,3,5,3,2,5,1,4,6};
 		t.heapSort(arr);
