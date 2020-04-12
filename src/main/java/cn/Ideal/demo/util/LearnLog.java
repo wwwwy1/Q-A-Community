@@ -215,7 +215,8 @@ public enum  LearnLog {
 	// 服务器内存不够。。。solr有时候开不起来。。。
 	LearnConcurrent151("2020/04/09","修复服务器，复习面试题"),
 	LearnConcurrent152("2020/04/10","服务器被挖矿，复习面试题"),
-	LearnConcurrent153("2020/04/11","复习面试题(数据库索引、hashmap)");
+	LearnConcurrent153("2020/04/11","复习面试题(数据库索引、hashmap)"),
+	LearnConcurrent154("2020/04/12","复习面试题以及leetcode周赛");
 	/*(insertDate:[2020-02-18T00:00:00Z TO 2020-02-18T23:59:59Z]) AND (forumContent:接着) AND (forumTipNames:"数据库")  关联词大写！！！*/
 	// 时间
 	private final String learnTime;

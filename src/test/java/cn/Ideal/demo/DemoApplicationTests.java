@@ -6090,6 +6090,54 @@ class Trie {
 
 		return memo.get(N * 100 + K);
 	}
+	public List<String> stringMatching(String[] words) {
+		Set<String> set = new HashSet<>();
+		for (int i = 0; i < words.length; i++) {
+			for (int j = 0; j < words.length; j++) {
+				if (i!=j && words[i].indexOf(words[j])!=-1){
+					set.add(words[j]);
+				}
+			}
+		}
+		List<String> collect = set.stream().collect(Collectors.toList());
+		return collect;
+	}
+	public int[] processQueries(int[] queries, int m) {
+		List<Integer> list = new ArrayList<>();
+		for (int i = 0; i < m; i++) {
+			list.add(i+1);
+		}
+		int[] ans = new int[queries.length];
+		for (int i = 0; i < queries.length; i++) {
+			for (int j = 0; j < m; j++) {
+				if (list.get(j).equals(queries[i])){
+					ans[i]=j;
+					Integer integer = list.get(j);
+					list.remove(j);
+					list.add(0,integer);
+				}
+			}
+		}
+		return ans;
+	}
+	public String entityParser(String text) {
+		text = text.replace("&quot;", "\"");
+		text = text.replace("&apos;","'");
+		text = text.replace("&amp;","&");
+		text = text.replace("&gt;",">");
+		text = text.replace("&lt;","<");
+		text = text.replace("&frasl;","/");
+		return text;
+	}
+
+	public int numOfWays(int n) {
+		int[][] dict = new int[n][3];
+		dfs5383(dict,0,0);
+		return 1;
+	}
+	public void dfs5383(int[][]dict,int n,int m){
+
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
@@ -6098,7 +6146,7 @@ class Trie {
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
 		int[] temp = {0,1,0,2,1,0,1,3,2,1,2,1};
-		System.out.println(t.reverseWords2("  hello world!  "));
+		System.out.println(t.entityParser("&amp; is an HTML entity but &ambassador; is not."));
 		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
 		int[] arr = {1,3,5,3,2,5,1,4,6};
 		t.heapSort(arr);
