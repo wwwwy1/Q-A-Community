@@ -6138,6 +6138,53 @@ class Trie {
 	public void dfs5383(int[][]dict,int n,int m){
 
 	}
+	public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+		StringBuilder s1 = new StringBuilder();
+		StringBuilder s2 = new StringBuilder();
+		while (l1!=null){
+			s1.append(l1.val);
+			l1 = l1.next;
+		}
+		while (l2!=null){
+			s2.append(l2.val);
+			l2 = l2.next;
+		}
+		s1.reverse();
+		s2.reverse();
+		ListNode head = new ListNode(-1);
+		int n = Math.min(s1.length(),s2.length());
+		int max = Math.max(s1.length(),s2.length());
+
+		int flag = 0;
+		for (int i = 0; i < n; i++) {
+			int a = s1.charAt(i)-'0';
+			int b = s2.charAt(i)-'0';
+			int sum = a+b+flag;
+			flag = sum/10;
+			sum%=10;
+			ListNode p = new ListNode(sum);
+			p.next = head.next;
+			head.next = p;
+		}
+		for (int i = n; i < max; i++) {
+			char a = s1.length()==n?'0':s1.charAt(i);
+			char b = s2.length()==n?'0':s2.charAt(i);
+			int n1 = a - '0';
+			int n2 = b - '0';
+			int sum = n1 +n2 +flag;
+			flag = sum/10;
+			sum%=10;
+			ListNode p = new ListNode(sum);
+			p.next = head.next;
+			head.next = p;
+		}
+		if (flag==1){
+			ListNode p = new ListNode(1);
+			p.next = head.next;
+			head.next = p;
+		}
+		return head.next;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
