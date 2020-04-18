@@ -218,7 +218,9 @@ public enum  LearnLog {
 	LearnConcurrent153("2020/04/11","复习面试题(数据库索引、hashmap)"),
 	LearnConcurrent154("2020/04/12","复习面试题以及leetcode周赛"),
 	LearnConcurrent155("2020/04/13","复习面试题(Spring)"),
-	LearnConcurrent156("2020/04/14","复习面试题");
+	LearnConcurrent156("2020/04/14","复习面试题"),
+	LearnConcurrent157("2020/04/18","leetcode双周赛以及春赛");
+
 	/*(insertDate:[2020-02-18T00:00:00Z TO 2020-02-18T23:59:59Z]) AND (forumContent:接着) AND (forumTipNames:"数据库")  关联词大写！！！*/
 	// 时间
 	private final String learnTime;
