@@ -6185,15 +6185,229 @@ class Trie {
 		}
 		return head.next;
 	}
+	public int[][] updateMatrix(int[][] matrix) {
+		if (matrix == null || matrix.length == 0) return null;
+		int m = matrix.length, n = matrix[0].length;
+		int[][] res = new int[m][n];//结果集
+		boolean[][] visited = new boolean[m][n];//记录已经计算过的位置
+		Queue<int[]> queue = new LinkedList<>();//广搜队列
+		//遍历，将等于0的位置计入结果集并入队
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				if (matrix[i][j] == 0) {
+					res[i][j] = 0;
+					visited[i][j] = true;
+					queue.offer(new int[]{i, j});
+				}
+			}
+		}
+		//四个方向广搜
+		int[][] direction = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};//上下左右
+		while (!queue.isEmpty()) {
+			int[] poll = queue.poll();
+			int i = poll[0], j = poll[1];
+			//四个方向上找 1
+			for (int k = 0; k < 4; k++) {
+				int di = i + direction[k][0], dj = j + direction[k][1];
+				//没有计算过的地方一定是 1
+				if (di >= 0 && di < m && dj >= 0 && dj < n && !visited[di][dj]) {
+					res[di][dj] = res[i][j] + 1;
+					visited[di][dj] = true;
+					queue.offer(new int[]{di, dj});
+				}
+			}
+		}
+		return res;
+	}
+	public int[][] merge2(int[][] intervals) {
+		int n = intervals.length;
+		//int l = intervals[0].length;
+		Arrays.sort(intervals,(o1,o2)->{return o1[0]-o2[0];});
+		Map<Integer,Integer> map = new HashMap<>();
+		int flag = 0;
+		for (int i = 0; i < n-1; i++) {
+			flag = 0;
+			if (intervals[i][1]>=intervals[i+1][0]){
+				intervals[i+1][0] = Math.min(intervals[i][0],intervals[i+1][0]);
+				intervals[i+1][1] = Math.max(intervals[i][1],intervals[i+1][1]);
+				flag=1;
+			}
+			if (flag==0){
+				map.put(intervals[i][0],intervals[i][1]);
+			}
+		}
+		flag=0;
+		map.put(intervals[n-1][0],intervals[n-1][1]);
+		int res[][] = new int[map.size()][2];
+		for (Integer a :map.keySet()) {
+			res[flag][0]=a;
+			res[flag++][1]=map.get(a);
+		}
+		return res;
+	}
+	public int minCount(int[] coins) {
+		int ans = 0;
+		for(int i = 0;i<coins.length;i++){
+			if(coins[i]%2==0){
+				ans += coins[i]/2;
+			}else{
+				ans += coins[i]/2+1;
+			}
+
+		}
+		return ans;
+	}
+	int ans0418 = 0;
+	public int numWays(int n, int[][] relation, int k) {
+		dfs0418(relation,n-1,k,0,0);
+		return ans0418;
+	}
+	public void dfs0418(int[][] relation,int n,int k,int now,int count){
+		if (count>k)return;
+		if (k==count && now ==n){
+			ans0418++;
+			return;
+		}
+		for (int i = 0; i < relation.length; i++) {
+			if (relation[i][0]==now){
+				dfs0418(relation,n,k,relation[i][1],count+1);
+			}
+		}
+
+	}
+	public int[] getTriggerTime(int[][] increase, int[][] requirements) {
+		int[] ans = new int[requirements.length];
+		List<int[]> list = new ArrayList<>();
+		for (int i = 0; i < requirements.length; i++) {
+			list.add(new int[]{requirements[i][0],requirements[i][1],requirements[i][2],i});
+		}
+		Collections.sort(list,(o1,o2)->{
+			if (o1[0]!=o2[0]){
+				return o1[0]-o2[0];
+			}else{
+				if (o1[1]!=o2[1]){
+					return o1[1]-o2[1];
+				}else if(o1[2]!=o2[2]){
+					return o1[2]-o2[2];
+				}else{
+					return o1[3]-o2[3];
+				}
+			}
+		});
+		Arrays.fill(ans,-1);
+		int[] me = new int[3];
+		for (int j = 0; j < list.size(); j++) {
+			if (list.get(j)[0]>me[0])break;
+			if (list.get(j)[0]<=me[0] && list.get(j)[1]<=me[1] && list.get(j)[2]<=me[2] && ans[list.get(j)[3]]==-1){
+				ans[list.get(j)[3]] = 0;
+				list.remove(j);
+				j--;
+			}
+		}
+		for (int i = 0; i < increase.length; i++) {
+			me[0]+=increase[i][0];
+			me[1]+=increase[i][1];
+			me[2]+=increase[i][2];
+			for (int j = 0; j < list.size(); j++) {
+				if (list.get(j)[0]>me[0])break;
+				if (list.get(j)[0]<=me[0] && list.get(j)[1]<=me[1] && list.get(j)[2]<=me[2] && ans[list.get(j)[3]]==-1){
+					ans[list.get(j)[3]] = i+1;
+					list.remove(j);
+					j--;
+				}
+			}
+		}
+		return ans;
+	}
+	public int minJump(int[] jump) {
+		boolean[] vis = new boolean[jump.length];
+		Queue<Integer> queue = new LinkedList<>();
+		queue.offer(0);
+		int flag = 0;
+		while (!queue.isEmpty()){
+			flag++;
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				int remove = (int)queue.remove();
+				if (remove == jump.length-1) return flag;
+				for (int j = 1; j < jump[remove]; j++) {
+					if (j+remove<jump.length && !vis[j+remove]){
+						vis[j+remove] = true;
+						queue.offer(j+remove);
+					}
+				}
+			}
+		}
+		return 0;
+	}
+	public int minStartValue(int[] nums) {
+		int ans = 1;
+		int sum = 0;
+		for (int i = 0; i < nums.length; i++) {
+			sum+=nums[i];
+			ans = Math.min(sum,ans);
+		}
+		ans = Math.abs(ans);
+		return ans==0?1:ans;
+	}
+	int ans5373 = 0;
+	public int findMinFibonacciNumbers(int k) {
+		List<Integer> dict = new ArrayList<>();
+		ans5373 = k;
+		dict.add(1);
+		dict.add(1);
+		while (k>dict.get(dict.size()-1)){
+			dict.add(dict.get(dict.size()-1)+dict.get(dict.size()-2));
+		}
+		dfs5373(dict,k,0);
+		return ans5373;
+	}
+	public void dfs5373(List<Integer> list,int now,int count){
+		if (now==0){
+			ans5373 = Math.min(ans5373,count);
+			return;
+		}
+		for (int i = list.size()-1; i >=0 ; i--) {
+			if (now>=list.get(i)){
+				dfs5373(list,now-list.get(i),count+1);
+			}
+		}
+	}
+	List<String> dict5374;
+	public String getHappyString(int n, int k) {
+		dict5374 = new ArrayList<>();
+		StringBuilder sb = new StringBuilder();
+		dfs5374(sb,n);
+		return dict5374.size()>=k?dict5374.get(k-1):"";
+	}
+	public void dfs5374(StringBuilder sb,int n){
+		if (sb.length()==n){
+			dict5374.add(sb.toString());
+			return;
+		}
+		for (int i = 0; i < 3; i++) {
+			if (sb.length()==0){
+				sb.append((char)('a'+i));
+				dfs5374(sb,n);
+				sb.deleteCharAt(sb.length()-1);
+			}else if (sb.charAt(sb.length()-1)!='a'+i){
+				sb.append((char)('a'+i));
+				dfs5374(sb,n);
+				sb.deleteCharAt(sb.length()-1);
+			}
+		}
+	}
+
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
-		int[][] gc = new int[][]{{1,1},{1,0}};
+		int[][] gc = new int[][]{{2,8,4},{2,5,0},{10,9,8}};
+		int[][] g2c = new int[][]{{2,11,3},{15,10,7},{9,17,12},{8,3,14},{8,2,14},{8,1,14},{2000,1,14},{2300,1,14},{2100,1,14}};
 		//t.maxAreaOfIsland(gc);
 		List<Integer> ar = new ArrayList<>();
 		//ar.contains()
-		int[] temp = {0,1,0,2,1,0,1,3,2,1,2,1};
-		System.out.println(t.entityParser("&amp; is an HTML entity but &ambassador; is not."));
+		int[] temp = {2,5,1,1,1,1};
+		System.out.println(t.getHappyString(1,3));
 		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
 		int[] arr = {1,3,5,3,2,5,1,4,6};
 		t.heapSort(arr);
