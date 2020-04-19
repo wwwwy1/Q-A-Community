@@ -2,6 +2,7 @@ package cn.Ideal.demo;
 
 
 import javafx.util.Pair;
+import org.apache.solr.client.solrj.io.stream.HashJoinStream;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -6397,7 +6398,131 @@ class Trie {
 			}
 		}
 	}
-
+	public String reformat(String s) {
+		StringBuilder sb1 = new StringBuilder();
+		StringBuilder sb2 = new StringBuilder();
+		StringBuilder ans = new StringBuilder();
+		for(int i = 0;i<s.length();i++){
+			if(s.charAt(i)>='0' && s.charAt(i)<='9'){
+				sb1.append(s.charAt(i));
+			}else{
+				sb2.append(s.charAt(i));
+			}
+		}
+		if(Math.abs(sb1.length()-sb2.length())>1){
+			return "";
+		}
+		if(sb1.length()>sb2.length()){
+			for(int i=0;i<sb2.length();i++){
+				ans.append(sb1.charAt(i));
+				ans.append(sb2.charAt(i));
+			}
+			ans.append(sb1.charAt(sb1.length()-1));
+		}else if (sb2.length()>sb1.length()){
+			for(int i=0;i<sb1.length();i++){
+				ans.append(sb2.charAt(i));
+				ans.append(sb1.charAt(i));
+			}
+			ans.append(sb2.charAt(sb2.length()-1));
+		}else {
+			for(int i=0;i<sb1.length();i++){
+				ans.append(sb2.charAt(i));
+				ans.append(sb1.charAt(i));
+			}
+		}
+		return ans.toString();
+	}
+	public List<List<String>> displayTable(List<List<String>> orders) {
+		Set<String> temp = new HashSet<>();
+		Map<Integer,Map<String,Integer>> or = new HashMap<>();
+		for (List<String> order : orders) {
+			temp.add(order.get(2));
+			if (or.containsKey(Integer.parseInt(order.get(1)))){
+				Map<String, Integer> tMap = or.get(Integer.parseInt(order.get(1)));
+				if (tMap.containsKey(order.get(2))){
+					tMap.put(order.get(2),tMap.get(order.get(2))+1);
+				}else {
+					tMap.put(order.get(2),1);
+				}
+			}else {
+				Map<String,Integer> tMap = new HashMap<>();
+				or.put(Integer.parseInt(order.get(1)),tMap);
+				tMap.put(order.get(2),1);
+			}
+		}
+		List<List<String>> table = new ArrayList<>();
+		List<String> show = temp.stream().collect(Collectors.toList());
+		Collections.sort(show);
+		show.add(0,"Table");
+		Set<Integer> set = or.keySet();
+		for (Integer integer : set) {
+			Map<String, Integer> sMap = or.get(integer);
+			List<String> tList = new ArrayList<>();
+			tList.add(String.valueOf(integer));
+			for (int i = 1; i < show.size(); i++) {
+				if (sMap.containsKey(show.get(i))){
+					tList.add(String.valueOf(sMap.get(show.get(i))));
+				}else {
+					tList.add("0");
+				}
+			}
+			table.add(tList);
+		}
+		Collections.sort(table,(o1,o2)-> { return Integer.parseInt(o1.get(0))-Integer.parseInt(o2.get(0));});
+		table.add(0,show);
+		return table;
+	}
+	public int minNumberOfFrogs(String croakOfFrogs) {
+		int n = croakOfFrogs.length();
+		int[] dict = new int[5];
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			if (croakOfFrogs.charAt(i)=='c'){
+				dict[0]++;
+			}else if (croakOfFrogs.charAt(i)=='r'){
+				dict[1]++;
+			}else if (croakOfFrogs.charAt(i)=='o'){
+				dict[2]++;
+			}else if (croakOfFrogs.charAt(i)=='a'){
+				dict[3]++;
+			}else if (croakOfFrogs.charAt(i)=='k'){
+				dict[4]++;
+			}
+			int flag = 0;
+			for (int j = 0; j < 4; j++) {
+				if (dict[j]<dict[j+1]){
+					return -1;
+				}
+				if (dict[j]<1){
+					flag=1;
+				}
+				ans = Math.max(ans,dict[j]);
+			}
+			ans = Math.max(ans,dict[4]);
+			if (flag==0 && dict[4]>=1){
+				dict[0]--;
+				dict[1]--;
+				dict[2]--;
+				dict[3]--;
+				dict[4]--;
+			}
+		}
+		for (int i = 0; i < 5; i++) {
+			if (dict[i]!=0){
+				return -1;
+			}
+		}
+		return ans;
+	}
+	/*int ans5391;
+	public int numOfArrays(int n, int m, int k) {
+		List<Integer> list = new ArrayList<>();
+		dfs5391(n,m,k,list);
+		return ans5391;
+	}
+	public void dfs5391(int n,int m,int k,List<Integer> list){
+		if (list.size()==k && )
+	}*/
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
