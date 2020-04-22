@@ -226,8 +226,8 @@ public enum  LearnLog {
 	* 春赛排名944 / 9293
 	* */
 
-	LearnConcurrent158("2020/04/19","leetcode周赛");
-
+	LearnConcurrent158("2020/04/19","leetcode周赛"),
+	LearnConcurrent159("2020/04/20","统计接口完成，缺少前端展示");
 	/*(insertDate:[2020-02-18T00:00:00Z TO 2020-02-18T23:59:59Z]) AND (forumContent:接着) AND (forumTipNames:"数据库")  关联词大写！！！*/
 	// 时间
 	private final String learnTime;
