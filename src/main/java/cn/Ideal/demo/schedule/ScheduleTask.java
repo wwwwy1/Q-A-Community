@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static cn.Ideal.demo.util.RedisKeyEnum.*;
+
 @Configuration
 @EnableScheduling
 public class ScheduleTask {
@@ -34,6 +36,8 @@ public class ScheduleTask {
 	private IForumService iForumService;
 	@Autowired
 	private IReplyService iReplyService;
+	@Autowired
+	private IStatisticService iStatisticService;
 	@Autowired
 	private IUserService iUserService;
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -52,7 +56,7 @@ public class ScheduleTask {
 	@Scheduled(cron = "0 0 0/1 * * ? ")
 	public void redisDataToMySQL() {
 		//插入用户已经点赞的文章
-		Map<Object, Object> thumbUpForum = redisTemplate.opsForHash().entries(RedisKeyEnum.THUMB_UP_FORUM);//thumbUpReply
+		Map<Object, Object> thumbUpForum = redisTemplate.opsForHash().entries(THUMB_UP_FORUM);//thumbUpReply
 		if (thumbUpForum!=null)
 			for (Map.Entry<Object, Object> entry : thumbUpForum.entrySet()) {
 				String userId = (String)entry.getKey();
@@ -77,7 +81,7 @@ public class ScheduleTask {
 				}
 			}
 		//插入用户已经踩的文章
-		Map<Object, Object> thumbDownForum = redisTemplate.opsForHash().entries(RedisKeyEnum.THUMB_DOWN_FORUM);
+		Map<Object, Object> thumbDownForum = redisTemplate.opsForHash().entries(THUMB_DOWN_FORUM);
 		if (thumbDownForum != null)
 			for (Map.Entry<Object, Object> entry : thumbDownForum.entrySet()) {
 				String userId = (String)entry.getKey();
@@ -103,7 +107,7 @@ public class ScheduleTask {
 				}
 			}
 		//插入用户已经点赞的评论
-		Map<Object, Object> thumbUpReply = redisTemplate.opsForHash().entries(RedisKeyEnum.THUMB_UP_REPLY);//thumbUpReply
+		Map<Object, Object> thumbUpReply = redisTemplate.opsForHash().entries(THUMB_UP_REPLY);//thumbUpReply
 		if (thumbUpReply!=null)
 			for (Map.Entry<Object, Object> entry : thumbUpReply.entrySet()) {
 				String userId = (String)entry.getKey();
@@ -125,11 +129,17 @@ public class ScheduleTask {
 					Reply byId = iReplyService.getById(id);
 					for (int i = 0; i < n; i++) {
 						iUserService.addUserPoint(byId.getReplyUserId());
+						// 增加统计用户缓存
+						if (redisTemplate.opsForHash().get(STATISTIC_USER,byId.getReplyUserId())==null){
+							redisTemplate.opsForHash().put(STATISTIC_USER,byId.getReplyUserId(),"1");
+						}else {
+							redisTemplate.opsForHash().increment(STATISTIC_USER,byId.getReplyUserId(),1);
+						}
 					}
 				}
 			}
 		//插入用户已经踩的评论
-		Map<Object, Object> thumbDownReply = redisTemplate.opsForHash().entries(RedisKeyEnum.THUMB_DOWN_REPLY);//thumbUpReply
+		Map<Object, Object> thumbDownReply = redisTemplate.opsForHash().entries(THUMB_DOWN_REPLY);//thumbUpReply
 		if (thumbDownReply !=null)
 			for (Map.Entry<Object, Object> entry : thumbDownReply.entrySet()) {
 				String userId = (String)entry.getKey();
@@ -151,11 +161,17 @@ public class ScheduleTask {
 					Reply byId = iReplyService.getById(id);
 					for (int i = 0; i < n; i++) {
 						iUserService.removeUserPoint(byId.getReplyUserId());
+						// 增加统计用户缓存
+						if (redisTemplate.opsForHash().get(STATISTIC_USER,byId.getReplyUserId())==null){
+							redisTemplate.opsForHash().put(STATISTIC_USER,byId.getReplyUserId(),"-1");
+						}else {
+							redisTemplate.opsForHash().increment(STATISTIC_USER,byId.getReplyUserId(),-1);
+						}
 					}
 				}
 			}
 		//更新文章数据库中的赞，点击量，回复数
-		Map<Object, Object> entries = redisTemplate.opsForHash().entries(RedisKeyEnum.FORUM_KEY);
+		Map<Object, Object> entries = redisTemplate.opsForHash().entries(FORUM_KEY);
 		for (Map.Entry<Object, Object> entry : entries.entrySet()) {
 			String forumId = (String)entry.getKey();
 			String clicks = (String)entry.getValue();
@@ -163,7 +179,7 @@ public class ScheduleTask {
 			iForumService.updateById(new Forum(Integer.valueOf(forumId),Integer.valueOf(split[2]),Integer.valueOf(split[1]),Integer.valueOf(split[0])));
 		}
 		//更新回复数据库中的赞
-		Map<Object, Object> replyEntries = redisTemplate.opsForHash().entries(RedisKeyEnum.REPLY_KEY);
+		Map<Object, Object> replyEntries = redisTemplate.opsForHash().entries(REPLY_KEY);
 		for (Map.Entry<Object, Object> entry : replyEntries.entrySet()) {
 			String id = (String)entry.getKey();
 			String value = (String)entry.getValue();
@@ -175,7 +191,7 @@ public class ScheduleTask {
 	@Transactional
 	@Scheduled(cron = "0 0 0/1 * * ? ")
 	public void taskListRedisToMySQL(){
-		Map<Object, Object> taskLists = redisTemplate.opsForHash().entries(RedisKeyEnum.TASK_LIST_KEY);
+		Map<Object, Object> taskLists = redisTemplate.opsForHash().entries(TASK_LIST_KEY);
 		for (Map.Entry<Object, Object> task : taskLists.entrySet()) {
 			String userId = (String)task.getKey();
 			String ret = (String)task.getValue();
@@ -188,6 +204,27 @@ public class ScheduleTask {
 			iTaskListService.saveBatch(dont);
 			iTaskListService.saveBatch(did);
 		}
-
 	}
+	// 使用统计定时插入数据库
+	@Transactional
+	@Scheduled(cron = "0 0 0 * * ?")
+	public void statisticCount(){
+		Set<Object> userKeys = redisTemplate.opsForHash().keys(RedisKeyEnum.STATISTIC_USER);
+		Set<Object> tagsKeys = redisTemplate.opsForHash().keys(RedisKeyEnum.STATISTIC_USER);
+		if (userKeys!=null){
+			for (Object userKey : userKeys) {
+				Integer num = (Integer)redisTemplate.opsForHash().get(RedisKeyEnum.STATISTIC_USER, (String) userKey);
+				Statistic statistic = new Statistic((String) userKey,num);
+				iStatisticService.save(statistic);
+			}
+		}
+		if (tagsKeys!=null){
+			for (Object tagsKey : tagsKeys) {
+				Integer num = (Integer)redisTemplate.opsForHash().get(RedisKeyEnum.STATISTIC_USER, Integer.toString((Integer) tagsKey) );
+				Statistic statistic = new Statistic((Integer) tagsKey,num);
+				iStatisticService.save(statistic);
+			}
+		}
+	}
+
 }

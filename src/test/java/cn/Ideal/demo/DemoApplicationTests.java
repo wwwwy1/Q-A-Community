@@ -6523,6 +6523,69 @@ class Trie {
 	public void dfs5391(int n,int m,int k,List<Integer> list){
 		if (list.size()==k && )
 	}*/
+	int[] pre0420;
+	int count0420;
+	public int numIslands2(char[][] grid) {
+		count0420 = grid.length * grid[0].length;
+		pre0420 = new int[count0420];
+		for (int i = 0; i < count0420; i++) {
+			pre0420[i] = i;
+		}
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				if (grid[i][j]=='0'){
+					count0420--;
+					continue;
+				}
+				if (i-1>=0 && grid[i][j]=='1' && grid[i-1][j]=='1'){
+					union0420(i*grid[0].length+j,(i-1)*grid[0].length+j);
+				}
+				if (i+1<grid.length && grid[i][j]=='1' && grid[i+1][j]=='1'){
+					union0420(i*grid[0].length+j,(i+1)*grid[0].length+j);
+				}
+				if (j-1>=0 && grid[i][j]=='1' && grid[i][j-1]=='1'){
+					union0420(i*grid[0].length+j,i*grid[0].length+(j-1));
+				}
+				if (j+1>grid[0].length && grid[i][j]=='1' && grid[i][j+1]=='1'){
+					union0420(i*grid[0].length+j,i*grid[0].length+(j+1));
+				}
+			}
+		}
+		return count0420;
+	}
+	public int find0420(int i){
+		int r = i;
+		while (r != pre0420[r]){
+			r = pre0420[r];
+		}
+		return r;
+	}
+	public void union0420(int i,int j){
+		int r1 = find0420(i);
+		int r2 = find0420(j);
+		if (r1!=r2){
+			count0420--;
+			pre0420[r1] = r2;
+		}
+	}
+	public List<Integer> rightSideView(TreeNode root) {
+		List<Integer> ans = new ArrayList<>();
+		if (root==null) return ans;
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.offer(root);
+		while (!queue.isEmpty()){
+			int n = queue.size();
+			for (int i = 0; i < n; i++) {
+				TreeNode remove = queue.remove();
+				if (i==n-1){
+					ans.add(remove.val);
+				}
+				if (remove.left!=null)queue.offer(remove.left);
+				if (remove.right!=null)queue.offer(remove.right);
+			}
+		}
+		return ans;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();

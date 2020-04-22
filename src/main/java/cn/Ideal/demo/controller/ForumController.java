@@ -24,6 +24,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import static cn.Ideal.demo.util.RedisKeyEnum.STATISTIC_TAGS;
+import static cn.Ideal.demo.util.RedisKeyEnum.STATISTIC_USER;
+
 /**
  * <p>
  *  前端控制器
@@ -66,6 +69,11 @@ public class ForumController extends BaseController{
 		List<String> tagsList = new ArrayList<>();
 		for (Tags tag : tags) {
 			tagsList.add(tag.getTagsName());
+			if (redisTemplate.opsForHash().get(STATISTIC_TAGS,Integer.toString(tag.getId()))==null){
+				redisTemplate.opsForHash().put(STATISTIC_TAGS,Integer.toString(tag.getId()),"1");
+			}else {
+				redisTemplate.opsForHash().increment(STATISTIC_TAGS,Integer.toString(tag.getId()),1);
+			}
 		}
 		forum.setForumTipNames(tagsList);
 		forum.setAbbreviationContent(StringUtil.ignoreHtml(forum.getForumContent()));
