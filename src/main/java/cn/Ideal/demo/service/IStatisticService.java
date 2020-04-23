@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-04-22
  */
 public interface IStatisticService extends IService<Statistic> {
-
+	Integer lastWeekCountByUserId(String userId);
+	Integer lastWeekCountByTagsId(Integer tagsId);
 }

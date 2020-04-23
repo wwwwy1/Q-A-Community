@@ -52,7 +52,8 @@ import java.time.LocalDateTime;
             */
         @TableField("tags_enable")
     private Integer tagsEnable;
-
+        @TableField(exist = false)
+    private Integer lastWeekCount;
     /**
      * 软删除  0:未删除 1:已删除
      */

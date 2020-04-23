@@ -17,4 +17,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class StatisticServiceImpl extends ServiceImpl<StatisticMapper, Statistic> implements IStatisticService {
 
+	@Override
+	public Integer lastWeekCountByUserId(String userId) {
+		Integer res =  baseMapper.lastWeekCountByUserId(userId);
+		return res==null?0:res;
+	}
+
+	@Override
+	public Integer lastWeekCountByTagsId(Integer tagsId) {
+		Integer res =  baseMapper.lastWeekCountByTagsId(tagsId);
+		return res==null?0:res;
+	}
 }

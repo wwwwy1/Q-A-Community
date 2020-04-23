@@ -4,14 +4,8 @@ import cn.Ideal.demo.entity.Forum;
 import cn.Ideal.demo.entity.Reply;
 import cn.Ideal.demo.entity.SensitiveWords;
 import cn.Ideal.demo.entity.Tags;
-import cn.Ideal.demo.service.IForumService;
-import cn.Ideal.demo.service.IReplyService;
-import cn.Ideal.demo.service.ISensitiveWordsService;
-import cn.Ideal.demo.service.ITagsService;
-import cn.Ideal.demo.util.RedisKeyEnum;
-import cn.Ideal.demo.util.SensitiveWordsTrie;
-import cn.Ideal.demo.util.SolrForumUtil;
-import cn.Ideal.demo.util.StringUtil;
+import cn.Ideal.demo.service.*;
+import cn.Ideal.demo.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +35,8 @@ public class StartService implements ApplicationRunner {
 	@Autowired
 	private IReplyService iReplyService;
 	@Autowired
+	private IStatisticService iStatisticService;
+	@Autowired
 	private RedisTemplate<String,String> redisTemplate;
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -68,6 +64,16 @@ public class StartService implements ApplicationRunner {
 			redisTemplate.opsForHash().put(RedisKeyEnum.REPLY_KEY,reply.getId().toString(),String.valueOf(reply.getReplyThumbs()));
 		}
 		logger.info("=========== 项目启动后，初始化 评论点赞信息 =============");
+		List<Tags> tagsList = iTagsService.list();
+		for (Tags tags : tagsList) {
+			Integer id = tags.getId();
+			tags.setLastWeekCount(iStatisticService.lastWeekCountByTagsId(id));
+		}
+		SolrTagUtil.deleteAll();
+		SolrTagUtil.batchSaveOrUpdate(tagsList);
+
+
+		logger.info("=========== 项目启动后，初始化 标签信息 =============");
 	}
 
 }
