@@ -16,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static cn.Ideal.demo.util.RedisKeyEnum.*;
 
@@ -36,6 +33,8 @@ public class ScheduleTask {
 	private IForumService iForumService;
 	@Autowired
 	private IReplyService iReplyService;
+	@Autowired
+	private ITagsService iTagsService;
 	@Autowired
 	private IStatisticService iStatisticService;
 	@Autowired
@@ -208,7 +207,7 @@ public class ScheduleTask {
 	// 使用统计定时插入数据库
 	@Transactional
 	@Scheduled(cron = "0 0 0 * * ?")
-	public void statisticCount(){
+	public void statisticCount() throws IOException, SolrServerException {
 		Set<Object> userKeys = redisTemplate.opsForHash().keys(RedisKeyEnum.STATISTIC_USER);
 		Set<Object> tagsKeys = redisTemplate.opsForHash().keys(RedisKeyEnum.STATISTIC_USER);
 		if (userKeys!=null){
@@ -218,6 +217,7 @@ public class ScheduleTask {
 				iStatisticService.save(statistic);
 			}
 		}
+
 		if (tagsKeys!=null){
 			for (Object tagsKey : tagsKeys) {
 				Integer num = (Integer)redisTemplate.opsForHash().get(RedisKeyEnum.STATISTIC_USER, Integer.toString((Integer) tagsKey) );
@@ -225,6 +225,13 @@ public class ScheduleTask {
 				iStatisticService.save(statistic);
 			}
 		}
+		SolrTagUtil.deleteAll();
+		List<Tags> list = iTagsService.list();
+		for (Tags tags : list) {
+			tags.setLastWeekCount(iStatisticService.lastWeekCountByTagsId(tags.getId()));
+		}
+		SolrTagUtil.batchSaveOrUpdate(list);
+
 	}
 
 }

@@ -6586,6 +6586,15 @@ class Trie {
 		}
 		return ans;
 	}
+	public int reversePairs(int[] nums) {
+		int ans = 0;
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = i+1; j < nums.length; j++) {
+				if (nums[i]>nums[j])ans++;
+			}
+		}
+		return ans;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();

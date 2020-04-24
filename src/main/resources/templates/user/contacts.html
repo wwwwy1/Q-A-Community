@@ -138,13 +138,14 @@
             </div>
             <div class="wrapper wrapper-content animated fadeInRight">
                 <div class="row" >
-                    <div class="col-sm-3" style="height: 28%"    th:each="data:${data.data.list}">
+                    <div class="col-sm-3" style="height: 28%"    th:each="data:${data.data}">
                         <div class="contact-box" style="height: 100%;">
                             <a href="profile.html">
                                 <div style="width: 100%;height: 100%;" >
                                     <h3><strong style="font-size: medium" th:text="'标签名：'+${data.tagsName}">java</strong></h3>
                                     <p style="font-size: small"  th:text="${#strings.length(data.tagsRemarks)}>30?(${#strings.substring(data.tagsRemarks,0,25)}+'...'):${data.tagsRemarks}" ></p>
                                     <p style="font-size: small"  th:text="'相关问题:'+${data.tagsCount}+'个'" ></p>
+                                    <p style="font-size: small"  th:text="'最近一周问题数:'+${data.lastWeekCount}+'个'" ></p>
                                 </div>
                                 <div class="clearfix"></div>
                             </a>
@@ -154,27 +155,27 @@
             </div>
             <div class="pull-right pagination">
                 <ul class="pagination pagination-outline">
-                    <li class="page-first disabled" th:if="${data.page.pageNum eq 1}"><a th:href="'/user/contacts?current=' + '1' +'&keyWords='+${keyWords} +'&rank='+${rank} " href="javascript:void(0)">«</a>
+                    <li class="page-first disabled" th:if="${data.pageNum eq 1}"><a th:href="'/user/contacts?current=' + '1' +'&keyWords='+${keyWords} +'&rank='+${rank} " href="javascript:void(0)">«</a>
                     </li>
-                    <li class="page-first " th:if="${data.page.pageNum ne 1}"><a th:href="'/user/contacts?current=' + '1' + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">«</a>
+                    <li class="page-first " th:if="${data.pageNum ne 1}"><a th:href="'/user/contacts?current=' + '1' + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">«</a>
                     </li>
-                    <li class="page-pre " th:if="${data.page.pageNum ne 1}"><a th:href="'/user/contacts?current=' + ${data.page.pageNum - 1} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">‹</a>
+                    <li class="page-pre " th:if="${data.pageNum ne 1}"><a th:href="'/user/contacts?current=' + ${data.pageNum - 1} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">‹</a>
                     </li>
-                    <li class="page-pre disabled" th:if="${data.page.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
+                    <li class="page-pre disabled" th:if="${data.pageNum eq 1}"><a  href="javascript:void(0)">‹</a>
                     </li>
                 </ul>
-                <ul class="pagination pagination-outline"th:each="pageNum:${#numbers.sequence(1, data.page.pages)}">
-                    <li class="page-number active" th:if="${pageNum eq data.page.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
-                    <li class="page-number" th:if="${pageNum ne data.page.pageNum}" ><a th:href="'/user/contacts?current=' + ${pageNum} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="/user/page?current=1&pageSize=10" th:text="${pageNum}">pageNum</a></li>
+                <ul class="pagination pagination-outline"th:each="pageNum:${#numbers.sequence(1, data.pages)}">
+                    <li class="page-number active" th:if="${pageNum eq data.pageNum}"  ><a href="javascript:void(0)" th:text="${pageNum}">pageNum</a></li>
+                    <li class="page-number" th:if="${pageNum ne data.pageNum}" ><a th:href="'/user/contacts?current=' + ${pageNum} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="/user/page?current=1&pageSize=10" th:text="${pageNum}">pageNum</a></li>
                 </ul>
                 <ul class="pagination pagination-outline">
-                    <li class="page-next disabled" th:if="${data.page.pageNum} eq ${data.page.pages}"><a href="javascript:void(0)">›</a>
+                    <li class="page-next disabled" th:if="${data.pageNum} eq ${data.pages}"><a href="javascript:void(0)">›</a>
                     </li>
-                    <li class="page-next " th:if="${data.page.pageNum} ne ${data.page.pages}"><a th:href="'/user/contacts?current=' + ${data.page.pageNum + 1} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">›</a>
+                    <li class="page-next " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/contacts?current=' + ${data.pageNum + 1} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">›</a>
                     </li>
-                    <li class="page-last " th:if="${data.page.pageNum} ne ${data.page.pages}"><a th:href="'/user/contacts?current=' + ${data.page.pages} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">»</a>
+                    <li class="page-last " th:if="${data.pageNum} ne ${data.pages}"><a th:href="'/user/contacts?current=' + ${data.pages} + '&rank='+${rank}+'&keyWords='+${keyWords}" href="javascript:void(0)">»</a>
                     </li>
-                    <li class="page-last disabled" th:if="${data.page.pageNum} eq ${data.page.pages}"><a  href="javascript:void(0)">»</a>
+                    <li class="page-last disabled" th:if="${data.pageNum} eq ${data.pages}"><a  href="javascript:void(0)">»</a>
                     </li>
                 </ul>
             </div>

@@ -76,11 +76,11 @@ public class SolrTagUtil {
 		}
 		if (rank==null)rank=1;
 		if (rank==1){
-
+			q.addSort("insertDate",SolrQuery.ORDER.asc);
 		}else if (rank==2){
-
+			q.addSort("tagsName",SolrQuery.ORDER.asc);
 		}else {
-
+			q.addSort("tagsCount",SolrQuery.ORDER.desc);
 		}
 		q.set("qf","tagsName^3 tagsRemarks^5");
 		//开始页数
