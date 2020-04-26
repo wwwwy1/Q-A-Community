@@ -1,9 +1,6 @@
 package cn.Ideal.demo.schedule;
 
-import cn.Ideal.demo.entity.Forum;
-import cn.Ideal.demo.entity.Reply;
-import cn.Ideal.demo.entity.SensitiveWords;
-import cn.Ideal.demo.entity.Tags;
+import cn.Ideal.demo.entity.*;
 import cn.Ideal.demo.service.*;
 import cn.Ideal.demo.util.*;
 import org.slf4j.Logger;
@@ -71,9 +68,12 @@ public class StartService implements ApplicationRunner {
 		}
 		SolrTagUtil.deleteAll();
 		SolrTagUtil.batchSaveOrUpdate(tagsList);
-
-
 		logger.info("=========== 项目启动后，初始化 标签信息 =============");
+		redisTemplate.delete(RedisKeyEnum.USER_TOP_LIST);
+		List<Statistic> statisticUserList = iStatisticService.lastWeekCountUserTop();
+		redisTemplate.opsForValue().set(RedisKeyEnum.USER_TOP_LIST,StringUtil.objectToString(statisticUserList));
+		logger.info("=========== 项目启动后，初始化 用户显示列表 =============");
+
 	}
 
 }

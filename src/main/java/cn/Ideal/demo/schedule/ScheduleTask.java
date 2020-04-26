@@ -52,7 +52,7 @@ public class ScheduleTask {
 		logger.info("获取工作信息成功-定时任务");
 	}
 	@Transactional
-	@Scheduled(cron = "0 0 0/1 * * ? ")
+	@Scheduled(cron = "0 * * * * ? ")
 	public void redisDataToMySQL() {
 		//插入用户已经点赞的文章
 		Map<Object, Object> thumbUpForum = redisTemplate.opsForHash().entries(THUMB_UP_FORUM);//thumbUpReply
@@ -184,7 +184,12 @@ public class ScheduleTask {
 			String value = (String)entry.getValue();
 			iReplyService.updateById(new Reply(Integer.valueOf(id),Integer.valueOf(value)));
 		}
-
+		redisTemplate.delete(REPLY_KEY);
+		redisTemplate.delete(FORUM_KEY);
+		redisTemplate.delete(THUMB_UP_FORUM);
+		redisTemplate.delete(THUMB_UP_REPLY);
+		redisTemplate.delete(THUMB_DOWN_FORUM);
+		redisTemplate.delete(THUMB_DOWN_REPLY);
 	}
 	// 任务清单定时插入数据库
 	@Transactional
@@ -206,13 +211,14 @@ public class ScheduleTask {
 	}
 	// 使用统计定时插入数据库
 	@Transactional
-	@Scheduled(cron = "0 0 0 * * ?")
+	//@Scheduled(cron = "0 0 0 * * ?")
+	@Scheduled(cron = "0 0 * * * ?")
 	public void statisticCount() throws IOException, SolrServerException {
 		Set<Object> userKeys = redisTemplate.opsForHash().keys(RedisKeyEnum.STATISTIC_USER);
-		Set<Object> tagsKeys = redisTemplate.opsForHash().keys(RedisKeyEnum.STATISTIC_USER);
+		Set<Object> tagsKeys = redisTemplate.opsForHash().keys(RedisKeyEnum.STATISTIC_TAGS);
 		if (userKeys!=null){
 			for (Object userKey : userKeys) {
-				Integer num = (Integer)redisTemplate.opsForHash().get(RedisKeyEnum.STATISTIC_USER, (String) userKey);
+				Integer num = Integer.parseInt((String)redisTemplate.opsForHash().get(RedisKeyEnum.STATISTIC_USER, (String) userKey));
 				Statistic statistic = new Statistic((String) userKey,num);
 				iStatisticService.save(statistic);
 			}
@@ -220,11 +226,14 @@ public class ScheduleTask {
 
 		if (tagsKeys!=null){
 			for (Object tagsKey : tagsKeys) {
-				Integer num = (Integer)redisTemplate.opsForHash().get(RedisKeyEnum.STATISTIC_USER, Integer.toString((Integer) tagsKey) );
+				Integer num = Integer.valueOf((String) redisTemplate.opsForHash().get(RedisKeyEnum.STATISTIC_USER, Integer.toString((Integer) tagsKey)));
 				Statistic statistic = new Statistic((Integer) tagsKey,num);
 				iStatisticService.save(statistic);
 			}
 		}
+		redisTemplate.delete(RedisKeyEnum.STATISTIC_TAGS);
+		redisTemplate.delete(RedisKeyEnum.STATISTIC_USER);
+
 		SolrTagUtil.deleteAll();
 		List<Tags> list = iTagsService.list();
 		for (Tags tags : list) {
@@ -232,6 +241,14 @@ public class ScheduleTask {
 		}
 		SolrTagUtil.batchSaveOrUpdate(list);
 
+		// 用户top
+		redisTemplate.delete(RedisKeyEnum.USER_TOP_LIST);
+		List<Statistic> statisticUserList = iStatisticService.lastWeekCountUserTop();
+		redisTemplate.opsForValue().set(RedisKeyEnum.USER_TOP_LIST,StringUtil.objectToString(statisticUserList));
 	}
 
 }
+/*
+*
+* 用户展示，等等
+* */

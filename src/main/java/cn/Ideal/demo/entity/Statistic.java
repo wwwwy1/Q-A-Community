@@ -23,6 +23,12 @@ import java.time.LocalDateTime;
     public Statistic() {
     }
 
+    public Statistic(String userId, Integer res, String userNickname) {
+        this.userId = userId;
+        this.res = res;
+        this.userNickname = userNickname;
+    }
+
     public Statistic(Integer tagsId, Integer count) {
         this.tagsId = tagsId;
         this.count = count;
@@ -58,6 +64,10 @@ import java.time.LocalDateTime;
             */
         @TableField("count")
     private Integer count;
+    @TableField(exist = false)
+    private Integer res;
+    @TableField(exist = false)
+    private String userNickname;
 
     /**
      * 软删除  0:未删除 1:已删除

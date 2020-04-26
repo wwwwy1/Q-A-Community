@@ -6595,22 +6595,158 @@ class Trie {
 		}
 		return ans;
 	}
+	List<List<Integer>> ans0425;
+	boolean[] vis0425;
+	public List<List<Integer>> permute2(int[] nums) {
+		ans0425 = new ArrayList<>();
+		vis0425 = new boolean[nums.length];
+		dfs0425(nums,new ArrayList<>(),vis0425);
+		return ans0425;
+	}
+	public void dfs0425(int[] nums,List<Integer> temp,boolean[] vis){
+		if (temp.size() == 3){
+			ans0425.add(new ArrayList<>(temp));
+		}
+		for (int i = 0; i < nums.length; i++) {
+			if (!vis[i]){
+				temp.add(nums[i]);
+				vis[i] = true;
+				dfs0425(nums,temp,vis);
+				temp.remove(temp.size()-1);
+				vis[i] = false;
+			}
+		}
+	}
+	public int expectNumber(int[] scores) {
+		int ans = 0;
+		Map<Integer,Integer> map = new HashMap<>();
+		for (int i = 0; i < scores.length; i++) {
+			if (map.containsKey(scores[i])){
+				map.put(scores[i],map.get(scores[i])+1);
+			}else {
+				map.put(scores[i],1);
+			}
+		}
+		Set<Integer> set = map.keySet();
+		for (Integer integer : set) {
+			if (map.get(integer).equals(1)){
+				ans++;
+			}else {
+				ans++;
+			}
+		}
+		return ans;
+	}
+	/*public int minTime(int[] time, int m) {
+		int n = time.length;
+		if (n<=m)return 0;
+
+		for (int i = 0; i < n; i++) {
+
+		}
+	}*/
+	public int maxScore(int[] cardPoints, int k) {
+		int n = cardPoints.length;
+		int res = 0;
+		for (int i = 0; i < k; i++) {
+			res+=cardPoints[i];
+		}
+		int ans = res;
+
+		for (int i = k-1; i >=0 ; i--) {
+			res-=cardPoints[i];
+			res+=cardPoints[n-1-Math.abs(k-1-i)];
+			ans = Math.max(ans,res);
+		}
+		return ans;
+	}
+	public int[] findDiagonalOrder(List<List<Integer>> nums) {
+		int n = nums.size();
+		List<Integer> ans = new ArrayList<>();
+		int maxL=0;
+		if (nums.size()==1){
+			int[] res = new int[nums.get(0).size()];
+			for (int i = 0; i < nums.get(0).size(); i++) {
+				res[i] = nums.get(0).get(i);
+			}
+			return res;
+		}
+		for (int i = 0; i < n; i++) {
+			ans.add(nums.get(i).get(0));
+			maxL=Math.max(maxL,nums.get(i).size());
+			for (int j = i-1; j >=0 ; j--) {
+				if (nums.get(j).size()>i-j){
+					ans.add(nums.get(j).get(i-j));
+				}
+			}
+		}
+		for (int i = 1; i < maxL; i++) {
+			if(i<nums.get(n-1).size())
+				ans.add(nums.get(n-1).get(i));
+			for (int j = i; i+i+1-j<maxL; j--) {
+				if(n-1-i+j-1>=0){
+					if (nums.get(n-1-i+j-1).size()>i+i+1-j){
+						ans.add(nums.get(n-1-i+j-1).get(i+i+1-j));
+					}
+				}
+			}
+		}
+		int[] res = new int[ans.size()];
+		for (int i = 0; i < res.length; i++) {
+			res[i]=ans.get(i);
+		}
+		return res;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{2,8,4},{2,5,0},{10,9,8}};
 		int[][] g2c = new int[][]{{2,11,3},{15,10,7},{9,17,12},{8,3,14},{8,2,14},{8,1,14},{2000,1,14},{2300,1,14},{2100,1,14}};
 		//t.maxAreaOfIsland(gc);
+		List<List<Integer>> tt12 = new ArrayList<>();
 		List<Integer> ar = new ArrayList<>();
+		ar.add(11);
+		ar.add(6);
+		ar.add(9);
+		ar.add(20);
+		List<Integer> ar2 = new ArrayList<>();
+		ar2.add(16);
+		ar2.add(1);
+		ar2.add(20);
+		List<Integer> ar3 = new ArrayList<>();
+		ar3.add(14);
+		ar3.add(19);
+		ar3.add(14);
+		ar3.add(17);
+		ar3.add(15);
+		List<Integer> ar4 = new ArrayList<>();
+		ar4.add(8);
+		ar4.add(19);
+		ar4.add(11);
+		ar4.add(3);
+		List<Integer> ar5 = new ArrayList<>();
+		ar5.add(3);
+		ar5.add(13);
+		ar5.add(17);
+		ar5.add(4);
+		tt12.add(ar);
+		tt12.add(ar2);
+		tt12.add(ar3);
+		tt12.add(ar4);
+		tt12.add(ar5);
+
+
 		//ar.contains()
 		int[] temp = {2,5,1,1,1,1};
-		System.out.println(t.getHappyString(1,3));
+
+		System.out.println(t.findDiagonalOrder(tt12));
+
 		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
-		int[] arr = {1,3,5,3,2,5,1,4,6};
+		/*int[] arr = {1,3,5,3,2,5,1,4,6};
 		t.heapSort(arr);
 		t.quick_sort(arr,0,arr.length-1);
 		t.mergeSort(arr,0,arr.length-1);
-		LFUCache cache = new LFUCache( 2 /* capacity (缓存容量) */ );
+		LFUCache cache = new LFUCache( 2 *//* capacity (缓存容量) *//* );
 
 		cache.put(1, 1);
 		cache.put(2, 2);
@@ -6622,7 +6758,7 @@ class Trie {
 		cache.get(1);       // 返回 -1 (未找到 key 1)
 		cache.get(3);       // 返回 3
 		cache.get(4);       // 返回 4
-		System.out.println(Arrays.toString(arr));
+		System.out.println(Arrays.toString(arr));*/
 	}
 	public void swap(int[] nums, int i, int j) {
 		int temp = nums[i];

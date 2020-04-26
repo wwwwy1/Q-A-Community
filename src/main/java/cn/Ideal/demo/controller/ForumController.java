@@ -1,12 +1,10 @@
 package cn.Ideal.demo.controller;
 
 
-import cn.Ideal.demo.entity.Forum;
-import cn.Ideal.demo.entity.Reply;
-import cn.Ideal.demo.entity.Tags;
-import cn.Ideal.demo.entity.User;
+import cn.Ideal.demo.entity.*;
 import cn.Ideal.demo.service.*;
 import cn.Ideal.demo.util.*;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -116,6 +114,17 @@ public class ForumController extends BaseController{
 		mav.setViewName("/user/forum");
 		page.setKeyWords(StringUtil.isNullOrSpace(keyWords)?null:keyWords);
 		mav.getModel().put("data",page);
+		String s = redisTemplate.opsForValue().get(RedisKeyEnum.USER_TOP_LIST);
+		List list = StringUtil.stringToObj(s, List.class);
+		List<Statistic> topUsers = new ArrayList<>();
+		if (list!=null){
+			for (int i = 0; i < list.size(); i++) {
+				User userId1 = iUserService.getById((String) ((JSONObject) list.get(i)).get("userId"));
+
+				topUsers.add(new Statistic((String) ((JSONObject) list.get(i)).get("userId"),(Integer) ((JSONObject) list.get(i)).get("res"),userId1.getUserNickname()));
+			}
+		}
+		mav.getModel().put("top",topUsers);
 		return mav;
 	}
 	@GetMapping(value = "/user/forum/{id}")

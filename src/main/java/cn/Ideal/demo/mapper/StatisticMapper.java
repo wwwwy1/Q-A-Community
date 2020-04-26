@@ -4,6 +4,8 @@ import cn.Ideal.demo.entity.Statistic;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -18,5 +20,6 @@ public interface StatisticMapper extends BaseMapper<Statistic> {
 
 	@Select("select sum(count) as res from statistic  where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(insert_date) and tags_id = #{tagsId,jdbcType=INTEGER}")
 	Integer lastWeekCountByTagsId(Integer tagsId);
-
+	@Select("select user_id,sum(count) as res from statistic where DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(insert_date) and user_id IS NOT NULL GROUP BY user_id ORDER BY res desc LIMIT 10")
+	List<Statistic> lastWeekCountUserTop();
 }

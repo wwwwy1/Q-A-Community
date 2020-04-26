@@ -243,11 +243,11 @@
 					<section>
 						<h3>近期活跃用户</h3>
 
-						<ul class="articles">
+						<ul class="articles" th:each="data:${top}">
 							<li>&nbsp;</li>
 							<li class="article-entry standard" style="padding-bottom: 10px;" ><!--th:each="value:${data}"-->
-								<h4><a href="forumDeatils" >标题字段111</a></h4>
-								<span >日期字段222</span>
+								<h4><a href="forumDeatils" th:text="${data.userNickname}">标题字段111</a></h4>
+								<span th:text="${data.res}">日期字段222</span>
 							</li>
 						</ul>
 					</section>
