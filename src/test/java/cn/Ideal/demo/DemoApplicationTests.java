@@ -6697,6 +6697,60 @@ class Trie {
 		}
 		return res;
 	}
+	public int search0427(int[] nums, int target) {
+		int lo = 0, hi = nums.length - 1, mid = 0;
+		while (lo <= hi) {
+			mid = lo + (hi - lo) / 2;
+			if (nums[mid] == target) {
+				return mid;
+			}
+			// 先根据 nums[mid] 与 nums[lo] 的关系判断 mid 是在左段还是右段
+			if (nums[mid] >= nums[lo]) {
+				// 再判断 target 是在 mid 的左边还是右边，从而调整左右边界 lo 和 hi
+				if (target >= nums[lo] && target < nums[mid]) {
+					hi = mid - 1;
+				} else {
+					lo = mid + 1;
+				}
+			} else {
+				if (target > nums[mid] && target <= nums[hi]) {
+					lo = mid + 1;
+				} else {
+					hi = mid - 1;
+				}
+			}
+		}
+		return -1;
+	}
+	public int[] SingleNumbers(int[] nums){
+		int xorSum = 0;
+		int[] ans = new int[2];
+		for (int num : nums) {
+			xorSum ^= num;
+		}
+		int lowbit = xorSum &(-xorSum);
+		for (int num : nums) {
+			ans[(num & lowbit) > 0 ? 0 : 1] ^= num;
+		}
+		return ans;
+	}
+	public boolean isHappy(int n) {
+		Set<Integer> set = new HashSet<>();
+		while (n!=1){
+			if (set.contains(n)){
+				return false;
+			}else {
+				set.add(n);
+			}
+			int t = n;
+			n=0;
+			while (t!=0){
+				n+=(t%10)*(t%10);
+				t/=10;
+			}
+		}
+		return true;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
