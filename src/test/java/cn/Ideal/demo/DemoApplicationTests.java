@@ -6751,13 +6751,149 @@ class Trie {
 		}
 		return true;
 	}
+
+	/*
+	* 289周赛
+	* */
+	public String digitSum(String s, int k) {
+		if (s.length()<=k){
+			return s;
+		}
+		StringBuilder sb =new StringBuilder(s);
+		while (sb.length()>k){
+			StringBuilder temp = new StringBuilder(sb.toString());
+			sb = new StringBuilder();
+			int t =0;
+			int count = 0;
+			for (int i = 0; i < temp.length(); i++) {
+				if (count>=k){
+					sb.append(t);
+					count = 0;
+					t= 0;
+				}
+				count++;
+				t+= (int) temp.charAt(i)-'0';
+			}
+			sb.append(t);
+		}
+		return sb.toString();
+	}
+
+	public int minimumRounds(int[] tasks) {
+		int ans = 0;
+		Map<Integer,Integer> dict = new HashMap<>();
+		for (int i = 0; i < tasks.length; i++) {
+			if (dict.containsKey(tasks[i])){
+				dict.put(tasks[i],dict.get(tasks[i])+1);
+			}else {
+				dict.put(tasks[i],1);
+			}
+		}
+		for (Integer key : dict.keySet()) {
+			Integer num = dict.get(key);
+			int num3 = num/3;
+			int num2 = (num-num3*3) / 2;
+			if ((num-num3*3)%2==1){
+				num3--;
+				num2 = (num-num3*3) / 2;
+			}
+			if (num3<0){
+				return -1;
+			}
+			ans += num2;
+			ans += num3;
+		}
+		return ans;
+	}
+
+
+	public int maxTrailingZeros(int[][] grid) {
+		long temp = 0;
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+
+			}
+		}
+
+		return 1;
+	}
+
+
+	public String removeDigit(String number, char digit) {
+		List<String> dict = new ArrayList<>();
+		for (int i = 0; i < number.length(); i++) {
+			if (number.charAt(i) == digit){
+				dict.add(number.substring(0,i)+number.substring(i+1,number.length()));
+			}
+		}
+		Collections.sort(dict);
+		return dict.get(dict.size()-1);
+	}
+
+	public int minimumCardPickup(int[] cards) {
+		Map<Integer,List<Integer>> map = new HashMap<>();
+		for (int i = 0; i < cards.length; i++) {
+			if (map.containsKey(cards[i])){
+				map.get(cards[i]).add(i);
+			}else {
+				List<Integer> list = new ArrayList<>();
+				list.add(i);
+				map.put(cards[i],list);
+			}
+		}
+		int ans = Integer.MAX_VALUE;
+		for (Integer key : map.keySet()) {
+			List<Integer> list = map.get(key);
+			if (list.size()<2){
+				continue;
+			}
+			int t = list.get(0);
+			for (int i = 1; i < list.size(); i++) {
+				ans = Math.min(ans,list.get(i)-t+1);
+				t = list.get(i);
+			}
+		}
+		return ans==Integer.MAX_VALUE?-1:ans;
+	}
+	/*
+	 输入：nums = [2,3,3,2,2], k = 2, p = 2
+	 输出：11
+	*/
+	public int countDistinct(int[] nums, int k, int p) {
+		Queue<Integer> queue = new LinkedList<>();
+		int ans = 0;
+		int count = 0;
+		int index = 0;
+		while (index<nums.length){
+			queue.add(nums[index]);
+			if (p%nums[index]==0){
+				count++;
+			}
+			if (count<=k){
+				ans++;
+			}else {
+				while (count>k){
+					if (p%queue.poll()==0){
+						count--;
+					}
+					ans++;
+				}
+
+			}
+			index++;
+		}
+		return ans;
+	}
+
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		int[][] gc = new int[][]{{2,8,4},{2,5,0},{10,9,8}};
 		int[][] g2c = new int[][]{{2,11,3},{15,10,7},{9,17,12},{8,3,14},{8,2,14},{8,1,14},{2000,1,14},{2300,1,14},{2100,1,14}};
-		//t.maxAreaOfIsland(gc);
+		//t.maxAreaOfIsland(gc);150+540  690
 		List<List<Integer>> tt12 = new ArrayList<>();
+		System.out.println(t.countDistinct(new int[]{2,3,3,2,2},2,2));
+
 		List<Integer> ar = new ArrayList<>();
 		ar.add(11);
 		ar.add(6);
@@ -6793,7 +6929,7 @@ class Trie {
 		//ar.contains()
 		int[] temp = {2,5,1,1,1,1};
 
-		System.out.println(t.findDiagonalOrder(tt12));
+		//System.out.println(t.minimumRounds(new int[]{2,2,3,3,2,4,4,4,4,4}));
 
 		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
 		/*int[] arr = {1,3,5,3,2,5,1,4,6};
@@ -6923,21 +7059,7 @@ class Trie {
 
 /*
 *
-*
-*
-*
-*
-*
-*
 
-*
-*
-*
-*
-*
-*
-*
-*
 *
 * */
 
