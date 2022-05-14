@@ -40,7 +40,7 @@ public class ScheduleTask {
 	@Autowired
 	private IUserService iUserService;
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	@Scheduled(cron = "0 0 6 * * ?")  // 每天早上6点获取工作信息
+	//@Scheduled(cron = "0 0 6 * * ?")  // 每天早上6点获取工作信息
 	public void getJobsInfo() throws IOException, SolrServerException {
 		redisTemplate.delete("jobs");
 		List<Job> ret = JobUtil.getJobs();
@@ -52,7 +52,7 @@ public class ScheduleTask {
 		logger.info("获取工作信息成功-定时任务");
 	}
 	@Transactional
-	@Scheduled(cron = "0 * * * * ? ")
+	//@Scheduled(cron = "0 * * * * ? ")
 	public void redisDataToMySQL() {
 		//插入用户已经点赞的文章
 		Map<Object, Object> thumbUpForum = redisTemplate.opsForHash().entries(THUMB_UP_FORUM);//thumbUpReply

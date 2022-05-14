@@ -46,7 +46,7 @@ public class UserController {
 	public Boolean checkUserName(String userName) {
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("user_name", userName);
-		int count = iUserService.count(queryWrapper);
+		long count = iUserService.count(queryWrapper);
 		return count == 0;
 	}
 
@@ -54,7 +54,7 @@ public class UserController {
 	public Boolean checkUserEmail(String userEmail) {
 		QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 		queryWrapper.eq("user_email", userEmail);
-		int count = iUserService.count(queryWrapper);
+		long count = iUserService.count(queryWrapper);
 		return count == 0;
 	}
 

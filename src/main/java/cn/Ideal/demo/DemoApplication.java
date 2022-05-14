@@ -13,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 @MapperScan("cn.Ideal.demo.mapper")
-@ComponentScan
 @SpringBootApplication
 public class DemoApplication {
 

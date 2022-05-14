@@ -1,5 +1,6 @@
 package cn.Ideal.demo.configuration;
 
+/*
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
@@ -13,4 +14,4 @@ public class MybatisPlusConfig {
 		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
 		return paginationInterceptor;
 	}
-}
+}*/

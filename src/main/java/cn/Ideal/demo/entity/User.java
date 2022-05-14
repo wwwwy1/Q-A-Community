@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
             /**
             * 主键
             */
-            @TableId(value = "id",type = IdType.UUID)
+            @TableId(value = "id",type = IdType.ASSIGN_UUID)
     private String id;
 
             /**

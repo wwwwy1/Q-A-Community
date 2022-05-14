@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Component
+//@Component
 @Order(value = 1)
 public class StartService implements ApplicationRunner {
 	@Autowired
