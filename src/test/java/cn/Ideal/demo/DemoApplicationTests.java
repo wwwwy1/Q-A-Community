@@ -6885,6 +6885,78 @@ class Trie {
 		return ans;
 	}
 
+
+	public int minStickers(String[] stickers, String target) {
+
+		return 0;
+	}
+
+	/*2022-05-16每日一题*/
+	List<TreeNode> queue20220516 = new ArrayList<>();
+	public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+		dfs20220516(root);
+		for (int i = 0; i < queue20220516.size(); i++) {
+			if (queue20220516.get(i) == p){
+				return queue20220516.size()>(i+1)?queue20220516.get(i+1):null;
+			}
+		}
+		return null;
+	}
+
+	private void dfs20220516(TreeNode root){
+		if (root==null){
+			return;
+		}
+		dfs20220516(root.left);
+		queue20220516.add(root);
+		dfs20220516(root.right);
+	}
+	/**
+	 * 0518刷题
+	 */
+	public List<String> removeAnagrams(String[] words) {
+		List<String> dict = new ArrayList<>();
+		List<String> sortDict = new ArrayList<>();
+		for (String word : words) {
+			dict.add(word);
+			char[] chars = word.toCharArray();
+			Arrays.sort(chars);
+			sortDict.add(new String(chars));
+		}
+		int flag = 0;
+		while (flag==0){
+			flag = 1;
+			for (int i = sortDict.size()-1; i >=1 ; i--) {
+				if (sortDict.get(i).equals(sortDict.get(i-1))){
+					sortDict.remove(i);
+					dict.remove(i);
+					flag = 0;
+					break;
+				}
+			}
+		}
+		return dict;
+	}
+
+	public int numIdenticalPairs(int[] nums) {
+		int ans = 0;
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = i+1; j < nums.length; j++) {
+				if (nums[i]==nums[j])
+					ans++;
+			}
+		}
+		return ans;
+	}
+
+	public int maxConsecutive(int bottom, int top, int[] special) {
+		Arrays.sort(special);
+		int res = Math.max(special[0] - bottom,top - special[special.length-1]);
+		for (int i = 1; i < special.length; i++) {
+			res = Math.max(special[i]-special[i-1]-1,res);
+		}
+		return res;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
