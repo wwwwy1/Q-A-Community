@@ -6957,6 +6957,16 @@ class Trie {
 		}
 		return res;
 	}
+	//22020519 每日一题
+	public int minMoves2(int[] nums) {
+		Arrays.sort(nums);
+		int ans  =0;
+		int avg = nums[nums.length/2];
+		for (int i = 0; i < nums.length; i++) {
+			ans += Math.abs(nums[i]-avg);
+		}
+		return ans;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
