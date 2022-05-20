@@ -6967,6 +6967,42 @@ class Trie {
 		}
 		return ans;
 	}
+	//22020520 每日一题
+	public int[] findRightInterval(int[][] intervals) {
+		int[] res = new int[intervals.length];
+		Arrays.fill(res,-1);
+		if (intervals.length==1){
+			return new int[]{-1};
+		}
+		Map<Integer,Integer> keyDict = new HashMap<>();
+		List<Integer> keyList = new ArrayList<>();
+		for (int i = 0; i < intervals.length; i++) {
+			keyDict.put(intervals[i][0],i);
+			keyList.add(intervals[i][0]);
+		}
+		Collections.sort(keyList);
+		// 二分
+		for (int i = 0; i < intervals.length; i++) {
+			int end = intervals[i][1];
+			int l = 0;
+			int r = intervals.length-1;
+			while (l < r)
+			{
+				int mid = l + r >> 1;
+				if (keyList.get(mid)>=end){
+					r = mid;
+				} else{
+					l = mid + 1;
+				}
+			}
+			if (keyList.get(l)<end){
+				res[i] = -1;
+			}else {
+				res[i] = keyDict.get(keyList.get(l));
+			}
+		}
+		return res;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
