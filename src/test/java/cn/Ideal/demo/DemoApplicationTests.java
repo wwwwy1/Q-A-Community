@@ -7003,6 +7003,18 @@ class Trie {
 		}
 		return res;
 	}
+	// 22020521 每日一题
+	public int repeatedNTimes(int[] nums) {
+		Set<Integer> checkSet = new HashSet<>();
+		for (int i = 0; i < nums.length; i++) {
+			if (checkSet.contains(nums[i])){
+				return nums[i];
+			}else {
+				checkSet.add(nums[i]);
+			}
+		}
+		return 0;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
