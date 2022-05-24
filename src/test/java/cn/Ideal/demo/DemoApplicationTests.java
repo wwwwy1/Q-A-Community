@@ -7015,6 +7015,31 @@ class Trie {
 		}
 		return 0;
 	}
+	// 22020524 每日一题
+	public boolean isUnivalTree(TreeNode root) {
+		if (root==null){
+			return true;
+		}
+		int val = root.val;
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.add(root);
+		while (queue.size()>0){
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				TreeNode poll = queue.poll();
+				if (poll.val!=val){
+					return false;
+				}
+				if (poll.left!=null){
+					queue.add(poll.left);
+				}
+				if (poll.right!=null){
+					queue.add(poll.right);
+				}
+			}
+		}
+		return true;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
