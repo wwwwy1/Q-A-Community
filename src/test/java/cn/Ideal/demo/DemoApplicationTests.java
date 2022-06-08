@@ -7040,6 +7040,78 @@ class Trie {
 		}
 		return true;
 	}
+	//
+	public int minMaxGame(int[] nums) {
+		int flag = 0;
+		List<Integer> dict = new ArrayList<>();
+		for (int num : nums) {
+			dict.add(num);
+		}
+		while (dict.size()>1){
+			flag = 0;
+			List<Integer> temp = new ArrayList<>();
+			for (int i = 0; i < dict.size(); i+=2) {
+				if (flag%2==0){
+					temp.add(Math.min(dict.get(i),dict.get(i+1)));
+				}else {
+					temp.add(Math.max(dict.get(i),dict.get(i+1)));
+				}
+				flag++;
+			}
+			dict = temp;
+		}
+		return dict.get(0);
+	}
+
+	public int partitionArray(int[] nums, int k) {
+		Arrays.sort(nums);
+		int t =nums[0];
+		int ans = 1;
+		for (int i = 1; i < nums.length; i++) {
+			if (nums[i]-t>k){
+				ans++;
+				t = nums[i];
+			}
+		}
+		return ans;
+	}
+	// 22020607 每日一题
+	public int minEatingSpeed(int[] piles, int h) {
+		long l = 1;
+		long r = 0;
+		for (int i = 0; i < piles.length; i++) {
+			r+=piles[i];
+		}
+		while (l < r) {
+			long mid = l + r >> 1;
+			if (check875(piles,h,mid)){
+				r = mid;
+			} else{
+				l = mid + 1;
+			}
+		}
+		return (int)l;
+	}
+	public boolean check875(int[] piles, int h, long mid){
+		long res = 0;
+		for (int i = 0; i < piles.length; i++) {
+			res += piles[i]%mid==0?piles[i]/mid:piles[i]/mid+1;
+		}
+		return res<=h;
+	}
+	public int[] arrayChange(int[] nums, int[][] operations) {
+		Map<Integer,Integer> dict = new HashMap<>();
+		for (int i = 0; i < nums.length; i++) {
+			dict.put(nums[i],i);
+		}
+		for (int i = 0; i < operations.length; i++) {
+			Integer index = dict.get(operations[i][0]);
+			dict.remove(operations[i][0]);
+			dict.put(operations[i][1],index);
+		}
+		dict.forEach((k,v)->nums[v]=k);
+		return nums;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
@@ -7047,7 +7119,7 @@ class Trie {
 		int[][] g2c = new int[][]{{2,11,3},{15,10,7},{9,17,12},{8,3,14},{8,2,14},{8,1,14},{2000,1,14},{2300,1,14},{2100,1,14}};
 		//t.maxAreaOfIsland(gc);150+540  690
 		List<List<Integer>> tt12 = new ArrayList<>();
-		System.out.println(t.countDistinct(new int[]{2,3,3,2,2},2,2));
+		System.out.println(t.partitionArray(new int[]{2,2,4,5},0));
 
 		List<Integer> ar = new ArrayList<>();
 		ar.add(11);
