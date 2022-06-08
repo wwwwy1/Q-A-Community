@@ -328,13 +328,11 @@
         var width = $("#width").val();
         var height = $("#height").val();
         var formData = new FormData();
-        debugger;
         formData.append('photo',toFile);//.files[0]$('#phooo')[0].files[0]
         formData.append('x',x);
         formData.append('y',y);
         formData.append('width',width);
         formData.append('height',height);
-        debugger;
         $.ajax({
             url:"/user/uploadPhoto",
             type:"post",
@@ -348,7 +346,7 @@
                         text: "修改成功",
                         type: "success"
                     },function () {
-                        location.href("/user/personal");
+						window.location = "/user/personal";
                     });
                 } else {
                     swal({
@@ -356,7 +354,7 @@
                         text: "请换张图片试试",
                         type: "warning"
                     },function () {
-                        location.href("/user/personal");
+						window.location = "/user/personal";
                     });
                 }
             },
@@ -414,7 +412,6 @@
     })
     // 解决底部自动导航的问题
     function autoFooterHeight() {
-	    debugger;
         // 获取内容的高度
         var bodyHeight = $("body").height();
         // 获取底部导航的高度
@@ -435,7 +432,6 @@
             method:"get",
             dataType:"json",
             success:function (data) {
-                debugger;
                 if (data.code == 200){
                     swal({
                         title: "注销成功",

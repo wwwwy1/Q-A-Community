@@ -279,7 +279,6 @@
             })
         }
         function addDont() {
-            //debugger;
             var workDate = $("#workDate").val();
             var id = $("#id").val();
             var workContent = $("#workContent").val();
@@ -314,7 +313,6 @@
         var temp;
         function changeTask(t) {
             temp = t;
-			debugger;
             $("#workDate").val(t.parent().parent()[0].children[1].children[2].innerText);
             $("#workContent").val(t.parent().parent()[0].children[0].innerText);
             $('#modalTitle').text("修改任务");
