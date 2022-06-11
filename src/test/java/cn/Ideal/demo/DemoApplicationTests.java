@@ -7119,6 +7119,23 @@ class Trie {
 		int x3 = points[2][0], y3 = points[2][1];
 		return (y2 - y1) * (x3 - x2) != (y3 - y2) * (x2 - x1);
 	}
+
+	//20220611 每日一题
+	public int minFlipsMonoIncr(String s) {
+		int n = s.length();
+		int ans = n;
+		int [] preSum = new int[s.length()];
+		preSum[0] = (int) s.charAt(0)-'0';
+		for (int i = 1; i < s.length(); i++) {
+			preSum[i] = preSum[i-1] + (int) s.charAt(i)-'0';
+		}
+		ans = Math.min(preSum[n-1],n-preSum[n-1]);
+		for (int i = 0; i < s.length(); i++) {
+			ans = Math.min(ans,preSum[i]  +(n-i-1-preSum[n-1]+preSum[i]));
+		}
+
+		return ans;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
