@@ -7136,6 +7136,90 @@ class Trie {
 
 		return ans;
 	}
+
+	//20220613 每日一题
+	public int heightChecker(int[] heights) {
+		int[] t = new int[heights.length];
+		for (int i = 0; i < heights.length; i++) {
+			t[i] = heights[i];
+		}
+		Arrays.sort(heights);
+		int ans = 0;
+		for (int i = 0; i < heights.length; i++) {
+			if (heights[i]!=t[i]){
+				ans++;
+			}
+		}
+		return ans;
+	}
+	// 20220612周赛
+	public double calculateTax(int[][] brackets, int income) {
+		double ans = 0D;
+		int[] t = new int[brackets.length];
+		t[0] = brackets[0][0];
+		for (int i = 1; i < brackets.length; i++) {
+			t[i] = brackets[i][0]-brackets[i-1][0];
+		}
+
+		for (int i = 0; i < brackets.length; i++) {
+			if (income>=brackets[i][0]){
+				ans += t[i]*1.0*brackets[i][1];
+			}else {
+				if (i==0){
+					return ans + (income)*1.0*brackets[i][1]/100;
+				}
+				return (ans + (income-brackets[i-1][0])*1.0*brackets[i][1])/100;
+			}
+		}
+		return ans/100;
+	}
+
+	public String greatestLetter(String s) {
+		int[] dict = new int[26];
+		char ans = '0';
+		for (int i = 0; i < s.length(); i++) {
+			if ('a'<=s.charAt(i) && 'z'>=s.charAt(i)){
+				dict[s.charAt(i)-'a'] = 1;
+			}
+		}
+		for (int i = 0; i < s.length(); i++) {
+			if ('A'<=s.charAt(i) && 'Z'>=s.charAt(i)){
+				if (dict[s.charAt(i)-'A']==1 && s.charAt(i)>ans){
+					ans = s.charAt(i);
+				}
+			}
+		}
+		return ans=='0'?"":ans+"";
+	}
+
+	public String defangIPaddr(String address) {
+		return address.replaceAll("\\.","[.]");
+	}
+
+	public List<Integer> largestValues(TreeNode root) {
+		if (root==null){
+			return new ArrayList<>();
+		}
+		List<Integer> res = new ArrayList<>();
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.add(root);
+		while (!queue.isEmpty()){
+			int size = queue.size();
+			int max = queue.peek().val;
+			for (int i = 0; i < size; i++) {
+				TreeNode poll = queue.poll();
+				max = Math.max(max,poll.val);
+				if (poll.left!=null){
+					queue.add(poll.left);
+				}
+				if (poll.right!=null){
+					queue.add(poll.right);
+				}
+			}
+			res.add(max);
+		}
+		return res;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 	public  static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
@@ -7281,6 +7365,82 @@ class Trie {
 			swap(nums, par, maxIndex);                 // 互换到最大子节点
 			rebuildHeap(nums, maxIndex, last);         // 重建最大子节点代表的子树
 		}
+	}
+	/**
+	 * LeetCode 302周数  前三题
+	 */
+	public int maximumSum302(int[] nums) {
+		Map<Integer, List<Integer>> dict = new HashMap<>();
+		for (int i = 0; i < nums.length; i++) {
+			int numSum = getNumSum(nums[i]);
+			if (dict.containsKey(numSum)){
+				dict.get(numSum).add(nums[i]);
+			}else {
+				List<Integer> temp = new ArrayList<>();
+				temp.add(nums[i]);
+				dict.put(numSum,temp);
+			}
+		}
+		int ans = -1;
+		Set<Integer> keySet = dict.keySet();
+		for (Integer key : keySet) {
+			List<Integer> list = dict.get(key);
+			if (list.size()<2){
+				continue;
+			}
+			Collections.sort(list);
+			ans = Math.max(ans,list.get(list.size()-1)+list.get(list.size()-2));
+		}
+		return ans;
+	}
+	private int getNumSum(int num){
+		String s = String.valueOf(num);
+		int res = 0;
+		for (int i = 0; i < s.length(); i++) {
+			res += Integer.valueOf(s.charAt(i)-'0');
+		}
+		return res;
+	}
+
+	public int[] smallestTrimmedNumbers(String[] nums, int[][] queries) {
+		int[] ans = new int[queries.length];
+		Map<Integer,int[]> dict = new HashMap<>();
+		for (int i = 0; i < queries.length; i++) {
+			int digit  = queries[i][1];
+			String[] t = new String[nums.length];
+			int[] sNum = new int[nums.length];
+			if (dict.containsKey(digit)){
+				sNum = dict.get(digit);
+				ans[i] =sNum[queries[i][0]-1];
+			}else {
+				for (int j = 0; j < nums.length; j++) {
+					t[j] = nums[j].substring(nums[j].length()-digit);
+					sNum[j] = j;
+				}
+				// 冒泡
+				for (int x = 1; x < t.length; x++) {
+					boolean flag = true;
+
+					for (int j = 0; j < t.length - x; j++) {
+						if (t[j].compareTo(t[j + 1]) >0 ) {
+							String tmp = t[j];
+							t[j] = t[j + 1];
+							t[j + 1] = tmp;
+
+							int tmp2 = sNum[j];
+							sNum[j] = sNum[j + 1];
+							sNum[j + 1] = tmp2;
+
+							flag = false;
+						}
+					}
+					if (flag) break;
+				}
+				dict.put(digit,sNum);
+				ans[i] =sNum[queries[i][0]-1];
+			}
+		}
+		return ans;
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
