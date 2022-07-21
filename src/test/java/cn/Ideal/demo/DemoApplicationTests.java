@@ -7442,6 +7442,21 @@ class Trie {
 		}
 		return ans;
 	}
+	/**
+	 *
+	 */
+	public TreeNode pruneTree(TreeNode root) {
+		return dfs0721(root);
+	}
+	private TreeNode dfs0721(TreeNode root){
+		if (root == null)	return null;
+		root.left = dfs0721(root.left);
+		root.right = dfs0721(root.right);
+		if (root.left == null && root.right == null && root.val == 0) {
+			root =  null;
+		}
+		return root;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	//map排序方式
