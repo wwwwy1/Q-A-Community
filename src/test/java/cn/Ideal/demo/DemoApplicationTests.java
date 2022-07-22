@@ -7457,6 +7457,92 @@ class Trie {
 		}
 		return root;
 	}
+
+	/**
+	 * LeetCode 301周赛 前三题
+	 */
+	public int fillCups(int[] amount) {
+		int ans = 0;
+		Arrays.sort(amount);
+		while (amount[2]>0){
+			amount[2]--;
+			amount[1]--;
+			ans++;
+			Arrays.sort(amount);
+		}
+		return ans;
+	}
+
+	class SmallestInfiniteSet {
+		List<Integer> list;
+		public SmallestInfiniteSet() {
+			list = new ArrayList<>();
+			for (int i = 1; i <= 1050; i++) {
+				list.add(i);
+			}
+		}
+
+		public int popSmallest() {
+			Integer min = list.get(0);
+			list.remove(0);
+			return min;
+		}
+
+		public void addBack(int num) {
+			if (!list.contains(num)){
+				list.add(0,num);
+				Collections.sort(list);
+			}
+		}
+	}
+
+	public boolean canChange(String start, String target) {
+		StringBuilder sbs = new StringBuilder();
+		StringBuilder sbe = new StringBuilder();
+		List<Integer> ls = new ArrayList<>();
+		List<Integer> rs = new ArrayList<>();
+		List<Integer> le = new ArrayList<>();
+		List<Integer> re = new ArrayList<>();
+		for (int i = 0; i < start.length(); i++) {
+			if (start.charAt(i) == '_'){
+				continue;
+			}
+			sbs.append(start.charAt(i));
+			if (start.charAt(i) == 'L'){
+				ls.add(i);
+			}
+			if (start.charAt(i) == 'R'){
+				rs.add(i);
+			}
+		}
+		for (int i = 0; i < target.length(); i++) {
+			if (target.charAt(i) == '_'){
+				continue;
+			}
+			sbe.append(target.charAt(i));
+			if (target.charAt(i) == 'L'){
+				le.add(i);
+			}
+			if (target.charAt(i) == 'R'){
+				re.add(i);
+			}
+		}
+
+		if (!sbs.toString().equals(sbe.toString())) {
+			return false;
+		}
+		for (int i = 0; i < ls.size(); i++) {
+			if (le.get(i)>ls.get(i)){
+				return false;
+			}
+		}
+		for (int i = 0; i < rs.size(); i++) {
+			if (re.get(i)<rs.get(i)){
+				return false;
+			}
+		}
+		return true;
+	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
 	//map排序方式
