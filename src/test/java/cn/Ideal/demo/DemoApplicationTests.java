@@ -7221,70 +7221,7 @@ class Trie {
 		return res;
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
-	public  static void main(String[] args) {
-		DemoApplicationTests t = new DemoApplicationTests();
-		int[][] gc = new int[][]{{2,8,4},{2,5,0},{10,9,8}};
-		int[][] g2c = new int[][]{{2,11,3},{15,10,7},{9,17,12},{8,3,14},{8,2,14},{8,1,14},{2000,1,14},{2300,1,14},{2100,1,14}};
-		//t.maxAreaOfIsland(gc);150+540  690
-		List<List<Integer>> tt12 = new ArrayList<>();
-		System.out.println(t.partitionArray(new int[]{2,2,4,5},0));
 
-		List<Integer> ar = new ArrayList<>();
-		ar.add(11);
-		ar.add(6);
-		ar.add(9);
-		ar.add(20);
-		List<Integer> ar2 = new ArrayList<>();
-		ar2.add(16);
-		ar2.add(1);
-		ar2.add(20);
-		List<Integer> ar3 = new ArrayList<>();
-		ar3.add(14);
-		ar3.add(19);
-		ar3.add(14);
-		ar3.add(17);
-		ar3.add(15);
-		List<Integer> ar4 = new ArrayList<>();
-		ar4.add(8);
-		ar4.add(19);
-		ar4.add(11);
-		ar4.add(3);
-		List<Integer> ar5 = new ArrayList<>();
-		ar5.add(3);
-		ar5.add(13);
-		ar5.add(17);
-		ar5.add(4);
-		tt12.add(ar);
-		tt12.add(ar2);
-		tt12.add(ar3);
-		tt12.add(ar4);
-		tt12.add(ar5);
-
-
-		//ar.contains()
-		int[] temp = {2,5,1,1,1,1};
-
-		//System.out.println(t.minimumRounds(new int[]{2,2,3,3,2,4,4,4,4,4}));
-
-		//System.out.println(StringUtil.extractMessageByTime("created:2019-01-01..2019-02-05"));
-		/*int[] arr = {1,3,5,3,2,5,1,4,6};
-		t.heapSort(arr);
-		t.quick_sort(arr,0,arr.length-1);
-		t.mergeSort(arr,0,arr.length-1);
-		LFUCache cache = new LFUCache( 2 *//* capacity (缓存容量) *//* );
-
-		cache.put(1, 1);
-		cache.put(2, 2);
-		cache.get(1);       // 返回 1
-		cache.put(3, 3);    // 去除 key 2
-		cache.get(2);       // 返回 -1 (未找到key 2)
-		cache.get(3);       // 返回 3
-		cache.put(4, 4);    // 去除 key 1
-		cache.get(1);       // 返回 -1 (未找到 key 1)
-		cache.get(3);       // 返回 3
-		cache.get(4);       // 返回 4
-		System.out.println(Arrays.toString(arr));*/
-	}
 	public void swap(int[] nums, int i, int j) {
 		int temp = nums[i];
 		nums[i] = nums[j];
@@ -7542,6 +7479,155 @@ class Trie {
 			}
 		}
 		return true;
+	}
+
+	// LeetCode 60双周赛 前三题
+	public int findMiddleIndex(int[] nums) {
+		int left = 0;
+		for (int i = 0; i < nums.length; i++) {
+			int r = 0;
+			for (int j = i+1; j < nums.length; j++) {
+				r+=nums[j];
+			}
+			if (left==r){
+				return i;
+			}
+			left+=nums[i];
+		}
+
+		return -1;
+	}
+
+	public int[][] findFarmland(int[][] land) {
+		List<List<Integer>> ans = new ArrayList<>();
+		for (int i = 0; i < land.length; i++) {
+			for (int j = 0; j < land[i].length; j++) {
+				if (land[i][j]==1){
+					List<Integer> temp = new ArrayList<>();
+					temp.add(i);
+					temp.add(j);
+					int left = i;
+					int right = j;
+					while (left+1<land.length && right+1<land[left].length && land[left+1][right+1]==1 &&
+							land[left][right+1]==1 && land[left+1][right]==1){
+						left++;
+						right++;
+					}
+					while (left+1<land.length && land[left+1][right]==1){
+						left++;
+					}
+					while (right+1<land[left].length &&	land[left][right+1]==1){
+						right++;
+					}
+					temp.add(left);
+					temp.add(right);
+					for (int k = temp.get(0); k <=temp.get(2) ; k++) {
+						for (int l = temp.get(1); l <= temp.get(3); l++) {
+							land[k][l] = 2;
+						}
+					}
+					ans.add(temp);
+				}
+			}
+		}
+		int[][] res = new int[ans.size()][4];
+		for (int i = 0; i < ans.size(); i++) {
+			res[i] = new int[]{ans.get(i).get(0),ans.get(i).get(1),ans.get(i).get(2),ans.get(i).get(3)};
+		}
+		return res;
+	}
+
+	static class LockingTree {
+		int[] tree;
+		int[] lockUser;
+		Map<Integer,List<Integer>> map = new HashMap<>();
+		public LockingTree(int[] parent) {
+			tree = parent;
+			lockUser = new int[parent.length];
+			Arrays.fill(lockUser,-1);
+			for (int i = 0; i < tree.length; i++) {
+				if (map.containsKey(tree[i])){
+					map.get(tree[i]).add(i);
+				}else {
+					List<Integer> temp = new ArrayList<>();
+					temp.add(i);
+					map.put(tree[i],temp);
+				}
+			}
+		}
+
+		public boolean lock(int num, int user) {
+			if (lockUser[num]==-1){
+				lockUser[num] = user;
+				return true;
+			}
+			return false;
+		}
+
+		public boolean unlock(int num, int user) {
+			if (lockUser[num] == user){
+				lockUser[num] = -1;
+				return true;
+			}
+			return false;
+		}
+
+		public boolean upgrade(int num, int user) {
+			if (lockUser[num]!=-1){
+				return false;
+			}
+			// 父节点 锁定状态
+			int fNode = num;
+			while(fNode!=-1){
+				if (tree[fNode] != -1 && lockUser[tree[fNode]]!=-1){
+					return false;
+				}
+				fNode = tree[fNode];
+			}
+			int flag = 0;
+
+			Queue<Integer> queueLock = new LinkedList<>();
+			queueLock.add(num);
+			while(queueLock.size()>0){
+				Integer node = queueLock.poll();
+				List<Integer> list = map.get(node);
+				if (list!=null){
+					for (int j = 0; j < list.size(); j++) {
+						if (tree[list.get(j)]==node){
+							if (lockUser[list.get(j)]!=-1){
+								flag = 1;
+							}
+							lockUser[list.get(j)] = -1;
+							queueLock.add(list.get(j));
+						}
+					}
+				}
+
+			}
+			if (flag==0){
+				return false;
+			}
+			lockUser[num] = user;
+			return true;
+		}
+	}
+
+	public static void main(String[] args) {
+		DemoApplicationTests t = new DemoApplicationTests();
+		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
+
+		LockingTree lockingTree = new LockingTree(new int[]{-1, 0, 0, 1, 1, 2, 2});
+		lockingTree.upgrade(0, 1); // 返回 true ，因为节点 0 未上锁且至少有一个被上锁的子孙节点（节点 4）。
+
+		lockingTree.lock(2, 2);    // 返回 true ，因为节点 2 未上锁。
+									 // 节点 2 被用户 2 上锁。
+		lockingTree.unlock(2, 3);  // 返回 false ，因为用户 3 无法解锁被用户 2 上锁的节点。
+		lockingTree.unlock(2, 2);  // 返回 true ，因为节点 2 之前被用户 2 上锁。
+									 // 节点 2 现在变为未上锁状态。
+		lockingTree.lock(4, 5);    // 返回 true ，因为节点 4 未上锁。
+									 // 节点 4 被用户 5 上锁。
+									 // 节点 0 被用户 1 上锁，节点 4 变为未上锁。
+		lockingTree.lock(0, 1);    // 返回 false ，因为节点 0 已经被上锁了。
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
