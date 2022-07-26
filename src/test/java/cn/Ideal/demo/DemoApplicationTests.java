@@ -7612,22 +7612,109 @@ class Trie {
 		}
 	}
 
+	//LeetCode 第303场周赛 前三题
+	public char repeatedCharacter(String s) {
+		Set<Character> set = new HashSet<>();
+		for (char c : s.toCharArray()) {
+			if (set.contains(c)){
+				return c;
+			}else {
+				set.add(c);
+			}
+		}
+		return ' ';
+	}
+
+	public int equalPairs(int[][] grid) {
+		int n = grid.length;
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				int flag = 1;
+				for (int k = 0; k < n; k++) {
+					if (grid[i][k]!=grid[k][j]){
+						flag = 0;
+						break;
+					}
+				}
+				ans+=flag;
+			}
+		}
+		return ans;
+	}
+
+	static class FoodRatings {
+		class JG {
+			String food;
+			String cuisine;
+			int ratings;
+			public JG(String food, String cuisine, int ratings) {
+				this.food = food;
+				this.cuisine = cuisine;
+				this.ratings = ratings;
+			}
+		}
+
+		Map<String,PriorityQueue<JG>> rankMap = new HashMap<>();
+		Map<String,JG> foodMap = new HashMap<>();
+
+		public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
+			for (int i = 0; i < cuisines.length; i++) {
+				JG jg = new JG(foods[i], cuisines[i], ratings[i]);
+				if (rankMap.containsKey(cuisines[i])){
+					rankMap.get(cuisines[i]).add(jg);
+				}else {
+					PriorityQueue<JG> temp = new PriorityQueue<>((o1,o2)->{
+						if (o1.ratings!=o2.ratings){
+							return o2.ratings-o1.ratings;
+						}
+						return o1.food.compareTo(o2.food);
+					});
+					temp.add(jg);
+					rankMap.put(cuisines[i],temp);
+				}
+				foodMap.put(foods[i],new JG(foods[i], cuisines[i], ratings[i]));
+			}
+		}
+
+		public void changeRating(String food, int newRating) {
+			JG jg = foodMap.get(food);
+			jg.ratings = newRating;
+			rankMap.get(jg.cuisine).add(new JG(jg.food,jg.cuisine,jg.ratings));
+		}
+
+		public String highestRated(String cuisine) {
+			while(true){
+				PriorityQueue<JG> jgs = rankMap.get(cuisine);
+				JG peek = jgs.peek();
+				JG jg = foodMap.get(peek.food);
+				if(peek.ratings==jg.ratings){
+					return peek.food;
+				}
+				jgs.poll();
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
 
-		LockingTree lockingTree = new LockingTree(new int[]{-1, 0, 0, 1, 1, 2, 2});
-		lockingTree.upgrade(0, 1); // 返回 true ，因为节点 0 未上锁且至少有一个被上锁的子孙节点（节点 4）。
+		FoodRatings foodRatings = new FoodRatings(new String[]{"mpsaowuxj","vpjohob","fn","clvugdxsaf","rujps","conjq","rpqdawz"},
+				new String[]{"shrkuo","shrkuo","shrkuo","shrkuo","shrkuo","shrkuo","shrkuo"},
+				new int[]{3,7,1,8,4,16,11});
 
-		lockingTree.lock(2, 2);    // 返回 true ，因为节点 2 未上锁。
-									 // 节点 2 被用户 2 上锁。
-		lockingTree.unlock(2, 3);  // 返回 false ，因为用户 3 无法解锁被用户 2 上锁的节点。
-		lockingTree.unlock(2, 2);  // 返回 true ，因为节点 2 之前被用户 2 上锁。
-									 // 节点 2 现在变为未上锁状态。
-		lockingTree.lock(4, 5);    // 返回 true ，因为节点 4 未上锁。
-									 // 节点 4 被用户 5 上锁。
-									 // 节点 0 被用户 1 上锁，节点 4 变为未上锁。
-		lockingTree.lock(0, 1);    // 返回 false ，因为节点 0 已经被上锁了。
+		System.out.println(foodRatings.highestRated("shrkuo"));
+		System.out.println(foodRatings.highestRated("shrkuo"));
+		foodRatings.changeRating("rpqdawz",13);
+		System.out.println(foodRatings.highestRated("shrkuo"));
+		System.out.println(foodRatings.highestRated("shrkuo"));
+		foodRatings.changeRating("conjq",15);
+		System.out.println(foodRatings.highestRated("shrkuo"));
+		System.out.println(foodRatings.highestRated("shrkuo"));
+		foodRatings.changeRating("rujps",17);
+		System.out.println(foodRatings.highestRated("shrkuo"));
+		System.out.println(foodRatings.highestRated("shrkuo"));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
