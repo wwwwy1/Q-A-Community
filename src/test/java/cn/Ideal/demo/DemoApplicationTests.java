@@ -7695,26 +7695,141 @@ class Trie {
 			}
 		}
 	}
+/**
+ * 给你一个整数数组ranks和一个字符数组suit。你有5张扑克牌，第i张牌大小为ranks[i]，花色为suits[i]。
+ *
+ * 下述是从好到坏你可能持有的 手牌类型：
+ *
+ * "Flush"：同花，五张相同花色的扑克牌。
+ * "Three of a Kind"：三条，有 3 张大小相同的扑克牌。
+ * "Pair"：对子，两张大小一样的扑克牌。
+ * "High Card"：高牌，五张大小互不相同的扑克牌。
+ * 请你返回一个字符串，表示给定的 5 张牌中，你能组成的 最好手牌类型。
+ *
+ * 注意：返回的字符串大小写需与题目描述相同。
+ *
+
+ * 输入：ranks = [13,2,3,1,9], suits = ["a","a","a","a","a"]
+ * 输出："Flush"
+ * 解释：5 张扑克牌的花色相同，所以返回 "Flush" 。
+ */
+
+	//LeetCode 第83场双周赛 前三题
+	public String bestHand(int[] ranks, char[] suits) {
+		Map<Integer,Integer> dict = new HashMap<>();
+		if (suits[0] == suits[1] && suits[2] == suits[3] && suits[0] == suits[4]){
+			return "Flush";
+		}
+		int max = 0;
+		for (int i = 0; i < ranks.length; i++) {
+			if (dict.containsKey(ranks[i])){
+				int t = dict.get(ranks[i])+1;
+				dict.put(ranks[i],t);
+				max = Math.max(max,t);
+			}else {
+				dict.put(ranks[i],1);
+			}
+		}
+		if (max>=3){
+			return "Three of a Kind";
+		}else if (max>=2){
+			return "Pair";
+		}else {
+			return "High Card";
+		}
+	}
+/**
+ * 输入：nums = [1,3,0,0,2,0,0,4]
+ * 输出：6
+ * 解释：
+ * 子数组 [0] 出现了 4 次。
+ * 子数组 [0,0] 出现了 2 次。
+ * 不存在长度大于 2 的全 0 子数组，所以我们返回 6 。
+ * 示例 2：
+ *
+ * 输入：nums = [0,0,0,2,0,0]
+ * 输出：9
+ * 解释：
+ * 子数组 [0] 出现了 5 次。
+ * 子数组 [0,0] 出现了 3 次。
+ * 子数组 [0,0,0] 出现了 1 次。
+ * 不存在长度大于 3 的全 0 子数组，所以我们返回 9 。
+ */
+	public long zeroFilledSubarray(int[] nums) {
+		List<Integer> list = new ArrayList<>();
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i] == 0){
+				for (int j = i; j < nums.length; j++) {
+					if (nums[j]!=0){
+						list.add(j-i);
+						i=j-1;
+						break;
+					}
+					if (nums.length-1==j){
+						list.add(j-i+1);
+						i=j;
+						break;
+					}
+				}
+			}
+		}
+		long ans = 0;
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 1; j <= list.get(i); j++) {
+				ans+=j;
+			}
+		}
+		return ans;
+	}
+
+	static class NumberContainers {
+
+		Map<Integer,PriorityQueue<Integer>> map = new HashMap<>();
+		Map<Integer,Integer> indexMapping = new HashMap<>();
+		public NumberContainers() {
+
+		}
+
+		public void change(int index, int number) {
+			if (map.containsKey(number)){
+				map.get(number).add(index);
+			}else {
+				PriorityQueue<Integer> list = new PriorityQueue<>();
+				list.add(index);
+				map.put(number,list);
+			}
+			indexMapping.put(index,number);
+		}
+
+		public int find(int number) {
+			PriorityQueue<Integer> list = map.get(number);
+			if(list ==null) return -1;
+			while (list.size()>0){
+				Integer integer = list.peek();
+				if (number == indexMapping.get(integer)){
+					return integer;
+				}else {
+					list.poll();
+				}
+			}
+			return -1;
+		}
+	}
 
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
 
-		FoodRatings foodRatings = new FoodRatings(new String[]{"mpsaowuxj","vpjohob","fn","clvugdxsaf","rujps","conjq","rpqdawz"},
-				new String[]{"shrkuo","shrkuo","shrkuo","shrkuo","shrkuo","shrkuo","shrkuo"},
-				new int[]{3,7,1,8,4,16,11});
+		NumberContainers nc = new NumberContainers();
+		nc.find(10); // 没有数字 10 ，所以返回 -1 。
+		nc.change(2, 10); // 容器中下标为 2 处填入数字 10 。
+		nc.change(1, 10); // 容器中下标为 1 处填入数字 10 。
+		nc.change(3, 10); // 容器中下标为 3 处填入数字 10 。
+		nc.change(5, 10); // 容器中下标为 5 处填入数字 10 。
+		nc.find(10); // 数字 10 所在的下标为 1 ，2 ，3 和 5 。因为最小下标为 1 ，所以返回 1 。
+		nc.change(1, 20); // 容器中下标为 1 处填入数字 20 。注意，下标 1 处之前为 10 ，现在被替换为 20 。
+		nc.find(10); // 数字 10 所在下标为 2 ，3 和 5 。最小下标为 2 ，所以返回 2 。
 
-		System.out.println(foodRatings.highestRated("shrkuo"));
-		System.out.println(foodRatings.highestRated("shrkuo"));
-		foodRatings.changeRating("rpqdawz",13);
-		System.out.println(foodRatings.highestRated("shrkuo"));
-		System.out.println(foodRatings.highestRated("shrkuo"));
-		foodRatings.changeRating("conjq",15);
-		System.out.println(foodRatings.highestRated("shrkuo"));
-		System.out.println(foodRatings.highestRated("shrkuo"));
-		foodRatings.changeRating("rujps",17);
-		System.out.println(foodRatings.highestRated("shrkuo"));
-		System.out.println(foodRatings.highestRated("shrkuo"));
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
