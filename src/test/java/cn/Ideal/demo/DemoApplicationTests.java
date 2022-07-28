@@ -1,6 +1,7 @@
 package cn.Ideal.demo;
 
 
+import com.google.common.collect.Comparators;
 import javafx.util.Pair;
 import org.apache.solr.client.solrj.io.stream.HashJoinStream;
 import org.junit.Test;
@@ -7816,19 +7817,118 @@ class Trie {
 		}
 	}
 
+	//LeetCode 第82场双周赛 前三题
+	public boolean evaluateTree(TreeNode root) {
+		return dfs20220727(root);
+	}
+	public boolean dfs20220727(TreeNode root){
+		if (root==null){
+			return false;
+		}
+		boolean b = dfs20220727(root.left);
+		boolean b1 = dfs20220727(root.right);
+		if (root.val == 2){
+			return b||b1;
+		}else if (root.val == 3){
+			return b&&b1;
+		}else {
+			return root.val == 1;
+		}
+	}
+
+	public int latestTimeCatchTheBus(int[] buses, int[] passengers, int capacity) {
+		Arrays.sort(buses);
+		Arrays.sort(passengers);
+		Map<Integer,List<Integer>> map = new HashMap<>();
+		int index = 0;
+		Set<Integer> set = new HashSet<>();
+		for (int i = 0; i < passengers.length; i++) {
+			set.add(passengers[i]);
+		}
+		for (int i = 0; i < buses.length; i++) {
+			int count = capacity;
+			map.put(buses[i],new ArrayList<>());
+			for (int j = index; j < passengers.length; j++) {
+				if (buses[i]>=passengers[j] && count>0){
+					index++;
+					count--;
+					map.get(buses[i]).add(passengers[j]);
+				}else {
+					break;
+				}
+			}
+		}
+		List<Integer> list = map.get(buses[buses.length - 1]);
+		int ans = 0;
+		if (list.size()<capacity){
+			ans =  buses[buses.length - 1]+1;
+		}else {
+			ans =list.get(list.size() - 1);
+		}
+		while (true){
+			if (!set.contains(--ans)){
+				return ans;
+			}
+		}
+	}
+
+
+	public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
+		int[] arr = new int[100000+50];
+		int k = k1+k2;
+		int n = nums1.length;
+		for (int i = 0; i < n; i++) {
+			arr[Math.abs(nums1[i]-nums2[i])]++;
+		}
+		for (int i = arr.length-1; i >=1 ; i--) {
+			if (k>=arr[i]){
+				k-=arr[i];
+				arr[i-1] += arr[i];
+				arr[i] = 0;
+			}else {
+				arr[i]-=k;
+				arr[i-1]+=k;
+				break;
+			}
+		}
+		long ans = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i]>0){
+				ans += i*1.0*i*arr[i];
+			}
+		}
+
+		return ans;
+	}
+
+	public int[] arrayRankTransform(int[] arr) {
+		int[] ans = new int[arr.length];
+		Set<Integer> set = new HashSet<>();
+		for (int i = 0; i < arr.length; i++) {
+			set.add(arr[i]);
+		}
+		Integer[] setArr = set.toArray(new Integer[0]);
+		Arrays.sort(setArr);
+		for (int i = 0; i < arr.length; i++) {
+			//二分
+			int left = 0,right = setArr.length,mid = left+right>>1;
+			while (left<right){
+				mid = left+right>>1;
+				if (setArr[mid]>=arr[i]){
+					right = mid;
+				}else {
+					left =mid+1;
+				}
+			}
+			ans[i] = left+1;
+		}
+		return ans;
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
-		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
 
-		NumberContainers nc = new NumberContainers();
-		nc.find(10); // 没有数字 10 ，所以返回 -1 。
-		nc.change(2, 10); // 容器中下标为 2 处填入数字 10 。
-		nc.change(1, 10); // 容器中下标为 1 处填入数字 10 。
-		nc.change(3, 10); // 容器中下标为 3 处填入数字 10 。
-		nc.change(5, 10); // 容器中下标为 5 处填入数字 10 。
-		nc.find(10); // 数字 10 所在的下标为 1 ，2 ，3 和 5 。因为最小下标为 1 ，所以返回 1 。
-		nc.change(1, 20); // 容器中下标为 1 处填入数字 20 。注意，下标 1 处之前为 10 ，现在被替换为 20 。
-		nc.find(10); // 数字 10 所在下标为 2 ，3 和 5 。最小下标为 2 ，所以返回 2 。
+		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
+		System.out.println(t.minSumSquareDiff(new int[]{1,4,10,12},new int[]{5,8,6,9},1,1));
 
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
