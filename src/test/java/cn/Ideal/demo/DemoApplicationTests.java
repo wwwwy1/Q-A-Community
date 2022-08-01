@@ -7924,6 +7924,92 @@ class Trie {
 		}
 		return ans;
 	}
+
+	public int countAsterisks(String s) {
+		int ans = 0;
+		int countVer = 0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '|') {
+				countVer++;
+			}else if (s.charAt(i) == '*' && countVer%2==0) {
+				ans++;
+			}
+		}
+		return ans;
+	}
+
+	public String generateTheString20220801(int n) {
+		StringBuilder sb = new StringBuilder();
+		if (n%2==0){
+			for (int i = 0; i < n - 1; i++) {
+				sb.append('a');
+			}
+			sb.append('b');
+		}else {
+			for (int i = 0; i < n; i++) {
+				sb.append('a');
+			}
+		}
+		return sb.toString();
+	}
+
+	public int minimumOperations(int[] nums) {
+		int ans = 0;
+		List<Integer> list = new ArrayList<>();
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i]>0){
+				list.add(nums[i]);
+			}
+		}
+		while (list.size()>0){
+			Collections.sort(list);
+			List<Integer> temp = new ArrayList<>();
+			int t  = list.get(0);
+			for (int i = 0; i < list.size(); i++) {
+				int res = list.get(i) -t;
+				if (res >0){
+					temp.add(res);
+				}
+			}
+			list = temp;
+			ans++;
+		}
+		return ans;
+	}
+
+	public int maximumGroups(int[] grades) {
+		int n = grades.length;
+		if (n==0)return 0;
+		int sum = 0,count = 0;
+		while (true){
+			count++;
+			if (sum+count>n){
+				return --count;
+			}
+			sum+=count;
+		}
+	}
+
+	public int countHillValley(int[] nums) {
+		// 1 升  2 落
+		int flag = 0;
+		int res = 0;
+		for(int i = 1 ; i < nums.length ; i++){
+			if(nums[i] > nums[i-1]){
+				if(flag == 1) {
+					res++;
+				}
+				flag = 2;
+			}else if(nums[i] < nums[i-1]){
+				if(flag == 2){
+					res++;
+				}
+				flag = 1;
+			}
+		}
+		return res;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 
