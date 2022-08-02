@@ -8010,6 +8010,54 @@ class Trie {
 		return res;
 	}
 
+	class MyCircularQueue {
+		int size = 0;
+		List<Integer> list = new LinkedList<>();
+		int max = 0;
+		public MyCircularQueue(int k) {
+			max = k;
+		}
+
+		public boolean enQueue(int value) {
+			if (size>=max){
+				return false;
+			}
+			list.add(value);
+			size++;
+			return true;
+		}
+
+		public boolean deQueue() {
+			if (isEmpty()){
+				return false;
+			}
+			list.remove(0);
+			size--;
+			return true;
+		}
+
+		public int Front() {
+			if (isEmpty()){
+				return -1;
+			}
+			return list.get(0);
+		}
+
+		public int Rear() {
+			if (isEmpty()){
+				return -1;
+			}
+			return list.get(size-1);
+		}
+
+		public boolean isEmpty() {
+			return size==0;
+		}
+
+		public boolean isFull() {
+			return size==max;
+		}
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 
