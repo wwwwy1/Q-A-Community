@@ -8058,11 +8058,90 @@ class Trie {
 			return size==max;
 		}
 	}
+
+	public int heightChecker20220803(int[] heights) {
+		int[] comp = new int[heights.length];
+		for (int i = 0; i < heights.length; i++) {
+			comp[i] = heights[i];
+		}
+		Arrays.sort(comp);
+		int ans = 0;
+		for (int i = 0; i < heights.length; i++) {
+			ans +=  comp[i]==heights[i]?0:1;
+		}
+		return ans;
+	}
+
+	public int maxSatisfied(int[] customers, int[] grumpy, int minutes) {
+		int full = 0;
+		int n = grumpy.length;
+		for (int i = 0; i < n; i++) {
+			if (grumpy[i]==0){
+				full+=customers[i];
+			}
+		}
+		for (int i = 0; i < minutes; i++) {
+			if (grumpy[i]==1){
+				full+=customers[i];
+			}
+		}
+		int ans = full;
+		for (int i = minutes; i < n; i++) {
+			if (grumpy[i]==1){
+				full+=customers[i];
+			}
+			if (grumpy[i-minutes]==1){
+				full-=customers[i-minutes];
+			}
+			ans = Math.max(full,ans);
+		}
+		return ans;
+	}
+	public int[] prevPermOpt1(int[] A) {
+		int[] a= new int[A.length];
+		int length=A.length;
+		for (int i = 0; i < A.length; i++) {
+			a[i]=A[i];
+		}
+		Arrays.sort(a);
+		int flag=0;
+		for (int i = 0; i < A.length; i++) {
+			if (A[i]!=a[i]){
+				flag=1;
+				break;
+			}
+		}
+		if (flag==0)return a;
+		int c1=0;
+
+		for (int i = 0; i < a.length; i++) {
+			for (int j = i; j < a.length; j++) {
+				if (A[i]>A[j]){
+					c1=i;
+					break;
+				}
+			}
+		}
+		int max=-1;
+		int c2=c1+1;
+		for (int i = c1+1; i < a.length; i++) {
+			if (max<A[i] && A[c1]>A[i]){
+				max=A[i];
+				c2=i;
+			}
+		}
+		int temp=A[c2];
+		A[c2]=A[c1];
+		A[c1]=temp;
+		return A;
+
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
-		System.out.println(t.minSumSquareDiff(new int[]{1,4,10,12},new int[]{5,8,6,9},1,1));
+		System.out.println(t.prevPermOpt1(new int[]{3,1,1,3}));
 
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
