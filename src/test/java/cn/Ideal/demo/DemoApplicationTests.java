@@ -8137,6 +8137,25 @@ class Trie {
 
 	}
 
+	public List<Integer> minSubsequence20220804(int[] nums) {
+		Arrays.sort(nums);
+		int sum = 0;
+		List<Integer> ans = new ArrayList<>();
+		int ansSum = 0;
+		for (int i = 0; i < nums.length; i++) {
+			sum+=nums[i];
+		}
+		for (int i = nums.length-1; i >=0; i--) {
+			if (ansSum>sum){
+				return ans;
+			}
+			ans.add(nums[i]);
+			ansSum += nums[i];
+			sum -= nums[i];
+		}
+		return ans;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 
