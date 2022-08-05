@@ -8156,11 +8156,50 @@ class Trie {
 		return ans;
 	}
 
+	public TreeNode addOneRow(TreeNode root, int val, int depth) {
+		if (depth==1){
+			TreeNode newRoot = new TreeNode(val);
+			newRoot.left = root;
+			return newRoot;
+		}
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.add(root);
+		int t = 2;
+		while(!queue.isEmpty()) {
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				TreeNode poll = queue.poll();
+				if (t==depth){
+					TreeNode t1 = poll.left;
+					TreeNode t2 = poll.right;
+					poll.left = new TreeNode(val);
+					poll.right = new TreeNode(val);
+					poll.left.left = t1;
+					poll.right.right = t2;
+				}
+				if (poll.left!=null){
+					queue.add(poll.left);
+				}
+				if (poll.right!=null){
+					queue.add(poll.right);
+				}
+			}
+			t++;
+		}
+		return root;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
-
+		TreeNode root = new TreeNode(4);
+		root.left = new TreeNode(2);
+		root.right = new TreeNode(6);
+		root.left.left = new TreeNode(3);
+		root.left.right = new TreeNode(6);
+		root.right.left = new TreeNode(5);
+		//[4,2,6,1,1,1,1,3,null,null,1,5]
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
-		System.out.println(t.prevPermOpt1(new int[]{3,1,1,3}));
+		System.out.println(t.addOneRow(root,1,2));
 
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
