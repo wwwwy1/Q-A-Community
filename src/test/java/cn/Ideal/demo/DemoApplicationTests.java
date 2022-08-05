@@ -8189,6 +8189,79 @@ class Trie {
 		return root;
 	}
 
+	// 第281场周赛前三题
+	public int countEven(int num) {
+		int ans = 0;
+		for (int i = 1; i <= num; i++) {
+			int t = i;
+			int temp = 0;
+			while (t>0){
+				temp+=t%10;
+				t/=10;
+			}
+			if (temp%2==0){
+				ans++;
+			}
+		}
+		return ans;
+	}
+
+	public ListNode mergeNodes(ListNode head) {
+		ListNode pre = new ListNode(-1);
+		ListNode ans = pre;
+		int t = 0;
+		head = head.next;
+		while (head!=null){
+			if (head.val!=0){
+				t+=head.val;
+			}else {
+				pre.next = new ListNode(t);
+				pre = pre.next;
+				t = 0;
+			}
+			head = head.next;
+		}
+		return ans.next;
+	}
+
+	public String repeatLimitedString(String s, int repeatLimit) {
+		int[] dict = new int[26];
+		for (int i = 0; i < s.length(); i++) {
+			dict[s.charAt(i)-'a']++;
+		}
+		StringBuilder sb = new StringBuilder();
+		int index = 25;
+		while (index>=0){
+			while (dict[index]>0){
+				if (dict[index]>repeatLimit){
+					dict[index]-=repeatLimit;
+					for (int i = 0; i < repeatLimit; i++) {
+						sb.append((char)('a'+index));
+					}
+					int flag = 0;
+					for (int i = index-1; i >=0 ; i--) {
+						if (dict[i]>0){
+							flag=1;
+							dict[i]--;
+							sb.append((char)('a'+i));
+							break;
+						}
+					}
+					if (flag==0){
+						return sb.toString();
+					}
+				}else {
+					for (int i = 0; i < dict[index]; i++) {
+						sb.append((char)('a'+index));
+					}
+					dict[index]=0;
+				}
+			}
+			index--;
+		}
+		return sb.toString();
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode root = new TreeNode(4);
@@ -8200,7 +8273,9 @@ class Trie {
 		//[4,2,6,1,1,1,1,3,null,null,1,5]
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
 		System.out.println(t.addOneRow(root,1,2));
-
+		int t1 = 99999;
+		int t2 = 99999;
+		System.out.println(t1*1.0*t2);
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
