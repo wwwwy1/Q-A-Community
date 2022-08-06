@@ -8262,6 +8262,19 @@ class Trie {
 		return sb.toString();
 	}
 
+
+	public List<String> stringMatching20220806(String[] words) {
+		Set<String> set = new HashSet<>();
+		for (int i = 0; i < words.length; i++) {
+			for (int j = 0; j < words.length; j++) {
+				if (i!=j && !words[i].equals(words[j]) && words[i].contains(words[j])){
+					set.add(words[j]);
+				}
+			}
+		}
+		return new ArrayList<>(set);
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode root = new TreeNode(4);
