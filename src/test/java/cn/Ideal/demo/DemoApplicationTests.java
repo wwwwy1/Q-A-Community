@@ -8275,6 +8275,60 @@ class Trie {
 		return new ArrayList<>(set);
 	}
 
+	// LeetCode 第281场周赛前三题
+	public String[] divideString(String s, int k, char fill) {
+		List<String> list = new ArrayList<>();
+		int count = 0;
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < s.length(); i++) {
+			count++;
+			if (count>=k){
+				count=0;
+				sb.append(s.charAt(i));
+				list.add(sb.toString());
+				sb = new StringBuilder();
+			}else {
+				sb.append(s.charAt(i));
+			}
+		}
+		if (sb.length()!=0 && sb.length()<k){
+			for (int i = sb.length(); i < k; i++) {
+				sb.append(fill);
+			}
+			list.add(sb.toString());
+		}
+		return list.toArray(new String[0]);
+	}
+
+
+	public int minMoves(int target, int maxDoubles) {
+		int res = 0;
+		for (int i = 0; i < maxDoubles; i++) {
+			if (target<=1){
+				break;
+			}
+			res++;
+			if (target%2==0){
+				target/=2;
+			}else {
+				target/=2;
+				res++;
+			}
+		}
+		return target+res-1;
+	}
+
+	public long mostPoints(int[][] questions) {
+		int n = questions.length;
+		long ans = 0;
+		long dp[] = new long[n+1];
+		for (int i = n-1; i >= 0; i--) {
+			dp[i] = i+questions[i][1]+1<n?Math.max(Math.max(questions[i][0],dp[i+1]),dp[i+questions[i][1]+1]+questions[i][0]):Math.max(questions[i][0],dp[i+1]);
+			ans = Math.max(ans,dp[i]);
+		}
+		return dp[0];
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode root = new TreeNode(4);
@@ -8285,7 +8339,7 @@ class Trie {
 		root.right.left = new TreeNode(5);
 		//[4,2,6,1,1,1,1,3,null,null,1,5]
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
-		System.out.println(t.addOneRow(root,1,2));
+		System.out.println(t.mostPoints(new int[][]{{21,5},{92,3},{74,2},{39,4},{58,2},{5,5},{49,4},{65,3}}));
 		int t1 = 99999;
 		int t2 = 99999;
 		System.out.println(t1*1.0*t2);
