@@ -8329,6 +8329,83 @@ class Trie {
 		return dp[0];
 	}
 
+	public int arithmeticTriplets(int[] nums, int diff) {
+		int n = nums.length;
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = i+1; j < n; j++) {
+				for (int k = j+1; k < n; k++) {
+					if (nums[i]-nums[j]== -diff && nums[j]-nums[k]== -diff){
+						ans++;
+					}
+				}
+			}
+		}
+		return ans;
+	}
+
+	public int reachableNodes(int n, int[][] edges, int[] restricted) {
+		Map<Integer,List<Integer>> map = new HashMap<>();
+		Set<Integer> restrictSet = new HashSet<>();
+		for (int i = 0; i < restricted.length; i++) {
+			restrictSet.add(restricted[i]);
+		}
+		for (int i = 0; i < edges.length; i++) {
+			if (!restrictSet.contains(edges[i][0]) && !restrictSet.contains(edges[i][1])) {
+				if (map.containsKey(edges[i][0])){
+					map.get(edges[i][0]).add(edges[i][1]);
+				}else {
+					List<Integer> temp = new ArrayList<>();
+					temp.add(edges[i][1]);
+					map.put(edges[i][0],temp);
+				}
+				if (map.containsKey(edges[i][1])){
+					map.get(edges[i][1]).add(edges[i][0]);
+				}else {
+					List<Integer> temp = new ArrayList<>();
+					temp.add(edges[i][0]);
+					map.put(edges[i][1],temp);
+				}
+			}
+		}
+		Set<Integer> visited = new HashSet<>();
+		Queue<Integer> queue = new LinkedList<>();
+		queue.add(0);
+		visited.add(0);
+		while (queue.size()>0){
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				Integer poll = queue.poll();
+				List<Integer> list = map.get(poll);
+				if (list==null || list.size()==0){
+					continue;
+				}
+				for (int j = 0; j < list.size(); j++) {
+					if (!visited.contains(list.get(j))){
+						visited.add(list.get(j));
+						queue.add(list.get(j));
+					}
+				}
+			}
+		}
+		return visited.size();
+	}
+
+	public int[] sortArrayByParityII(int[] nums) {
+		int[] ans = new int[nums.length];
+		int index0 = 0;
+		int index1 = 1;
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i]%2==0){
+				ans[index0] = nums[i];
+				index0+=2;
+			}else {
+				ans[index1] = nums[i];
+				index1+=2;
+			}
+		}
+		return ans;
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode root = new TreeNode(4);
@@ -8337,9 +8414,11 @@ class Trie {
 		root.left.left = new TreeNode(3);
 		root.left.right = new TreeNode(6);
 		root.right.left = new TreeNode(5);
+		/*edges = [[0,1],[1,2],[3,1],[4,0],[0,5],[5,6]], restricted = [4,5]
+		 */
 		//[4,2,6,1,1,1,1,3,null,null,1,5]
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
-		System.out.println(t.mostPoints(new int[][]{{21,5},{92,3},{74,2},{39,4},{58,2},{5,5},{49,4},{65,3}}));
+		//System.out.println(t.test1111111111(12,new int[]{2,7,13,19}));
 		int t1 = 99999;
 		int t2 = 99999;
 		System.out.println(t1*1.0*t2);
