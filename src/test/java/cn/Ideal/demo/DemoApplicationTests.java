@@ -8406,6 +8406,21 @@ class Trie {
 		}
 		return ans;
 	}
+
+	public int minStartValue20220809(int[] nums) {
+		int min = 1;
+		int sum = 0;
+		for (int i = 0; i < nums.length; i++) {
+			sum+=nums[i];
+			min = Math.min(sum,min);
+		}
+		if (min<0){
+			return -min+1;
+		}else {
+			return 1;
+		}
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode root = new TreeNode(4);
