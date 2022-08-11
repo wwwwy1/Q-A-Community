@@ -8421,6 +8421,121 @@ class Trie {
 		}
 	}
 
+	/**
+	 * 求解一个给定的方程，将x以字符串 "x=#value"的形式返回。该方程仅包含 '+' ， '-' 操作，变量x和其对应系数。
+	 *
+	 * 如果方程没有解，请返回"No solution"。如果方程有无限解，则返回 “Infinite solutions” 。
+	 *
+	 * 如果方程中只有一个解，要保证返回值 'x'是一个整数。
+	 *
+	 * 输入: equation = "x+5-3+x=6+x-2"
+	 * 输出: "x=2"
+	 *
+	 *     public String solveEquation(String equation) {
+	 *         int factor = 0, val = 0;
+	 *         int index = 0, n = equation.length(), sign1 = 1; // 等式左边默认系数为正
+	 *         while (index < n) {
+	 *             if (equation.charAt(index) == '=') {
+	 *                 sign1 = -1; // 等式右边默认系数为负
+	 *                 index++;
+	 *                 continue;
+	 *             }
+	 *
+	 *             int sign2 = sign1, number = 0;
+	 *             boolean valid = false; // 记录 number 是否有效
+	 *             if (equation.charAt(index) == '-' || equation.charAt(index) == '+') { // 去掉前面的符号
+	 *                 sign2 = (equation.charAt(index) == '-') ? -sign1 : sign1;
+	 *                 index++;
+	 *             }
+	 *             while (index < n && Character.isDigit(equation.charAt(index))) {
+	 *                 number = number * 10 + (equation.charAt(index) - '0');
+	 *                 index++;
+	 *                 valid = true;
+	 *             }
+	 *
+	 *             if (index < n && equation.charAt(index) == 'x') { // 变量
+	 *                 factor += valid ? sign2 * number : sign2;
+	 *                 index++;
+	 *             } else { // 数值
+	 *                 val += sign2 * number;
+	 *             }
+	 *         }
+	 *
+	 *         if (factor == 0) {
+	 *             return val == 0 ? "Infinite solutions" : "No solution";
+	 *         }
+	 *         return "x=" + (-val / factor);
+	 *     }
+	 */
+	public String solveEquation(String equation) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < equation.length(); i++) {
+			if (equation.charAt(i) == '-'){
+				sb.append('+');
+			}
+			sb.append(equation.charAt(i));
+		}
+		String expression = sb.toString();
+		String[] split = expression.split("=");
+		String leftE = split[0];
+		String rightE = split[1];
+		String[] leftArr = leftE.split("\\+");
+		String[] rightArr = rightE.split("\\+");
+		int n1 = 0,n2 = 0;
+		int x1 = 0,x2 = 0;
+		for (int i = 0; i < leftArr.length; i++) {
+			if (!leftArr[i].contains("x")){
+				n1+= Integer.parseInt(leftArr[i]);
+			}else {
+				x1+= Integer.parseInt(leftArr[i].length()==1?"1":leftArr[i].substring(0,leftArr[i].length()-1));
+			}
+		}
+		for (int i = 0; i < rightArr.length; i++) {
+			if (!rightArr[i].contains("x")){
+				n2+= Integer.parseInt(rightArr[i]);
+			}else {
+				x2+= Integer.parseInt(rightArr[i].length()==1?"1":rightArr[i].substring(0,rightArr[i].length()-1));
+			}
+		}
+		n2 -= n1;
+		x1 -= x2;
+		if (x1==0){
+			return "No solution";
+		}
+		try{
+			n2 = n2/x1;
+		}catch (Exception e){
+			return "No solution";
+		}
+		return "x="+ n2;
+	}
+
+	public String reformat20220811(String s) {
+		StringBuilder sb = new StringBuilder();
+		StringBuilder numSb = new StringBuilder();
+		StringBuilder charSb = new StringBuilder();
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) >= '0' && s.charAt(i) <= '9'){
+				numSb.append(s.charAt(i));
+			}else {
+				charSb.append(s.charAt(i));
+			}
+		}
+		if (Math.abs(numSb.length()-charSb.length())>1){
+			return "";
+		}
+		if (numSb.length()>=charSb.length()){
+			sb.append(numSb.charAt(0));
+			numSb.deleteCharAt(0);
+		}
+		for (int i = 0; i < charSb.length(); i++) {
+			sb.append(charSb.charAt(i));
+			if (i<numSb.length()){
+				sb.append(numSb.charAt(i));
+			}
+		}
+		return sb.toString();
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode root = new TreeNode(4);
@@ -8433,7 +8548,7 @@ class Trie {
 		 */
 		//[4,2,6,1,1,1,1,3,null,null,1,5]
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
-		//System.out.println(t.test1111111111(12,new int[]{2,7,13,19}));
+		System.out.println(t.solveEquation("x=x+2"));
 		int t1 = 99999;
 		int t2 = 99999;
 		System.out.println(t1*1.0*t2);
