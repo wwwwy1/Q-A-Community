@@ -8536,6 +8536,69 @@ class Trie {
 		}
 		return sb.toString();
 	}
+
+	// 123123
+	public List<List<Integer>> mergeSimilarItems(int[][] items1, int[][] items2) {
+		Map<Integer,Integer> dict = new HashMap<>();
+		for (int i = 0; i < items1.length; i++) {
+			if (dict.containsKey(items1[i][0])){
+				dict.put(items1[i][0],dict.get(items1[i][0])+items1[i][1]);
+			}else {
+				dict.put(items1[i][0],items1[i][1]);
+			}
+		}
+		for (int i = 0; i < items2.length; i++) {
+			if (dict.containsKey(items2[i][0])){
+				dict.put(items2[i][0],dict.get(items2[i][0])+items2[i][1]);
+			}else {
+				dict.put(items2[i][0],items2[i][1]);
+			}
+		}
+		List<List<Integer>> res = new ArrayList<>();
+		dict.forEach((k,v)->{
+			List<Integer> temp = new ArrayList<>();
+			temp.add(k);
+			temp.add(v);
+			res.add(temp);
+		});
+		Collections.sort(res,(o1,o2)->o1.get(0)-o2.get(0));
+		return res;
+	}
+
+	public long countBadPairs(int[] nums) {
+		long res = 0;
+		int n = nums.length;
+		Map<Integer,Integer> map = new HashMap<>();
+		for (int i = 0; i < n; i++) {
+			int c = nums[i]-i;
+			if (map.containsKey(c)){
+				map.put(c,map.get(c)+1);
+			}else {
+				map.put(c,1);
+			}
+		}
+		Set<Integer> keySet = map.keySet();
+		for (Integer key : keySet) {
+			Integer value = map.get(key);
+			if (value>=2){
+				res += value*1L*(value-1)/2;
+			}
+		}
+		return n*1L*(n-1)/2 - res;
+	}
+
+	public int[] reversePrint(ListNode head) {
+		List<Integer> list = new ArrayList<>();
+		while (head!=null){
+			list.add(head.val);
+			head = head.next;
+		}
+		int[] ans = new int[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			ans[list.size()-1-i] = list.get(i);
+		}
+		return ans;
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode root = new TreeNode(4);
@@ -8548,7 +8611,7 @@ class Trie {
 		 */
 		//[4,2,6,1,1,1,1,3,null,null,1,5]
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
-		System.out.println(t.solveEquation("x=x+2"));
+		System.out.println(t.countBadPairs(new int[]{4,1,3,3}));
 		int t1 = 99999;
 		int t2 = 99999;
 		System.out.println(t1*1.0*t2);
