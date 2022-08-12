@@ -8599,6 +8599,35 @@ class Trie {
 		}
 		return ans;
 	}
+
+	// 20220812 每日一题
+	public List<List<Integer>> groupThePeople20220812(int[] groupSizes) {
+		List<List<Integer>> ans = new ArrayList<>();
+		Map<Integer,List<Integer>> dict = new HashMap<>();
+		for (int i = 0; i < groupSizes.length; i++) {
+			if (dict.containsKey(groupSizes[i])){
+				dict.get(groupSizes[i]).add(i);
+			}else {
+				List<Integer> temp = new ArrayList<>();
+				temp.add(i);
+				dict.put(groupSizes[i],temp);
+			}
+		}
+		dict.forEach((k,v)->{
+			List<Integer> list = new ArrayList<>();
+			for (int i = 0; i < v.size(); i++) {
+				if (list.size()<k){
+					list.add(v.get(i));
+				}else {
+					ans.add(list);
+					list = new ArrayList<>();
+					list.add(v.get(i));
+				}
+			}
+			ans.add(list);
+		});
+		return ans;
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode root = new TreeNode(4);
