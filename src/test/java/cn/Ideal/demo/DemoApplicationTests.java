@@ -8628,6 +8628,72 @@ class Trie {
 		});
 		return ans;
 	}
+
+	public List<Integer> targetIndices(int[] nums, int target) {
+		List<Integer> ans = new ArrayList<>();
+		Arrays.sort(nums);
+		for (int i = 0; i < nums.length; i++) {
+			if (target==nums[i]){
+				ans.add(i);
+			}
+		}
+		return ans;
+	}
+
+	public int[] getAverages(int[] nums, int k) {
+		if (k==0){
+			return nums;
+		}
+		int n = nums.length;
+		int[] ans = new int[n];
+		if (n<=k && 2*k>n){
+			Arrays.fill(ans,-1);
+			return ans;
+		}
+		for (int i = 0; i < k && i < n; i++) {
+			ans[i] = -1;
+		}
+		for (int i = nums.length-k; i < nums.length && i>=0; i++) {
+			ans[i] = -1;
+		}
+		long sum = 0;
+		for (int i = 0; i <2*k+1 && i<n; i++) {
+			sum+=nums[i];
+		}
+		ans[k] = (int)(sum / (k*2+1));
+		for (int i = k+1; i < nums.length-k && i>=0; i++) {
+			sum-=nums[i-k-1];
+			sum+=nums[i+k];
+			ans[i] = (int)(sum / (k*2+1));
+		}
+		return ans;
+	}
+
+	public int minimumDeletions(int[] nums) {
+		int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+		int minIndex = -1, maxIndex = -1;
+		int n = nums.length;
+		for (int i = 0; i < n; i++) {
+			if (min>nums[i]){
+				min = nums[i];
+				minIndex = i;
+			}
+			if (max<nums[i]){
+				max = nums[i];
+				maxIndex = i;
+			}
+		}
+		if (minIndex>maxIndex){
+			int t = minIndex;
+			minIndex = maxIndex;
+			maxIndex = t;
+		}
+		int ans = minIndex+1 + n-maxIndex;
+		ans = Math.min(ans,maxIndex+1);
+		ans = Math.min(ans,n-minIndex);
+		return ans;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode root = new TreeNode(4);
@@ -8638,9 +8704,10 @@ class Trie {
 		root.right.left = new TreeNode(5);
 		/*edges = [[0,1],[1,2],[3,1],[4,0],[0,5],[5,6]], restricted = [4,5]
 		 */
-		//[4,2,6,1,1,1,1,3,null,null,1,5]
+		//[4,2,6,1,1,1,1,3,null,null,1,5][1,11,17,21,29]
+		//4
 		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
-		System.out.println(t.countBadPairs(new int[]{4,1,3,3}));
+		System.out.println(t.minimumDeletions(new int[]{2,10,7,5,4,1,8,6}));
 		int t1 = 99999;
 		int t2 = 99999;
 		System.out.println(t1*1.0*t2);
