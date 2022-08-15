@@ -8767,19 +8767,97 @@ class Trie {
 			return used == capacity;
 		}
 	}
+
+	// LeetCode 第306场周赛 前三题
+	public int[][] largestLocal(int[][] grid) {
+		int n = grid.length;
+		int[][] res = new int[n-2][n-2];
+		for (int i = 0; i < n - 2; i++) {
+			for (int j = 0; j < n - 2; j++) {
+				int max = Integer.MIN_VALUE;
+				for (int k = i; k < i+3; k++) {
+					for (int l = j; l < j+3; l++) {
+						max = Math.max(max,grid[k][l]);
+					}
+				}
+				res[i][j] = max;
+			}
+		}
+		return res;
+	}
+
+	public int edgeScore(int[] edges) {
+		Map<Integer,Long> dict = new HashMap<>();
+		for (int i = 0; i < edges.length; i++) {
+			if (dict.containsKey(edges[i])){
+				dict.put(edges[i],dict.get(edges[i])+i);
+			}else {
+				dict.put(edges[i],(long)i);
+			}
+		}
+		long maxValue = Integer.MIN_VALUE;
+		int res = 0;
+		Set<Integer> keySet = dict.keySet();
+		for (Integer key : keySet) {
+			long value = dict.get(key);
+			if (value>maxValue) {
+				maxValue = value;
+				res = key;
+			}else if (value == maxValue) {
+				res = Math.min(res,key);
+			}
+		}
+		return res;
+	}
+
+	List<String> smallestNumberList = new ArrayList<>();
+	public String smallestNumber(String pattern) {
+		int n = pattern.length();
+		enumDfs(n+1,new boolean[n+2],new StringBuilder());
+		for (int i = 0; i < smallestNumberList.size() ; i++) {
+			String s = smallestNumberList.get(i);
+			int flag = 0;
+			for (int j = 0; j < n; j++) {
+				//	如果pattern[i] == 'I'，那么num[i] < num[i + 1]。
+				//	如果pattern[i] == 'D'，那么num[i] > num[i + 1]。
+				if (pattern.charAt(j) == 'I'){
+					if (s.charAt(j)>=s.charAt(j+1)){
+						flag = 1;
+						break;
+					}
+				}else {
+					if (s.charAt(j)<=s.charAt(j+1)){
+						flag = 1;
+						break;
+					}
+				}
+			}
+			if (flag==0){
+				return s;
+			}
+		}
+		return "";
+	}
+	// 全排列
+	public void enumDfs(int max,boolean[] vised,StringBuilder sb){
+		if (sb.length()==max){
+			smallestNumberList.add(sb.toString());
+			return;
+		}
+		for (int i = 1; i <= max; i++) {
+			if (!vised[i]){
+				sb.append(i);
+				vised[i] = true;
+				enumDfs(max,vised,sb);
+				sb.deleteCharAt(sb.length()-1);
+				vised[i] = false;
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
-		MyCircularDeque circularDeque = new MyCircularDeque(3); // 设置容量大小为3
-	    circularDeque.insertLast(1);			        // 返回 true
-	    circularDeque.insertLast(2);			        // 返回 true
-		circularDeque.insertFront(3);			        // 返回 true
-	    circularDeque.insertFront(4);			        // 已经满了，返回 false
-	    circularDeque.getRear();  				// 返回 2
-	    circularDeque.isFull();				        // 返回 true
-	    circularDeque.deleteLast();			        // 返回 true
-	    circularDeque.insertFront(4);			        // 返回 true
-	    circularDeque.getFront();				// 返回
-		System.out.println(t.minimumDeletions(new int[]{2,10,7,5,4,1,8,6}));
+		System.out.println(t.smallestNumber("DDDDDDDD"));
 		int t1 = 99999;
 		int t2 = 99999;
 		System.out.println(t1*1.0*t2);
