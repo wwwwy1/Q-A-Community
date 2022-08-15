@@ -8694,19 +8694,91 @@ class Trie {
 		return ans;
 	}
 
+	// LeetCode 20220815 每日一题
+	static class MyCircularDeque {
+		int capacity;
+		int[] arr;
+		int front;
+		int rear;
+		int used;
+
+		public MyCircularDeque(int k) {
+			capacity = k;
+			arr = new int[k+1];
+		}
+
+		public boolean insertFront(int value) {
+			if (isFull()){
+				return false;
+			}
+			arr[front] = value;
+			front = (front-1+capacity)%capacity;
+			used++;
+			return true;
+		}
+
+		public boolean insertLast(int value) {
+			if (isFull()){
+				return false;
+			}
+			rear = (rear+1+capacity)%capacity;
+			arr[rear] = value;
+			used++;
+			return true;
+		}
+
+		public boolean deleteFront() {
+			if (isEmpty()){
+				return false;
+			}
+			front = (front+1+capacity)%capacity;
+			used--;
+			return true;
+		}
+
+		public boolean deleteLast() {
+			if (isEmpty()){
+				return false;
+			}
+			rear = (rear-1+capacity)%capacity;
+			used--;
+			return true;
+		}
+
+		public int getFront() {
+			if (isEmpty()){
+				return -1;
+			}
+			return arr[(front+1+capacity)%capacity];
+		}
+
+		public int getRear() {
+			if (isEmpty()){
+				return -1;
+			}
+			return arr[rear];
+		}
+
+		public boolean isEmpty() {
+			return used == 0;
+		}
+
+		public boolean isFull() {
+			return used == capacity;
+		}
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
-		TreeNode root = new TreeNode(4);
-		root.left = new TreeNode(2);
-		root.right = new TreeNode(6);
-		root.left.left = new TreeNode(3);
-		root.left.right = new TreeNode(6);
-		root.right.left = new TreeNode(5);
-		/*edges = [[0,1],[1,2],[3,1],[4,0],[0,5],[5,6]], restricted = [4,5]
-		 */
-		//[4,2,6,1,1,1,1,3,null,null,1,5][1,11,17,21,29]
-		//4
-		/*[null,false,false,false,false,false,false,false,false,false,true,false,false,false,false,true,false,false,false,false,false]*/
+		MyCircularDeque circularDeque = new MyCircularDeque(3); // 设置容量大小为3
+	    circularDeque.insertLast(1);			        // 返回 true
+	    circularDeque.insertLast(2);			        // 返回 true
+		circularDeque.insertFront(3);			        // 返回 true
+	    circularDeque.insertFront(4);			        // 已经满了，返回 false
+	    circularDeque.getRear();  				// 返回 2
+	    circularDeque.isFull();				        // 返回 true
+	    circularDeque.deleteLast();			        // 返回 true
+	    circularDeque.insertFront(4);			        // 返回 true
+	    circularDeque.getFront();				// 返回
 		System.out.println(t.minimumDeletions(new int[]{2,10,7,5,4,1,8,6}));
 		int t1 = 99999;
 		int t2 = 99999;
