@@ -8854,7 +8854,25 @@ class Trie {
 			}
 		}
 	}
-
+	// LeetCode 20220816 每日一题
+	class OrderedStream {
+		int pre = 1;
+		String[] arr;
+		public OrderedStream(int n) {
+			arr = new String[n+5];
+		}
+		public List<String> insert(int idKey, String value) {
+			arr[idKey] = value;
+			List<String> res = new ArrayList<>();
+			if (idKey==pre){
+				while (arr[idKey]!=null){
+					res.add(arr[idKey++]);
+				}
+				pre = idKey;
+			}
+			return res;
+		}
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		System.out.println(t.smallestNumber("DDDDDDDD"));
