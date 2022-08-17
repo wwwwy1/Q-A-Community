@@ -8873,9 +8873,95 @@ class Trie {
 			return res;
 		}
 	}
+
+	/**
+	 * 给你一个下标从 0 开始的整数数组 nums ，该数组的大小为 n ，
+	 * 请你计算 nums[j] - nums[i] 能求得的 最大差值 ，
+	 * 其中 0 <= i < j < n 且 nums[i] < nums[j] 。
+	 * 返回 最大差值 。如果不存在满足要求的 i 和 j ，返回 -1 。
+	 *
+	 * 输入：nums = [7,1,5,4]
+	 * 输出：4
+	 * 最大差值出现在 i = 1 且 j = 2 时，nums[j] - nums[i] = 5 - 1 = 4 。
+	 * 注意，尽管 i = 1 且 j = 0 时 ，nums[j] - nums[i] = 7 - 1 = 6 > 4 ，但 i > j 不满足题面要求，所以 6 不是有效的答案。
+	 */
+	public int maximumDifference(int[] nums) {
+		int res = 0;
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = i+1; j < nums.length; j++) {
+				res = Math.max(res,nums[j]-nums[i]);
+			}
+		}
+		return res==0?-1:res;
+	}
+
+	public long gridGame(int[][] grid) {
+		int n = grid[0].length;
+		long[] topPreSumArr = new long[n];
+		long[] bottomPreSumArr = new long[n];
+		topPreSumArr[0] = grid[0][0];
+		bottomPreSumArr[0] = grid[1][0];
+		for (int i = 1; i < n; i++) {
+			topPreSumArr[i] = topPreSumArr[i-1] + grid[0][i];
+			bottomPreSumArr[i] = bottomPreSumArr[i-1] + grid[1][i];
+		}
+		long res = Long.MAX_VALUE;
+		for (int i = 0; i < n; i++) {
+			long sum = topPreSumArr[n-1] - topPreSumArr[i];
+			if (i>0){
+				sum = Math.max(sum,bottomPreSumArr[i-1]);
+			}
+			res = Math.min(res,sum);
+		}
+		return res;
+	}
+
+	public int kthSmallest(TreeNode root, int k) {
+		List<Integer> list = new ArrayList<>();
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.add(root);
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				TreeNode poll = queue.poll();
+				list.add(poll.val);
+				if (poll.left!=null){
+					queue.add(poll.left);
+				}
+				if (poll.right!=null){
+					queue.add(poll.right);
+				}
+			}
+		}
+		Collections.sort(list);
+		return list.get(k-1);
+	}
+
+	// LeetCode 20220817 每日一题
+	public int deepestLeavesSum(TreeNode root) {
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.add(root);
+		int ans = 0;
+		while (!queue.isEmpty()) {
+			int size = queue.size();
+			ans = 0;
+			for (int i = 0; i < size; i++) {
+				TreeNode poll = queue.poll();
+				ans += poll.val;
+				if (poll.left != null){
+					queue.add(poll.left);
+				}
+				if (poll.right != null){
+					queue.add(poll.right);
+				}
+			}
+		}
+		return ans;
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
-		System.out.println(t.smallestNumber("DDDDDDDD"));
+		System.out.println(t.gridGame(new int[][]{{20,3,20,17,2,12,15,17,4,15},{20,10,13,14,15,5,2,3,14,3}}));
+		System.out.println(t.gridGame(new int[][]{{2,5,4},{1,5,1}}));
 		int t1 = 99999;
 		int t2 = 99999;
 		System.out.println(t1*1.0*t2);
