@@ -8958,6 +8958,19 @@ class Trie {
 		}
 		return ans;
 	}
+
+	// LeetCode 20220819 每日一题
+	public int busyStudent(int[] startTime, int[] endTime, int queryTime) {
+		int n = startTime.length;
+		int res = 0;
+		for (int i = 0; i < n; i++) {
+			if (queryTime>=startTime[i] && queryTime<=endTime[i]){
+				res++;
+			}
+		}
+		return res;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		System.out.println(t.gridGame(new int[][]{{20,3,20,17,2,12,15,17,4,15},{20,10,13,14,15,5,2,3,14,3}}));
