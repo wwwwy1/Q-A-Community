@@ -8971,10 +8971,47 @@ class Trie {
 		return res;
 	}
 
+	// LeetCode 20220820 每日一题
+	public TreeNode constructMaximumBinaryTree(int[] nums) {
+		int n = nums[0];
+		int index = 0;
+		for (int i = 0; i < nums.length; i++) {
+			if (n<nums[i]){
+				n = nums[i];
+				index = i;
+			}
+		}
+		TreeNode root = new TreeNode(n);
+		dfs(index+1,nums.length-1,nums,root,true);
+		dfs(0,index-1,nums,root,false);
+		return root;
+	}
+	public void dfs(int left,int right,int[] nums,TreeNode root,boolean isRight){
+		if (left>right){
+			return;
+		}
+		int n = nums[left];
+		int index = left;
+		for (int i = left; i <= right; i++) {
+			if (n<nums[i]){
+				n = nums[i];
+				index = i;
+			}
+		}
+		TreeNode node = new TreeNode(nums[index]);
+		if (isRight){
+			root.right = node;
+		}else {
+			root.left = node;
+		}
+		dfs(index+1,right,nums,node,true);
+		dfs(left,index-1,nums,node,false);
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
-		System.out.println(t.gridGame(new int[][]{{20,3,20,17,2,12,15,17,4,15},{20,10,13,14,15,5,2,3,14,3}}));
-		System.out.println(t.gridGame(new int[][]{{2,5,4},{1,5,1}}));
+		System.out.println(t.constructMaximumBinaryTree(new int[]{3,2,1,6,0,5}));
+
 		int t1 = 99999;
 		int t2 = 99999;
 		System.out.println(t1*1.0*t2);
