@@ -9008,9 +9008,57 @@ class Trie {
 		dfs(left,index-1,nums,node,false);
 	}
 
+	// LeetCode 20220822 每日一题
+	public List<List<String>> printTree(TreeNode root) {
+		List<List<String>> res = new ArrayList<>();
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.add(root);
+		int height = 0;
+		while (!queue.isEmpty()){
+			int size = queue.size();
+			height++;
+			for (int i = 0; i < size; i++) {
+				TreeNode poll = queue.poll();
+				if (poll.left != null) {
+					queue.add(poll.left);
+				}
+				if (poll.right != null) {
+					queue.add(poll.right);
+				}
+			}
+		}
+
+		int n = (int)Math.pow(2,height) -1;
+		TreeNode[][] nodes = new TreeNode[height][n];
+		nodes[0][(n-1)/2] = root;
+		for (int i = 0; i < height-1; i++) {
+			for (int j = 0; j < n; j++) {
+				if (nodes[i][j]!=null){
+					int x = (int)Math.pow(2,height - i -1 - 1);
+					nodes[i+1][j-x] = nodes[i][j].left;
+					nodes[i+1][j+x] = nodes[i][j].right;
+				}
+			}
+		}
+		for (int i = 0; i < height; i++) {
+			List<String> temp = new ArrayList<>();
+			for (int j = 0; j < n; j++) {
+				if (nodes[i][j]!=null){
+					temp.add(String.valueOf(nodes[i][j].val));
+				}else {
+					temp.add("");
+				}
+			}
+			res.add(temp);
+		}
+		return res;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
-		System.out.println(t.constructMaximumBinaryTree(new int[]{3,2,1,6,0,5}));
+		TreeNode node = new TreeNode(1);
+		node.left = new TreeNode(2);
+		System.out.println(t.printTree(node));
 
 		int t1 = 99999;
 		int t2 = 99999;
