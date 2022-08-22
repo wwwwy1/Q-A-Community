@@ -9054,15 +9054,85 @@ class Trie {
 		return res;
 	}
 
+	// LeetCode 第85场双周赛 前三题
+	public int minimumRecolors(String blocks, int k) {
+		int left = 0,right = k-1;
+		int res = 0 , n = blocks.length();
+		int count = 0;
+		for (int i = left; i <= right; i++) {
+			if (blocks.charAt(i) == 'B'){
+				count++;
+			}
+		}
+		res = count;
+		while (right < n-1){
+			if (blocks.charAt(left) == 'B'){
+				count--;
+			}
+			right++;left++;
+			if (blocks.charAt(right) == 'B'){
+				count++;
+			}
+			res = Math.max(res,count);
+		}
+		return k-res;
+	}
+
+	public int secondsToRemoveOccurrences(String s) {
+		char[] chars = s.toCharArray();
+		int flag = 0;
+		int round = 0;
+		while(flag==0){
+			flag = 1;
+			for (int i = 0; i < chars.length-1; i++) {
+				if (chars[i] == '0' && chars[i+1]=='1'){
+					chars[i] = '1';
+					chars[++i] = '0';
+					flag = 0;
+				}
+			}
+			if (flag == 0){
+				round++;
+			}
+		}
+		return round;
+	}
+
+	public String shiftingLetters(String s, int[][] shifts) {
+		int n = shifts.length;
+		int[] dict = new int[s.length()+1];
+		for (int i = 0; i < n; i++) {
+			dict[shifts[i][0]]+=shifts[i][2]==0?-1:1;
+			dict[shifts[i][1]+1]+=shifts[i][2]==0?1:-1;
+		}
+		int[] sumArr = new int[s.length()];
+		sumArr[0] = dict[0];
+		for (int i = 1; i < s.length(); i++) {
+			sumArr[i] = sumArr[i-1] + dict[i];
+		}
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			int t = (int)c-'a';
+			t += sumArr[i];
+			t %= 26;
+			while (t<0) {
+				t+=26;
+			}
+			sb.append((char)('a'+t));
+		}
+		return sb.toString();
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
 		node.left = new TreeNode(2);
-		System.out.println(t.printTree(node));
+		System.out.println(t.shiftingLetters("abc", new int[][] {{0,1,0},{1,2,1},{0,2,1}}));
 
-		int t1 = 99999;
+		int t1 = -2;
 		int t2 = 99999;
-		System.out.println(t1*1.0*t2);
+		System.out.println(-2%26);
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
