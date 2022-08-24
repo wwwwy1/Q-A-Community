@@ -9124,6 +9124,69 @@ class Trie {
 		return sb.toString();
 	}
 
+	//
+	public int minNumberOfHours(int initialEnergy, int initialExperience, int[] energy, int[] experience) {
+		int n = energy.length;
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			if (initialEnergy>energy[i]){
+				initialEnergy -= energy[i];
+			}else {
+				ans += energy[i]-initialEnergy+1;
+				initialEnergy = initialEnergy +  energy[i]-initialEnergy+1  - energy[i];
+			}
+			if (initialExperience>experience[i]){
+				initialExperience += experience[i];
+			}else {
+				ans += experience[i]-initialExperience+1;
+				initialExperience += experience[i]-initialExperience+1;
+				initialExperience += experience[i];
+			}
+		}
+		return ans;
+	}
+
+	//
+	public String largestPalindromic(String num) {
+		Map<Integer,Integer> map = new HashMap<>();
+		for (int i = 0; i < num.length(); i++) {
+			int n = (int)num.charAt(i);
+			map.put(n,map.getOrDefault(n,0)+1);
+		}
+		int[] dict = new int[10];
+		int flag = 0;
+		for (int i = 9; i >= 0; i--) {
+			Integer n = map.getOrDefault(i,0);
+			if (n%2==0){
+				dict[i] = n;
+			}else {
+				if (flag == 0){
+					dict[i] = n;
+					flag = 1;
+				}else {
+					dict[i] = n-1;
+				}
+			}
+		}
+		StringBuilder sb = new StringBuilder();
+		for (int i = 9; i >= 0; i--) {
+			sb.append(i);
+			sb.insert(0,i);
+		}
+		return num;
+	}
+	// LeetCode 20220824 每日一题
+	public boolean canBeEqual(int[] target, int[] arr) {
+		Arrays.sort(target);
+		Arrays.sort(arr);
+		int n = target.length;
+		for (int i = 0; i < n; i++) {
+			if (target[i] != arr[i]){
+				return false;
+			}
+		}
+		return true;
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
