@@ -9146,11 +9146,16 @@ class Trie {
 		return ans;
 	}
 
-	//
+	/**
+	 * 输入：num = "444947137"
+	 * 输出："7449447"
+	 * 输入：num = "00009"
+	 * 输出："9"
+	 */
 	public String largestPalindromic(String num) {
 		Map<Integer,Integer> map = new HashMap<>();
 		for (int i = 0; i < num.length(); i++) {
-			int n = (int)num.charAt(i);
+			int n = (int)num.charAt(i)-'0';
 			map.put(n,map.getOrDefault(n,0)+1);
 		}
 		int[] dict = new int[10];
@@ -9169,12 +9174,88 @@ class Trie {
 			}
 		}
 		StringBuilder sb = new StringBuilder();
-		for (int i = 9; i >= 0; i--) {
-			sb.append(i);
-			sb.insert(0,i);
+		for (int i = 0; i <= 9; i++) {
+			if (dict[i] == 0) continue;
+			int n = dict[i] / 2;
+			for (int j = 0; j < n; j++) {
+				sb.append(i);
+				sb.insert(0,i);
+			}
+			if (dict[i] % 2 != 0) {
+				sb.insert(sb.length()/2,i);
+			}
 		}
-		return num;
+		if ("0".equals(sb.toString())){
+			return "0";
+		}
+		while (sb.length() > 2 && sb.charAt(0) == '0'){
+			sb.deleteCharAt(0);
+			sb.deleteCharAt(sb.length()-1);
+		}
+		if ("".equals(sb.toString())){
+			return "0";
+		}
+		return sb.toString();
 	}
+	public int amountOfTime(TreeNode root, int start) {
+		// 构图
+		Map<Integer,List<Integer>> dict = new HashMap<>();
+
+		int n = 0;
+		Queue<TreeNode> queue = new LinkedList<>();
+		queue.add(root);
+		while (!queue.isEmpty()){
+			int size = queue.size();
+			for (int i = 0; i < size; i++) {
+				TreeNode poll = queue.poll();
+				List<Integer> rootList = dict.getOrDefault(poll.val,new ArrayList<>());
+				if (poll.left!=null){
+					queue.add(poll.left);
+					rootList.add(poll.left.val);
+					if (dict.containsKey(poll.left.val)){
+						dict.get(poll.left.val).add(poll.val);
+					}else {
+						List<Integer> list = new ArrayList<>();
+						list.add(poll.val);
+						dict.put(poll.left.val,list);
+					}
+				}
+				if (poll.right!=null){
+					queue.add(poll.right);
+					rootList.add(poll.right.val);
+					if (dict.containsKey(poll.right.val)){
+						dict.get(poll.right.val).add(poll.val);
+					}else {
+						List<Integer> list = new ArrayList<>();
+						list.add(poll.val);
+						dict.put(poll.right.val,list);
+					}
+				}
+				dict.put(poll.val,rootList);
+			}
+		}
+		Set<Integer> set = new HashSet<>();
+		Queue<Integer> numQueue = new LinkedList<>();
+		numQueue.add(start);
+		set.add(start);
+		while (!numQueue.isEmpty()){
+			int size = numQueue.size();
+			n++;
+			for (int i = 0; i < size; i++) {
+				Integer poll = numQueue.poll();
+				List<Integer> numList = dict.get(poll);
+				for (int j = 0; j < numList.size(); j++) {
+					Integer num = numList.get(j);
+					if (!set.contains(num)) {
+						set.add(num);
+						numQueue.add(num);
+					}
+				}
+			}
+		}
+		return n-1;
+	}
+
 	// LeetCode 20220824 每日一题
 	public boolean canBeEqual(int[] target, int[] arr) {
 		Arrays.sort(target);
@@ -9187,11 +9268,42 @@ class Trie {
 		}
 		return true;
 	}
+
+	// LeetCode 20220225 每日一题
+	public List<Integer> findClosestElements(int[] arr, int k, int x) {
+		Integer newNums[] = Arrays.stream(arr).boxed().toArray(Integer[]::new);
+		Arrays.sort(newNums,(o1,o2)->{
+			int t1 = Math.abs(o1-x);
+			int t2 = Math.abs(o2-x);
+			if (t1==t2){
+				return o1-o2;
+			}else {
+				return Math.abs(o1-x)-Math.abs(o2-x);
+			}
+		});
+
+		List<Integer> res = new ArrayList<>();
+		for (int i = 0; i < k; i++) {
+			res.add(newNums[i]);
+		}
+		Collections.sort(res);
+		return res;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
-		node.left = new TreeNode(2);
-		System.out.println(t.shiftingLetters("abc", new int[][] {{0,1,0},{1,2,1},{0,2,1}}));
+/*[1,5,3,null,4,10,6,9,2]
+3*/
+		node.left = new TreeNode(5);
+		node.left.right = new TreeNode(4);
+		node.left.right.left = new TreeNode(9);
+		node.left.right.right = new TreeNode(2);
+		node.right = new TreeNode(3);
+		node.right.left = new TreeNode(10);
+		node.right.right = new TreeNode(6);
+
+		System.out.println(t.findClosestElements(new int[]{1,2,3,4,5},4,3));
 
 		int t1 = -2;
 		int t2 = 99999;
