@@ -9290,6 +9290,40 @@ class Trie {
 		return res;
 	}
 
+	public int singleNumber(int[] nums) {
+		for (int i = 1; i < nums.length; i++) {
+			nums[0] ^= nums[i];
+		}
+		return nums[0];
+	}
+
+	public int singleNumber2(int[] nums) {
+		Map<Integer,Integer> dict = new HashMap<>();
+		for (int i = 0; i < nums.length; i++) {
+			dict.put(nums[i],dict.getOrDefault(nums[i],0)+1);
+		}
+		Set<Integer> keySet = dict.keySet();
+		for (Integer key : keySet) {
+			Integer value = dict.get(key);
+			if (value == 1){
+				return key;
+			}
+		}
+		return -1;
+	}
+
+	// LeetCode 20220826 每日一题
+	public int maxProduct(int[] nums) {
+		int res = Integer.MIN_VALUE;
+		int n = nums.length;
+		for (int i = 0; i < n; i++) {
+			for (int j = i+1; j < n; j++) {
+				res = Math.max((nums[i]-1) * (nums[j]-1),res);
+			}
+		}
+		return res;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
@@ -9303,7 +9337,7 @@ class Trie {
 		node.right.left = new TreeNode(10);
 		node.right.right = new TreeNode(6);
 
-		System.out.println(t.findClosestElements(new int[]{1,2,3,4,5},4,3));
+		System.out.println(t.maxProduct(new int[]{3,4,5,2}));
 
 		int t1 = -2;
 		int t2 = 99999;
