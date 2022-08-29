@@ -9324,6 +9324,16 @@ class Trie {
 		return res;
 	}
 
+	// LeetCode 20220829 每日一题
+	public int[] shuffle(int[] nums, int n) {
+		int[] res = new int[nums.length];
+		for (int i = 0; i < n; i++) {
+			res[i*2] = nums[i];
+			res[i*2+1] = nums[i+n];
+		}
+		return res;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
@@ -9337,11 +9347,11 @@ class Trie {
 		node.right.left = new TreeNode(10);
 		node.right.right = new TreeNode(6);
 
-		System.out.println(t.maxProduct(new int[]{3,4,5,2}));
+		System.out.println(t.shuffle(new int[]{2,5,1,3,4,7},3));
 
 		int t1 = -2;
 		int t2 = 99999;
-		System.out.println(-2%26);
+		System.out.println(-28%26);
 	}
 	/*<pre><code class="language-java line-numbers">代码内容</code></pre>*/
 
