@@ -9334,6 +9334,77 @@ class Trie {
 		return res;
 	}
 
+	// LeetCode 第308场周赛 前三题
+	public int[] answerQueries(int[] nums, int[] queries) {
+		Arrays.sort(nums);
+		int[] sumArr = new int[nums.length];
+		sumArr[0] = nums[0];
+		for (int i = 1; i < nums.length; i++) {
+			sumArr[i] = sumArr[i-1] + nums[i];
+		}
+		int[] ans = new int[queries.length];
+		for (int i = 0; i < queries.length; i++) {
+			for (int j = nums.length-1; j >=0 ; j--) {
+				if (sumArr[j]<=queries[i]){
+					ans[i] = j+1;
+					break;
+				}
+			}
+		}
+		return ans;
+	}
+
+	public String removeStars(String s) {
+		StringBuilder ans = new StringBuilder();
+		Stack<Character> stack = new Stack<>();
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '*') {
+				stack.pop();
+			}else {
+				stack.push(s.charAt(i));
+			}
+		}
+		while (!stack.isEmpty()) {
+			ans.append(stack.pop());
+		}
+		return ans.reverse().toString();
+	}
+
+	public int garbageCollection(String[] garbage, int[] travel) {
+		int n = garbage.length;
+		// M' ，'P' 和 'G
+		int countM = 0, countP = 0, countG = 0;
+		int indexM = 0, indexP = 0, indexG = 0;
+		for (int i = 0; i < n; i++) {
+			String str = garbage[i];
+			Map<Character,Integer> dict = new HashMap<>();
+			for (int j = 0; j < str.length(); j++) {
+				dict.put(str.charAt(j),dict.getOrDefault(str.charAt(j),0)+1);
+			}
+			if (dict.containsKey('M')) {
+				indexM = i;
+				countM+=dict.get('M');
+			}
+			if (dict.containsKey('P')) {
+				indexP = i;
+				countP+=dict.get('P');
+			}
+			if (dict.containsKey('G')) {
+				indexG = i;
+				countG+=dict.get('G');
+			}
+		}
+		for (int i = indexM; i > 0; i--) {
+			countM += travel[i-1];
+		}
+		for (int i = indexP; i > 0; i--) {
+			countP += travel[i-1];
+		}
+		for (int i = indexG; i > 0; i--) {
+			countG += travel[i-1];
+		}
+		return countG+countP+countM;
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
@@ -9347,7 +9418,7 @@ class Trie {
 		node.right.left = new TreeNode(10);
 		node.right.right = new TreeNode(6);
 
-		System.out.println(t.shuffle(new int[]{2,5,1,3,4,7},3));
+		System.out.println(t.garbageCollection(new String[]{"G","P","GP","GG"},new int[]{2,4,3}));
 
 		int t1 = -2;
 		int t2 = 99999;
