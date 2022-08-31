@@ -9420,11 +9420,46 @@ class Trie {
 		return index == popped.length;
 	}
 
+	public int isPrefixOfWord(String sentence, String searchWord) {
+		String[] s = sentence.split(" ");
+		for (int i = 0; i < s.length; i++) {
+			if (s[i].startsWith(searchWord)) {
+				return i+1;
+			}
+		}
+		return -1;
+	}
+
+	public int[] exclusiveTime(int n, List<String> logs) {
+		int[] res = new int[n];
+		Stack<int[]> stack = new Stack<>();
+		for (int i = 0; i < logs.size(); i++) {
+			String log = logs.get(i);
+			String[] split = log.split(":");
+			int index = Integer.parseInt(split[0]);
+			int num = Integer.parseInt(split[2]);
+			String method = split[1];
+			if ("start".equals(method)){
+				if (!stack.isEmpty()){
+					res[stack.peek()[0]] += num - stack.peek()[1];
+					stack.peek()[1] = num;
+				}
+				stack.push(new int[]{index,num});
+			}else {
+				int[] pop = stack.pop();
+				res[pop[0]] += num - pop[1] + 1;
+				if (!stack.isEmpty()) {
+					stack.peek()[1] = num + 1;
+				}
+			}
+		}
+		return res;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
-/*[1,5,3,null,4,10,6,9,2]
-3*/
+
 		node.left = new TreeNode(5);
 		node.left.right = new TreeNode(4);
 		node.left.right.left = new TreeNode(9);
@@ -9432,8 +9467,27 @@ class Trie {
 		node.right = new TreeNode(3);
 		node.right.left = new TreeNode(10);
 		node.right.right = new TreeNode(6);
-
-		System.out.println(t.garbageCollection(new String[]{"G","P","GP","GG"},new int[]{2,4,3}));
+		List<String> list = new ArrayList<>();
+		/*
+		["0:start:0"
+		,"1:start:5"
+		,"2:start:6"
+		,"3:start:9"
+		,"4:start:11"
+		,"5:start:12"
+		,"6:start:14"
+		,"7:start:15"
+		,"1:start:24"
+		,"1:end:29"
+		,"7:end:34"
+		,"6:end:37","5:end:39","4:end:40","3:end:45","0:start:49","0:end:54","5:start:55","5:end:59","4:start:63","4:end:66","2:start:69","2:end:70","2:start:74","6:start:78","0:start:79","0:end:80","6:end:85","1:start:89","1:end:93","2:end:96","2:end:100","1:end:102","2:start:105","2:end:109","0:end:114"]*/
+		list.add("0:start:0");
+		list.add("0:start:2");
+		list.add("0:end:5");
+		list.add("1:start:7");
+		list.add("1:end:7");
+		list.add("0:end:8");
+		System.out.println(t.exclusiveTime(2,list));
 
 		int t1 = -2;
 		int t2 = 99999;
