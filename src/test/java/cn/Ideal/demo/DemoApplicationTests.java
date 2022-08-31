@@ -9405,6 +9405,21 @@ class Trie {
 		}
 		return countG+countP+countM;
 	}
+
+	// test:LeetCode 20220831 每日一题
+	public boolean validateStackSequences(int[] pushed, int[] popped) {
+		int index = 0;
+		Stack<Integer> stack = new Stack<>();
+		for (int i = 0; i < pushed.length; i++) {
+			while (!stack.isEmpty() && index<popped.length && stack.peek()== popped[index]){
+				stack.pop();
+				index++;
+			}
+			stack.add(pushed[i]);
+		}
+		return index == popped.length;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
