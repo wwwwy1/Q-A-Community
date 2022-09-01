@@ -9455,7 +9455,19 @@ class Trie {
 		}
 		return res;
 	}
-
+	// LeetCode 20220901 每日一题
+	public int[] finalPrices(int[] prices) {
+		int n = prices.length;
+		for (int i = 0; i < n; i++) {
+			for (int j = i+1; j < n; j++) {
+				if (prices[j]<=prices[i]){
+					prices[i] -= prices[j];
+					break;
+				}
+			}
+		}
+		return prices;
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
