@@ -9468,6 +9468,30 @@ class Trie {
 		}
 		return prices;
 	}
+
+	// LeetCode 20220902 每日一题
+	int res20220902 = 0;
+	public int longestUnivaluePath(TreeNode root) {
+		dfs20220902(root);
+		return res20220902;
+	}
+
+	public int dfs20220902(TreeNode root) {
+		if (root == null){
+			return 0;
+		}
+		int left = dfs20220902(root.left), right = dfs20220902(root.right);
+		int left1 = 0,right1 =0;
+		if (root.left != null && root.val == root.left.val){
+			left1 = left + 1;
+		}
+		if (root.right != null && root.val == root.right.val){
+			right1 = right +1;
+		}
+		res20220902 = Math.max(res20220902, left1+right1);
+		return Math.max(left1, right1);
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
