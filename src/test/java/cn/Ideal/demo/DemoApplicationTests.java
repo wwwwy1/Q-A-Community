@@ -9491,6 +9491,40 @@ class Trie {
 		res20220902 = Math.max(res20220902, left1+right1);
 		return Math.max(left1, right1);
 	}
+	// LeetCode 20220907 每日一题
+	public String reorderSpaces(String text) {
+		int count = 0;
+		for (int i = 0; i < text.length(); i++) {
+			if (text.charAt(i) == ' ') {
+				count++;
+			}
+		}
+		List<String> list = new ArrayList<>();
+		String[] s = text.split(" ");
+		for (int i = 0; i < s.length; i++) {
+			if (!"".equals(s[i])) {
+				list.add(s[i].trim());
+			}
+		}
+		if (count == 0){
+			return text;
+		}
+		StringBuilder sb = new StringBuilder();
+		int n = list.size()==1?0:count / (list.size()-1);
+		for (int i = 0; i < list.size(); i++) {
+			sb.append(list.get(i));
+			if (i != list.size()-1){
+				for (int j = 0; j < n; j++) {
+					sb.append(" ");
+				}
+			}else {
+				for (int j = 0; j < count - n*(list.size()-1); j++) {
+					sb.append(" ");
+				}
+			}
+		}
+		return sb.toString();
+	}
 
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
@@ -9523,7 +9557,7 @@ class Trie {
 		list.add("1:start:7");
 		list.add("1:end:7");
 		list.add("0:end:8");
-		System.out.println(t.exclusiveTime(2,list));
+		System.out.println(t.reorderSpaces(" practice   makes   perfect"));
 
 		int t1 = -2;
 		int t2 = 99999;
