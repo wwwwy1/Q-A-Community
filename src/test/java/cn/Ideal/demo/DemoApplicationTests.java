@@ -9526,6 +9526,58 @@ class Trie {
 		return sb.toString();
 	}
 
+	//
+	public boolean findSubarrays(int[] nums) {
+		Set<Integer> set = new HashSet<>();
+		int sum = nums[0]+nums[1];
+		set.add(sum);
+		for (int i = 2; i < nums.length; i++) {
+			sum-=nums[i-2];
+			sum+=nums[i];
+			if (set.contains(sum)){
+				return true;
+			}
+			set.add(sum);
+		}
+		return false;
+	}
+
+	public boolean isStrictlyPalindromic(int n) {
+		return false;
+	}
+
+
+	public boolean checkDistances(String s, int[] distance) {
+		Map<Character,Integer> map = new HashMap<>();
+		for (int i = 0; i < s.length(); i++) {
+			if (map.containsKey(s.charAt(i))) {
+				map.put(s.charAt(i),i-1-map.get(s.charAt(i)));
+			} else {
+				map.put(s.charAt(i),i);
+			}
+		}
+		Set<Character> keySet = map.keySet();
+		for(Character key : keySet) {
+			if (distance[key-'a'] != map.get(key)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public int minOperations(String[] logs) {
+		int n = logs.length;
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			if (logs[i].startsWith("../")){
+				ans = Math.max(0,ans-1);
+			}else if (!logs[i].startsWith("./")){
+				ans++;
+			}
+		}
+		return ans<0?0:ans;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
