@@ -9578,6 +9578,91 @@ class Trie {
 		return ans<0?0:ans;
 	}
 
+	public int mostFrequentEven(int[] nums) {
+		int res = -1;
+		int count = 0;
+		Map<Integer,Integer> dict = new HashMap<>();
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i]%2==0) {
+				dict.put(nums[i],dict.getOrDefault(nums[i],0)+1);
+				if (dict.get(nums[i])>count) {
+					count = dict.get(nums[i]);
+					res = nums[i];
+				}else if (dict.get(nums[i])==count && nums[i]<=res){
+					res = nums[i];
+				}
+			}
+		}
+		return res;
+	}
+
+	public int partitionString(String s) {
+		int n = s.length();
+		int[] dict = new int[26];
+		int res = 0;
+		for (int i = 0; i < n; i++) {
+			Arrays.fill(dict,0);
+			for (; i < n; i++) {
+				if (dict[s.charAt(i)-'a']==0){
+					dict[s.charAt(i)-'a']++;
+				}else {
+					i--;
+					break;
+				}
+			}
+			res++;
+		}
+		return res;
+	}
+
+	public int maxLengthBetweenEqualCharacters(String s) {
+		Map<Character,List<Integer>> dict = new HashMap<>();
+		for (int i = 0; i < s.length(); i++) {
+			if (dict.containsKey(s.charAt(i))) {
+				dict.get(s.charAt(i)).add(i);
+			}else {
+				List<Integer> temp = new ArrayList<>();
+				temp.add(i);
+				dict.put(s.charAt(i),temp);
+			}
+		}
+		int res = -1;
+		Set<Character> keySet = dict.keySet();
+		for (Character key : keySet) {
+			List<Integer> list = dict.get(key);
+			if (list.size()>=2){
+				res = Math.max(res,list.get(list.size()-1)-list.get(0)-1);
+			}
+		}
+		return res;
+	}
+
+	public int[] frequencySort(int[] nums) {
+		int[] countArr = new int[105];
+		for (int i = 0; i < nums.length; i++) {
+			countArr[nums[i]]++;
+		}
+		List<int[]> dict = new ArrayList<>();
+		for (int i = 0; i < countArr.length; i++) {
+			if (countArr[i]>0){
+				dict.add(new int[]{i,countArr[i]});
+			}
+		}
+		Collections.sort(dict,(o1,o2)->{
+			if (o1[1]!=o2[1]){
+				return o1[1]-o2[1];
+			}else {
+				return o2[0]-o1[0];
+			}
+		});
+		int index = 0;
+		for (int i = 0; i < dict.size(); i++) {
+			for (int j = 0; j < dict.get(i)[1]; j++) {
+				nums[index++] = dict.get(i)[0];
+			}
+		}
+		return nums;
+	}
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
