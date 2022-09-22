@@ -9648,11 +9648,11 @@ class Trie {
 				dict.add(new int[]{i,countArr[i]});
 			}
 		}
-		Collections.sort(dict,(o1,o2)->{
-			if (o1[1]!=o2[1]){
-				return o1[1]-o2[1];
-			}else {
-				return o2[0]-o1[0];
+		dict.sort((o1, o2) -> {
+			if (o1[1] != o2[1]) {
+				return o1[1] - o2[1];
+			} else {
+				return o2[0] - o1[0];
 			}
 		});
 		int index = 0;
@@ -9663,6 +9663,29 @@ class Trie {
 		}
 		return nums;
 	}
+
+	public boolean canFormArray(int[] arr, int[][] pieces) {
+		for (int i = 0; i < arr.length; i++) {
+			int k= -1;
+			for (int j = 0; j < pieces.length; j++) {
+				if (pieces[j][0] == arr[i]){
+					k=j;
+					break;
+				}
+			}
+			if (k== -1){
+				return false;
+			}
+			for (int l = 0; l < pieces[k].length; l++) {
+				if (pieces[k][l] != arr[i+l]){
+					return false;
+				}
+			}
+			i+=pieces[k].length-1;
+		}
+		return true;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
