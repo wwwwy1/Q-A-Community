@@ -9686,6 +9686,28 @@ class Trie {
 		return true;
 	}
 
+	public int getKthMagicNumber(int k) {
+		List<Integer> res= new ArrayList<>();
+		int index3 = 0;
+		int index5 = 0;
+		int index7 = 0;
+		res.add(1);
+		while (k>1){
+			k--;
+			int n = Math.min(res.get(index3)*3 ,Math.min(res.get(index5)*5,res.get(index7)*7));
+			if (n==res.get(index3)*3){
+				index3++;
+			}
+			if (n==res.get(index5)*5){
+				index5++;
+			}
+			if (n==res.get(index7)*7){
+				index7++;
+			}
+		}
+		return res.get(res.size()-1);
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
