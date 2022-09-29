@@ -9708,6 +9708,21 @@ class Trie {
 		return res.get(res.size()-1);
 	}
 
+	public boolean isFlipedString(String s1, String s2) {
+		if (s1.length()!=s2.length()) {
+			return false;
+		}
+        if (s1.equals(s2)) {
+			return true;
+		}
+		for (int i = 1; i < s1.length(); i++) {
+			if (s2.equals(s1.substring(i)+s1.substring(0,i))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
