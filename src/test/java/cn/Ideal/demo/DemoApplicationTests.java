@@ -9723,6 +9723,63 @@ class Trie {
 		return false;
 	}
 
+
+	public int maxAscendingSum(int[] nums) {
+		int n = nums.length;
+		int ans = 0;
+		for (int i = 0; i < n; i++) {
+			int t = nums[i];
+			for (int j = i+1; j < n; j++) {
+				if (nums[j-1]<nums[j]){
+					t+=nums[j];
+				}else {
+
+					break;
+				}
+			}
+			ans = Math.max(ans,t);
+		}
+		return ans;
+	}
+
+	public int[] advantageCount(int[] nums1, int[] nums2) {
+		Arrays.sort(nums1);
+		int n = nums1.length;
+		int[] res = new int[n];
+		int[] check1 = new int[n];
+		int[] check2 = new int[n];
+		for (int i = 0; i < n; i++) {
+			check1[i] = nums1[i];
+			check2[i] = nums2[i];
+		}
+		
+
+		return res;
+	}
+
+	public int totalFruit(int[] fruits) {
+		Map<Integer,Integer> dict = new HashMap<>();
+		int ans = 0;
+		int left = 0;
+		for (int i = left; i < fruits.length; i++) {
+			dict.put(fruits[i],dict.getOrDefault(fruits[i],0)+1);
+			if (dict.size()<=2){
+				ans = Math.max(ans,i-left+1);
+			}else {
+				while (dict.size()>2) {
+					Integer num = dict.get(fruits[left]);
+					if (num == 1) {
+						dict.remove(fruits[left]);
+					}else {
+						dict.put(fruits[left],num-1);
+					}
+					left++;
+				}
+			}
+		}
+		return ans;
+	}
+
 	public static void main(String[] args) {
 		DemoApplicationTests t = new DemoApplicationTests();
 		TreeNode node = new TreeNode(1);
@@ -9754,7 +9811,7 @@ class Trie {
 		list.add("1:start:7");
 		list.add("1:end:7");
 		list.add("0:end:8");
-		System.out.println(t.reorderSpaces(" practice   makes   perfect"));
+		System.out.println(t.advantageCount(new int[]{12,24,8,32},new int[]{13,25,32,11}));
 
 		int t1 = -2;
 		int t2 = 99999;
